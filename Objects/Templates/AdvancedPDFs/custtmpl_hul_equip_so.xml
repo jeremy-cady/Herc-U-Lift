@@ -1,0 +1,9 @@
+<advancedpdftemplate scriptid="custtmpl_hul_equip_so" standard="STDTMPLSALESORD">
+  <description></description>
+  <displaysourcecode>T</displaysourcecode>
+  <isinactive>F</isinactive>
+  <preferred>F</preferred>
+  <printtype>TRANSACTION</printtype>
+  <title>SNA - Equipment  Sales Order PDF/HTML Template</title>
+  <trantype>SALESORD</trantype>
+</advancedpdftemplate>

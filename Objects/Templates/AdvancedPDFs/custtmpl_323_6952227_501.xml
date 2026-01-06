@@ -1,0 +1,9 @@
+<advancedpdftemplate scriptid="custtmpl_323_6952227_501" standard="STDTMPLPAYMENTVOUCHER">
+  <description></description>
+  <displaysourcecode>T</displaysourcecode>
+  <isinactive>F</isinactive>
+  <preferred>T</preferred>
+  <printtype>TRANSACTION</printtype>
+  <title>Check Voucher Template</title>
+  <trantype>VENDPYMT</trantype>
+</advancedpdftemplate>

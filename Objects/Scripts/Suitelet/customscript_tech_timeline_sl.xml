@@ -1,0 +1,25 @@
+<suitelet scriptid="customscript_tech_timeline_sl">
+  <description></description>
+  <isinactive>F</isinactive>
+  <name>HUL | Technician Task Timeline Suitelet</name>
+  <notifyadmins>F</notifyadmins>
+  <notifyemails></notifyemails>
+  <notifyowner>T</notifyowner>
+  <notifyuser>F</notifyuser>
+  <scriptfile>[/SuiteScripts/HUL_DEV/Global/TechnicianTimeline/technician_timeline_sl.js]</scriptfile>
+  <scriptdeployments>
+    <scriptdeployment scriptid="customdeploy_tech_timeline_sl">
+      <allemployees>F</allemployees>
+      <allpartners>F</allpartners>
+      <allroles>F</allroles>
+      <audslctrole>ADMINISTRATOR|[scriptid=customrole1056]|[scriptid=customrole1054]|[scriptid=customrole1053]|[scriptid=customrole1051]|[scriptid=customrole1052]</audslctrole>
+      <eventtype></eventtype>
+      <isdeployed>T</isdeployed>
+      <isonline>F</isonline>
+      <loglevel>DEBUG</loglevel>
+      <runasrole>ADMINISTRATOR</runasrole>
+      <status>RELEASED</status>
+      <title>HUL | Technician Task Timeline Suitelet</title>
+    </scriptdeployment>
+  </scriptdeployments>
+</suitelet>

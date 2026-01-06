@@ -1,0 +1,9 @@
+<advancedpdftemplate scriptid="custtmpl_113_6952227_sb1_597" standard="STDTMPLEMPTY">
+  <description></description>
+  <displaysourcecode>T</displaysourcecode>
+  <isinactive>F</isinactive>
+  <preferred>F</preferred>
+  <printtype>TRANSACTION</printtype>
+  <title>SNA - Service Quote Summary</title>
+  <trantype>ESTIMATE</trantype>
+</advancedpdftemplate>

@@ -1,0 +1,9 @@
+<advancedpdftemplate scriptid="custtmpl_101_6952227_sb1_648" standard="STDTMPLEMPTY">
+  <description></description>
+  <displaysourcecode>T</displaysourcecode>
+  <isinactive>F</isinactive>
+  <preferred>F</preferred>
+  <printtype>TRANSACTION</printtype>
+  <title>Estimate Mock Up</title>
+  <trantype>ESTIMATE</trantype>
+</advancedpdftemplate>

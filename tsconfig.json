@@ -1,0 +1,35 @@
+{
+  "$ref": "#/definitions/TsConfigSchema",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "compilerOptions": {
+    "plugins": [],
+    "module": "AMD",
+    "target": "ESNext",
+    "moduleResolution": "node",
+    "sourceMap": false,
+    "newLine": "LF",
+    "experimentalDecorators": true,
+    "noUnusedLocals": true,
+    "allowJs": true,
+    "baseUrl": ".",
+    "lib": ["es5", "es2015.promise", "dom"],
+    "outDir": "FileCabinet",
+    "rootDir": ".",
+    "paths": {
+      "N": ["./node_modules/@hitc/netsuite-types/N"],
+      "N/*": ["./node_modules/@hitc/netsuite-types/N/*"],
+      "SuiteScripts/*": ["FileCabinet/SuiteScripts/*"],
+      "SuiteScripts/HUL_DEV/Third_Party_Applications/sweetalert2.all": ["types/sweetalert2-all"]
+    }
+  },
+  "compileOnSave": true,
+  "include": [
+    "TypeScript/HUL_DEV/**/*",
+    "types/**/*.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "FileCabinet",
+    "TypeScript/HUL_DEV/Parts/sweetalert.min.js"
+  ]
+}

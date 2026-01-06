@@ -1,0 +1,8 @@
+filecabinet/*
+gulpfile.js
+SuiteScripts/**/*.js
+jquery-3.7.1.min.js
+sweetalert2.all.js
+.vscode/*.code-snippets
+**/*.code-snippets
+development_dependencies/SuiteScript 2.0 Injection.user.js

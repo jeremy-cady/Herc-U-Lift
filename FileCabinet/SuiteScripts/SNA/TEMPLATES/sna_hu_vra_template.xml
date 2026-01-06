@@ -1,0 +1,199 @@
+<?xml version="1.0"?><!DOCTYPE pdf PUBLIC "-//big.faceless.org//report" "report-1.1.dtd">
+<pdf>
+<head>
+	<link name="NotoSans" type="font" subtype="truetype" src="${nsfont.NotoSans_Regular}" src-bold="${nsfont.NotoSans_Bold}" src-italic="${nsfont.NotoSans_Italic}" src-bolditalic="${nsfont.NotoSans_BoldItalic}" bytes="2" />
+	<#if .locale == "zh_CN">
+		<link name="NotoSansCJKsc" type="font" subtype="opentype" src="${nsfont.NotoSansCJKsc_Regular}" src-bold="${nsfont.NotoSansCJKsc_Bold}" bytes="2" />
+	<#elseif .locale == "zh_TW">
+		<link name="NotoSansCJKtc" type="font" subtype="opentype" src="${nsfont.NotoSansCJKtc_Regular}" src-bold="${nsfont.NotoSansCJKtc_Bold}" bytes="2" />
+	<#elseif .locale == "ja_JP">
+		<link name="NotoSansCJKjp" type="font" subtype="opentype" src="${nsfont.NotoSansCJKjp_Regular}" src-bold="${nsfont.NotoSansCJKjp_Bold}" bytes="2" />
+	<#elseif .locale == "ko_KR">
+		<link name="NotoSansCJKkr" type="font" subtype="opentype" src="${nsfont.NotoSansCJKkr_Regular}" src-bold="${nsfont.NotoSansCJKkr_Bold}" bytes="2" />
+	<#elseif .locale == "th_TH">
+		<link name="NotoSansThai" type="font" subtype="opentype" src="${nsfont.NotoSansThai_Regular}" src-bold="${nsfont.NotoSansThai_Bold}" bytes="2" />
+	</#if>
+    <macrolist>
+        <macro id="nlheader">
+            <table class="header" style="width: 100%;"><tr>
+	<td colspan="3"><#if companyInformation.logoUrl?length != 0><img height="78%" src="https://6952227-sb1.app.netsuite.com/core/media/media.nl?id=11&amp;c=6952227_SB1&amp;h=_yJMy7DSQDrilIpPJK1nQb_qIKA-jOoUGXsfiVQpE8KqWzPi" style="float: center;" width="79%" /></#if></td>
+	<td align="left" colspan="2"><span class="title" style="white-space: nowrap;">Vendor Return Auth.</span></td>
+	</tr>
+	<tr>
+	<td colspan="3" rowspan="7"><br /><p style="font-size: 9pt; padding-left: 4px">Herc-U-Lift, Inc.<br />5655 Hwy 12 W<br />Maple Plain MN 55359<br />United States </p></td>
+	<td align="left"><span style="font-size: 9pt"><b>Date </b></span></td>
+	<td align="left"><span style="font-size: 9pt">${record.trandate}</span></td>
+	</tr>
+	<tr>
+	<td align="left"><span style="font-size: 9pt"><b>Rtn. Auth. # </b></span></td>
+	<td align="left"><span style="font-size: 9pt">${record.tranid}</span></td>
+	</tr>
+	<tr>
+	<td align="left" colspan="2">&nbsp;</td>
+	</tr>
+	<tr>
+	<td align="left"><span style="font-size: 9pt"><b>Project</b></span></td>
+	<td align="left"><span style="font-size: 9pt">&nbsp;</span></td>
+	</tr>
+	<tr>
+	<td align="left"><span style="font-size: 9pt"><b>Subsidiary</b></span></td>
+	<td align="left"><span style="font-size: 9pt">${record.subsidiary}</span></td>
+	</tr>
+	<tr>
+	<td align="left"><span style="font-size: 9pt"><b>Shipping Code</b></span></td>
+	<td align="left"><span style="font-size: 9pt">&nbsp;</span></td>
+	</tr>
+	<tr>
+	<td align="left"><span style="font-size: 9pt"><b>PO #</b></span></td>
+	<td align="left"><span style="font-size: 9pt">&nbsp;</span></td>
+	</tr></table>
+        </macro>
+        <macro id="nlfooter">
+            <table class="footer" style="width: 100%;"><tr>
+	<td><barcode codetype="code128" showtext="true" value="${record.tranid}"/></td>
+	<td align="right"><pagenumber/> of <totalpages/></td>
+	</tr></table>
+        </macro>
+    </macrolist>
+    <style type="text/css">* {
+		<#if .locale == "zh_CN">
+			font-family: NotoSans, NotoSansCJKsc, sans-serif;
+		<#elseif .locale == "zh_TW">
+			font-family: NotoSans, NotoSansCJKtc, sans-serif;
+		<#elseif .locale == "ja_JP">
+			font-family: NotoSans, NotoSansCJKjp, sans-serif;
+		<#elseif .locale == "ko_KR">
+			font-family: NotoSans, NotoSansCJKkr, sans-serif;
+		<#elseif .locale == "th_TH">
+			font-family: NotoSans, NotoSansThai, sans-serif;
+		<#else>
+			font-family: NotoSans, sans-serif;
+		</#if>
+		}
+		table {
+			font-size: 9pt;
+			table-layout: fixed;
+		}
+        th {
+            font-weight: bold;
+            font-size: 8pt;
+            vertical-align: middle;
+            padding: 3px 3px 3px;
+            background-color: #a8a8a8;
+            color: #FFFFFF;
+        }
+        td {
+            padding: 4px 6px;
+        }
+		td p { align:left }
+        b {
+            font-weight: bold;
+            color: #000000;
+        }
+        table.header td {
+            padding: 0;
+            font-size: 8pt;
+        }
+        table.footer td {
+            padding: 0;
+            font-size: 8pt;
+        }
+        table.itemtable th {
+			font-size: 6pt;
+            padding-bottom: 3px;
+            padding-top: 3px;
+        }
+		table.itemtable td {
+			font-size: 7pt;
+        }
+        table.body td {
+            padding-top: 2px;
+        }
+        table.total {
+            page-break-inside: avoid;
+        }
+        tr.totalrow {
+            line-height: 200%;
+        }
+        td.totalboxtop {
+            font-size: 12pt;
+            background-color: #cfcfcf;
+        }
+        td.addressheader {
+            font-size: 9pt;
+            padding-top: 6px;
+            padding-bottom: 2px;
+        }
+        td.address {
+            padding-top: 0;
+			font-size: 9pt;
+        }
+        td.totalboxmid {
+            font-size: 28pt;
+            padding-top: 20px;
+            background-color: #e3e3e3;
+        }
+        span.title {
+            font-size: 16pt;
+			font-weight: bold;
+        }
+        span.number {
+            font-size: 16pt;
+        }
+        span.itemname {
+            font-weight: bold;
+            line-height: 100%;
+        }
+        hr {
+            width: 100%;
+            color: #d3d3d3;
+            background-color: #d3d3d3;
+            height: 1px;
+        }
+</style>
+</head>
+<body header="nlheader" header-height="17%" footer="nlfooter" footer-height="20pt" padding="0.5in 0.5in 0.5in 0.5in" size="Letter">
+    <table style="width: 100%; margin-top: 10%;"><tr>
+	<td class="addressheader" colspan="6"><b>Ship To</b></td>
+	<td colspan="5"><b>&nbsp;</b></td>
+	</tr>
+	<tr>
+	<td class="address" colspan="6">${record.billaddress}</td>
+	<td align="right" colspan="5">&nbsp;</td>
+	</tr></table>
+<#if record.item?has_content>
+
+<table class="itemtable" style="width: 100%; margin-top: 10px;font-size: 6pt;"><!-- start items --><#list record.item as item><#if item_index==0>
+
+	<tr>
+	<th align="left" colspan="3"><p>Item</p></th>
+	<th align="left" colspan="2"><p>Quantity</p></th>
+	<th align="left" colspan="4"><p>Inventory Detail</p></th>
+	<th align="left" colspan="4"><p>Description</p></th>
+	<th align="left" colspan="3"><p>Options</p></th>
+	<th align="left" colspan="2"><p>Unit Price</p></th>
+	<th align="left" colspan="2"><p>Amount</p></th>
+	<th align="left" colspan="2"><p>Tax Rate</p></th>
+	</tr>
+
+</#if><tr>
+	<td align="left" colspan="3" line-height="100%">${item.item}</td>
+	<td align="left" colspan="2">${item.quantity}</td>
+	<td align="left" colspan="4">${item.inventorydetail}</td>
+	<td align="left" colspan="4">${item.description}</td>
+	<td align="left" colspan="3">${item.options}</td>
+	<td align="left" colspan="2">${item.rate}</td>
+	<td align="left" colspan="2">${item.amount}</td>
+	<td align="left" colspan="2">${item.taxrate1}</td>
+	</tr>
+	</#list><!-- end items --></table>
+
+<hr /></#if>
+<table class="total" style="width: 100%; margin-top: 10px;">
+	<tr class="totalrow">
+	<td colspan="4">&nbsp;</td>
+	<td align="right"><b>Total</b></td>
+	<td align="right">${record.total}</td>
+	</tr></table>
+</body>
+</pdf>

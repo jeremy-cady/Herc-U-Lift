@@ -1,0 +1,37 @@
+SELECT
+ib.item AS item_id,
+i.itemid,
+i.displayname,
+ib.binNumber AS van_main_bin_id,
+ib.quantityAvailable AS location_qty_available,
+ib.quantityOnHand AS location_qty_on_hand,
+ib.location AS van_location_id,
+l.fullName AS van_location_name,
+ic.name AS part_supplier,
+vba.bin_name
+FROM InventoryBalance ib
+JOIN Location l
+ON ib.location = l.id
+JOIN Item i
+ON ib.item = i.id
+JOIN customrecord_sna_hul_vendorprice vp
+ON i.id = vp.custrecord_sna_hul_item
+JOIN customrecord_sna_hul_itemcategory ic
+ON i.custitem_sna_hul_itemcategory = ic.id
+LEFT JOIN ( -- Subquery to select a single bin name for each item
+SELECT
+vba.custrecord_sna_vba_item AS item_id,
+MIN(vb.name) AS bin_name
+FROM
+customrecord_sna_van_bin_assignment vba
+JOIN
+customrecord_sna_hul_van_bin vb ON vba.custrecord_sna_vba_bin = vb.id
+GROUP BY
+vba.custrecord_sna_vba_item
+) AS vba ON ib.item = vba.item_id
+WHERE ib.location = '126'
+AND ib.quantityAvailable > 0
+AND ib.quantityOnHand > 0
+AND vp.custrecord_sna_hul_primaryvendor = 'T'
+AND i.itemid = '0103-6-6'
+ORDER BY item_id ASC;

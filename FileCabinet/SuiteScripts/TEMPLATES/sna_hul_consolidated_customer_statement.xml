@@ -1,0 +1,300 @@
+<?xml version="1.0"?><!DOCTYPE pdf PUBLIC "-//big.faceless.org//report" "report-1.1.dtd">
+<pdf>
+<head>
+    <link name="NotoSans" type="font" subtype="truetype" src="${nsfont.NotoSans_Regular}" src-bold="${nsfont.NotoSans_Bold}" src-italic="${nsfont.NotoSans_Italic}" src-bolditalic="${nsfont.NotoSans_BoldItalic}" bytes="2" />
+    <#if .locale == "zh_CN">
+    <link name="NotoSansCJKsc" type="font" subtype="opentype" src="${nsfont.NotoSansCJKsc_Regular}" src-bold="${nsfont.NotoSansCJKsc_Bold}" bytes="2" />
+    <#elseif .locale == "zh_TW">
+    <link name="NotoSansCJKtc" type="font" subtype="opentype" src="${nsfont.NotoSansCJKtc_Regular}" src-bold="${nsfont.NotoSansCJKtc_Bold}" bytes="2" />
+    <#elseif .locale == "ja_JP">
+    <link name="NotoSansCJKjp" type="font" subtype="opentype" src="${nsfont.NotoSansCJKjp_Regular}" src-bold="${nsfont.NotoSansCJKjp_Bold}" bytes="2" />
+    <#elseif .locale == "ko_KR">
+    <link name="NotoSansCJKkr" type="font" subtype="opentype" src="${nsfont.NotoSansCJKkr_Regular}" src-bold="${nsfont.NotoSansCJKkr_Bold}" bytes="2" />
+    <#elseif .locale == "th_TH">
+    <link name="NotoSansThai" type="font" subtype="opentype" src="${nsfont.NotoSansThai_Regular}" src-bold="${nsfont.NotoSansThai_Bold}" bytes="2" />
+</#if>
+<macrolist>
+    <macro id="nlheader">
+        <table border="0" style="border-collapse: collapse; width: 100%;display: block;">
+            <tr>
+                <td colspan="3" style="width: 33%;">
+                    <img height="50%"
+                         src="http://6952227.shop.netsuite.com/core/media/media.nl?id=11&amp;c=6952227&amp;h=_yJMy7DSQDrilIpPJK1nQb_qIKA-jOoUGXsfiVQpE8KqWzPi"
+                         style="float: center;" width="50%"/>
+                </td>
+                <td align="center" colspan="2" style="width: auto;font-size: 7pt">
+                    <p style="text-align: center;">PO Box 69<br/>5655 Hwy 12 W<br/>Maple Plain MN 55359<br/>Toll
+                        Free: 800-362-3500<br/>Phone: 763-479-2501<br/>Fax: 763-479-1061
+                    </p>
+                </td>
+                <td colspan="3" style="width: 33%;" align="right"><span class="title">Statement</span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="8" align="right">${customerData.trandate}</td>
+            </tr>
+        </table>
+    </macro>
+    <macro id="nlfooter">
+        <table class="footer" style="width: 100%;"><tr>
+            <td align="right"><pagenumber/> of <totalpages/></td>
+        </tr></table>
+    </macro>
+</macrolist>
+<style type="text/css">* {
+    <#if .locale == "zh_CN">
+    font-family: NotoSans, NotoSansCJKsc, sans-serif;
+    <#elseif .locale == "zh_TW">
+    font-family: NotoSans, NotoSansCJKtc, sans-serif;
+    <#elseif .locale == "ja_JP">
+    font-family: NotoSans, NotoSansCJKjp, sans-serif;
+    <#elseif .locale == "ko_KR">
+    font-family: NotoSans, NotoSansCJKkr, sans-serif;
+    <#elseif .locale == "th_TH">
+    font-family: NotoSans, NotoSansThai, sans-serif;
+    <#else>
+    font-family: NotoSans, sans-serif;
+</#if>
+        }
+        table {
+        font-size: 9pt;
+        table-layout: fixed;
+        }
+        table.border {
+        border: 2px solid black;
+        border-collapse: collapse;
+        }
+        th {
+        font-weight: bold;
+        font-size: 8pt;
+        vertical-align: middle;
+        padding: 5px 6px 3px;
+        background-color: #e3e3e3;
+        color: #333333;
+        }
+        td {
+        padding: 4px 6px;
+        }
+        td p { align:left }
+        b {
+        font-weight: bold;
+        color: #333333;
+        }
+        table.header td {
+        padding: 0;
+        font-size: 10pt;
+        }
+        table.footer td {
+        padding: 0;
+        font-size: 8pt;
+        }
+        table.itemtable th {
+        padding-bottom: 10px;
+        padding-top: 10px;
+        }
+        table.body td {
+        padding-top: 2px;
+        }
+        td.addressheader {
+        font-size: 8pt;
+        padding-top: 6px;
+        padding-bottom: 2px;
+        }
+        td.address {
+        padding-top: 0px;
+        }
+        span.title {
+        font-size: 28pt;
+        }
+        span.number {
+        font-size: 16pt;
+        }
+        hr {
+        border-top: 1px dashed #d3d3d3;
+        width: 100%;
+        color: #ffffff;
+        background-color: #ffffff;
+        height: 1px;
+        }
+</style>
+        </head>
+<body header="nlheader" header-height="10%" footer="nlfooter" footer-height="20pt" padding="0.5in 0.5in 0.5in 0.5in" size="Letter">
+<table style="width: 100%;"><tr>
+    <td class="addressheader" colspan="3"><b>Bill To: ${customerData.entityid}</b></td>
+</tr>
+    <tr>
+        <td class="address" colspan="3">${customerData.billaddress?replace('|', '<br/>')}</td>
+    </tr>
+</table>
+<#assign totalBalance = 0 />
+<#assign prevBalance = 0 />
+<#assign lineBalance = 0 />
+<#assign date = '' />
+
+<table class="itemtable" style="width: 100%; margin-top: 10px;"><!-- start items -->
+    <thead>
+        <tr>
+            <th align="center" colspan="26"> Invoices </th>
+        </tr>
+        <tr>
+            <th align="center" colspan="3">Date</th>
+            <th align="center" colspan="8">Description</th>
+            <th align="center" colspan="5">Total Amount</th>
+            <th align="center" colspan="5">Amount Remaining</th>
+            <th align="center" colspan="5">Balance</th>
+        </tr>
+    </thead>
+    <tr>
+        <td colspan="3">${customerData.startDate}</td>
+        <td colspan="8">Balance Forward</td>
+        <td align="right" colspan="5">${customerData.fltInvBalForward?number?string.currency}</td>
+        <td align="right" colspan="5">${customerData.fltInvBalForward?number?string.currency}</td>
+        <td align="right" colspan="5">${customerData.fltInvBalForward?number?string.currency}</td>
+        <#assign prevBalance = customerData.fltInvBalForward?number />
+    </tr>
+
+    <#list customerData.arrInvoices as invoiceLine>
+        <#assign isOpenInv = false />
+        <#if invoiceLine.amountremaining?number gt 0>
+            <#assign isOpenInv = true />
+        </#if>
+        <#if isOpenInv == true>
+            <#assign totalamount = invoiceLine.totalamount />
+            <#assign amountremaining = invoiceLine.amountremaining?number />
+            <#assign lineBalance = prevBalance + amountremaining?number>
+            <tr>
+                <td colspan="3">${invoiceLine.date}</td>
+                <td colspan="8">${invoiceLine.description}</td>
+                <td align="right" colspan="5">${invoiceLine.strtotalamount}</td>
+                <td align="right" colspan="5">${invoiceLine.stramountremaining}</td>
+                <td align="right" colspan="5">${lineBalance?number?string.currency}</td>
+                <#assign prevBalance = lineBalance />
+            </tr>
+        </#if>
+    </#list>
+</table>
+
+<#assign totalAmount = 0 />
+<#assign totalApplied = 0 />
+<#assign totalPayment = 0 />
+<#assign paymentsArray = 0 />
+<#assign amountRem = 0/>
+<table class="itemtable" style="width: 100%; margin-top: 10px;"><!-- start items -->
+    <thead>
+        <tr>
+            <th align="center" colspan="21"> Payments </th>
+        </tr>
+        <tr>
+            <th align="center" colspan="3">Date</th>
+            <th align="center" colspan="6">Description</th>
+            <th align="center" colspan="3">Total Amount</th>
+            <th align="center" colspan="3">Amount Applied</th>
+            <th align="center" colspan="6">Amount Unapplied</th>
+        </tr>
+    </thead>
+
+    <#assign totalApplied = totalAmount?number + fltPayAmountUnapplied?number>
+    <tr>
+        <td colspan="3">Date</td>
+        <td colspan="6">Balance Forward</td>
+        <td align="right" colspan="3">${customerData.fltPayBalForward?number?string.currency}</td>
+        <td align="right" colspan="3">$0.00</td>
+        <td align="right" colspan="6">${customerData.fltPayAmountUnapplied?number?string.currency}</td>
+    </tr>
+
+    <#list customerData.arrPayments as paymentsLine>
+    <#assign isOpen = false />
+    <#if paymentsLine.amountremaining?number gt 0>
+        <#assign isOpen = true />
+    </#if>
+    <#if isOpen == true>
+        <#assign totalPayment = totalPayment?number + paymentsLine.totalamount?number>
+        <#assign totalAmount = totalAmount?number + paymentsLine.amountremaining?number>
+
+        <tr>
+            <td colspan="3">${paymentsLine.date}</td>
+            <td colspan="6">${paymentsLine.description}</td>
+            <td align="right" colspan="3">${paymentsLine.strtotalamount}</td>
+            <td align="right" colspan="3">${paymentsLine.strappliedamount}</td>
+            <!--<td align="right" colspan="3">-</td>-->
+            <td align="right" colspan="6">${paymentsLine.stramountremaining}</td>
+        </tr>
+    </#if>
+    </#list>
+
+    <#assign totalPayment = totalPayment?number + fltPayBalForward?number>
+    <tr>
+        <td colspan="3"><b>Total</b></td>
+        <td colspan="6"></td>
+        <td align="right" colspan="3">${totalPayment?string.currency}</td>
+        <td align="right" colspan="3">${totalApplied?string.currency}</td>
+        <td align="right" colspan="6">${totalAmount?string.currency}</td>
+    </tr>
+</table>
+
+<#assign netAmountDue = prevBalance?number - totalAmount?number>
+
+<table class="body border" style="width: 100%;">
+<tr>
+    <td align="left"> Net Amount Due</td>
+    <td align="right"><b>${netAmountDue?number?string.currency}</b></td>
+</tr>
+</table>
+
+<br></br>
+
+<table style="width: 100%; margin-top: 10px;">
+<tr>
+    <th style="height: 14px;">Current</th>
+    <th style="height: 14px;">1-30 Days</th>
+    <th style="height: 14px;">31-60 Dats</th>
+    <th style="height: 14px;">61-90</th>
+    <th style="height: 14px;">Over 90 Days</th>
+    <th style="height: 14px;">Amount Due</th>
+</tr>
+<tr>
+    <td>${customerData.fltCurrent}</td>
+    <td>${customerData.fltAging1}</td>
+    <td>${customerData.fltAging31}</td>
+    <td>${customerData.fltAging61}</td>
+    <td>${customerData.fltAging90}</td>
+    <td>${customerData.fltAgingAmount}</td>
+</tr></table>
+
+<!--<#if preferences.RETURNFORM>->-->
+
+<hr />
+<div class="remittanceSlip">
+<table style="width: 100%; margin-top: 10px;"><tr>
+    <td><span class="nameandaddress">${customerData.companyName}</span> <br></br>${customerData.addressText?replace('|', '<br/>')}</td>
+    <td align="right"><span class="number">Remittance Slip</span></td>
+</tr></table>
+
+<table style="width: 100%; margin-top: 10px;"><tr>
+    <th>Customer</th>
+    <th>Transaction Date</th>
+    <th>Amount Due</th>
+    <th>&nbsp;</th>
+</tr>
+    <tr>
+        <td>${customerData.entityid} <br></br> ${customerData.billaddress?replace('|', '<br/>')} </td>
+        <td>${customerData.trandate}</td>
+        <td align="right">${customerData.amountDue?string.currency}</td>
+        <td>&nbsp;</td>
+    </tr></table>
+
+<table style="width: 100%; margin-top: 10px;"><tr>
+    <th>&nbsp; </th>
+    <th>&nbsp; </th>
+</tr>
+    <tr>
+        <td>Please contact Accounts Receivable with any questions</td>
+        <td>E-mail: hulacctg@herculift.com <br></br>Phone: 763-479-2501</td>
+    </tr>
+    <tr>
+        <td align="center" colspan="2">Finance charge of 1.5% (18% APR) assessed on all past-due invoices.
+        </td>
+    </tr>
+</table>
+</div>
+        <!--</#if>--></body></pdf>

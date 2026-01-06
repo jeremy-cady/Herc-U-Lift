@@ -1,0 +1,9 @@
+<advancedpdftemplate scriptid="custtmpl_325_6952227_746" standard="STDTMPLSTATEMENT">
+  <description>- SNA Customer Statement</description>
+  <displaysourcecode>T</displaysourcecode>
+  <isinactive>F</isinactive>
+  <preferred>F</preferred>
+  <printtype>STATEMENT</printtype>
+  <title>SNA HUL Consolidated Statement PDF Template</title>
+  <trantype>CUSTINVC</trantype>
+</advancedpdftemplate>

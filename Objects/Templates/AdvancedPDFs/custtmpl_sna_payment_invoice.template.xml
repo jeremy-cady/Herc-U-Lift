@@ -1,0 +1,308 @@
+<?xml version="1.0"?><!DOCTYPE pdf PUBLIC "-//big.faceless.org//report" "report-1.1.dtd">
+<pdf>
+	<head>        
+		<link name="NotoSans" type="font" subtype="truetype" src="${nsfont.NotoSans_Regular}" src-bold="${nsfont.NotoSans_Bold}" src-italic="${nsfont.NotoSans_Italic}" src-bolditalic="${nsfont.NotoSans_BoldItalic}" bytes="2" />
+		<#if .locale == "zh_CN">
+		<link name="NotoSansCJKsc" type="font" subtype="opentype" src="${nsfont.NotoSansCJKsc_Regular}" src-bold="${nsfont.NotoSansCJKsc_Bold}" bytes="2" />
+		<#elseif .locale == "zh_TW">
+		<link name="NotoSansCJKtc" type="font" subtype="opentype" src="${nsfont.NotoSansCJKtc_Regular}" src-bold="${nsfont.NotoSansCJKtc_Bold}" bytes="2" />
+		<#elseif .locale == "ja_JP">
+		<link name="NotoSansCJKjp" type="font" subtype="opentype" src="${nsfont.NotoSansCJKjp_Regular}" src-bold="${nsfont.NotoSansCJKjp_Bold}" bytes="2" />
+		<#elseif .locale == "ko_KR">
+		<link name="NotoSansCJKkr" type="font" subtype="opentype" src="${nsfont.NotoSansCJKkr_Regular}" src-bold="${nsfont.NotoSansCJKkr_Bold}" bytes="2" />
+		<#elseif .locale == "th_TH">
+		<link name="NotoSansThai" type="font" subtype="opentype" src="${nsfont.NotoSansThai_Regular}" src-bold="${nsfont.NotoSansThai_Bold}" bytes="2" />
+	</#if>
+	<macrolist>
+		<macro id="nlheader">
+			<table class="header" style="width: 100%;"><tr>
+				<td rowspan="3"><#if companyInformation.logoUrl?length != 0><img src="${companyInformation.logoUrl}" style="float: left; margin: 7px" /> </#if> <span class="nameandaddress">${companyInformation.companyName}</span><br /><span class="nameandaddress">${companyInformation.addressText}</span></td>
+				<td align="right"><span class="title">${record@title}</span></td>
+			</tr>
+			<tr>
+				<td align="right"><span class="number">#${record.tranid}</span></td>
+			</tr>
+			<tr>
+				<td align="right">${record.trandate}</td>
+			</tr></table>
+	</macro>
+	<macro id="nlfooter">
+		<table class="footer" style="width: 100%;"><tr>
+			<td><barcode codetype="code128" showtext="true" value="${record.tranid}"/></td>
+			<td align="right"><pagenumber/> of <totalpages/></td>
+		</tr></table>
+	</macro>     
+</macrolist>
+<style type="text/css">* {
+<#if .locale == "zh_CN">
+font-family: NotoSans, NotoSansCJKsc, sans-serif;
+<#elseif .locale == "zh_TW">
+font-family: NotoSans, NotoSansCJKtc, sans-serif;
+<#elseif .locale == "ja_JP">
+font-family: NotoSans, NotoSansCJKjp, sans-serif;
+<#elseif .locale == "ko_KR">
+font-family: NotoSans, NotoSansCJKkr, sans-serif;
+<#elseif .locale == "th_TH">
+font-family: NotoSans, NotoSansThai, sans-serif;
+<#else>
+font-family: NotoSans, sans-serif;
+</#if>
+		}
+		table {
+		font-size: 9pt;
+		table-layout: fixed;
+		}
+		th {
+		font-weight: bold;
+		font-size: 8pt;
+		vertical-align: middle;
+		padding: 5px 6px 3px;
+		background-color: #e3e3e3;
+		color: #333333;
+		}
+		td {
+		padding: 4px 6px;
+		}
+		td p { align:left }
+		b {
+		font-weight: bold;
+		color: #333333;
+		}
+		table.header td {
+		padding: 0px;
+		font-size: 10pt;
+		}
+		table.footer td {
+		padding: 0px;
+		font-size: 8pt;
+		}
+		table.itemtable th {
+		padding-bottom: 10px;
+		padding-top: 10px;
+		}
+		table.body td {
+		padding-top: 2px;
+		}
+		table.total {
+		page-break-inside: avoid;
+		}
+		tr.totalrow {
+		background-color: #e3e3e3;
+		line-height: 200%;
+		}
+		td.totalboxtop {
+		font-size: 12pt;
+		background-color: #e3e3e3;
+		}
+		td.addressheader {
+		font-size: 8pt;
+		padding-top: 6px;
+		padding-bottom: 2px;
+		}
+		td.address {
+		padding-top: 0px;
+		}
+		td.totalboxmid {
+		font-size: 28pt;
+		padding-top: 20px;
+		background-color: #e3e3e3;
+		}
+		td.totalboxbot {
+		background-color: #e3e3e3;
+		font-weight: bold;
+		}
+		span.title {
+		font-size: 28pt;
+		}
+		span.number {
+		font-size: 16pt;
+		}
+		span.itemname {
+		font-weight: bold;
+		line-height: 150%;
+		}
+		hr {
+		width: 100%;
+		color: #d3d3d3;
+		background-color: #d3d3d3;
+		height: 1px;
+		}
+		</style>
+		</head>
+<body header="nlheader" header-height="10%" footer="nlfooter" footer-height="20pt" padding="0.5in 0.5in 0.5in 0.5in" size="Letter">
+<#assign has_nca = false>
+<#assign nca_amount = 0>
+<#list record.item as item>
+	<#if item.item?has_content && item.item == "Non-Cash Adjustment" >
+    	<#assign has_nca = true>
+	</#if>
+</#list>
+
+<table style="width: 100%; margin-top: 10px;"><tr>
+	<td class="addressheader" colspan="3"><b>${record.billaddress@label}</b></td>
+	<td class="addressheader" colspan="3"><b>${record.shipaddress@label}</b></td>
+	<td class="totalboxtop" colspan="5"><b>${record.total@label?upper_case}</b></td>
+</tr>
+	<tr>
+		<td class="address" colspan="3" rowspan="2">${record.billaddress}</td>
+		<td class="address" colspan="3" rowspan="2">${record.shipaddress}</td>
+        <#if has_nca == true>
+          	<#if record.status == "Open">
+              	<td align="right" class="totalboxmid" colspan="5">$${(record.total-record.custbody_sna_cp_non_cash_adj_amt)?string("0.00")}</td>
+            <#else>
+           		<td align="right" class="totalboxmid" colspan="5">$${(record.total)?string("0.00")}</td>
+            </#if>
+        <#else>
+          	<#if record.status == "Open">
+              	<td align="right" class="totalboxmid" colspan="5">$${(record.total)?string("0.00")}</td>
+            <#else>
+           		<td align="right" class="totalboxmid" colspan="5">$${(record.total+record.custbody_sna_cp_non_cash_adj_amt)?string("0.00")}</td>
+            </#if>
+        </#if>
+		<!--<td align="right" class="totalboxmid" colspan="5">${record.total}</td>-->
+	</tr>
+	<tr>
+		<td align="right" class="totalboxbot" colspan="5"><b>${record.duedate@label}:</b> ${record.duedate}</td>
+	</tr></table>
+
+<table class="body" style="width: 100%; margin-top: 10px;"><tr>
+	<th>${record.terms@label}</th>
+	<th>${record.duedate@label}</th>
+	<th>${record.otherrefnum@label}</th>
+	<th>${record.salesrep@label}</th>
+	<th>${record.shipmethod@label}</th>
+	<th>${record.partner@label}</th>
+</tr>
+	<tr>
+		<td>${record.terms}</td>
+		<td>${record.duedate}</td>
+		<td>${record.otherrefnum}</td>
+		<td>${record.salesrep}</td>
+		<td>${record.shipmethod}</td>
+		<td>${record.partner}</td>
+	</tr></table>
+<#if record.item?has_content>
+
+<table class="itemtable" style="width: 100%; margin-top: 10px;"><!-- start items --><#list record.item as item><#if item_index==0>
+	<thead>
+		<tr>
+			<th align="center" colspan="3">${item.quantity@label}</th>
+			<th colspan="12">${item.item@label}</th>
+			<th colspan="3">${item.options@label}</th>
+			<th align="right" colspan="4">${item.rate@label}</th>
+			<th align="right" colspan="4">${item.amount@label}</th>
+		</tr>
+	</thead>
+</#if>
+<#if item.item?has_content && item.item !="Non-Cash Adjustment" >
+<tr>
+	<td align="center" colspan="3" line-height="150%">${item.quantity}</td>
+	<td colspan="12"><span class="itemname">${item.item}</span><br />${item.description}</td>
+	<td colspan="3">${item.options}</td>
+	<td align="right" colspan="4">${item.rate}</td>
+	<td align="right" colspan="4">${item.amount}</td>
+</tr></#if>
+		</#list><!-- end items --></table>
+
+<hr /></#if>
+<table class="total" style="width: 100%; margin-top: 10px;"><tr>
+	<td colspan="7">&nbsp;</td>
+	<td align="right" colspan="3" ><b>${record.subtotal@label}</b></td>
+	<#if record.custbody_sna_cp_noncashpercent?string?has_content
+	&& (record.custbody_sna_cp_scalepaymentmethod?has_content == true && record.custbody_sna_cp_scalepaymentmethod == 'Credit Card')>
+    	<#if has_nca == true>
+        	<td align="right" colspan="2">$${(record.subtotal-record.custbody_sna_cp_non_cash_adj_amt)?string("0.00")}</td>
+        <#else>
+          	<td align="right" colspan="2">$${(record.subtotal)?string("0.00")}</td>
+        </#if>
+	<!--<td align="right" colspan="2">$${(record.subtotal-record.custbody_sna_cp_non_cash_adj_amt)?string("0.00")}</td>-->
+	<#else>
+	<td align="right" colspan="2">${record.subtotal}</td>
+</#if>
+
+</tr>
+<tr>
+<td colspan="7">&nbsp;</td>
+<td align="right" colspan="3" ><b>${record.taxtotal@label} (${record.taxrate}%)</b></td>
+<td align="right" colspan="2">${record.taxtotal}</td>
+</tr>
+<#if record.custbody_sna_cp_noncashpercent?string?has_content
+		&& (record.custbody_sna_cp_scalepaymentmethod?has_content == false || record.custbody_sna_cp_scalepaymentmethod == 'Credit Card')>
+<tr>
+<td colspan="7">&nbsp;</td>
+<td align="right" colspan="3" ><b>Non-Cash Adj (${record.custbody_sna_cp_noncashpercent}) </b></td>
+<td align="right" colspan="2">${record.custbody_sna_cp_non_cash_adj_amt}</td>
+</tr>
+		</#if>
+<tr>
+<td  colspan="7">&nbsp;</td>
+<td align="right" colspan="3" background-color="#e3e3e3" ><b>${record.total@label}</b></td>
+<#if has_nca == true>
+	<#if record.status == "Open">
+   		<td align="right" colspan="2" background-color="#e3e3e3" >$${(record.total-record.custbody_sna_cp_non_cash_adj_amt)?string("0.00")}</td>
+    <#else>
+      	<td align="right" colspan="2" background-color="#e3e3e3" >$${(record.total)?string("0.00")}</td>
+    </#if>
+<#else>
+  	<#if record.status == "Open">
+        <td align="right" colspan="2" background-color="#e3e3e3" >$${(record.total)?string("0.00")}</td>
+   	<#else>
+      	<td align="right" colspan="2" background-color="#e3e3e3" >$${(record.total+record.custbody_sna_cp_non_cash_adj_amt)?string("0.00")}</td>
+    </#if>
+</#if>
+<!--<td align="right" colspan="2" background-color="#e3e3e3" >${record.total}</td>-->
+</tr></table>
+<br/>
+
+<#if record.custpage_notpaid?has_content == true>
+		<!--Emailing on save does not have record id and transaction id yet. Adding them as param here. Should not be an issue if param is repeated-->
+<#assign ccLink = record.custbody_sna_cp_email_paylink + '&amp;recid=' + record.id + '&amp;tranid=' + record.tranid>
+<#assign achLink = record.custbody_sna_cp_email_achlink@url + '&amp;recid=' + record.id>
+<p><h>Click below to make payments via:</h><br/>
+<a href="${ccLink}" rel="link">Credit Card</a>  <br/>
+<a href="${achLink}" rel="link">ACH</a>  <br/>
+</p>
+<#else>
+<br/>
+		</#if>
+
+<#if record.custbody_sna_cp_noncashpercent?string?has_content >
+<#if record.custbody_sna_cp_scalepaymentmethod?has_content == false>
+<#assign txnAmount = record.total>
+<#if has_nca == true>
+	<#assign txnAmount = txnAmount - record.custbody_sna_cp_non_cash_adj_amt>
+</#if>
+<table>
+<tr>
+	<td><i>If you elect to use a payment method other than cash, a non-cash adjustment of ${record.custbody_sna_cp_noncashpercent} of ${txnAmount} will be added to the final payment amount.</i></td>
+</tr>
+</table>
+<#elseif record.custbody_sna_cp_scalepaymentmethod == 'Credit Card'>
+<#assign txnAmount = record.total>
+<#if has_nca == true>
+	<#assign txnAmount = txnAmount - record.custbody_sna_cp_non_cash_adj_amt>
+</#if>
+<table>
+<tr>
+	<td><i>If you elect to use a payment method other than cash, a non-cash adjustment of ${record.custbody_sna_cp_noncashpercent} of ${txnAmount} will be added to the final payment amount.</i></td>
+</tr>
+</table>
+  <!--<#assign txnAmount = '$' + (record.total-record.custbody_sna_cp_non_cash_adj_amt)?string("0.00")>-->
+		</#if>
+		</#if>
+	    <!--Solupay Pay Link-->
+    <span style="color: #FFFFFF">
+          <#assign paylink> ${record.custbody_solupaysp_payment_url}</#assign>
+    </span>
+    <table align="right">
+          <tr>
+                <td>
+                      <a href="${paylink}">
+                            <img height="75%" width="75%" href="${paylink}"
+                                  src="http://tstdrv1472101.shop.netsuite.com/core/media/media.nl?id=61294&amp;c=TSTDRV1472101&amp;h=ttNSdCBTYWaet_jWMGnMKikrP-f4KOTCPHoQvgRIfoe8cQmB" />
+                      </a>
+                </td>
+          </tr>
+    </table>
+    <!--End Solupay Pay Link-->	</body>
+		</pdf>

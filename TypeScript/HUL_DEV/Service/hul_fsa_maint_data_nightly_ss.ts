@@ -1,0 +1,225 @@
+/**
+* @NApiVersion 2.x
+* @NScriptType ScheduledScript
+* @NModuleScope SameAccount
+* author: Jeremy Cady
+* Date: 12/03/2024
+* Version: 1.0
+*/
+
+import { EntryPoints } from 'N/types';
+import * as log from 'N/log';
+import * as query from 'N/query';
+
+interface MaintenanceDataObject {
+    equipmentAsset: number;
+    assetObject: number;
+    projectID: string;
+    projectType: string;
+    projectFrequency: string;
+    recentTaskID: number;
+    recentTaskStartDate: Date;
+    recentTaskEndDate: Date;
+    recentTaskStatus: string;
+    recentCaseID: number;
+    recentCaseRevenueStream: string;
+    recentRevenueStreamID: number;
+    futureTaskID: number;
+    futureTaskStartDate: Date;
+    futureTaskEndDate: Date;
+    futureTaskStatus: string;
+    currentHours: number;
+    currentHoursDate: Date;
+    maintenanceRecordID: number;
+    maintenanceRecordHours: number;
+    maintenanceRecordHoursDate: Date;
+    zipcode: number;
+};
+
+/**
+* Definition of the Scheduled script trigger point.
+* @param {Object} context
+* @param {string} context.type - The context in which the script is executed.
+*                                It is one of the values from the context.InvocationType enum.
+* @Since 2015.2
+*/
+function execute(ctx: EntryPoints.Scheduled.executeContext) {
+    try {
+        const maintQuery = `
+            WITH RecentCompletedTasks AS (
+                SELECT
+                    t.id AS recent_task_id,
+                    t.company AS project_id,
+                    t.custevent_nx_start_date AS recent_task_start_date,
+                    t.custevent_nx_end_date AS recent_task_end_date,
+                    t.status AS recent_task_status,
+                    t.supportcase AS recent_support_case_id
+                FROM
+                    task t
+                WHERE
+                    t.custevent_nx_end_date < CURRENT_DATE
+                    AND t.status = 'COMPLETE'
+            ),
+            UpcomingTasks AS (
+                SELECT
+                    t.id AS future_task_id,
+                    t.company AS project_id,
+                    t.custevent_nx_start_date AS future_task_start_date,
+                    t.custevent_nx_end_date AS future_task_end_date,
+                    t.status AS future_task_status,
+                    t.supportcase AS future_support_case_id
+                FROM
+                    task t
+                WHERE
+                    t.custevent_nx_start_date > CURRENT_DATE
+            ),
+            CaseDetails AS (
+                SELECT
+                    c.id AS case_id,
+                    c.custevent_nxc_equip_asset_hidden AS equip_asset_hidden,
+                    c.cseg_sna_revenue_st AS revenue_stream
+                FROM
+                    supportCase c
+                WHERE
+                    c.cseg_sna_revenue_st IN (263, 18, 19) -- Filter for revenue stream values
+            ),
+            EquipmentAssetDetails AS (
+                SELECT
+                    ea.id AS equip_asset_id,
+                    ea.custrecord_sna_hul_nxcassetobject AS asset_object
+                FROM
+                    customrecord_nx_asset ea
+                WHERE
+                    ea.custrecord_nxc_na_asset_type = 2 -- Filter for asset type
+            ),
+            ObjectHourMeter AS (
+                SELECT 
+                    chm.custrecord_sna_hul_object_ref AS object_id,
+                    MAX(chm.created) AS last_reading_date,
+                    MAX(chm.custrecord_sna_hul_actual_reading) AS last_reading
+                FROM 
+                    customrecord_sna_hul_hour_meter chm
+                GROUP BY 
+                    chm.custrecord_sna_hul_object_ref
+            )
+            SELECT
+                cd.equip_asset_hidden AS equipment_asset,
+                ead.asset_object AS asset_object,
+                r.project_id AS project_id,
+                r.recent_task_id AS recent_task_id,
+                r.recent_task_start_date AS recent_task_start_date,
+                r.recent_task_end_date AS recent_task_end_date,
+                r.recent_task_status AS recent_task_status,
+                r.recent_support_case_id AS recent_support_case_id,
+                CASE 
+                    WHEN cd.revenue_stream = 263 THEN 'PM'
+                    WHEN cd.revenue_stream = 18 THEN 'AN'
+                    WHEN cd.revenue_stream = 19 THEN 'CO'
+                    ELSE 'Other'
+                END AS recent_case_revenue_stream,
+                cd.revenue_stream AS revenue_stream_id,
+                u.future_task_id AS future_task_id,
+                u.future_task_start_date AS future_task_start_date,
+                u.future_task_end_date AS future_task_end_date,
+                u.future_task_status AS future_task_status,
+                CASE 
+                    WHEN j.custentity_nx_project_type = 4 THEN 'PM 30D'
+                    WHEN j.custentity_nx_project_type = 5 THEN 'PM 60D'
+                    WHEN j.custentity_nx_project_type = 6 THEN 'PM 90D'
+                    WHEN j.custentity_nx_project_type = 7 THEN 'PM 120D'
+                    WHEN j.custentity_nx_project_type = 8 THEN 'PM 180D'
+                    WHEN j.custentity_nx_project_type = 12 THEN 'PM 240D'
+                    WHEN j.custentity_nx_project_type = 13 THEN 'PM 270D'
+                    WHEN j.custentity_nx_project_type = 14 THEN 'PM 360D'
+                    WHEN j.custentity_nx_project_type = 15 THEN 'PM 720D'
+                    WHEN j.custentity_nx_project_type = 10 THEN 'PM Daily'
+                    ELSE 'Other'
+                END AS type,
+                CASE 
+                    WHEN j.custentity_nx_project_type IN (4, 5, 6, 7, 8, 12, 13, 14, 15) THEN
+                        CASE j.custentity_nx_project_type
+                            WHEN 4 THEN '30 days'
+                            WHEN 5 THEN '60 days'
+                            WHEN 6 THEN '90 days'
+                            WHEN 7 THEN '120 days'
+                            WHEN 8 THEN '180 days'
+                            WHEN 12 THEN '240 days'
+                            WHEN 13 THEN '270 days'
+                            WHEN 14 THEN '360 days'
+                            WHEN 15 THEN '720 days'
+                        END
+                    ELSE 'N/A'
+                END AS frequency,
+                ohm.last_reading AS hour_meter_reading,
+                ohm.last_reading_date AS hour_meter_date,
+                mr.id AS maintenance_record_id,
+                mr.custrecord_nxc_mr_field_222 AS hours,
+                t.custevent_nx_start_date AS hours_date
+            FROM
+                RecentCompletedTasks r
+            LEFT JOIN CaseDetails cd
+                ON r.recent_support_case_id = cd.case_id
+            LEFT JOIN EquipmentAssetDetails ead
+                ON cd.equip_asset_hidden = ead.equip_asset_id
+            LEFT JOIN UpcomingTasks u
+                ON r.project_id = u.project_id
+            LEFT JOIN job j
+                ON r.project_id = j.id
+            LEFT JOIN ObjectHourMeter ohm
+                ON ead.asset_object = ohm.object_id
+            LEFT JOIN customrecord_nxc_mr mr
+                ON r.recent_task_id = mr.custrecord_nxc_mr_task
+            LEFT JOIN task t
+                ON mr.custrecord_nxc_mr_task = t.id
+            WHERE
+                j.custentity_nx_project_type IN (4, 5, 6, 7, 8, 12, 13, 14, 15, 10)
+                AND cd.revenue_stream IN (263, 18, 19);
+        `;
+
+        const pagedData = query.runSuiteQLPaged({
+            query: maintQuery,
+            pageSize: 1000
+        });
+        const pagedDataArray = pagedData.pageRanges;
+        const resultsArray: MaintenanceDataObject [] = [];
+
+        pagedDataArray.forEach((pageOfData) => {
+            const page: any = pagedData.fetch({
+                index: pageOfData.index
+            });
+            page.data?.results?.forEach((row: any) => {
+                const value = row.values;
+                log.debug('value', value);
+                // const maintenanceDataObject: MaintenanceDataObject = {
+                //     equipmentAsset: value.equipment_asset;
+                //     assetObject: ;
+                //     projectID: ;
+                //     projectType: string;
+                //     projectFrequency: string;
+                //     recentTaskID: number;
+                //     recentTaskStartDate: Date;
+                //     recentTaskEndDate: Date;
+                //     recentTaskStatus: string;
+                //     recentCaseID: number;
+                //     recentCaseRevenueStream: string;
+                //     recentRevenueStreamID: number;
+                //     futureTaskID: number;
+                //     futureTaskStartDate: Date;
+                //     futureTaskEndDate: Date;
+                //     futureTaskStatus: string;
+                //     currentHours: number;
+                //     currentHoursDate: Date;
+                //     maintenanceRecordID: number;
+                //     maintenanceRecordHours: number;
+                //     maintenanceRecordHoursDate: Date;
+                //     zipcode: number;
+                // }
+                resultsArray.push(value);
+            });
+        });
+    } catch (error) {
+        log.debug('ERROR in execute', error);
+    }
+}
+
+export = { execute };

@@ -1,0 +1,356 @@
+<?xml version="1.0"?><!DOCTYPE pdf PUBLIC "-//big.faceless.org//report" "report-1.1.dtd">
+<pdf>
+
+    <head>
+        <link name="NotoSans" type="font" subtype="truetype" src="${nsfont.NotoSans_Regular}" src-bold="${nsfont.NotoSans_Bold}" src-italic="${nsfont.NotoSans_Italic}" src-bolditalic="${nsfont.NotoSans_BoldItalic}" bytes="2" />
+        <#if .locale == "zh_CN">
+        <link name="NotoSansCJKsc" type="font" subtype="opentype" src="${nsfont.NotoSansCJKsc_Regular}" src-bold="${nsfont.NotoSansCJKsc_Bold}" bytes="2" />
+        <#elseif .locale == "zh_TW">
+        <link name="NotoSansCJKtc" type="font" subtype="opentype" src="${nsfont.NotoSansCJKtc_Regular}" src-bold="${nsfont.NotoSansCJKtc_Bold}" bytes="2" />
+        <#elseif .locale == "ja_JP">
+        <link name="NotoSansCJKjp" type="font" subtype="opentype" src="${nsfont.NotoSansCJKjp_Regular}" src-bold="${nsfont.NotoSansCJKjp_Bold}" bytes="2" />
+        <#elseif .locale == "ko_KR">
+        <link name="NotoSansCJKkr" type="font" subtype="opentype" src="${nsfont.NotoSansCJKkr_Regular}" src-bold="${nsfont.NotoSansCJKkr_Bold}" bytes="2" />
+        <#elseif .locale == "th_TH">
+        <link name="NotoSansThai" type="font" subtype="opentype" src="${nsfont.NotoSansThai_Regular}" src-bold="${nsfont.NotoSansThai_Bold}" bytes="2" />
+        </#if>
+        <macrolist>
+            <macro id="nlheader">
+           </macro>
+            <macro id="nlfooter">
+  <table class="footer" style="border-collapse: collapse; width: 100%; table-layout: fixed;">
+    <tr>
+    <td width="45%" align="left"></td>
+      <td width="10%"></td>
+      <td align="left"></td>
+    </tr>
+    <tr>
+    <td align="left" rowspan="3">Overtime rates apply if hours exceed 8 hours/day, 40hours/week, or 160 hours/in a 4 week period. Customer isresponsible for maintaining battery water levels daily (withelectrics). Customer is responsible for all insurancerequirements. If a certificate of insurance is not provided, adamage waiver of 12% of the rental billing amount willautomatically be applied. Go towww.herculift.com/hr/customer.htm for damage waiverinformation.<br /><br /><br />
+      Herc-U-Lift Inc. advises that operators of this equipment mustmeet OSHA's Regulation 29CFR1910.178.Par.(L), for operatortraining on Powered Industrial Trucks. A copy of this regulationcan be provided to you upon request.
+      </td>
+      <td colspan="2">
+        Please read operators manual supplied with the rental unitbefore operating.<br />
+        RECEIVED OPERATOR MANUAL, SAFETY TIPS BOOKLET, LPG MANUAL:<br /><br />
+        _______________________________________________________________ <br/>
+        &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;  CUSTOMER SIGNATURE<br /><br />
+        A $75 fee will be applied for unreturned manuals.<br /><br />
+        INSURANCE LETTER RECEIVED: __________________ Time: ____________
+      </td>
+    </tr>
+    <tr>
+    <td rowspan="2">icon</td>
+      <td style="font-weight: bold; text-decoration: underline; padding: 0px" align="center">WARNING
+      </td>
+    </tr>
+    <tr>
+      <td style="font-weight: bold; padding: 0px">
+        DO NOT OPERATE THIS EQUIPMENT UNLESS YOU ARETRAINED AND AUTHORIZED TO DO SO.
+      </td>
+    </tr>
+    <tr>
+    <td colspan="3" align="center" style="padding: 0px"><b>REMINDER: Under the terms of the rental agreement, customer is responsible for all damage,</b>
+      </td>
+    </tr>
+     <tr>
+    <td colspan="3" align="center" style="padding: 0px"><b>excessive wear (other than normal wear and tear), abuse and tire repair.</b><br />
+      </td>
+    </tr>
+     <tr>
+    <td colspan="3" align="center">
+      <b>CUSTOMER MUST CALL TO TERMINATE RENTAL AND FOR PICKUP</b>
+      </td>
+    </tr>
+    
+    <tr>
+    <td colspan="2" style="border-top: solid #808080; border-left: solid #808080;">Customer Signature - Unit Received: <br /><br /><br /><br /></td>
+      
+      <td style="border-top: solid #808080; border-left: solid #808080; border-right: solid #808080;">Customer Signature - Unit Returned: <br /><br /></td>
+    </tr>
+    
+    <tr>
+    <td colspan="2" style="border-top: solid #808080; border-left: solid #808080; border-bottom: solid #808080;">&nbsp;&nbsp; &nbsp;&nbsp;NAME &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; DATE</td>
+      
+      <td style="border-top: solid #808080; border-left: solid #808080; border-right: solid #808080; border-bottom: solid #808080;">&nbsp;&nbsp; &nbsp;&nbsp;NAME &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; DATE</td>
+    </tr>
+  </table>
+            </macro>
+        </macrolist>
+        <style type="text/css">
+            body{font-family: Open Sans,Helvetica,sans-serif;}
+            table{font-size:x-small;width: 100%;}
+            td{padding-top: 1px;padding-bottom: 1px;}
+           table.itemtable th {
+            padding-bottom: 10px;
+            padding-top: 10px;
+             font-weight: bold;
+             border-bottom: solid #808080;
+			border-top: solid #808080;
+             text-align:left
+        	}
+          table.itemtable td {
+            padding: 4px 6px;
+        }
+          table.footer td {
+            padding: 6px 8px;
+        }
+
+			a.scalePayLink {
+              color: red;
+              background-color: #D5D5D5;
+              text-decoration: none;
+              font-size: 12px;
+              padding: 2px;
+          }
+          #page1 {footer:nlfooter} 
+
+        </style>
+    </head>
+<body header="nlheader" header-height="1%" footer-height="200pt" padding="0.5in 0.5in 0.5in 0.5in" size="Letter">
+<!-- <body header="nlheader" header-height="25%" footer="nlfooter" footer-height="20pt" padding="0.5in 0.5in 0.5in 0.5in" size="Letter"> -->
+<!-- <body header="nlheader" header-height="36%" footer="nlfooter" footer-height="20pt" padding="0.5in 0.5in 0.5in 0.5in" size="Letter"> -->
+    <table border="0" style="border-collapse: collapse; width: 100%;display: block;">
+                    <tbody>
+                        <tr>
+                            <td style="width: 37.5%;" colspan="3" >
+                              <#if companyInformation.logoUrl?length != 0><img src="${companyInformation.logoUrl}" width="50%" height="50%" style="float: center;" /> </#if>
+                               
+                            </td>
+                            <td style="width: auto;" colspan="2" align="center">
+                                <p style="text-align: center;">PO Box 69 <br />5655 Hwy 12 W<br />Maple Plain MN 55359 <br/> Toll Free: 800-362-3500 Phone: 763-479-2501<br />Fax: 763-479-1061</p>
+                            </td>
+                            <td style="width: 37.5%;" colspan="3" align="center"><img src="https://6952227.app.netsuite.com/core/media/media.nl?id=2094&amp;c=6952227&amp;h=Lfa0Rnma72l3wnBJKTQn1INzXINYQkisNCdBRUGTv7yjgnKZ" width="50%" height="50%" style="float: center;" /></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 37.5%;" colspan="3" >&nbsp;</td>
+                            <td style="width: auto;" colspan="2" align="center" >
+                                &nbsp;
+                            </td>
+                            <td style="width: 37.5%;" colspan="3">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 12.5%;">&nbsp;</td>
+                            <td style="width: 37.5%; text-align: center;" colspan="2">
+                            <p>Del Moines IA<br />515-954-9273</p>
+                            </td>
+                            <td style="width: 25%; text-align: center;" colspan="2">www.herculift.com</td>
+                            <td style="width: 37.5%; text-align: center;" colspan="2">
+                            <p>Siuox Falls SD<br />515-954-9273</p>
+                            </td>
+                            <td style="width: 12.5%;">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 12.5%;" align="center">Maple Plain<br />763-479-2501</td>
+                            <td style="width: 12.5%;" align="center">Grand Rapids MN<br />218-326-0539</td>
+                            <td style="width: 12.5%;" align="center">St. Cloud MN<br />320-251-9001</td>
+                            <td style="width: 12.5%;" align="center">Fargo ND<br />701-219-5311</td>
+                            <td style="width: 12.5%;" align="center">Minot ND<br />701-839-5820</td>
+                            <td style="width: 12.5%;" align="center">Williston ND<br />300-362-3500</td>
+                            <td style="width: 12.5%;" align="center">Boscobe WI<br />300-362-3500</td>
+                            <td style="width: 12.5%;" align="center">Milwaukee WI<br />889-244-6802</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+
+
+                <table border="0" style="border-collapse: collapse; width: 100%; table-layout: fixed;">
+                    <tbody>
+                         <tr>
+                            <td style="width: 5%;"></td>
+                           <td style="width: 8%;"></td>
+                            <td>&nbsp;</td>
+                            <td style="width: 10%;">&nbsp;</td>                             
+                           <td style="width: 12%;"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" align="center" style="font-size: 14px;"><b>RENTAL AGREEMENT</b></td>                        
+                        </tr>
+                        <tr>
+                            <td>Date: </td>
+                            <td align="left">${record.trandate}</td>
+                          <td></td>
+                            <td align="left">Document No:</td>
+                          <td align="left">${record.tranid}</td>
+                        </tr>
+          				<tr>
+          				<td></td>
+                          <td></td>
+                          <td></td>
+                          <td align="left">Page:</td>
+                          <td align="left"><pagenumber/></td>
+          				</tr>
+
+                    </tbody>
+                </table>
+
+                <table border="0" style="border-collapse: collapse; width: 100%; table-layout: fixed;">
+                    <tbody>
+                        <tr>
+                           <td style="width: 5%;"></td>
+                           <td style="width: 18%;"></td>
+                            <td style="width: 45%;">&nbsp;</td>
+                            <td style="width: 6%;"></td>                             
+                           <td></td>
+                        </tr>
+                       
+                       <tr>
+                         <td align="left"><b>Bill To:</b></td>
+                            <td align="left">${record.entity.entityid}</td>
+                          <td></td>
+                         <td align="left"><b>Ship To:</b></td>
+                          <td align="left"> ${record.entity.entityid}</td>
+                        </tr>
+                      
+ 						<tr>
+                         <td colspan="2" align="left">${record.billaddress}</td>
+                            <td></td>
+                            <td colspan="2" align="left">${record.shipaddress}</td>
+                        </tr>
+                    </tbody>
+                </table>
+  <#assign rcarray = [] />
+    <#assign dayarray = [] />
+  <#assign weekarray = [] />
+  <#assign forweekarray = [] />
+    
+<#if record.item?has_content>
+
+<table class="itemtable" style="width: 100%; margin-top: 10px;"><!-- start items --><#list record.item as item><#if item_index==0>
+<thead>
+	<tr>
+	<th>Fleet No.</th>
+	<th>Make</th>
+	<th>Model</th>
+	<th>Serial No.</th>
+	<th>Description</th>
+	<th>Start Date</th>
+	</tr>
+</thead>
+</#if>
+  <#if !item.custcol_sna_do_not_print && !item.custcol_sna_default_rev_stream> 
+  <tr>
+  <td align="left"><#if item.item.internalid == '98427' || item.item == 'Rental Charge'>${item.custcol_sna_hul_fleet_no}<#else>Charge</#if></td>
+	<td align="left"><#if item.item.internalid == '98427' || item.item == 'Rental Charge'>${item.cseg_hul_mfg}<#else></#if></td>
+    <td align="left"><#if item.item.internalid == '98427' || item.item == 'Rental Charge'>${item.custcol_sna_hul_obj_model}<#else>${item.item}</#if></td>
+	<td align="left"><#if item.item.internalid == '98427' || item.item == 'Rental Charge'>${item.custcol_sna_obj_serialno}<#else></#if></td>
+	<td align="left"><#if item.item.internalid == '98427' || item.item == 'Rental Charge'><#else>${item.custcol_sna_sales_description}</#if></td>
+	<td align="left"><#if item.item.internalid == '98427' || item.item == 'Rental Charge'>${item.custcol_sna_hul_rent_start_date}<#else></#if></td>
+	</tr>
+  
+  <#if item.custcol_sna_rental_rate_card?has_content>
+
+    <#assign rcarray = rcarray + ["${item.custcol_sna_hul_obj_model}"] />
+     <#assign dayarray = dayarray + ["${item.custcol_sna_day_rate}"] />
+    <#assign weekarray = weekarray + ["${item.custcol_sna_weekly_rate}"] />
+    <#assign forweekarray = forweekarray + ["${item.custcol_sna_4week_rate}"] />
+    
+    </#if>
+  </#if>
+	</#list><!-- end items --></table>
+
+</#if>
+
+   <p style="text-align:left;font-size:8px;font-weight:bold;">
+     <br />Rental Rates:
+  </p>
+  
+  <#if record.item?has_content && rcarray?has_content>    
+  <table width="70%">
+    
+    <#list 0..rcarray?size-1 as i>
+            
+        <#if dayarray[i]?has_content>       <#assign day = dayarray[i]> <#else><#assign day = ''></#if>
+     <#if weekarray[i]?has_content>   <#assign week = weekarray[i]><#else><#assign week = ''></#if>
+    <#if forweekarray[i]?has_content>    <#assign month = forweekarray[i]><#else><#assign month = ''></#if>
+        
+         <tr>
+      <td>${rcarray[i]}</td>
+      <td>Day</td>
+      <td>${day}</td>
+      <td>Week</td>
+      <td>${week}</td>
+      <td>4 weeks</td>
+      <td>${month}</td>
+    </tr>
+        
+
+</#list>
+  </table>
+    </#if>
+  
+  <br /><br />
+
+  
+  <table style="margin-top: 190px">
+  <tr>
+  <td style="width:100%;align: center">
+  <b>RENTAL AGREEMENT</b>
+  </td>
+  </tr>
+    <tr>
+  <td style="width:100%;align: center">
+ <b> TERMS AND CONDITIONS </b>
+  </td>
+  </tr>
+  </table>
+  <table>
+  <tr>
+  <td style="width:100%" align="left">
+  <p>
+  <br/>1. The owner rents to the customer named on the reverse side hereof, and the customer rents from the owner the equipment described on the reverse side hereof. The equipment is rented f.o.b. owner's warehouse, and customer agrees that all equipment rented hereunder shall be used at the location set forth on the
+reverse side hereof, and customer shall not remove any of the equipment to any - other location without prior written consent of owner.<br/>
+<br/>
+2. Customer agrees to pay owner the rental charges specified on the reverse side hereof, in advance during the term of this Agreement. Customer shall be liable for, and reimburse owner for any sales or use taxes, license or registration fees levied or assessed on the rental equipment, use or operation thereof.
+<br/>
+<br/>
+3. Customer agrees at the expiration of this Rental Agreement to return the equipment at its expense to owner's warehouse in the same condition as when received, less normal wear and tear.
+<br/>
+<br/>
+4. Customer shall take good care of the equipment in the use, maintenance and
+storage thereof, and without limiting the foregoing, shall keep the equipment in
+a covered area when not in use, keep the equipment clean, operate and permit
+operation of he equipment only within its rated capacity, refrain from altering the equipment without owner's written consent, and prohibit and prevent anyone
+who is not trained or authorized from making any repairs or adjustments to the equipment. Customer shall notify owner immediately of any physical damage that may occur to the equipment and shall promptly furnish owner, in writing, all information required by owner in connection therewith. Customer shall take care of normal needs of the equipment; including supplying fuel,oil and coolant,
+daily checking of general condition including oil level, cooling system, water and batteries, recharging batteries, etc. The owner will service the equipment from time to time at its expense, and the customer agrees to make the equipment available for servicing during the owner's normal business hours. In the event that customer requiresservice at other than owner's normal business hours, customer agrees to pay the difference between the straight time and overtime rates for mechanics' time.
+<br/>
+<br/>
+5. Customer agrees that the owner shall not be liable to the customer, nor this Contract be impugned for owner's failure to repair the equipment if disabled or furnish substitute equipment for any reason whatsoever and that the owner in no event is or shall be liable for special or consequential damages of any nature whatsoever or however caused.<br/>
+<br/>
+6. Customer assumes all risk and liability arising from its rental, possession and use
+of the equipment and agrees to indemnify and hold owner harmless from any
+and all loss, damage, claims, suits, liens, penalties, liabilityand expenses (including
+attorney's fees) howsoever arising or incurred because of such rental, possession
+and use including, but not limited to, damages for injuries to or death of persons
+or injuries to or destruction of property, loss of and damage to the equipment, and
+loss resulting from any inability to use and operate the equipment for any reason.
+  </p>
+  </td>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <td colspan="1" style="width:100%;">
+   <p>
+ <br/>  7. Customer will maintain, at its sole cost and expense, at all times during the rental term, with reputable insurers acceptable to owner, (a) insurance in an amount not less than the full replacement cost of the equipment, insuring against loss and/or damage to such equipment arising out of any risk covered by fire, windstorm, explosion, and extended coverage, and against such other risks as are customarily insured against by companies owning property of a similar character and engaged in a business similar to that engaged in by customer; (b)comprehensive public liability and property damage insurance in such amounts as may be satisfactory to owner insuring against liability fordeath, bodily injury and property damage resulting from possession, use and maintenance of the equipment; and (c) please have your insurance company forward a current Certificate of Insurance, including Product Liability Coverage to our office, naming ourcompany as Certificate Holder, Additional Insured and Loss Payee.
+ <br/> <br/>
+Please provide evidence of the following limits of liabilitv:<br/> 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bodily Injury........................................... $1,000,000 <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Property Damage.................................. $1,000,000<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Product and Completed Operations...... $1,000,000 <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Excess Liability...................................... $1,000,000 <br/><br/>
+The Certificate Holder and additional insured section should read as follows:<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Herc-U-Lift, inc.</b><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>5655 Highway 12 West • P.O. Box 69 </b> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Maple Plain, MN 55359-0069 • Fax: 763-479-3399</b>
+<br/>
+<br/>
+8. In the event of default by customer in complying with or performing any of the provisions of this Rental Agreement, or if any execution or other writ or process shall be issued in any action or proceeding against customer whereby rented equipment may be seized or taken or distrained, or if a proceeding in bankruptcy, receivership or insolvency shall be instituted by or against the customer or its property, or if the customer shall enter into any arrangement or composition with its creditors,then and in any such event owner shall have the right to take immediate possession of all rented equipment, and for such purpose owner may enter upon any premises where said rented equipment may be located without being liable to any suit or action or proceeding by customer. Upon owner's retaking possession of said rented equipment pursuant to the provisions of this paragraph, this rental shall thenceforth terminate. The
+customer shall nevertheless remain liable for all sums due and unpaid, plus a reasonable amount for attorney's fees and such expenses as shall be expended or incurred in the seizure of said equipment or in the enforcement of any right hereunder.
+<br/>
+<br/>
+9. This Agreement is a contract of rental only, and customer does not acquire title to any equipment rented hereunder.<br/>
+<br/>
+10. Notices hereunder shall bei nwriting and shall bemailed byregistered orcertified mail, return receipt requested, to owner or customer at its address stated on the reverse side hereof..
+   </p>
+  </td>
+  </tr>
+  </table>
+</body>
+</pdf>

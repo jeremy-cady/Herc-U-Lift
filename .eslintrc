@@ -1,0 +1,149 @@
+{
+    'env': {
+        'browser': true,
+        'es6': true
+    },
+    'extends': [
+        'prettier'
+    ],
+    'parser': '@typescript-eslint/parser',
+    'parserOptions': {
+        'project': 'tsconfig.json',
+        'sourceType': 'module'
+    },
+    'plugins': [
+        '@typescript-eslint'
+    ],
+    'rules': {
+        'indent': [
+            'warn',
+            4,
+            {
+                'CallExpression': {
+                    'arguments': 'first'
+                },
+                'FunctionDeclaration': {
+                    'parameters': 'first'
+                },
+                'FunctionExpression': {
+                    'parameters': 'first'
+                },
+                'SwitchCase': 1
+            }
+        ],
+        '@typescript-eslint/member-delimiter-style': [
+            'error',
+            {
+                'multiline': {
+                    'delimiter': 'semi',
+                    'requireLast': true
+                },
+                'singleline': {
+                    'delimiter': 'semi',
+                    'requireLast': false
+                }
+            }
+        ],
+        // '@typescript-eslint/naming-convention': 'error',
+        '@typescript-eslint/no-this-alias': 'error',
+        '@typescript-eslint/no-unnecessary-boolean-literal-compare': 'warn',
+        '@typescript-eslint/semi': [
+            'warn',
+            'always'
+        ],
+        'camelcase': ['warn', { 'properties': 'never' }],
+        'comma-dangle': 'off',
+        'curly': 'off',
+        'eol-last': 'off',
+        'eqeqeq': [
+            'error',
+            'smart'
+        ],
+        'id-denylist': ['error', 'callback', 'cb'],
+        'id-match': 'error',
+        'max-len': [
+            'warn',
+            {
+                'code': 120
+            }
+        ],
+        'no-array-constructor': 'error',
+        'no-duplicate-imports': 'error',
+        'no-eval': 'error',
+        'no-multiple-empty-lines': ['warn', { 'max': 1 }],
+        'no-new-wrappers': 'error',
+        'no-param-reassign': 'error',
+        'no-trailing-spaces': 'warn',
+        'no-underscore-dangle': 'error',
+        'no-var': 'error',
+        'object-shorthand': 'error',
+        'one-var': [
+            'error',
+            'never'
+        ],
+        'prefer-const': 'error',
+        'prefer-template': 'warn',
+        'quote-props': [
+            'error',
+            'as-needed'
+        ],
+        'quotes': ['warn', 'single', { 'avoidEscape': true }],
+        'radix': 'error',
+        'space-before-function-paren': [
+            'warn',
+            {
+                'anonymous': 'always',
+                'named': 'never'
+            }
+        ],
+        'spaced-comment': [
+            'warn',
+            'always',
+            {
+                'markers': [
+                    '/'
+                ]
+            }
+        ],
+        'array-bracket-spacing': [
+            'warn',
+            'never'
+        ],
+        'block-spacing': [
+            'warn',
+            'always'
+        ],
+        'brace-style': [
+            'warn',
+            '1tbs',
+            {
+                'allowSingleLine': true
+            }
+        ],
+        'no-else-return': 'warn',
+        'object-curly-spacing': [
+            'warn',
+            'always'
+        ],
+        'space-in-parens': [
+            'warn',
+            'never'
+        ],
+        'arrow-parens': [
+            'warn'
+            // 'as-needed'
+            // {
+            //     'requireForBlockBody': true
+            // }
+        ],
+        'computed-property-spacing': [
+            'warn',
+            'never'
+        ],
+        'func-call-spacing': [
+            'warn',
+            'never'
+        ],
+        'prefer-arrow-callback': 'warn'
+    }
+}

@@ -1,0 +1,72 @@
+SELECT
+	Item.ItemID,
+	BUILTIN.DF(Item.Parent) AS ParentItem,
+	Item.Description,
+	BUILTIN.DF(AIL.Location) AS Location,
+	-- Quantity fields from AggregateItemLocation (already aggregated per location)
+	AIL.QuantityOnHand,
+	AIL.QuantityCommitted,
+	AIL.QuantityAvailable,
+	AIL.QuantityOnOrder,
+	AIL.QuantityBackOrdered,
+	AIL.PreferredStockLevel,
+	-- Item-level fields
+	Vendor.CompanyName AS PreferredVendor,
+	Item.Cost AS PurchasePrice,
+	ROUND(Item.AverageCost, 2) AS AverageCost,
+	ROUND(Item.LastPurchasePrice, 2) AS LastPurchasePrice,
+	-- Sales history subqueries
+	(SELECT MIN(Transaction.TranDate)
+	 FROM Transaction
+	 INNER JOIN TransactionLine ON (TransactionLine.Transaction = Transaction.ID)
+	 WHERE (TransactionLine.Item = Item.ID)
+	   AND (Transaction.Type = 'SalesOrd')) AS FirstSold,
+	(SELECT MAX(Transaction.TranDate)
+	 FROM Transaction
+	 INNER JOIN TransactionLine ON (TransactionLine.Transaction = Transaction.ID)
+	 WHERE (TransactionLine.Item = Item.ID)
+	   AND (Transaction.Type = 'SalesOrd')) AS LastSold,
+	(SELECT MIN(Transaction.TranDate)
+	 FROM Transaction
+	 INNER JOIN TransactionLine ON (TransactionLine.Transaction = Transaction.ID)
+	 WHERE (TransactionLine.Item = Item.ID)
+	   AND (Transaction.Type = 'PurchOrd')) AS FirstPurchased,
+	(SELECT MAX(Transaction.TranDate)
+	 FROM Transaction
+	 INNER JOIN TransactionLine ON (TransactionLine.Transaction = Transaction.ID)
+	 WHERE (TransactionLine.Item = Item.ID)
+	   AND (Transaction.Type = 'PurchOrd')) AS LastPurchased,
+	(SELECT (SUM(TransactionLine.Quantity) * -1)
+	 FROM Transaction
+	 INNER JOIN TransactionLine ON (TransactionLine.Transaction = Transaction.ID)
+	 WHERE (TransactionLine.Item = Item.ID)
+	   AND (Transaction.Type = 'SalesOrd')
+	   AND ((TRUNC(SYSDATE) - Transaction.TranDate) <= 30)) AS QtySold30Days,
+	(SELECT (SUM(TransactionLine.Quantity) * -1)
+	 FROM Transaction
+	 INNER JOIN TransactionLine ON (TransactionLine.Transaction = Transaction.ID)
+	 WHERE (TransactionLine.Item = Item.ID)
+	   AND (Transaction.Type = 'SalesOrd')
+	   AND ((TRUNC(SYSDATE) - Transaction.TranDate) <= 90)) AS QtySold90Days,
+	(SELECT (SUM(TransactionLine.Quantity) * -1)
+	 FROM Transaction
+	 INNER JOIN TransactionLine ON (TransactionLine.Transaction = Transaction.ID)
+	 WHERE (TransactionLine.Item = Item.ID)
+	   AND (Transaction.Type = 'SalesOrd')
+	   AND ((TRUNC(SYSDATE) - Transaction.TranDate) <= 365)) AS QtySold1Year,
+	(SELECT (SUM(TransactionLine.Quantity) * -1)
+	 FROM Transaction
+	 INNER JOIN TransactionLine ON (TransactionLine.Transaction = Transaction.ID)
+	 WHERE (TransactionLine.Item = Item.ID)
+	   AND (Transaction.Type = 'SalesOrd')) AS QtySoldLifetime
+FROM 
+	Item 
+	INNER JOIN AggregateItemLocation AIL ON (AIL.Item = Item.ID)
+	LEFT OUTER JOIN ItemVendor ON (ItemVendor.Item = Item.ID AND ItemVendor.PreferredVendor = 'T')
+	LEFT OUTER JOIN Vendor ON (Vendor.ID = ItemVendor.Vendor)
+WHERE 
+	(Item.ItemType = 'InvtPart')
+	AND (Item.IsInactive = 'F')
+	AND ((AIL.QuantityOnHand > 0) OR (AIL.QuantityOnOrder > 0) OR (AIL.QuantityBackOrdered > 0))
+ORDER BY
+	Item.ItemID, AIL.Location

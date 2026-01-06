@@ -1,0 +1,30 @@
+SELECT
+   	t.id                  	AS task_id,
+    	t.company             AS project_id,
+    	t.supportcase      	AS case_id,
+    	t.status              	AS task_status,
+    	t.completeddate 	AS completed_date,
+    	CASE 
+        	WHEN NOT REGEXP_LIKE(mr.custrecord_nxc_mr_field_222, '^[0-9.]+$') THEN NULL
+        	ELSE mr.custrecord_nxc_mr_field_222
+    	END                   	AS maintenance_hours
+FROM
+   	task t
+LEFT JOIN customrecord_nxc_mr mr
+      	ON mr.custrecord_nxc_mr_task = t.id
+LEFT JOIN job j
+	ON j.id = t.company
+WHERE
+    	t.company = '146907'
+    	AND t.status = 'COMPLETE'
+    	AND t.completeddate = (
+        	SELECT
+            		MAX(t2.completeddate)
+        	FROM
+            		task t2
+        	WHERE
+            		t2.company = '146907'
+            		AND t2.status = 'COMPLETE'
+    	)
+	AND j.custentity_nx_project_type IN (4,5,6,7,8,10,12,13,14,15)
+	AND j.cseg_sna_revenue_st IN (18,19,263)

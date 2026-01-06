@@ -1,0 +1,3 @@
+SELECT DISTINCT sn.field
+FROM SystemNote sn
+ORDER BY sn.field;

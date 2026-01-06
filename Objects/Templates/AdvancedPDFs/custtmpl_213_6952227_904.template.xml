@@ -1,0 +1,205 @@
+<?xml version="1.0"?><!DOCTYPE pdf PUBLIC "-//big.faceless.org//report" "report-1.1.dtd">
+<pdf>
+<head>
+	<link name="NotoSans" type="font" subtype="truetype" src="${nsfont.NotoSans_Regular}" src-bold="${nsfont.NotoSans_Bold}" src-italic="${nsfont.NotoSans_Italic}" src-bolditalic="${nsfont.NotoSans_BoldItalic}" bytes="2" />
+	<#if .locale == "zh_CN">
+		<link name="NotoSansCJKsc" type="font" subtype="opentype" src="${nsfont.NotoSansCJKsc_Regular}" src-bold="${nsfont.NotoSansCJKsc_Bold}" bytes="2" />
+	<#elseif .locale == "zh_TW">
+		<link name="NotoSansCJKtc" type="font" subtype="opentype" src="${nsfont.NotoSansCJKtc_Regular}" src-bold="${nsfont.NotoSansCJKtc_Bold}" bytes="2" />
+	<#elseif .locale == "ja_JP">
+		<link name="NotoSansCJKjp" type="font" subtype="opentype" src="${nsfont.NotoSansCJKjp_Regular}" src-bold="${nsfont.NotoSansCJKjp_Bold}" bytes="2" />
+	<#elseif .locale == "ko_KR">
+		<link name="NotoSansCJKkr" type="font" subtype="opentype" src="${nsfont.NotoSansCJKkr_Regular}" src-bold="${nsfont.NotoSansCJKkr_Bold}" bytes="2" />
+	<#elseif .locale == "th_TH">
+		<link name="NotoSansThai" type="font" subtype="opentype" src="${nsfont.NotoSansThai_Regular}" src-bold="${nsfont.NotoSansThai_Bold}" bytes="2" />
+	</#if>
+    <macrolist>
+        <macro id="nlheader">
+            <table class="header" style="width: 100%">
+                <tr>
+                    <td style="width: 60%;">
+                        <#if companyInformation.logoUrl?length != 0>
+                            <img src="${companyInformation.logoUrl}" />
+                        </#if>
+
+
+                    </td>
+                    <td style="width: 40%;" colspan="2">
+                        <span class="title">${record@title}</span>
+                        <br/>
+                        <span class="number">#${record.tranid}</span>
+                    </td>
+
+
+	            </tr>
+                <tr>
+                    <td >
+                        &nbsp;
+                    </td>
+
+                    <td align="left">Date</td>
+                    <td align="left">${record.trandate}</td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="nameandaddress">${companyInformation.companyName}</span>
+                        <br />
+                        <span class="nameandaddress">${companyInformation.addressText}</span>
+                    </td>
+
+                    <td align="left"><br/>Payment Method</td>
+
+                    <td align="left">
+                        <br/>
+                        <#if record.paymentmethod?has_content>
+                            <#if record.paymentmethod == "ScaleApp Payments">
+
+                                Credit Card<br/>
+                                ${record.custbody_sna_cp_cust_cc_no}
+                            <#else>
+                                ${record.paymentmethod}
+                            </#if>
+                        </#if>
+                    </td>
+                </tr>
+            </table>
+
+            <table style="width: 100%; margin-top: 10px;">
+                <tr>
+                    <td ><b>Bill To</b></td>
+
+                </tr>
+                <tr>
+                    <td >
+
+                        ${record.customer.contact} <br/>
+                        ${record.customer.billaddress} <br/>
+                        ${record.customer.entityid}
+                    </td>
+                </tr>
+            </table>
+
+
+
+
+        </macro>
+        <macro id="nlfooter">
+            <table class="footer" style="width: 100%;"><tr>
+	<td align="right"><pagenumber/> of <totalpages/></td>
+	</tr></table>
+        </macro>
+    </macrolist>
+    <style type="text/css">* {
+    <#if .locale == "zh_CN">
+    font-family: NotoSans, NotoSansCJKsc, sans-serif;
+    <#elseif .locale == "zh_TW">
+    font-family: NotoSans, NotoSansCJKtc, sans-serif;
+    <#elseif .locale == "ja_JP">
+    font-family: NotoSans, NotoSansCJKjp, sans-serif;
+    <#elseif .locale == "ko_KR">
+    font-family: NotoSans, NotoSansCJKkr, sans-serif;
+    <#elseif .locale == "th_TH">
+    font-family: NotoSans, NotoSansThai, sans-serif;
+    <#else>
+    font-family: NotoSans, sans-serif;
+    </#if>
+            }
+            table {
+            font-size: 9pt;
+            table-layout: fixed;
+            }
+            th {
+            font-weight: bold;
+            font-size: 8pt;
+            vertical-align: middle;
+            padding: 1px 1px 1px;
+            background-color: #e3e3e3;
+            color: #333333;
+            }
+            td {
+            padding: 1px 1px;
+            }
+            th p { align:left }
+            td p { align:left }
+            b {
+            font-weight: bold;
+            color: #333333;
+            }
+            table.header td {
+            padding: 0;
+            font-size: 10pt;
+
+            }
+            table.footer td {
+            padding: 0;
+            font-size: 8pt;
+            }
+            table.itemtable th {
+            padding-bottom: 5px;
+            padding-top: 5px;
+            }
+            table.body td {
+            padding-top: 2px;
+            }
+            td.addressheader {
+            font-size: 8pt;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            }
+            td.address {
+            padding-top: 0px;
+            }
+            span.title {
+            font-size: 21pt;
+            }
+            span.number {
+            font-size: 16pt;
+            }
+            hr {
+            border-top: 1px dashed #d3d3d3;
+            width: 100%;
+            color: #ffffff;
+            background-color: #ffffff;
+            height: 1px;
+            }
+            </style>
+</head>
+<body header="nlheader" header-height="28%" footer="nlfooter" footer-height="10pt" padding="0.5in 0.5in 0.5in 0.5in" size="Letter">
+
+
+
+
+
+<#if record.apply?has_content>
+
+<table class="itemtable" style="width: 100%; margin-top: 10px;"><!-- start apply sublist --><#list record.apply as apply><#if apply_index==0>
+<thead>
+	<tr>
+	<th align="center" colspan="3">${apply.applydate@label}</th>
+	<th colspan="3">${apply.type@label}</th>
+<th align="right" colspan="3">${apply.refnum@label}</th>
+	<th align="right" colspan="3">${apply.total@label}</th>
+	<th align="right" colspan="3">${apply.due@label}</th>
+	<th align="right" colspan="3">${apply.disc@label}</th>
+	<th align="right" colspan="4">${apply.amount@label}</th>
+	</tr>
+</thead>
+</#if><tr>
+	<td align="center" colspan="3" line-height="150%" style="border-style:solid;border-width:1px;border-color:#d3d3d3;padding:2px 2px;">${apply.applydate}</td>
+	<td colspan="3" style="border-style:solid;border-width:1px;border-color:#d3d3d3;padding:2px 2px;">${apply.type}</td>
+   <td align="right" colspan="3" style="border-style:solid;border-width:1px;border-color:#d3d3d3;padding:2px 2px;">${apply.refnum}</td>
+	<td align="right" colspan="3" style="border-style:solid;border-width:1px;border-color:#d3d3d3;padding:2px 2px;">${apply.total}</td>
+	<td align="right" colspan="3" style="border-style:solid;border-width:1px;border-color:#d3d3d3;padding:2px 2px;">${apply.due}</td>
+	<td align="right" colspan="3" style="border-style:solid;border-width:1px;border-color:#d3d3d3;padding:2px 2px;">${apply.disc}</td>
+	<td align="right" colspan="4" style="border-style:solid;border-width:1px;border-color:#d3d3d3;padding:2px 2px;">${apply.amount}</td>
+	</tr>
+	</#list><!-- end apply --></table>
+
+<hr /></#if>
+<table class="total" style="width: 100%; margin-top: 10px;"><tr class="totalrow">
+	<td background-color="#ffffff" colspan="4">&nbsp;</td>
+	<td align="right"><b>${record.total@label}</b></td>
+	<td align="right">${record.total}</td>
+	</tr></table>
+</body>
+</pdf>

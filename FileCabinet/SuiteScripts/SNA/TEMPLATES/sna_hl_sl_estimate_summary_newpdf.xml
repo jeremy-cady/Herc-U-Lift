@@ -1,0 +1,339 @@
+<?xml version="1.0"?>
+<!DOCTYPE pdf PUBLIC "-//big.faceless.org//report" "report-1.1.dtd">
+<pdf>
+  <head>
+    <link name="NotoSans" type="font" subtype="truetype" src="${nsfont.NotoSans_Regular}" src-bold="${nsfont.NotoSans_Bold}" src-italic="${nsfont.NotoSans_Italic}" src-bolditalic="${nsfont.NotoSans_BoldItalic}" bytes="2" />
+    <#if .locale=="zh_CN">
+      <link name="NotoSansCJKsc" type="font" subtype="opentype" src="${nsfont.NotoSansCJKsc_Regular}" src-bold="${nsfont.NotoSansCJKsc_Bold}" bytes="2" />
+      <#elseif .locale=="zh_TW">
+        <link name="NotoSansCJKtc" type="font" subtype="opentype" src="${nsfont.NotoSansCJKtc_Regular}" src-bold="${nsfont.NotoSansCJKtc_Bold}" bytes="2" />
+        <#elseif .locale=="ja_JP">
+          <link name="NotoSansCJKjp" type="font" subtype="opentype" src="${nsfont.NotoSansCJKjp_Regular}" src-bold="${nsfont.NotoSansCJKjp_Bold}" bytes="2" />
+          <#elseif .locale=="ko_KR">
+            <link name="NotoSansCJKkr" type="font" subtype="opentype" src="${nsfont.NotoSansCJKkr_Regular}" src-bold="${nsfont.NotoSansCJKkr_Bold}" bytes="2" />
+            <#elseif .locale=="th_TH">
+              <link name="NotoSansThai" type="font" subtype="opentype" src="${nsfont.NotoSansThai_Regular}" src-bold="${nsfont.NotoSansThai_Bold}" bytes="2" />
+    </#if>
+    <macrolist>
+      <macro id="nlheader">
+        <table border="0" style="border-collapse: collapse; width: 100%;display: block;">
+          <tr>
+            <td colspan="3" style="width: 37.5%;">
+              <img height="50%" src="https://6952227.app.netsuite.com/core/media/media.nl?id=11&amp;c=6952227&amp;h=_yJMy7DSQDrilIpPJK1nQb_qIKA-jOoUGXsfiVQpE8KqWzPi" style="float: center;" width="50%" />
+            </td>
+            <td align="center" colspan="2" style="width: auto;">
+              <p style="text-align: center;">PO Box 69 <br />5655 Hwy 12 W <br />Maple Plain MN 55359 <br />Toll Free: 800-362-3500 Phone: 763-479-2501 <br />Fax: 763-479-1061 </p>
+                     </td>
+                    <td colspan="3" style="width: 37.5%;" align="center">
+                        <img height="50%"
+                             src="https://6952227.app.netsuite.com/core/media/media.nl?id=2094&amp;c=6952227&amp;h=Lfa0Rnma72l3wnBJKTQn1INzXINYQkisNCdBRUGTv7yjgnKZ"
+                             style="float: center; width: 50%;"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="width: 37.5%;">&nbsp;</td>
+                    <td align="center" colspan="2" style="width: auto;">&nbsp;</td>
+                    <td colspan="3" style="width: 37.5%;">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="width: 37.5%;">&nbsp;</td>
+                    <td align="center" colspan="2" style="width: auto;">&nbsp;</td>
+                    <td colspan="3" style="width: 37.5%;">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="width: 12.5%;">&nbsp;</td>
+                    <td colspan="2" style="width: 25%; align: center;">
+                        <p>Des Moines IA<br/>515-954-9273
+                        </p>
+                    </td>
+                    <td colspan="2" style="width: 25%; align: center;">www.herculift.com</td>
+                    <td colspan="2" style="width: 25%; align: center;">
+                        <p>Sioux Falls SD<br/>605-332-4755
+                        </p>
+                    </td>
+                    <td style="width: 12.5%;">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td align="center" style="width: 12.5%;">Maple Plain MN<br/>763-479-2501
+                    </td>
+                    <td align="center" style="width: 12.5%;">Grand Rapids MN<br/>218-326-0539
+                    </td>
+                    <td align="center" style="width: 12.5%;">St. Cloud MN<br/>320-251-9001
+                    </td>
+                    <td align="center" style="width: 12.5%;">Fargo ND<br/>701-219-5811
+                    </td>
+                    <td align="center" style="width: 12.5%;">Minot ND<br/>701-839-5820
+                    </td>
+                    <td align="center" style="width: 12.5%;">Williston ND<br/>701-572-4660
+                    </td>
+                    <td align="center" style="width: 12.5%;">Boscobel WI<br/>800-362-3500
+                    </td>
+                    <td align="center" style="width: 12.5%;">Milwaukee WI<br/>262-485-9890
+                    </td>
+                </tr>
+            </table>
+        <table border="0" style="border-collapse: collapse; width: 100%;">
+          <tr>
+            <td colspan="3" style="width: 25%;">&nbsp;</td>
+            <td colspan="3" style="width: 50%;">&nbsp;</td>
+            <td colspan="3" style="width: 25%;">&nbsp;</td>
+          </tr>
+          <tr>
+            <td colspan="3" style="width: 25%;">
+              <p style="text-align: left;">Date:&nbsp;&nbsp;${record.trandate}</p>
+            </td>
+            <td align="center" colspan="3" style="width: 50%;">
+              <p style="text-align: center;font-size: 14px;">
+                <b>Work Order Estimate</b>
+              </p>
+            </td>
+            <td colspan="3" style="width: 25%;">
+              <p style="text-align: left;">Order No:&nbsp;&nbsp;${record.tranid} <br />Page:&nbsp;&nbsp;
+                <pagenumber />
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td align="left" colspan="3" style="width: 25%;">&nbsp;</td>
+            <td colspan="3" style="width: 50%;">&nbsp;</td>
+            <td colspan="3" style="width: 25%;">&nbsp;</td>
+          </tr>
+        </table>
+        <table border="0" style="border-collapse: collapse; width: 100%;">
+          <#assign entity = record.entityname!?replace("[^\\S ]", "") />  <!-- Removes hidden spaces -->  
+          <#assign entity01 = entity?replace("^\\s+|\\s+$", "") />  <!-- Trims leading & trailing spaces -->  
+          <#assign spaceIndex = entity?index_of(" ") />
+          <#assign customerNumber = entity />
+          <#if spaceIndex != -1>
+            <#assign customerNumber = entity?substring(0, spaceIndex) />
+          </#if>      
+          <tr>
+              <td style="width: 30%;">&nbsp;</td>
+              <td colspan="3" style="width: 30%;">&nbsp;</td>
+              <td style="width: 40%;">&nbsp;</td>
+          </tr>
+          <tr>
+              <td align="left" style="width: 40%;">Customer #:&nbsp;
+                  ${customerNumber}
+              </td>
+              <td colspan="3" style="width: 13%;">&nbsp;</td>
+              <td align="left" style="width: 47%; ">Customer #:&nbsp;
+                  ${customerNumber}
+              </td>
+          </tr>
+          <tr>
+            <td align="left" style="width: 40%;">Estimate prepared for:<br/> ${record.billaddress} </td>
+            <td colspan="3" style="width: 13%;">&nbsp;</td>
+            <td align="left" style="width: 47%; ">Ship To: ${record.shipaddress}</td>
+          </tr>
+          <tr>
+            <td style="width: 30%;">&nbsp;</td>
+            <td colspan="3" style="width: 30%;">&nbsp;</td>
+            <td style="width: 40%;">&nbsp;</td>
+          </tr>
+        </table>
+        <table border="0" style="width: 100%; border-collapse: collapse;">
+          <tr>
+            <td align="left" style="width: 30%;">Contact : ${record.custbody_sna_contact.entityid}</td>
+            <td colspan="3" style="width: 20%;">&nbsp;</td>
+            <td align="left" style="width: 60%; padding-left: 90px;">Payment Terms : ${record.terms}</td>
+          </tr>
+          <tr>
+            <td align="left" style="width: 30%;">Phone No. : ${record.custbody_sna_contact.phone}</td>
+            <td colspan="3" style="width: 20%;">&nbsp;</td>
+            <td align="left" style="width: 60%; padding-left: 90px;">Branch : ${record.location}</td>
+          </tr>
+          <tr>
+            <td style="width: 30%;">&nbsp;</td>
+            <td colspan="3" style="width: 30%;">&nbsp;</td>
+            <td style="width: 40%;">&nbsp;</td>
+          </tr>
+        </table>
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr>
+            <td align="left" style="width: 30%;border-top: 1px solid #000;">&nbsp;&nbsp;</td>
+            <td colspan="3" style="width: 30%;border-top: 1px solid #000;">&nbsp;&nbsp;</td>
+            <td align="left" style="width: 40%;border-top: 1px solid #000;">&nbsp;&nbsp;</td>
+          </tr>
+          <tr>
+             <td align="left" style="width: 30%;">Site Asset: ${record.custbody_nx_asset}</td>
+             <td colspan="3" style="width: 20%;">&nbsp;</td>
+             <td align="left" style="width: 60%; padding-left: 127px;">Equipment Object : <br/>${record.custbody_sna_hul_nxc_eq_asset?keep_after(":")}</td>
+          </tr>
+          <tr>
+            <td colspan="1" align="left" style="width: 30%;">Service : ${record.cseg_sna_revenue_st}</td>
+            <td colspan="3" style="width: 20%;">&nbsp;</td>
+            <td colspan="4" align="left" style="width: 60%; padding-left: 127px;">Meter :${record.custpage_meterreading}</td>
+          </tr>
+          <tr>
+            <td align="left" style="width: 30%; border-bottom: 1px solid #000000;">&nbsp;</td>
+            <td colspan="3" style="width: 30%; border-bottom: 1px solid #000000;">&nbsp;</td>
+            <td align="left" style="width: 40%; border-bottom: 1px solid #000000;">&nbsp;</td>
+          </tr>
+        </table>  
+      </macro>
+    </macrolist>
+
+    <style type="text/css">
+      body {
+        font-family: Open Sans, Helvetica, sans-serif;
+      }
+
+      table {
+        font-size: x-small;
+        width: 100%;
+      }
+
+      td {
+        padding-top: 1px;
+        padding-bottom: 1px;
+      }
+    </style>
+  </head>
+  <body header="nlheader" header-height="42%" footer="footer" footer-height="10%" padding="0.5in 0.5in 0.5in 0.5in" size="Letter">
+    <table style="width: 100%; margin-top: 10px; border-collapse: collapse; padding-top: 7px">
+      <tr>
+        <!-- <td>&nbsp;</td> -->
+        <td align="left" style="width: 30%">We are pleased to submit the following <br />cost estimate. 
+            <br />Email: <!-- ${record.custbody_sna_order_taken_by.email}  -->
+        </td>
+        <td colspan="3" style="width: 20%;">&nbsp;</td>
+        <td align="left" style="width: 60%; padding-left: 89px;">
+            Please note: <br />
+            Estimate does not include fluids, chemicals, supplies, order fees or freight costs. <br />
+            Estimate is valid for 15 days and subject to an 8% variance.
+      
+        </td>
+      </tr>
+      <tr>
+        <td align="left" style="width: 40%;  white-space: pre;">
+          ${record.message}
+        </td>
+      </tr>
+    </table>
+    <!-- start transaction header -->
+    <!-- end transaction header -->
+    <!-- start items/expenses -->
+    <!-- <span class="number">${record.item@label}</span> -->
+    <table style="width: 100%; margin-top: 10px; ">
+      <thead>
+        <tr style="font-weight: bold;">
+          <th align="left" style="border-bottom: solid #000000;border-top: solid #000000; font-size:10px">Task Code</th>
+          <th align="left" style="border-bottom: solid #000000;border-top: solid #000000;width: 300px; font-size:10px">Description</th>
+          <th align="center" style="border-bottom: solid #000000;border-top: solid #000000"></th>
+          <th align="center" style="border-bottom: solid #000000;border-top: solid #000000;"></th>
+          <th align="center" style="border-bottom: solid #000000;border-top: solid #000000;"></th>
+          <th align="right" style="border-bottom: solid #000000;border-top: solid #000000;font-size:10px">Amount</th>
+        </tr>
+      </thead>
+      <!-- start items -->
+    <#assign seen_style = []>
+
+      <#list record.item?sort_by("custcol_sna_task_code") as item>
+    <#assign groupId = item.custcol_sna_task_code>
+    <#if seen_style?seq_contains(groupId)> <#else>
+     <#assign seen_style = seen_style + [groupId]>
+        <tr>
+          <td align="left">${item.custcol_sna_task_code}</td>
+          <td align="left">${item.custcol_sna_task_description}</td>
+          <td align="left"></td>
+          <td align="left"></td>
+          <td align="left"></td>
+          <!-- <td align="left"></td> -->
+            <#assign totalItemAmount = 0>
+    <#list record.item as item>   
+    <#if item.custcol_sna_task_code == groupId >
+    <#assign itemAmount = item.amount>
+    <#assign totalItemAmount += itemAmount>     
+    </#if>
+    </#list>  
+        <td align="right">${totalItemAmount?string.currency}</td>
+        </tr>
+    <!-- <#assign totalItemAmount = 0>
+    <#list record.item as item>   
+    <#if item.custcol_sna_task_code == groupId >
+    <#assign itemAmount = item.amount>
+    <#assign totalItemAmount += itemAmount>     
+    </#if>
+    </#list>     -->
+    <!-- <tr>
+    <td align="left"></td>
+          <td align="left"></td>
+         <td align="left"></td>
+          <td align="left"></td>
+          <td align="left"></td>
+    <td align="right">${totalItemAmount?string.currency}</td>
+    </tr>    -->
+    </#if>  
+      </#list>
+    </table>
+    <table style="width: 100%;">
+      <tr>
+          <td align="left">&nbsp;</td>
+          <td align="left">&nbsp;</td>
+          <td align="center">&nbsp;</td>
+          <td align="center">&nbsp;</td>
+          <td align="right">&nbsp;</td>
+          <td align="right">&nbsp;</td>
+      </tr>
+    <tr>
+          <td align="left">&nbsp;</td>
+          <td align="left">&nbsp;</td>
+          <td align="center">&nbsp;</td>
+          <td align="center">&nbsp;</td>
+          <td align="right"><strong>Total</strong></td>
+          <td align="right">${record.subtotal}</td>
+      </tr>
+    <tr>
+          <td align="left">&nbsp;</td>
+          <td align="left">&nbsp;</td>
+          <td align="center">&nbsp;</td>
+          <td align="center">&nbsp;</td>
+          <td align="right"><strong>Tax</strong></td>
+          <td align="right" style="border-bottom: solid #000000;">${record.taxtotal}</td>
+      </tr>
+    <#assign totalorder_=record.subtotal + record.taxtotal>
+    <tr>
+          <td align="left">&nbsp;</td>
+          <td align="left">&nbsp;</td>
+          <td align="center">&nbsp;</td>
+          <td align="center">&nbsp;</td>
+          <td align="right"><strong>Total Amount Incl. Tax</strong></td>
+          <td align="right">${totalorder_?string.currency}</td>
+      </tr>
+    </table>
+    <table border="0" style="width: 100%; margin-top: 230px; margin-bottom: 10px; border-collapse: collapse;">
+      <tr style="margin-top: 10px;">
+          <td align="left" colspan="5">
+              <b>PLEASE NOTE: Quoted Prices are subject to tariff surcharge based <br />
+              on existing federal requirement in force at the time of invoice.</b>
+          </td>
+          <td align="right" colspan="6">Accepted By&nbsp; : ..........................................................................................</td>
+      </tr>
+      <tr>
+          <td align="left" colspan="5">&nbsp;</td>
+          <td align="right" colspan="6">&nbsp;</td>
+      </tr>
+      <tr>
+          <td align="left" colspan="5">&nbsp;</td>
+          <td align="right" colspan="6">Name:&nbsp; .....................................................................................................</td>
+          </tr>
+      <tr>
+          <td align="left" colspan="5">&nbsp;</td>
+          <td align="right" colspan="6">&nbsp;</td>
+      </tr>
+      <tr>
+          <td align="left" colspan="5">Your PO No.&nbsp; : ...................................................................................</td>
+          <td align="right" colspan="6">Title:&nbsp; ........................................................................................................</td>
+      </tr>
+      <tr>
+          <td align="left" colspan="5">&nbsp;</td>
+          <td align="right" colspan="6">&nbsp;</td>
+      </tr>
+      <tr>
+          <td align="left" colspan="5">Signature&nbsp;&nbsp;&nbsp;___________________________________________ X</td>
+          <td align="right" colspan="6">Date:&nbsp; .......................................................................................................</td>
+      </tr>
+    </table>
+  </body>
+</pdf>

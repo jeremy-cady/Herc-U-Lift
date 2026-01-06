@@ -1,0 +1,294 @@
+<?xml version="1.0"?>
+<!DOCTYPE pdf PUBLIC "-//big.faceless.org//report" "report-1.1.dtd">
+<pdf>
+    <head>
+        <link name="NotoSans" type="font" subtype="truetype" src="${nsfont.NotoSans_Regular}"
+              src-bold="${nsfont.NotoSans_Bold}" src-italic="${nsfont.NotoSans_Italic}"
+              src-bolditalic="${nsfont.NotoSans_BoldItalic}" bytes="2"/>
+        <#if .locale=="zh_CN">
+        <link name="NotoSansCJKsc" type="font" subtype="opentype" src="${nsfont.NotoSansCJKsc_Regular}"
+              src-bold="${nsfont.NotoSansCJKsc_Bold}" bytes="2"/>
+        <#elseif .locale=="zh_TW">
+        <link name="NotoSansCJKtc" type="font" subtype="opentype" src="${nsfont.NotoSansCJKtc_Regular}"
+              src-bold="${nsfont.NotoSansCJKtc_Bold}" bytes="2"/>
+        <#elseif .locale=="ja_JP">
+        <link name="NotoSansCJKjp" type="font" subtype="opentype" src="${nsfont.NotoSansCJKjp_Regular}"
+              src-bold="${nsfont.NotoSansCJKjp_Bold}" bytes="2"/>
+        <#elseif .locale=="ko_KR">
+        <link name="NotoSansCJKkr" type="font" subtype="opentype" src="${nsfont.NotoSansCJKkr_Regular}"
+              src-bold="${nsfont.NotoSansCJKkr_Bold}" bytes="2"/>
+        <#elseif .locale=="th_TH">
+        <link name="NotoSansThai" type="font" subtype="opentype" src="${nsfont.NotoSansThai_Regular}"
+              src-bold="${nsfont.NotoSansThai_Bold}" bytes="2"/>
+    </#if>
+    <macrolist>
+        <macro id="nlheader">
+            <table border="0" style="border-collapse: collapse; width: 100%;display: block;">
+                <tr>
+                    <td colspan="3" style="width: 37.5%;">
+                        <img height="50%"
+                             src="https://6952227-sb1.app.netsuite.com/core/media/media.nl?id=11&amp;c=6952227_SB1&amp;h=_yJMy7DSQDrilIpPJK1nQb_qIKA-jOoUGXsfiVQpE8KqWzPi"
+                             style="float: center;" width="50%"/>
+                    </td>
+                    <td align="center" colspan="2" style="width: auto;">
+                        <p style="text-align: center;">PO Box 69<br/>5655 Hwy 12 W<br/>Maple Plain MN 55359<br/>Toll
+                            Free: 800-362-3500<br/>Phone: 763-479-2501<br/>Fax: 763-479-1061
+                        </p>
+                    </td>
+                    <td colspan="3" style="width: 37.5%;" align="center">
+                        <img height="50%"
+                             src="https://6952227-sb1.app.netsuite.com/core/media/media.nl?id=2094&amp;c=6952227_SB1&amp;h=Lfa0Rnma72l3wnBJKTQn1INzXINYQkisNCdBRUGTv7yjgnKZ"
+                             style="float: center; width: 50%;"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="width: 37.5%;">&nbsp;</td>
+                    <td align="center" colspan="2" style="width: auto;">&nbsp;</td>
+                    <td colspan="3" style="width: 37.5%;">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="width: 37.5%;">&nbsp;</td>
+                    <td align="center" colspan="2" style="width: auto;">&nbsp;</td>
+                    <td colspan="3" style="width: 37.5%;">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="width: 12.5%;">&nbsp;</td>
+                    <td colspan="2" style="width: 25%; align: center;">
+                        <p>Des Moines IA<br/>515-964-9273
+                        </p>
+                    </td>
+                    <td colspan="2" style="width: 25%; align: center;">www.herculift.com</td>
+                    <td colspan="2" style="width: 25%; align: center;">
+                        <p>Sioux Falls SD<br/>605-332-4755
+                        </p>
+                    </td>
+                    <td style="width: 12.5%;">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td align="center" style="width: 12.5%;">Maple Plain MN<br/>763-479-2501
+                    </td>
+                    <td align="center" style="width: 12.5%;">Grand Rapids MN<br/>218-326-0539
+                    </td>
+                    <td align="center" style="width: 12.5%;">St. Cloud MN<br/>320-251-9001
+                    </td>
+                    <td align="center" style="width: 12.5%;">Fargo ND<br/>701-219-5811
+                    </td>
+                    <td align="center" style="width: 12.5%;">Minot ND<br/>701-839-5820
+                    </td>
+                    <td align="center" style="width: 12.5%;">Williston ND<br/>701-572-4660
+                    </td>
+                    <td align="center" style="width: 12.5%;">Boscobel WI<br/>888-244-6802
+                    </td>
+                    <td align="center" style="width: 12.5%;">Milwaukee WI<br/>262-785-9890
+                    </td>
+                </tr>
+            </table>
+
+
+
+                <table border="0" style="border-collapse: collapse; width: 100%;">
+                    <tbody>
+                        <tr>
+                            <td style="width: 30%;" colspan="3">&nbsp;</td>
+                            <td style="width: 40%;" colspan="3">&nbsp;</td>
+                            <td style="width: 30%;" colspan="3">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 30%;" colspan="3">&nbsp;</td>
+                            <td style="width: 40%;" colspan="3"><p style="text-align: center;font-size: 14px;">Parts Estimate</p></td>
+                            <td style="width: 30%;" colspan="3">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 30%;" colspan="3">Date: ${record.trandate}</td>
+                            <td style="width: 40%;" colspan="3">&nbsp;</td>
+                            <td style="width: 30%;" colspan="3"><p style="text-align: left;">Order No: ${record.tranid}<br/>Page: <pagenumber/></p></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+                <table border="0" style="border-collapse: collapse; width: 100%;">
+                    <tbody>
+                        <tr>
+                            <td style="width: 30%;" colspan="3">&nbsp;</td>
+                            <td style="width: 40%;" colspan="3">&nbsp;</td>
+                            <td style="width: 30%;" colspan="3">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 30%;" colspan="3"><p style="text-align: left; font-weight: bold;">Bill To:</p>${record.billaddress}</td>
+                            <td style="width: 40%;" colspan="3">&nbsp;</td>
+                            <td style="width: 30%;" colspan="3"><p style="text-align: left; font-weight: bold;">Ship To:</p>${record.shipaddress}</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+            </macro>
+            <macro id="nlfooter">
+<!--            <table class="footer"><tr>-->
+<!--                <td align="right"><pagenumber/> of <totalpages/></td>-->
+<!--            </tr></table>-->
+            </macro>
+        </macrolist>
+        <style type="text/css">
+            body{font-family: Open Sans,Helvetica,sans-serif;}
+            table{font-size:x-small;text-align:center;width: 100%;}
+            td{padding-top: 1px;padding-bottom: 1px;}
+            td p { align: center }
+        </style>
+    </head>
+
+<body header="nlheader" header-height="27.5%" footer="nlfooter" footer-height="10pt" padding="0.5in 0.5in 0.5in 0.5in" size="Letter">
+<!-- start transaction header -->
+
+<!-- end transaction header --><!-- start items/expenses -->
+<#if (record.item?is_collection && record.item?has_content) || (record.expense?is_collection && record.expense?has_content)><#if (record.item?is_collection && record.item?has_content) && (record.expense?is_collection && record.expense?has_content)><!-- both items and expenses machine have content --><span class="number">${record.item@label}/${record.expense@label}</span>
+
+    <table class="itemtable" style="width: 100%; margin-top: 10px;">
+        <thead>
+            <tr>
+                <th style="border-bottom: solid #000000;" colspan="2">${record.item[0].item@label}/${record.expense[0].account@label}</th>
+                <th>${record.item[0].quantity@label}</th>
+                <th style="border-bottom: solid #000000;" align="right">${record.item[0].taxrate1@label}</th>
+                <#if record.item[0].tax1amt@label?length != 0>
+                    <th style="border-bottom: solid #000000;" align="right">${record.item[0].tax1amt@label}</th>
+                </#if>
+                <#if record.item[0].taxrate2@label?length != 0>
+                    <th style="border-bottom: solid #000000;" align="right">${record.item[0].taxrate2@label}</th>
+                </#if>
+                <th style="border-bottom: solid #000000;" align="right">${record.item[0].rate@label}</th>
+                <th style="border-bottom: solid #000000;" align="right">${record.item[0].amount@label}</th>
+            </tr>
+        </thead>
+
+        <!-- start items -->
+        <#list record.item as item>
+            <tr>
+                <td colspan="2">${item.item}</td>
+                <td>${item.quantity}</td>
+                <td align="right">${item.taxrate1}</td>
+                <#if item.tax1amt?has_content>
+                    <td align="right">${item.tax1amt}</td>
+                </#if>
+                <#if item.taxrate2?has_content>
+                    <td align="right">${item.taxrate2}</td>
+                </#if>
+                <td align="right">${item.rate}</td>
+                <td align="right">${item.amount}</td>
+            </tr>
+        </#list>
+
+        <!-- start expenses -->
+        <#list record.expense as expense>
+            <tr>
+                <td colspan="2">${expense.account}</td>
+                <td>&nbsp;</td>
+                <!-- expenses don't have quantities -->
+                <td align="right">${expense.taxrate1}</td>
+                <#if expense.tax1amt?has_content>
+                <td align="right">${expense.tax1amt}</td>
+                </#if><#if expense.taxrate2?has_content>
+                <td align="right">${expense.taxrate2}</td>
+                        </#if>
+                <td>&nbsp;</td>
+                        <!-- expenses don't have rates -->
+                <td align="right">${expense.amount}</td>
+            </tr>
+        </#list>
+    </table>
+<#elseif record.item?is_collection && record.item?has_content> <!-- only items machine have content -->
+    <span class="number">${record.item@label}</span>
+
+    <table class="itemtable" style="width: 100%; margin-top: 10px;">
+        <thead>
+            <tr>
+                <th style="border-bottom: solid #000000;" colspan="2">${record.item[0].item@label}</th>
+                <th style="border-bottom: solid #000000;">${record.item[0].quantity@label}</th>
+
+                <th style="border-bottom: solid #000000;" align="right">${record.item[0].taxrate1@label}</th>
+                <#if record.item[0].tax1amt@label?length != 0>
+                <th style="border-bottom: solid #000000;" align="right">${record.item[0].tax1amt@label}</th>
+                </#if><#if record.item[0].taxrate2@label?length != 0>
+                    <th style="border-bottom: solid #000000;" align="right">${record.item[0].taxrate2@label}</th>
+                </#if>
+                <th style="border-bottom: solid #000000;" align="right">${record.item[0].rate@label}</th>
+                <th style="border-bottom: solid #000000;" align="right">${record.item[0].amount@label}</th>
+
+            </tr>
+        </thead>
+
+        <!-- start items -->
+        <#list record.item as item>
+            <tr>
+                <td colspan="2">${item.item}</td>
+                <td>${item.quantity}</td>
+
+                <td align="right">${item.taxrate1}</td>
+                <#if item.tax1amt?has_content>
+                    <td align="right">${item.tax1amt}</td>
+                </#if>
+                <#if item.taxrate2?has_content>
+                    <td align="right">${item.taxrate2}</td>
+                </#if>
+                <td align="right">${item.rate}</td>
+                <td align="right">${item.amount}</td>
+
+            </tr>
+        </#list>
+    </table>
+<#else> <!-- only expenses machine have content -->
+    <span class="number">${record.expense@label}</span>
+
+    <table class="itemtable" style="width: 100%; margin-top: 10px;">
+    <thead>
+        <tr>
+            <th style="border-bottom: solid #000000;" colspan="2">${record.expense[0].account@label}</th>
+            <th style="border-bottom: solid #000000;" align="right">${record.expense[0].taxrate1@label}</th>
+            <#if record.expense[0].tax1amt@label?length != 0>
+                <th style="border-bottom: solid #000000;" align="right">${record.expense[0].tax1amt@label}</th>
+            </#if>
+        <#if record.expense[0].taxrate2@label?length != 0>
+            <th style="border-bottom: solid #000000;" align="right">${record.expense[0].taxrate2@label}</th>
+        </#if>
+        <th style="border-bottom: solid #000000;" align="right">${record.expense[0].amount@label}</th>
+        </tr>
+        </thead>
+        <!-- start expenses -->
+        <#list record.expense as expense>
+            <tr>
+                <td colspan="2">${expense.account}</td>
+                <td align="right">${expense.taxrate1}</td>
+                <#if expense.tax1amt?has_content>
+                    <td align="right">${expense.tax1amt}</td>
+                </#if>
+                <#if expense.taxrate2?has_content>
+                    <td align="right">${expense.taxrate2}</td>
+                </#if>
+                <td align="right">${expense.amount}</td>
+            </tr>
+        </#list>
+    </table>
+</#if>
+
+<hr /> <!-- start items/expenses total -->
+<table class="total" style="width: 100%; margin-top: 10px;">
+    <#if record.taxtotal?has_content>
+        <tr>
+            <td colspan="4">&nbsp;</td>
+            <th align="right">${record.taxtotal@label}</th>
+            <td align="right">${record.taxtotal}</td>
+        </tr>
+    </#if>
+    <#if record.tax2total?has_content>
+        <tr>
+            <td colspan="4">&nbsp;</td>
+            <th align="right">${record.tax2total@label}</th>
+            <td align="right">${record.tax2total}</td>
+        </tr>
+    </#if>
+
+</table>
+<!-- end items/expenses total -->
+</#if> <!-- end items/expenses -->
+    </body>
+</pdf>

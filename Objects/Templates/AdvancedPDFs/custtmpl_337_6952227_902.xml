@@ -1,0 +1,9 @@
+<advancedpdftemplate scriptid="custtmpl_337_6952227_902" standard="STDTMPLCUSTINVC">
+  <description></description>
+  <displaysourcecode>T</displaysourcecode>
+  <isinactive>F</isinactive>
+  <preferred>F</preferred>
+  <printtype>TRANSACTION</printtype>
+  <title>SNA - Lease Invoice PDF/HTML Template (New)</title>
+  <trantype>CUSTINVC</trantype>
+</advancedpdftemplate>

@@ -1,0 +1,129 @@
+WITH MostRecentTask AS (
+    SELECT
+        t.company AS project_id,
+        t.id AS recent_task_id,
+        t.custevent_nx_start_date AS recent_task_start_date,
+        t.custevent_nx_end_date AS recent_task_end_date
+    FROM
+        task t
+    WHERE
+        t.custevent_nx_end_date < CURRENT_DATE
+        AND t.status = 'COMPLETE'
+        AND t.custevent_nx_end_date = (
+            SELECT MAX(t2.custevent_nx_end_date)
+            FROM task t2
+            WHERE t2.company = t.company
+            AND t2.custevent_nx_end_date < CURRENT_DATE
+            AND t2.status = 'COMPLETE'
+        )
+),
+NextUpcomingTask AS (
+    SELECT
+        t.company AS project_id,
+        t.id AS future_task_id,
+        t.custevent_nx_start_date AS future_task_start_date,
+        t.custevent_nx_end_date AS future_task_end_date
+    FROM
+        task t
+    WHERE
+        t.custevent_nx_start_date > CURRENT_DATE
+        AND t.custevent_nx_start_date = (
+            SELECT MIN(t2.custevent_nx_start_date)
+            FROM task t2
+            WHERE t2.company = t.company
+            AND t2.custevent_nx_start_date > CURRENT_DATE
+        )
+),
+MaintenanceRecords AS (
+    SELECT
+        mr.custrecord_nxc_mr_task AS task_id,
+        mr.id AS maintenance_record_id,
+        CASE 
+            WHEN NOT REGEXP_LIKE(mr.custrecord_nxc_mr_field_222, '^\d+(\.\d{1,})?$') THEN NULL
+            ELSE mr.custrecord_nxc_mr_field_222 -- Include valid numeric or decimal values
+        END AS maintenance_hours
+    FROM
+        customrecord_nxc_mr mr
+),
+MostRecentHourMeter AS (
+    SELECT 
+        chm.custrecord_sna_hul_object_ref AS object_id,
+        chm.created AS last_reading_date,
+        CASE 
+            WHEN NOT REGEXP_LIKE(chm.custrecord_sna_hul_actual_reading, '^[0-9.]+$') THEN NULL
+            ELSE chm.custrecord_sna_hul_actual_reading -- Include valid numeric values
+        END AS last_reading
+    FROM 
+        customrecord_sna_hul_hour_meter chm
+    WHERE 
+        chm.created = (
+            SELECT MAX(chm2.created)
+            FROM customrecord_sna_hul_hour_meter chm2
+            WHERE chm2.custrecord_sna_hul_object_ref = chm.custrecord_sna_hul_object_ref
+        )
+)
+SELECT
+    j.custentity_hul_nxc_eqiup_asset AS equipment_id,
+    j.custentity_hul_nxc_equip_object AS equipment_object,
+    j.id AS project_id,
+    j.cseg_sna_revenue_st AS revenue_stream_id,
+    CASE 
+        WHEN j.cseg_sna_revenue_st = 263 THEN 'PM'
+        WHEN j.cseg_sna_revenue_st = 18 THEN 'AN'
+        WHEN j.cseg_sna_revenue_st = 19 THEN 'CO'
+        ELSE 'Other'
+    END AS revenue_stream,
+    CASE 
+        WHEN j.custentity_nx_project_type = 4 THEN 'PM 30D'
+        WHEN j.custentity_nx_project_type = 5 THEN 'PM 60D'
+        WHEN j.custentity_nx_project_type = 6 THEN 'PM 90D'
+        WHEN j.custentity_nx_project_type = 7 THEN 'PM 120D'
+        WHEN j.custentity_nx_project_type = 8 THEN 'PM 180D'
+        WHEN j.custentity_nx_project_type = 12 THEN 'PM 240D'
+        WHEN j.custentity_nx_project_type = 13 THEN 'PM 270D'
+        WHEN j.custentity_nx_project_type = 14 THEN 'PM 360D'
+        WHEN j.custentity_nx_project_type = 15 THEN 'PM 720D'
+        WHEN j.custentity_nx_project_type = 10 THEN 'PM Daily'
+        ELSE 'Other'
+    END AS type,
+    CASE 
+        WHEN j.custentity_nx_project_type IN (4, 5, 6, 7, 8, 12, 13, 14, 15) THEN
+            CASE j.custentity_nx_project_type
+                WHEN 4 THEN '30 days'
+                WHEN 5 THEN '60 days'
+                WHEN 6 THEN '90 days'
+                WHEN 7 THEN '120 days'
+                WHEN 8 THEN '180 days'
+                WHEN 12 THEN '240 days'
+                WHEN 13 THEN '270 days'
+                WHEN 14 THEN '360 days'
+                WHEN 15 THEN '720 days'
+            END
+        ELSE ''
+    END AS frequency,
+    mrt.recent_task_id AS recent_task_id,
+    mrt.recent_task_start_date AS recent_task_start_date,
+    mrt.recent_task_end_date AS recent_task_end_date,
+    nut.future_task_id AS future_task_id,
+    nut.future_task_start_date AS future_task_start_date,
+    nut.future_task_end_date AS future_task_end_date,
+    mr.maintenance_record_id AS maintenance_record_id,
+    mr.maintenance_hours AS maintenance_hours,
+    mrt.recent_task_start_date AS maintenance_hours_date,
+    hr.last_reading AS current_hours,
+    hr.last_reading_date AS current_hours_date
+FROM
+    job j
+LEFT JOIN MostRecentTask mrt
+    ON j.id = mrt.project_id
+LEFT JOIN NextUpcomingTask nut
+    ON j.id = nut.project_id
+LEFT JOIN MaintenanceRecords mr
+    ON mrt.recent_task_id = mr.task_id
+LEFT JOIN MostRecentHourMeter hr
+    ON j.custentity_hul_nxc_equip_object = hr.object_id
+WHERE
+    j.cseg_sna_revenue_st IN (263, 18, 19) -- Filter for specified revenue streams
+    AND j.custentity_nx_project_type IN (4, 5, 6, 7, 8, 12, 13, 14, 15, 10)
+ORDER BY
+    j.custentity_hul_nxc_eqiup_asset ASC;

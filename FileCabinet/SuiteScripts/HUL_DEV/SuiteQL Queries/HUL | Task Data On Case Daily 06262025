@@ -1,0 +1,39 @@
+SELECT 
+	sc.id AS caseid,
+     	t1.id AS currenttaskid,
+        t1.custevent_nx_start_date AS currenttaskstartdate,
+        t1.custevent_nx_end_date AS currenttaskenddate,
+        t1.custevent_nxc_task_result AS currenttaskresult,
+        t1.status AS currenttaskstatus,
+        t1.custevent_nxc_internal_note AS currenttasknote,
+        t1.custevent_nx_actions_taken AS currenttaskaction,
+        t1.assigned AS currenttaskassignedto,
+        t2.id AS previoustaskid,
+        t2.custevent_nx_start_date AS previoustaskstartdate,
+        t2.custevent_nx_end_date AS previoustaskenddate,
+        t2.custevent_nxc_task_result AS previoustaskresult,
+        t2.status AS previoustaskstatus,
+        t2.custevent_nxc_internal_note AS previoustasknote,
+        t2.custevent_nx_actions_taken AS previoustaskaction,
+        t2.assigned AS previoustaskassignedto
+FROM 
+        supportcase sc
+        LEFT JOIN (
+           	SELECT *,
+                    ROW_NUMBER() OVER (PARTITION BY supportcase ORDER BY id DESC) as rn
+                FROM task t 
+                WHERE supportcase IS NOT NULL
+      	) t1 ON sc.id = t1.supportcase AND t1.rn = 1
+      	LEFT JOIN (
+          	 SELECT *,
+                    ROW_NUMBER() OVER (PARTITION BY supportcase ORDER BY id DESC) as rn
+                FROM task 
+                WHERE supportcase IS NOT NULL
+       	) t2 ON sc.id = t2.supportcase AND t2.rn = 2
+WHERE 
+   	sc.custevent_hul_current_task_number IS NULL
+	AND t1.id IS NOT NULL
+	AND sc.id >= 185000
+	AND sc.id <= 300000
+ORDER BY sc.id ASC
+

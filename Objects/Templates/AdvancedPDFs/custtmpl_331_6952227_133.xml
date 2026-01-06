@@ -1,0 +1,10 @@
+<advancedpdftemplate scriptid='custtmpl_331_6952227_133' standard='STDTMPLSTATEMENT'>
+  <description>- SNA Customer Statement&#xd;
+- Test template by lin, 06.07.2024</description>
+  <displaysourcecode>T</displaysourcecode>
+  <isinactive>T</isinactive>
+  <preferred>F</preferred>
+  <printtype>STATEMENT</printtype>
+  <title>SNA HUL Customer Statement (Updated) - Lin</title>
+  <trantype>CUSTINVC</trantype>
+</advancedpdftemplate>

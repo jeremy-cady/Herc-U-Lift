@@ -1,0 +1,308 @@
+<?xml version="1.0"?>
+<!DOCTYPE pdf PUBLIC "-//big.faceless.org//report" "report-1.1.dtd">
+<pdf>
+    <head>
+      <#assign font_fredoka_regular = "https://6952227.app.netsuite.com/core/media/media.nl?id=5674947&c=6952227&h=d4t0O7jz6DEhpqReoaPi1PyZzuVYQAsyJYRPLwEUeOfc5p44&_xt=.ttf" />
+
+        <link type="font" name="Fredoka" subtype="TrueType" src="${font_fredoka_regular?html}" />
+            <link name="NotoSans" type="font" subtype="truetype" src="${nsfont.NotoSans_Regular}"
+                src-bold="${nsfont.NotoSans_Bold}" src-italic="${nsfont.NotoSans_Italic}"
+                src-bolditalic="${nsfont.NotoSans_BoldItalic}" bytes="2"/>
+            <#if .locale=="zh_CN">
+            <link name="NotoSansCJKsc" type="font" subtype="opentype" src="${nsfont.NotoSansCJKsc_Regular}"
+                src-bold="${nsfont.NotoSansCJKsc_Bold}" bytes="2"/>
+            <#elseif .locale=="zh_TW">
+            <link name="NotoSansCJKtc" type="font" subtype="opentype" src="${nsfont.NotoSansCJKtc_Regular}"
+                src-bold="${nsfont.NotoSansCJKtc_Bold}" bytes="2"/>
+            <#elseif .locale=="ja_JP">
+            <link name="NotoSansCJKjp" type="font" subtype="opentype" src="${nsfont.NotoSansCJKjp_Regular}"
+                src-bold="${nsfont.NotoSansCJKjp_Bold}" bytes="2"/>
+            <#elseif .locale=="ko_KR">
+            <link name="NotoSansCJKkr" type="font" subtype="opentype" src="${nsfont.NotoSansCJKkr_Regular}"
+                src-bold="${nsfont.NotoSansCJKkr_Bold}" bytes="2"/>
+            <#elseif .locale=="th_TH">
+            <link name="NotoSansThai" type="font" subtype="opentype" src="${nsfont.NotoSansThai_Regular}"
+                src-bold="${nsfont.NotoSansThai_Bold}" bytes="2"/>
+        </#if>
+        <macrolist>
+            <macro id="nlheader">
+                <table border="0" style="border-collapse: collapse; width: 100%;display: block;">
+                    <tr>
+                        <td colspan="3" style="width: 37.5%;">
+                            <img height="50%"
+                                src="https://6952227-sb1.app.netsuite.com/core/media/media.nl?id=11&amp;c=6952227_SB1&amp;h=_yJMy7DSQDrilIpPJK1nQb_qIKA-jOoUGXsfiVQpE8KqWzPi"
+                                style="float: center;" width="50%"/>
+                            </td>
+                            <td align="center" colspan="2" style="width: auto;">
+                                <p style="text-align: center;">PO Box 69<br/>5655 Hwy 12 W<br/>Maple Plain MN 55359<br/>Toll
+                                    Free: 800-362-3500<br/>Phone: 763-479-2501<br/>Fax: 763-479-1061
+                                </p>
+                            </td>
+                            <td colspan="3" style="width: 37.5%;" align="center">
+                                <img height="50%"
+                                    src="https://6952227-sb1.app.netsuite.com/core/media/media.nl?id=2094&amp;c=6952227_SB1&amp;h=Lfa0Rnma72l3wnBJKTQn1INzXINYQkisNCdBRUGTv7yjgnKZ"
+                                    style="float: center; width: 50%;"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="width: 37.5%;">&nbsp;</td>
+                            <td align="center" colspan="2" style="width: auto;">&nbsp;</td>
+                            <td colspan="3" style="width: 37.5%;">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="width: 37.5%;">&nbsp;</td>
+                            <td align="center" colspan="2" style="width: auto;">&nbsp;</td>
+                            <td colspan="3" style="width: 37.5%;">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 12.5%;">&nbsp;</td>
+                            <td colspan="2" style="width: 25%; align: center;">
+                                <p>Des Moines IA<br/>515-964-9273
+                                </p>
+                            </td>
+                            <td colspan="2" style="width: 25%; align: center;">www.herculift.com</td>
+                            <td colspan="2" style="width: 25%; align: center;">
+                                <p>Sioux Falls SD<br/>605-332-4755
+                                </p>
+                            </td>
+                            <td style="width: 12.5%;">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td align="center" style="width: 12.5%;">Maple Plain MN<br/>763-479-2501
+                            </td>
+                            <td align="center" style="width: 12.5%;">Grand Rapids MN<br/>218-326-0539
+                            </td>
+                            <td align="center" style="width: 12.5%;">St. Cloud MN<br/>320-251-9001
+                            </td>
+                            <td align="center" style="width: 12.5%;">Fargo ND<br/>701-219-5811
+                            </td>
+                            <td align="center" style="width: 12.5%;">Minot ND<br/>701-839-5820
+                            </td>
+                            <td align="center" style="width: 12.5%;">Williston ND<br/>701-572-4660
+                            </td>
+                            <td align="center" style="width: 12.5%;">Boscobel WI<br/>888-244-6802
+                            </td>
+                            <td align="center" style="width: 12.5%;">Milwaukee WI<br/>262-785-9890
+                            </td>
+                        </tr>
+                    </table>
+                    <table border="0" style="border-collapse: collapse; width: 100%;">
+                        <tr>
+                            <td colspan="3" style="width: 30%;">&nbsp;</td>
+                            <td colspan="3" style="width: 40%;">&nbsp;</td>
+                            <td colspan="3" style="width: 30%;">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td align="left" colspan="3" style="width: 30%;">
+                                <p style="text-align: left;">Invoice Date:&nbsp; ${record.trandate}<br />
+                                    Payment Due Date:&nbsp; ${record.duedate}
+                                </p>
+                            </td>
+                            <td align="center" colspan="3" style="width: 40%;">
+                                <p style="text-align: center;font-size: 12px; font-weight: bold;">Finance Charge Invoice</p>
+                            </td>
+                            <td colspan="3" style="width: 30%; align: right">
+                                <p style="text-align: right;">Document No: &nbsp; ${record.tranid}<br/>Page:
+                                    <pagenumber/>
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                    <table border="0" style="border-collapse: collapse; width: 100%;">
+                        <tr>
+                            <td colspan="3" style="width: 30%;">&nbsp;</td>
+                            <td colspan="3" style="width: 40%;">&nbsp;</td>
+                            <td colspan="3" style="width: 30%;">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td align="left" colspan="3" style="width: 30%;">
+                                <p style="text-align: left; font-weight: bold;">Bill To: ${record.entity.entityid}</p>
+                                <p style="text-align: left;">${record.billaddress}</p>
+                            </td>
+                            <td colspan="3" style="width: 40%;">&nbsp;</td>
+                            <td align="left" colspan="3" style="width: 30%;">
+                                <p style="text-align: left; font-weight: bold;">Ship To: ${record.entity.entityid}</p>
+                                <p style="text-align: left;">${record.shipaddress}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="width: 30%;">&nbsp;</td>
+                            <td colspan="3" style="width: 40%;">&nbsp;</td>
+                            <td colspan="3" style="width: 30%;">&nbsp;</td>
+                        </tr>
+                    </table>
+                    <table border="0" style="border-collapse: collapse; width: 100%;">
+                        <tr>
+                            <td align="left" style="width: 50%;">Customer PO No.: ${record.otherrefnum}</td>
+                            <td align="left" style="width: 50%;padding-left: 138px;">Payment Terms : ${record.terms}</td>
+                        </tr>
+                        <tr>
+                            <td align="left" style="width: 50%;">Contact : ${record.custbody_sna_contact.entityid}</td>
+                            <td align="left" style="width: 50%;padding-left: 138px;">Branch :
+                                ${record.location.custrecord_hul_code}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left" style="width: 50%;">Phone No. : ${record.custbody_sna_contact.phone}</td>
+                            <td align="left" style="width: 50%;padding-left: 138px;">Shipment Method : ${record.shipmethod}</td>
+
+                        </tr>
+                        <tr>
+                            <td align="left" style="width: 50%;">&nbsp;</td>
+                            <td align="left" style="width: 50%;padding-left: 138px;">Salesrep : ${record.salesrep}</td>
+                        </tr>
+                    </table>
+                </macro>
+            <macro id="nlfooter">
+                <table border="0" id="footer">
+                    <tr>
+                        <td align="left" colspan="3">
+                            NO RETURNS AFTER 30 DAYS.
+                        </td>
+                        <td align="center" colspan="2">&nbsp;</td>
+                        <td align="right" colspan="5">
+                            Finance charge of 1.5% (18% APR) assessed on all past-due invoices.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" colspan="10">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td align="left" colspan="10">
+                            Return Goods Authorization (RGA) number is required on all returns. All returns subject to a minimum
+                            of a 25% restocking charge.
+                            No returns on electrical parts. Returns must be accompanied with a copy of Original Invoice or
+                            Packing Slip. No claims for shortag allowed after 7 days.
+                            All returns must show RGA number on box or they will be refused. No returns on special order parts.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" colspan="10">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td align="left" colspan="10">
+                            <b>To make a secure payment, view your billing activity and to manage your payment methods please log into your account at </b>
+                            <link href="https://secure.versapay.com">
+                                <font color="#0000FF"><u>https://secure.versapay.com</u></font>
+                            </link>
+                            <b>. If you need help accessing your account or want to make a payment with our customer service team,
+                            please contact us at (763) 479-2501, option 5 or by email at AR@herculift.com.</b>
+                        </td>
+                    </tr>
+                </table>
+            </macro>
+        </macrolist>
+        <style type="text/css">
+            body {
+            font-family: Open Sans, Helvetica, sans-serif;
+            }
+
+            table {
+            font-size: x-small;
+            text-align: center;
+            width: 100%;
+            }
+
+            td {
+            padding-top: 1px;
+            padding-bottom: 1px;
+            }
+        </style>
+    </head>
+    <body header="nlheader" header-height="45%" footer="nlfooter" footer-height="10%" padding="0.5in 0.5in 0.5in 0.5in"
+        size="Letter">
+        <!-- start transaction header -->
+        <!-- end transaction header -->
+        <!-- start items/expenses -->
+        <table style="width: 100%; margin-top: 10px;">
+            <thead>
+                <tr>
+                    <th align="left" style="border-bottom: solid #000000;border-top: solid #000000;">Item No.</th>
+                    <th align="left" style="border-bottom: solid #000000;border-top: solid #000000;width: 150px;">Description
+                    </th>
+                    <th align="left" style="border-bottom: solid #000000;border-top: solid #000000;">Make</th>
+                    <th align="left" style="border-bottom: solid #000000;border-top: solid #000000;">Model</th>
+                    <th align="left" style="border-bottom: solid #000000;border-top: solid #000000;">Serial No</th>
+                    <th align="left" style="border-bottom: solid #000000;border-top: solid #000000;">Fleet Code</th>
+                    <th align="right" style="border-bottom: solid #000000;border-top: solid #000000;width: 50px;">Qty Ord</th>
+                    <th align="right" style="border-bottom: solid #000000;border-top: solid #000000;">EA</th>
+                    <th align="right" style="border-bottom: solid #000000;border-top: solid #000000;">Amount</th>
+                </tr>
+            </thead>
+    <!-- start items -->
+        <#assign internalamt = 0 />
+        <#assign internaltaxamt = 0 />
+        <#list record.item as item>
+        <#if !item.custcol_sna_do_not_print && !item.custcol_sna_default_rev_stream>
+            <tr>
+                <td align="left">${item.item}</td>
+                <td align="left">
+                    <p style="width:150px">${item.description}</p>
+                </td>
+                <!-- Make -->
+                <td align="left">${item.cseg_hul_mfg}</td>
+                <!--Model-->
+                <td align="left">${item.custcol_sna_hul_obj_model}</td>
+                <!--Serial No-->
+                <td align="left">${item.custcol_sna_obj_serialno}</td>
+                <!--Fleet Code-->
+                <td align="left">${item.custcol_sna_hul_fleet_no}</td>
+                <td align="right" width="50px">${item.quantity}</td>
+                <!--        <td align="center">${item.quantityfulfilled}</td>-->
+                <!--        <td align="center">${item.quantitybackordered}</td>-->
+                <td align="right">${item.rate}</td>
+                <td align="right">${item.amount}</td>
+            </tr>
+        <#else>
+        <#assign internalamt = internalamt + item.amount />
+        <#assign internaltaxamt = internaltaxamt + item.custcol_ava_taxamount />
+        </#if>
+        </#list>
+        </table>
+        <table class="total" style="width: 100%; ">
+            <tr>
+                <td colspan="4">&nbsp;</td>
+                <th align="right">&nbsp;</th>
+                <td align="right">&nbsp;</td>
+            </tr>
+        <#assign subtotaltotalorder_= record.subtotal - internalamt>
+        <#assign taxtotalorder_= record.taxtotal - internaltaxamt>
+            <tr>
+                <td colspan="4">&nbsp;</td>
+                <th align="right">${record.subtotal@label}</th>
+                <!-- <td align="right">${record.subtotal}</td> -->
+                <td align="right">${subtotaltotalorder_?string.currency}</td>
+            </tr>
+            <tr>
+                <td colspan="4">&nbsp;</td>
+                <th align="right" style="text">Sales Tax</th>
+                <!--  <td align="right" style="border-bottom: solid #000000;">${record.taxtotal}</td> -->
+                <td align="right" style="border-bottom: solid #000000;">${taxtotalorder_?string.currency}</td>
+            </tr>
+        <#assign totalorderr_= subtotaltotalorder_ + taxtotalorder_>
+            <tr>
+                <td colspan="4">&nbsp;</td>
+                <th align="right">
+                    <strong>Total Invoice</strong>
+                </th>
+                <td align="right">${totalorderr_?string.currency}</td>
+            </tr>
+        <#assign totalamtapplied = totalorderr_ + internalamt + internaltaxamt - record.amountremaining>
+            <tr>
+                <td colspan="4">&nbsp;</td>
+                <th align="right">
+                    <strong>Total Amount Applied</strong>
+                </th>
+                <td align="right" style="border-bottom: solid #000000;">${totalamtapplied?string.currency}</td>
+            </tr>
+            <tr>
+                <td colspan="4">&nbsp;</td>
+                <th align="right">
+                    <strong>Total Amount Due</strong>
+                </th>
+                <td align="right">${record.amountremaining}</td>
+            </tr>
+        </table>
+        <!-- end items/expenses total -->      
+    </body>
+</pdf>

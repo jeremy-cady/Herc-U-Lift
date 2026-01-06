@@ -1,0 +1,20 @@
+SELECT
+	t.id			AS task_id,
+	t.startdate	AS task_start_date
+FROM
+	task t
+ LEFT JOIN job j
+	ON j.id = t.company	
+WHERE
+	t.startdate > CURRENT_DATE
+	AND t.createddate = (
+		SELECT
+			MIN(t2.createddate),
+		FROM
+			task t2	
+		WHERE 
+			t2.company = '147446'
+			AND t2.status = 'NOTSTART'
+	)
+	AND j.custentity_nx_project_type IN (4,5,6,7,8,10,12,13,14,15)
+	AND j.cseg_sna_revenue_st IN (18,19,263) 

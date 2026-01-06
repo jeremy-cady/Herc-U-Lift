@@ -1,0 +1,368 @@
+<?xml version="1.0"?><!DOCTYPE pdf PUBLIC "-//big.faceless.org//report" "report-1.1.dtd"><#if record??>
+<pdf>
+<head>
+	<link name="NotoSans" type="font" subtype="truetype" src="${nsfont.NotoSans_Regular}" src-bold="${nsfont.NotoSans_Bold}" src-italic="${nsfont.NotoSans_Italic}" src-bolditalic="${nsfont.NotoSans_BoldItalic}" bytes="2" />
+	<#if .locale == "zh_CN">
+	<link name="NotoSansCJKsc" type="font" subtype="opentype" src="${nsfont.NotoSansCJKsc_Regular}" src-bold="${nsfont.NotoSansCJKsc_Bold}" bytes="2" />
+	<#elseif .locale == "zh_TW">
+	<link name="NotoSansCJKtc" type="font" subtype="opentype" src="${nsfont.NotoSansCJKtc_Regular}" src-bold="${nsfont.NotoSansCJKtc_Bold}" bytes="2" />
+	<#elseif .locale == "ja_JP">
+	<link name="NotoSansCJKjp" type="font" subtype="opentype" src="${nsfont.NotoSansCJKjp_Regular}" src-bold="${nsfont.NotoSansCJKjp_Bold}" bytes="2" />
+	<#elseif .locale == "ko_KR">
+	<link name="NotoSansCJKkr" type="font" subtype="opentype" src="${nsfont.NotoSansCJKkr_Regular}" src-bold="${nsfont.NotoSansCJKkr_Bold}" bytes="2" />
+	<#elseif .locale == "th_TH">
+	<link name="NotoSansThai" type="font" subtype="opentype" src="${nsfont.NotoSansThai_Regular}" src-bold="${nsfont.NotoSansThai_Bold}" bytes="2" />
+</#if>
+<macrolist>
+	<macro id="nlheader">
+		<table border="0" style="border-collapse: collapse; width: 100%;display: block;">
+			<tr>
+				<td colspan="3" style="width: 33%;">
+					<img height="50%"
+						 src="${companyInformation.logoUrl}"
+						 style="float: center;" width="50%"/>
+				</td>
+				<td align="center" colspan="2" style="width: auto;font-size: 7pt">
+					<p style="text-align: center;">PO Box 69<br/>5655 Hwy 12 W<br/>Maple Plain MN 55359<br/>Toll
+						Free: 800-362-3500<br/>Phone: 763-479-2501<br/>Fax: 763-479-1061
+					</p>
+				</td>
+				<td colspan="3" style="width: 33%;" align="right"><span class="title">${record@title}</span>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="8" align="right">${record.trandate}</td>
+			</tr>
+		</table>
+	</macro>
+	<macro id="nlfooter">
+		<table class="footer" style="width: 100%;"><tr>
+			<td align="right"><pagenumber/> of <totalpages/></td>
+		</tr></table>
+	</macro>
+</macrolist>
+<style type="text/css">* {
+	<#if .locale == "zh_CN">
+	font-family: NotoSans, NotoSansCJKsc, sans-serif;
+	<#elseif .locale == "zh_TW">
+	font-family: NotoSans, NotoSansCJKtc, sans-serif;
+	<#elseif .locale == "ja_JP">
+	font-family: NotoSans, NotoSansCJKjp, sans-serif;
+	<#elseif .locale == "ko_KR">
+	font-family: NotoSans, NotoSansCJKkr, sans-serif;
+	<#elseif .locale == "th_TH">
+	font-family: NotoSans, NotoSansThai, sans-serif;
+	<#else>
+	font-family: NotoSans, sans-serif;
+</#if>
+		}
+		table {
+		font-size: 9pt;
+		table-layout: fixed;
+		}
+		table.border {
+		border: 2px solid black;
+		border-collapse: collapse;
+		}
+		th {
+		font-weight: bold;
+		font-size: 8pt;
+		vertical-align: middle;
+		padding: 5px 6px 3px;
+		background-color: #e3e3e3;
+		color: #333333;
+		}
+		td {
+		padding: 4px 6px;
+		}
+		td p { align:left }
+		b {
+		font-weight: bold;
+		color: #333333;
+		}
+		table.header td {
+		padding: 0;
+		font-size: 10pt;
+		}
+		table.footer td {
+		padding: 0;
+		font-size: 8pt;
+		}
+		table.itemtable th {
+		padding-bottom: 10px;
+		padding-top: 10px;
+		}
+		table.body td {
+		padding-top: 2px;
+		}
+		td.addressheader {
+		font-size: 8pt;
+		padding-top: 6px;
+		padding-bottom: 2px;
+		}
+		td.address {
+		padding-top: 0px;
+		}
+		span.title {
+		font-size: 28pt;
+		}
+		span.number {
+		font-size: 16pt;
+		}
+		hr {
+		border-top: 1px dashed #d3d3d3;
+		width: 100%;
+		color: #ffffff;
+		background-color: #ffffff;
+		height: 1px;
+		}
+</style>
+		</head>
+<body header="nlheader" header-height="10%" footer="nlfooter" footer-height="20pt" padding="0.5in 0.5in 0.5in 0.5in" size="Letter">
+<table style="width: 100%;"><tr>
+	<td class="addressheader" colspan="3"><b>Bill To: ${customer.entityid}</b></td>
+</tr>
+	<tr>
+		<td class="address" colspan="3">${record.billaddress}</td>
+	</tr>
+</table>
+<#assign totalBalance = 0 />
+<#assign prevBalance = 0 />
+<#assign lineBalance = 0 />
+<#assign date = '' />
+
+<table class="itemtable" style="width: 100%; margin-top: 10px;"><!-- start items -->
+	<thead>
+		<tr>
+			<th align="center" colspan="24"> Invoices </th>
+		</tr>
+		<tr>
+			<th align="center" colspan="3">${record.lines.datecol@label}</th>
+			<th align="center" colspan="6">${record.lines.description@label}</th>
+			<th align="center" colspan="3">PO Number</th>
+			<th align="center" colspan="3">Total Amount</th>
+			<th align="center" colspan="3">Amount Remaining</th>
+			<th align="center" colspan="6">${record.lines.balance@label}</th>
+		</tr>
+	</thead>
+
+	<#if record.lines[0].description == 'Balance Forward'>
+	<#assign date = record.lines[0].datecol />
+	<#else>
+	<#assign date = '' />
+</#if>
+
+
+<#include "https://6952227.extforms.netsuite.com/app/site/hosting/scriptlet.nl?script=2693&deploy=1&compid=6952227&h=8c6d59a8fa6032f47ad0&strDate=" + date + "&intCustomer=" + customer.id + "&statementDate=" + record.trandate>
+
+<#if record.lines[0].description == 'Balance Forward'>
+<tr>
+	<td colspan="3">${record.lines[0].datecol}</td>
+	<td colspan="6">${record.lines[0].description}</td>
+	<td colspan="3"></td>
+	<td align="right" colspan="3">${fltInvBalForward?string.currency}</td>
+	<td align="right" colspan="3">${fltInvBalForward?string.currency}</td>
+	<td align="right" colspan="6">${fltInvBalForward?string.currency}</td>
+	<#assign prevBalance = fltInvBalForward />
+</tr>
+</#if>
+
+
+
+<#if arrInvoices??>
+<#assign arrInvoices = arrInvoices?eval_json />
+<#list arrInvoices as invoiceLine>
+<#list record.lines as line>
+
+<#if line.description == invoiceLine.description || invoiceLine.description == line.description?replace("Finance Charge", "Invoice")>
+<tr>
+<#assign totalamount = invoiceLine.totalamount?number />
+<#assign amountremaining = invoiceLine.amountremaining?number />
+<#assign lineBalance = prevBalance + amountremaining>
+<td colspan="3">${invoiceLine.date}</td>
+<td colspan="6"><#if line.description?contains("Finance Charge")>${line.description}<#else>${invoiceLine.description}</#if></td>
+<td align="right" colspan="3">${invoiceLine.otherRef}</td>
+<td align="right" colspan="3">${invoiceLine.strtotalamount}</td>
+<td align="right" colspan="3">${invoiceLine.stramountremaining}</td>
+<td align="right" colspan="6">${lineBalance?string.currency}</td>
+<#assign prevBalance = lineBalance />
+		</tr>
+		</#if>
+
+		</#list>
+		</#list>
+		</#if>
+
+		</table>
+
+<br></br>
+
+
+<#assign totalAmount = 0 />
+<#assign totalApplied = 0 />
+<#assign totalPayment = 0 />
+<#assign paymentsArray = 0 />
+<#assign amountRem = 0/>
+<table class="itemtable" style="width: 100%; margin-top: 10px;"><!-- start items -->
+<thead>
+	<tr>
+		<th align="center" colspan="24"> Payments </th>
+	</tr>
+	<tr>
+		<th align="center" colspan="3">${record.lines.datecol@label}</th>
+		<th align="center" colspan="6">${record.lines.description@label}</th>
+		<th align="center" colspan="3">PO Number</th>
+		<th align="center" colspan="3">Total Amount</th>
+		<th align="center" colspan="3">Amount Applied</th>
+		<th align="center" colspan="6">Amount Unapplied</th>
+	</tr>
+</thead>
+<#list record.lines as line>
+<#if line.description == 'Balance Forward'>
+<#assign totalAmount = totalAmount + fltPayAmountUnapplied>
+<tr>
+	<td colspan="3">${line.datecol}</td>
+	<td colspan="6">${line.description}</td>
+	<td align="center" colspan="3"></td>
+	<td align="right" colspan="3">${fltPayBalForward?string.currency}</td>
+	<td align="right" colspan="3">$0.00</td>
+	<td align="right" colspan="6">${fltPayAmountUnapplied?string.currency}</td>
+</tr>
+</#if>
+		</#list>
+
+<#if arrPayments??>
+<#assign arrPayments = arrPayments?eval_json />
+<#list arrPayments as paymentsLine>
+
+		<!--<#assign isExist = false />
+
+        <#list record.lines as line>
+        <#if line.payment?trim != '' && paymentsLine.description == line.description>
+        <#assign isExist = true >
+        </#if>
+        </#list>-->
+
+<#assign isOpen = false />
+<#if paymentsLine.amountremaining?number gt 0>
+<#assign isOpen = true />
+		</#if>
+
+<#if isOpen == true>
+<#assign totalPayment = totalPayment + paymentsLine.totalamount?number>
+<#assign totalAmount = totalAmount + paymentsLine.amountremaining?number>
+
+<tr>
+<td colspan="3">${paymentsLine.date}</td>
+<td colspan="6">${paymentsLine.description}</td>
+<td align="center" colspan="3">${paymentsLine.otherRef}</td>
+<td align="right" colspan="3">${paymentsLine.strtotalamount}</td>
+<td align="right" colspan="3">${paymentsLine.strappliedamount}</td>
+<td align="right" colspan="6">${paymentsLine.stramountremaining}</td>
+</tr>
+		</#if>
+
+		</#list>
+		</#if>
+
+
+<#list record.lines as line>
+<#if line.payment?trim != ''>
+<#if line.amountremaining?trim?has_content><#assign amountRem = line.amountremaining><#else><#assign amountRem = 0></#if>
+<#assign applied = line.payment - amountRem>
+		<!--<#assign totalApplied = totalApplied + applied>-->
+
+		<!--<tr>
+        <td colspan="3">${line.datecol}</td>
+        <td colspan="6">${line.description}</td>
+        <td align="right" colspan="3">${line.payment}</td>
+        <td align="right" colspan="3">${applied?string.currency}</td>
+        <td align="right" colspan="6"><#if line.amountremaining?trim?has_content>${line.amountremaining}<#else>-</#if></td>
+                </tr>-->
+		</#if>
+		</#list>
+<#assign totalPayment = fltPayBalForward>
+<tr>
+<td colspan="3"><b>Total</b></td>
+<td colspan="6"></td>
+<td align="right" colspan="3">&nbsp;</td>
+<td align="right" colspan="3">&nbsp;</td>
+<td align="right" colspan="6">${totalAmount?string.currency}</td>
+
+</tr>
+		</table>
+
+<br></br>
+
+<#assign netAmountDue = prevBalance - totalAmount>
+
+<table class="body border" style="width: 100%;">
+<tr>
+	<td align="left"> Net Amount Due</td>
+	<td align="right"><b>${netAmountDue?string.currency}</b></td>
+</tr></table>
+
+<br></br>
+
+<#include "https://6952227.extforms.netsuite.com/app/site/hosting/scriptlet.nl?script=2693&deploy=1&compid=6952227&h=8c6d59a8fa6032f47ad0&strDate=" + record.lines[0].datecol + "&intCustomer=" + customer.id + "&statementDate=" + record.trandate>
+<table style="width: 100%; margin-top: 10px;">
+<tr>
+	<th style="height: 14px;">${record.aging1@label}</th>
+	<th style="height: 14px;">${record.aging2@label}</th>
+	<th style="height: 14px;">${record.aging3@label}</th>
+	<th style="height: 14px;">${record.aging4@label}</th>
+	<th style="height: 14px;">${record.aging5@label}</th>
+	<th style="height: 14px;">${record.agingbal@label}</th>
+</tr>
+<tr>
+	<td>${fltCurrent}</td>
+	<td>${fltAging1}</td>
+	<td>${fltAging31}</td>
+	<td>${fltAging61}</td>
+	<td>${fltAging90}</td>
+	<td>${fltAgingAmount}</td>
+</tr></table>
+
+
+
+<#if preferences.RETURNFORM>
+
+<hr />
+<div class="remittanceSlip">
+<table style="width: 100%; margin-top: 10px;"><tr>
+	<td><span class="nameandaddress">${companyInformation.companyName}</span> <br></br>${companyInformation.addressText}</td>
+	<td align="right"><span class="number">Remittance Slip</span></td>
+</tr></table>
+
+<table style="width: 100%; margin-top: 10px;"><tr>
+	<th>Customer</th>
+	<th>${record.trandate@label}</th>
+	<th>${record.amountDue@label}</th>
+	<th>&nbsp;</th>
+</tr>
+	<tr>
+		<td>${customer.entityid} <br></br> ${record.billaddress}</td>
+		<td>${record.trandate}</td>
+		<td align="right">${netAmountDue?string.currency}</td>
+		<td>&nbsp;</td>
+	</tr></table>
+
+<table style="width: 100%; margin-top: 10px;"><tr>
+	<th>&nbsp; </th>
+	<th>&nbsp; </th>
+</tr>
+	<tr>
+		<td>Please contact Accounts Receivable with any questions</td>
+		<td>E-mail: hulacctg@herculift.com <br></br>Phone: 763-479-2501</td>
+	</tr>
+	<tr>
+		<td align="center" colspan="2">Finance charge of 1.5% (18% APR) assessed on all past-due invoices.
+		</td>
+	</tr>
+</table>
+</div>
+		</#if></body></pdf><#else><pdf><head></head><body>
+
+	<p>Multi currency customer setting was detected. Please use Multi Currency Advanced Printing Template</p>
+</body>
+</pdf></#if>

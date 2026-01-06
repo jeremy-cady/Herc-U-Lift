@@ -1,0 +1,21 @@
+{
+    "projectname": "ProjectName",
+    "environments": [
+        {
+            "name": "Herc-U-Lift DEV (SB1)",
+            "account": "6952227_SB1",
+            "url": "6952227-sb1.app.netsuite.com",
+            "role": 3,
+            "email": "jcady@herculift.com",
+            "authid": "hul_sb1_sdfcli_001"
+        },
+        {
+            "name": "Herc-U-Lift Production",
+            "account": "6952227",
+            "url": "6952227.app.netsuite.com",
+            "role": 3,
+            "email": "jcady@herculift.com",
+            "authid": "hul_prod"
+        }
+    ]
+}

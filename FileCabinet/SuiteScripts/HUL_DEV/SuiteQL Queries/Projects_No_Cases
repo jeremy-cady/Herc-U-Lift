@@ -1,0 +1,16 @@
+SELECT 
+    job.id,
+    BUILTIN.DF(job.entityid) AS EntityID,
+    job.companyname,
+    job.entitystatus,
+    job.startdate,
+    BUILTIN.DF(job.parent) AS Parent,
+    BUILTIN.DF(job.custentity_nx_customer) AS Customer,
+    BUILTIN.DF(job.custentity_nx_asset) AS Asset,
+    BUILTIN.DF(job.custentity_nxc_project_assets) AS Equipment
+FROM 
+    job
+    LEFT JOIN supportcase ON job.id = supportcase.company
+WHERE 
+    job.entitystatus = 2
+    AND supportcase.company IS NULL

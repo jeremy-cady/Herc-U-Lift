@@ -1,0 +1,87 @@
+SELECT
+    ea.id                         		AS equipment_id,
+    o.id                                     AS object_id,
+    j.id                                      AS project_id,
+    t.supportcase                   AS case_id,
+    t.id                                      AS task_id,
+    t.status                              AS task_status,
+    CASE 
+        WHEN j.cseg_sna_revenue_st = 263 THEN 'PM'
+        WHEN j.cseg_sna_revenue_st = 18  THEN 'AN'
+        WHEN j.cseg_sna_revenue_st = 19  THEN 'CO'
+        ELSE 'Other'
+    END AS revenue_stream,
+    CASE 
+        WHEN j.custentity_nx_project_type = 4  THEN 'PM 30D'
+        WHEN j.custentity_nx_project_type = 5  THEN 'PM 60D'
+        WHEN j.custentity_nx_project_type = 6  THEN 'PM 90D'
+        WHEN j.custentity_nx_project_type = 7  THEN 'PM 120D'
+        WHEN j.custentity_nx_project_type = 8  THEN 'PM 180D'
+        WHEN j.custentity_nx_project_type = 12 THEN 'PM 240D'
+        WHEN j.custentity_nx_project_type = 13 THEN 'PM 270D'
+        WHEN j.custentity_nx_project_type = 14 THEN 'PM 360D'
+        WHEN j.custentity_nx_project_type = 15 THEN 'PM 720D'
+        WHEN j.custentity_nx_project_type = 10 THEN 'PM Daily'
+        ELSE 'Other'
+    END AS type,
+    CASE 
+        WHEN j.custentity_nx_project_type IN (4, 5, 6, 7, 8, 12, 13, 14, 15)
+        THEN
+            CASE j.custentity_nx_project_type
+                WHEN 4  THEN '30 days'
+                WHEN 5  THEN '60 days'
+                WHEN 6  THEN '90 days'
+                WHEN 7  THEN '120 days'
+                WHEN 8  THEN '180 days'
+                WHEN 10 THEN 'Daily'
+                WHEN 12 THEN '240 days'
+                WHEN 13 THEN '270 days'
+                WHEN 14 THEN '360 days'
+                WHEN 15 THEN '720 days'
+            END
+        ELSE ''
+    END AS frequency,
+    CASE 
+        WHEN NOT REGEXP_LIKE(mr.custrecord_nxc_mr_field_222, '^[0-9.]+$') THEN NULL
+        ELSE mr.custrecord_nxc_mr_field_222
+    END AS last_maintenance_hours,
+    t.completeddate AS mr_reading_date,
+    CASE 
+        WHEN NOT REGEXP_LIKE(chm.custrecord_sna_hul_actual_reading, '^[0-9.]+$') THEN NULL
+        ELSE chm.custrecord_sna_hul_actual_reading
+    END AS current_hours_reading,
+    chm.created AS current_hours_date
+FROM 
+    task t
+LEFT JOIN SystemNote sn
+    ON sn.recordId = t.id
+LEFT JOIN job j
+    ON j.id = t.company
+LEFT JOIN customrecord_nx_asset ea
+    ON ea.id = j.custentity_hul_nxc_eqiup_asset
+LEFT JOIN customrecord_sna_objects o
+    ON o.id = j.custentity_hul_nxc_equip_object
+LEFT JOIN customrecord_nxc_mr mr
+    ON mr.custrecord_nxc_mr_task = t.id
+LEFT JOIN customrecord_sna_hul_hour_meter chm
+    ON  j.custentity_hul_nxc_equip_object = chm.custrecord_sna_hul_object_ref
+    AND chm.created = (
+        SELECT MAX(chm2.created)
+        FROM customrecord_sna_hul_hour_meter chm2
+        WHERE chm2.custrecord_sna_hul_object_ref = j.custentity_hul_nxc_equip_object
+    )
+WHERE 
+    t.status = 'COMPLETE'
+    AND j.cseg_sna_revenue_st IN (263,18,19)
+    AND j.custentity_nx_project_type IN (4,5,6,7,8,12,13,14,15,10)
+    AND sn.field = 'EVENT.KSTATUS'
+    AND sn.type = '4'
+    AND sn.date = (
+		SELECT MAX(sn2.date)
+		FROM SystemNote sn2
+		WHERE sn2.recordId = t.id
+		AND sn2.field = 'EVENT.KSTATUS'
+		AND sn2.type = 4
+		AND sn2.date >= CURRENT_DATE - 1
+     )
+ORDER BY task_id ASC

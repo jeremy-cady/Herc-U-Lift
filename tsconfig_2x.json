@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+    "plugins": [],
+    "module": "amd",
+    "target": "es5",
+    "moduleResolution": "node",
+    "sourceMap": false,
+    "newLine": "LF",
+    "experimentalDecorators": true,
+    "noUnusedLocals": true,
+    "allowJs": true,
+    "baseUrl": ".",
+    "rootDir": ".",
+    "lib": ["es5", "es2015.promise", "dom"],
+    "outDir": "FileCabinet",
+    "paths": {
+      "N": ["./node_modules/@hitc/netsuite-types/N"],
+      "N/*": ["./node_modules/@hitc/netsuite-types/N/*"],
+      "SuiteScripts/*": ["FileCabinet/SuiteScripts/*"],
+      "SuiteScripts/HUL_DEV/Third_Party_Applications/sweetalert2.all": ["types/sweetalert2-all"]
+    }
+  },
+  "compileOnSave": true,
+  "include": [
+    "SuiteScripts/**/*",
+    "types/**/*.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "outputFiles",
+    "FileCabinet",
+    "TypeScript/HUL_DEV/Parts/sweetalert.min.js"
+  ]
+}

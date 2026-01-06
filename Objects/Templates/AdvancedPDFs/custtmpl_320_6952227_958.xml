@@ -1,0 +1,9 @@
+<advancedpdftemplate scriptid="custtmpl_320_6952227_958" standard="STDTMPLEMPTY">
+  <description>Rental Quote changed as of 12.7.2023</description>
+  <displaysourcecode>T</displaysourcecode>
+  <isinactive>F</isinactive>
+  <preferred>F</preferred>
+  <printtype>TRANSACTION</printtype>
+  <title>SNA - Rental Quote PDF/HTML Template 12.7.23</title>
+  <trantype>ESTIMATE</trantype>
+</advancedpdftemplate>

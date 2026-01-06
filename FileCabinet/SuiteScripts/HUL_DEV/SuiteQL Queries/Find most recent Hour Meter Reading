@@ -1,0 +1,34 @@
+WITH HourMeterReadings AS (
+    SELECT 
+        co.id AS object_id,
+        chm_sub.createddate AS last_meter_reading_date,
+        chm_sub.reading AS hour_meter_reading
+    FROM 
+        customrecord_sna_objects co
+    LEFT JOIN (
+        SELECT 
+            chm.custrecord_sna_hul_object_ref AS object_ref,
+            MAX(chm.created) AS createddate,
+            chm.custrecord_sna_hul_actual_reading AS reading
+        FROM 
+            customrecord_sna_hul_hour_meter chm
+        WHERE 
+            chm.created >= CURRENT_DATE - 14
+        GROUP BY 
+            chm.custrecord_sna_hul_object_ref, 
+            chm.custrecord_sna_hul_actual_reading
+    ) chm_sub ON chm_sub.object_ref = co.id
+    WHERE 
+        EXISTS (
+            SELECT 1 
+            FROM customrecord_sna_hul_hour_meter chm 
+            WHERE chm.custrecord_sna_hul_object_ref = co.id 
+            AND chm.created >= CURRENT_DATE - 14
+        )
+)
+SELECT
+    hr.object_id AS object_id,
+    hr.last_meter_reading_date AS last_meter_reading_date,
+    hr.hour_meter_reading AS hour_meter_reading
+FROM
+    HourMeterReadings hr;

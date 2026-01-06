@@ -1,0 +1,562 @@
+<?xml version="1.0"?>
+<!DOCTYPE pdf PUBLIC "-//big.faceless.org//report" "report-1.1.dtd">
+<pdf>
+    <head>
+        <link name="NotoSans" type="font" subtype="truetype" src="${nsfont.NotoSans_Regular}"
+              src-bold="${nsfont.NotoSans_Bold}" src-italic="${nsfont.NotoSans_Italic}"
+              src-bolditalic="${nsfont.NotoSans_BoldItalic}" bytes="2"/>
+        <#if .locale=="zh_CN">
+        <link name="NotoSansCJKsc" type="font" subtype="opentype" src="${nsfont.NotoSansCJKsc_Regular}"
+              src-bold="${nsfont.NotoSansCJKsc_Bold}" bytes="2"/>
+        <#elseif .locale=="zh_TW">
+        <link name="NotoSansCJKtc" type="font" subtype="opentype" src="${nsfont.NotoSansCJKtc_Regular}"
+              src-bold="${nsfont.NotoSansCJKtc_Bold}" bytes="2"/>
+        <#elseif .locale=="ja_JP">
+        <link name="NotoSansCJKjp" type="font" subtype="opentype" src="${nsfont.NotoSansCJKjp_Regular}"
+              src-bold="${nsfont.NotoSansCJKjp_Bold}" bytes="2"/>
+        <#elseif .locale=="ko_KR">
+        <link name="NotoSansCJKkr" type="font" subtype="opentype" src="${nsfont.NotoSansCJKkr_Regular}"
+              src-bold="${nsfont.NotoSansCJKkr_Bold}" bytes="2"/>
+        <#elseif .locale=="th_TH">
+        <link name="NotoSansThai" type="font" subtype="opentype" src="${nsfont.NotoSansThai_Regular}"
+              src-bold="${nsfont.NotoSansThai_Bold}" bytes="2"/>
+    </#if>
+    <macrolist>
+        <macro id="nlheader">
+            <table border="0" style="border-collapse: collapse; width: 100%;display: block;">
+                <tr>
+                    <td colspan="3" style="width: 37.5%;">
+                        <img height="50%"
+                             src="https://6952227-sb1.app.netsuite.com/core/media/media.nl?id=11&amp;c=6952227_SB1&amp;h=_yJMy7DSQDrilIpPJK1nQb_qIKA-jOoUGXsfiVQpE8KqWzPi"
+                             style="float: center;" width="50%"/>
+                    </td>
+                    <td align="center" colspan="2" style="width: auto;">
+                        <p style="text-align: center;">PO Box 69<br/>5655 Hwy 12 W<br/>Maple Plain MN 55359<br/>Toll
+                            Free: 800-362-3500<br/>Phone: 763-479-2501<br/>Fax: 763-479-1061
+                        </p>
+                    </td>
+                    <td colspan="3" style="width: 37.5%;" align="center">
+                        <img height="50%"
+                             src="https://6952227-sb1.app.netsuite.com/core/media/media.nl?id=2094&amp;c=6952227_SB1&amp;h=Lfa0Rnma72l3wnBJKTQn1INzXINYQkisNCdBRUGTv7yjgnKZ"
+                             style="float: center; width: 50%;"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="width: 37.5%;">&nbsp;</td>
+                    <td align="center" colspan="2" style="width: auto;">&nbsp;</td>
+                    <td colspan="3" style="width: 37.5%;">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="width: 37.5%;">&nbsp;</td>
+                    <td align="center" colspan="2" style="width: auto;">&nbsp;</td>
+                    <td colspan="3" style="width: 37.5%;">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="width: 12.5%;">&nbsp;</td>
+                    <td colspan="2" style="width: 25%; align: center;">
+                        <p>Des Moines IA<br/>515-964-9273
+                        </p>
+                    </td>
+                    <td colspan="2" style="width: 25%; align: center;">www.herculift.com</td>
+                    <td colspan="2" style="width: 25%; align: center;">
+                        <p>Sioux Falls SD<br/>605-332-4755
+                        </p>
+                    </td>
+                    <td style="width: 12.5%;">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td align="center" style="width: 12.5%;">Maple Plain MN<br/>763-479-2501
+                    </td>
+                    <td align="center" style="width: 12.5%;">Grand Rapids MN<br/>218-326-0539
+                    </td>
+                    <td align="center" style="width: 12.5%;">St. Cloud MN<br/>320-251-9001
+                    </td>
+                    <td align="center" style="width: 12.5%;">Fargo ND<br/>701-219-5811
+                    </td>
+                    <td align="center" style="width: 12.5%;">Minot ND<br/>701-839-5820
+                    </td>
+                    <td align="center" style="width: 12.5%;">Williston ND<br/>701-572-4660
+                    </td>
+                    <td align="center" style="width: 12.5%;">Boscobel WI<br/>888-244-6802
+                    </td>
+                    <td align="center" style="width: 12.5%;">Milwaukee WI<br/>888-244-6802
+                    </td>
+                </tr>
+            </table>
+            <!--                    </td>-->
+
+            <!--                    <td colspan="3" style="width: 37.5%;" align="center">-->
+            <!--                        <img height="50%"-->
+            <!--                             src="https://6952227-sb1.app.netsuite.com/core/media/media.nl?id=5523&amp;c=6952227_SB1&amp;h=FQTJ5-pz8C4rc3mkTnN5SIgZoMOEPTCOU5UQDt1faFuYe_v5"-->
+            <!--                             style="float: center; width: 50%;"/>-->
+            <!--                    </td>-->
+            <!--                </tr>-->
+            <!--                <tr>-->
+            <!--                    <td colspan="3" style="width: 37.5%;">&nbsp;</td>-->
+            <!--                    <td align="center" colspan="2" style="width: auto;">&nbsp;</td>-->
+            <!--                    <td colspan="3" style="width: 37.5%;">&nbsp;</td>-->
+            <!--                </tr>-->
+            <!--                <tr>-->
+            <!--                    <td colspan="3" style="width: 37.5%;">&nbsp;</td>-->
+            <!--                    <td align="center" colspan="2" style="width: auto;">&nbsp;</td>-->
+            <!--                    <td colspan="3" style="width: 37.5%;">&nbsp;</td>-->
+            <!--                </tr>-->
+            <!--                <tr>-->
+            <!--                    <td style="width: 12.5%;">&nbsp;</td>-->
+            <!--                    <td colspan="2" style="width: 25%; align: center;">-->
+            <!--                        <p>Des Moines IA<br/>515-954-9273-->
+            <!--                        </p>-->
+            <!--                    </td>-->
+            <!--                    <td colspan="2" style="width: 25%; align: center;">www.herculift.com</td>-->
+            <!--                    <td colspan="2" style="width: 25%; align: center;">-->
+            <!--                        <p>Sioux Falls SD<br/>515-954-9273-->
+            <!--                        </p>-->
+            <!--                    </td>-->
+            <!--                    <td style="width: 12.5%;">&nbsp;</td>-->
+            <!--                </tr>-->
+            <!--                <tr>-->
+            <!--                    <td align="center" style="width: 12.5%;">Maple Plain MN<br/>763-479-2501-->
+            <!--                    </td>-->
+            <!--                    <td align="center" style="width: 12.5%;">Grand Rapids MN<br/>218-326-0539-->
+            <!--                    </td>-->
+            <!--                    <td align="center" style="width: 12.5%;">St. Cloud MN<br/>320-251-9001-->
+            <!--                    </td>-->
+            <!--                    <td align="center" style="width: 12.5%;">Fargo ND<br/>701-219-5311-->
+            <!--                    </td>-->
+            <!--                    <td align="center" style="width: 12.5%;">Minot ND<br/>701-839-5820-->
+            <!--                    </td>-->
+            <!--                    <td align="center" style="width: 12.5%;">Williston ND<br/>300-362-3500-->
+            <!--                    </td>-->
+            <!--                    <td align="center" style="width: 12.5%;">Boscobel WI<br/>300-362-3500-->
+            <!--                    </td>-->
+            <!--                    <td align="center" style="width: 12.5%;">Milwaukee WI<br/>889-244-6802-->
+            <!--                    </td>-->
+            <!--                </tr>-->
+            <!--            </table>-->
+
+        </macro>
+        <macro id="nlfooter">
+            <table border="0" id="footer">
+                <#if invoiceDetails.custpage_notpaid?has_content == true && invoiceDetails.total lt 100000 >
+                <tr>
+                    <td align="right" colspan="2">
+                        <div align="right">
+                            <a href="${invoiceDetails.custbody_sna_cp_email_paylink}" rel="link" class="scalePayLink">Make
+                                Payment Here
+                            </a>
+                            <br/>
+                        </div>
+                    </td>
+                </tr>
+            </#if>
+            <tr>
+                <td align="center" colspan="2">
+                    Return Goods Authorization (RGA) number is required on all returns. All returns subject to a minimum
+                    of a 25% restocking charge.
+                    No returns on electrical parts. Returns must be accompanied with a copy of Original Invoice or
+                    Packing Slip. No claims for shortages allowed after 7 days.
+                    All returns must show RGA number on box or they will be refused. No returns on special order parts.
+                </td>
+            </tr>
+            <tr>
+                <td align="center" colspan="2">
+                    NO RETURNS AFTER 30 DAYS.
+                </td>
+            </tr>
+            <tr>
+                <td align="center">
+                    <strong>Now accepting payments on-line - Visit: <a href="www.herculift.com">www.herculift.com</a>
+                    </strong>
+                </td>
+                <td align="center">
+                    <strong>Receive email invoices - Contact: <a href="mailto:hulacctg@herculift.com">
+                        hulacctg@herculift.com
+                    </a>
+                    </strong>
+                </td>
+            </tr>
+        </table>
+        <!--            <table class="footer"><tr>-->
+        <!--                <td align="right"><pagenumber/> of <totalpages/></td>-->
+        <!--            </tr></table>-->
+    </macro>
+</macrolist>
+<style type="text/css">
+body {
+font-family: Open Sans, Helvetica, sans-serif;
+}
+
+table {
+font-size: x-small;
+text-align: center;
+width: 100%;
+}
+
+td {
+padding-top: 1px;
+padding-bottom: 1px;
+}
+
+a.scalePayLink {
+color: red;
+background-color: #D5D5D5;
+text-decoration: none;
+font-size: 12px;
+padding: 2px;
+}
+</style>
+        </head>
+<body header="nlheader" header-height="15%" footer="nlfooter" footer-height="10%" padding="0.5in 0.5in 0.5in 0.5in"
+      size="Letter">
+<!-- start transaction header -->
+<table border="0" style="border-collapse: collapse; width: 100%;">
+    <tr>
+        <td colspan="3" style="width: 30%;">&nbsp;</td>
+        <td colspan="3" style="width: 40%;">&nbsp;</td>
+        <td colspan="3" style="width: 30%;">&nbsp;</td>
+    </tr>
+    <tr>
+        <td align="left" colspan="3" style="width: 30%;">
+            <p style="text-align: left;">Invoice Date:&nbsp; ${invoiceDetails.trandate}</p>
+        </td>
+        <td align="center" colspan="3" style="width: 40%;">
+            <p style="text-align: center;font-size: 12px; font-weight: bold;">Service Sales Order</p>
+        </td>
+        <td colspan="3" style="width: 30%; align: right">
+            <p style="text-align: right;">Document No: &nbsp; ${invoiceDetails.tranid}<br/>Page:
+                <pagenumber/>
+            </p>
+        </td>
+    </tr>
+</table>
+<table border="0" style="border-collapse: collapse; width: 100%;">
+    <tr>
+        <td colspan="3" style="width: 30%;">&nbsp;</td>
+        <td colspan="3" style="width: 40%;">&nbsp;</td>
+        <td colspan="3" style="width: 30%;">&nbsp;</td>
+    </tr>
+    <tr>
+        <td align="left" colspan="3" style="width: 30%;">
+            <p style="text-align: left; font-weight: bold;">Bill To: ${invoiceDetails.entityid}</p>
+            <p style="text-align: left;">${invoiceDetails.billaddress?replace('\n', '<br/>', 'r')}</p>
+        </td>
+        <td colspan="3" style="width: 40%;">&nbsp;</td>
+        <td align="left" colspan="3" style="width: 30%;">
+            <p style="text-align: left; font-weight: bold;">Ship To: ${invoiceDetails.entityid}</p>
+            <p style="text-align: left;">${invoiceDetails.shipaddress?replace('\n', '<br/>', 'r')}</p>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3" style="width: 30%;">&nbsp;</td>
+        <td colspan="3" style="width: 40%;">&nbsp;</td>
+        <td colspan="3" style="width: 30%;">&nbsp;</td>
+    </tr>
+</table>
+<table border="0" style="border-collapse: collapse; width: 100%;">
+    <tr>
+        <td align="left" style="width: 50%;">Customer PO No.: ${invoiceDetails.otherrefnum}</td>
+        <td align="left" style="width: 50%; padding-left: 183px;">Payment Terms : ${invoiceDetails.terms}</td>
+    </tr>
+    <tr>
+        <td align="left" style="width: 50%;">Contact : ${invoiceDetails.contactEntityid}</td>
+        <td align="left" style="width: 50%; padding-left: 183px;">Shipment Method : ${invoiceDetails.shipmethod}</td>
+    </tr>
+    <tr>
+        <td align="left" style="width: 50%;">Phone No. : ${invoiceDetails.contactPhone}</td>
+        <td align="left" style="width: 50%;padding-left: 183px;">Salesrep : ${invoiceDetails.salesrep}</td>
+    </tr>
+    <tr>
+        <td align="left" style="width: 50%;">Memo: ${invoiceDetails.memo}</td>
+        <td align="left" style="width: 50%; padding-left: 183px;">Branch :
+            ${invoiceDetails.locationHulCode}
+        </td>
+    </tr>
+<!--    If Invoice > NXC Case > Equipment Asset info is available-->
+<#if invoiceDetails.caseAssets?has_content>
+    <tr>
+        <td align="left" style="width: 50%;">Equipment Object :
+            ${invoiceDetails.caseAssets}
+        </td>
+        <td align="left" style="width: 50%; padding-left: 183px;">Model:
+            ${invoiceDetails.equipmentInfoModel}
+        </td>
+    </tr>
+    <tr>
+        <td align="left" style="width: 50%;">Make : ${invoiceDetails.equipmentInfoMake}
+        </td>
+        <td align="left" style="width: 50%;padding-left: 183px;">Serial Number :
+            ${invoiceDetails.equipmentInfoSerialNo}
+        </td>
+    </tr>
+    <tr>
+        <td align="left" style="width: 50%">Fleet Number : ${invoiceDetails.equipmentInfoFleet}</td>
+        <#if invoiceDetails.custpage_meterreading?has_content>
+        <td align="left" style="width: 50%;padding-left: 183px;">Meter :
+            ${invoiceDetails.custpage_meterreading}
+        </td>
+        <#else>
+        <td align="left" style="width: 50%;padding-left: 183px;">Meter : </td>
+    </#if>
+</tr>
+<!--    Get Equipment info from NextService Equipment Asset invoiceDetails-->
+<#else>
+<tr>
+    <td align="left" style="width: 50%;">Equipment Object : ${invoiceDetails.custbody_sna_hul_nxc_eq_asset} </td>
+    <td align="left" style="width: 50%; padding-left: 183px;">Model: ${invoiceDetails.nxcEquipAssetObjModel}</td>
+</tr>
+<tr>
+    <td align="left" style="width: 50%;">Make : ${invoiceDetails.nxcEquipAssetMfg}</td>
+    <td align="left" style="width: 50%;padding-left: 183px;">Serial Number : ${invoiceDetails.nxcEquipAssetSerial}</td>
+</tr>
+<tr>
+    <td align="left" style="width: 50%">Fleet Number : ${invoiceDetails.nxcEquipAssetFleetCode}</td>
+    <#if invoiceDetails.custpage_meterreading?has_content>
+    <td align="left" style="width: 50%;padding-left: 183px;">Meter :
+        ${invoiceDetails.custpage_meterreading}
+    </td>
+    <#else>
+    <td align="left" style="width: 50%;padding-left: 183px;">Meter : </td>
+</#if>
+</tr>
+        </#if>
+
+
+<tr>
+<td colspan="2" style="width: 100%">&nbsp;</td>
+</tr>
+        </table>
+        <!-- end transaction header -->
+        <!-- start items/expenses -->
+        <!-- <span class="number">${invoiceDetails.lines@label}</span>-->
+<table style="width: 100%; margin-top: 10px;">
+    <thead>
+        <tr>
+            <th align="left" style="border-bottom: solid #000000;border-top: solid #000000;">Item</th>
+            <th align="left" style="border-bottom: solid #000000;border-top: solid #000000;width: 150px;">Desc</th>
+            <th align="right" style="border-bottom: solid #000000;border-top: solid #000000;width: 50px;">Qty</th>
+            <!--            <th align="center" style="border-bottom: solid #000000;border-top: solid #000000;">Qty Shpd</th>-->
+            <!--            <th align="center" style="border-bottom: solid #000000;border-top: solid #000000;">BO</th>-->
+            <th align="right" style="border-bottom: solid #000000;border-top: solid #000000;">EA</th>
+            <th align="right" style="border-bottom: solid #000000;border-top: solid #000000;">Net</th>
+        </tr>
+    </thead>
+    <#assign total_material = 0>
+    <#assign total_order = 0>
+    <#assign internalamt = 0 />
+    <#assign internaltaxamt = 0 />
+    <!-- start items -->
+
+    <#list invoiceDetails.lines as line>
+        <#if line.item =="Planned Maintenance">
+            <#assign has_planned_maintenance = true>
+            <#break>
+        <#else>
+            <#assign has_planned_maintenance = false>
+        </#if>
+    </#list>
+
+    <!-- If Item list has Planned Maintenance -->
+    <#if has_planned_maintenance>
+        <#list invoiceDetails.lines as line>
+            <#if line.custcol_sna_do_not_print == "false" && line.custcol_sna_default_rev_stream == "false">
+                <tr>
+                    <#if line.itemtype=="InvtPart">
+                        <#assign total_material = total_material + line.amount?number >
+                    <#else>
+                        <#assign total_order = total_order + line.amount?number >
+                    </#if>
+
+                    <#if line.itemtype=="Service">
+                        <#if line.item=="Planned Maintenance">
+                            <td align="left">${line.item}</td>
+                            <td align="left" width="150px">${line.description?replace('\n', '<br/>', 'r')}</td>
+                            <td align="right" width="50px">${line.quantity}</td>
+                            <td align="right">${line.rate}</td>
+                            <td align="right">${line.amount}</td>
+                        </#if>
+                    <#else>
+                        <td align="left">${line.item}</td>
+                        <td align="left" width="150px">${line.description?replace('\n', '<br/>', 'r')}</td>
+                        <td align="right" width="50px">${line.quantity}</td>
+                        <td align="right">${line.rate}</td>
+                        <td align="right">${line.amount}</td>
+                    </#if>
+                </tr>
+            <#else>
+                <#assign internalamt = internalamt + line.amount?number />
+                <#assign internaltaxamt = internaltaxamt + line.custcol_ava_taxamount?number />
+            </#if>
+        </#list>
+    <!--No Planned Maintenance in Item list -->
+    <#else>
+        <#assign service_items = ['*Service Labor - Resource', '*Travel Time', 'Bereavement', 'Jury Duty', 'Labor Double Time', 'Labor Overtime', 'Lunch', 'Paid Time Off', 'S', 'SDT', 'Sick Leave', 'SOT', 'Travel Double Time', 'Travel Overtime', 'Unpaid Time Off', 'Vacation Leave']>
+        <#assign service_item_net = 0>
+
+        <#list invoiceDetails.lines as line>
+            <#if line.custcol_sna_do_not_print == "false" && line.custcol_sna_default_rev_stream == "false">
+                <tr>
+                    <#if line.itemtype=="InvtPart">
+                        <#assign total_material = total_material + line.amount?number >
+                    <#else>
+                        <#assign total_order = total_order + line.amount?number >
+                    </#if>
+
+                    <#if line.itemtype == "Service">
+                        <#list service_items as service_item>
+                            <#if line.item == service_item>
+                                <#assign included_service = true>
+                                <#assign service_item_net = service_item_net + line.amount?number >
+                                <#break>
+                            <#else>
+                                <#assign included_service = false>
+                            </#if>
+                        </#list>
+
+                        <#if included_service == false>
+                            <td align="left">${line.item}</td>
+                            <td align="left" width="150px">${line.description?replace('\n', '<br/>', 'r')}</td>
+                            <td align="right" width="50px"></td>
+                            <td align="right">${line.rate}</td>
+                            <td align="right">${line.amount}</td>
+                        </#if>
+                    <#else>
+                        <td align="left">${line.item}</td>
+                        <td align="left" width="150px">${line.description?replace('\n', '<br/>', 'r')}</td>
+                        <td align="right" width="50px">${line.quantity}</td>
+                        <td align="right">${line.rate}</td>
+                        <td align="right">${line.amount}</td>
+                    </#if>
+                </tr>
+            <#else>
+                <#assign internalamt = internalamt + line.amount?number />
+                <#assign internaltaxamt = internaltaxamt + line.custcol_ava_taxamount?number />
+            </#if>
+        </#list>
+
+        <#if service_item_net != 0>
+            <tr>
+                <td align="left">Service Labor</td>
+                <td align="left" width="150px"></td>
+                <td align="right" width="50px"></td>
+                <td align="right"></td>
+                <td align="right">${service_item_net?string.currency}</td>
+            </tr>
+        </#if>
+    </#if>
+</table>
+
+<table class="total" style="width: 100%; ">
+<tr>
+    <td colspan="4">&nbsp;</td>
+    <th align="right">&nbsp;</th>
+    <td align="right">&nbsp;</td>
+</tr>
+<tr>
+    <td colspan="4">&nbsp;</td>
+    <th align="right">
+        <strong>Total Material</strong>
+    </th>
+    <td align="right">${total_material?string.currency}</td>
+</tr>
+<tr>
+    <td colspan="4">&nbsp;</td>
+    <th align="right">
+        <strong>Total Other</strong>
+    </th>
+    <td align="right" style="border-bottom: solid #000000;">${total_order?string.currency}</td>
+</tr>
+
+<#assign subtotaltotalorder_= invoiceDetails.subtotal?number - internalamt>
+<#assign taxtotalorder_= invoiceDetails.taxtotal?number - internaltaxamt>
+
+<tr>
+    <td colspan="4">&nbsp;</td>
+    <th align="right">Subtotal</th>
+    <!--  <td align="right">${invoiceDetails.subtotal}</td> -->
+    <td align="right">${subtotaltotalorder_?string.currency}</td>
+</tr>
+<tr>
+    <td colspan="4">&nbsp;</td>
+    <th align="right" style="text">Total Sales Tax</th>
+    <!--   <td align="right" style="border-bottom: solid #000000;">${invoiceDetails.taxtotal}</td> -->
+    <td align="right" style="border-bottom: solid #000000;">${taxtotalorder_?string.currency}</td>
+</tr>
+<!-- <#assign totalorder_=invoiceDetails.subtotal + invoiceDetails.taxtotal> -->
+<#assign totalorderr_= subtotaltotalorder_ + taxtotalorder_>
+<tr>
+    <td colspan="4">&nbsp;</td>
+    <th align="right">
+        <strong>Total This Invoice</strong>
+    </th>
+    <td align="right" style="border-bottom: solid #000000;">${totalorderr_?string.currency}</td>
+</tr>
+<!--<tr>-->
+<!--    <td colspan="4">&nbsp;</td>-->
+<!--    <th align="right">-->
+<!--        <strong>Total Amount Due</strong>-->
+<!--    </th>-->
+<!--    <td align="right">${invoiceDetails.amountremaining}</td>-->
+<!--</tr>-->
+</table>
+        <!-- end items/expenses total -->
+
+<pbr/>
+
+        <!--2nd Page - Task Summary -->
+<table border="0" style="border-collapse: collapse; width: 100%;">
+<tr>
+    <td colspan="6" >&nbsp;</td>
+</tr>
+<tr>
+    <!--<td align="left" colspan="3" style="width: 30%;">
+        <p style="text-align: left;">&nbsp;</p>
+    </td>-->
+    <td align="left" colspan="3" style="width: 30%;">
+        <p style="text-align: left;">Invoice Date:&nbsp; ${invoiceDetails.trandate}</p>
+    </td>
+    <td align="center" colspan="3" style="width: 40%;">
+        <p style="text-align: center;font-size: 12px; font-weight: bold;">Task Summary</p>
+    </td>
+    <td colspan="3" style="width: 30%; align: right">
+        <p style="text-align: right;">Document No: &nbsp; ${invoiceDetails.tranid}<br/>Page:
+            <pagenumber/>
+        </p>
+    </td>
+    <!--<td colspan="3" style="width: 30%; align: right">
+        <p style="text-align: right;">&nbsp;<br/>Page:
+            <pagenumber/>
+        </p>
+    </td>-->
+</tr>
+<tr>
+    <td colspan="6" >&nbsp;</td>
+</tr>
+</table>
+
+        <!--Task Summary Details -->
+<table border="0" style="border-collapse: collapse; width: 100%;">
+<thead>
+    <tr>
+        <th align="left" style="font-weight: bold; border-bottom: solid #000000;border-top: solid #000000; width: 20%; ">Task #</th>
+        <th align="left" style="font-weight: bold; border-bottom: solid #000000;border-top: solid #000000; width: 15%;">Date</th>
+        <th align="left" style="font-weight: bold; border-bottom: solid #000000;border-top: solid #000000; width: 20%">Meter Reading</th>
+        <th align="center" style="font-weight: bold; border-bottom: solid #000000;border-top: solid #000000; width: 55%">Actions Taken</th>
+    </tr>
+</thead>
+</table>
+        <!---->
+<table>
+
+
+<#list invoiceDetails.tasks as task>
+<tr>
+    <td align="left" style="width: 20%;">${task.task_num}</td>
+    <td align="left" style="width: 15%;">${task.date}</td>
+    <td align="left" style="width: 20%;">${task.hr_meter_reading}</td>
+    <td align="right" style="width: 55%;">${task.action_taken}</td>
+</tr>
+</#list>
+        </table>
+
+        </body>
+        </pdf>

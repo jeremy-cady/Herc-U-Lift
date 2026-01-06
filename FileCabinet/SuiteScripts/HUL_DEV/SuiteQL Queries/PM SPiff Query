@@ -1,0 +1,39 @@
+SELECT 
+    i.id as invoice_id,
+    i.tranid as invoice_number,
+    i.trandate as invoice_date,
+    i.entity as customer_id,
+    (SELECT SUM(tl.foreignamount) 
+     FROM transactionline tl 
+     WHERE tl.transaction = i.id 
+     AND tl.mainline = 'F') as invoice_total,
+    (SELECT SUM(tl.foreignamount) 
+     FROM transactionline tl 
+     WHERE tl.transaction = i.id 
+     AND tl.taxline = 'T') as tax_amount,
+    MIN(t.id) as task_id,
+    MIN(t.title) as task_title,
+    MIN(t.custevent_nxc_task_result) as task_result,
+    MIN(t.custevent_nxc_technician_name) as technician_name,
+    MIN(c.id) as case_id,
+    MIN(c.casenumber) as case_number,
+    MIN(c.title) as case_name,
+    COUNT(DISTINCT t.id) as task_count
+FROM 
+    transaction i
+    -- Join to cases that are linked to this invoice
+    INNER JOIN supportcase c ON (
+        c.custevent_hul_fromorder = i.id 
+        OR c.custevent_nx_case_transaction = i.id
+        OR (c.company = i.entity AND c.custevent_hul_fromorder = i.id)
+    )
+    -- Join to tasks that are linked to these cases
+    INNER JOIN task t ON t.supportcase = c.id
+WHERE 
+    t.custevent_nxc_task_result = 9
+    AND i.trandate BETWEEN TO_DATE('2025-06-01', 'YYYY-MM-DD') AND TO_DATE('2025-06-30', 'YYYY-MM-DD')
+GROUP BY 
+    i.id,
+    i.tranid,
+    i.trandate,
+    i.entity

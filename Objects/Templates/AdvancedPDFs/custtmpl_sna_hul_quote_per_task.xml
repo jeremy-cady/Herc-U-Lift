@@ -1,0 +1,9 @@
+<advancedpdftemplate scriptid='custtmpl_sna_hul_quote_per_task' standard='STDTMPLEMPTY'>
+  <description></description>
+  <displaysourcecode>T</displaysourcecode>
+  <isinactive>F</isinactive>
+  <preferred>F</preferred>
+  <printtype>TRANSACTION</printtype>
+  <title>SNA - Service Quote Per Task</title>
+  <trantype>ESTIMATE</trantype>
+</advancedpdftemplate>

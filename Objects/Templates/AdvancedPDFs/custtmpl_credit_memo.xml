@@ -1,0 +1,9 @@
+<advancedpdftemplate scriptid="custtmpl_credit_memo" standard="STDTMPLCUSTCRED">
+  <description></description>
+  <displaysourcecode>T</displaysourcecode>
+  <isinactive>F</isinactive>
+  <preferred>T</preferred>
+  <printtype>TRANSACTION</printtype>
+  <title>SNA_CREDIT_MEMO</title>
+  <trantype>CUSTCRED</trantype>
+</advancedpdftemplate>
