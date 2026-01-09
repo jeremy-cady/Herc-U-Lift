@@ -1,0 +1,404 @@
+{
+  "name": "NetSuite VRA Matcher",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -512,
+        16
+      ],
+      "id": "cb0aed83-d0de-4ab7-a708-10bdcee36a13",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "url": "https://laezkwglnixpwcselgzm.supabase.co/rest/v1/processing_history",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "supabaseApi",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "process_id",
+              "value": "=eq.{{ $json.processId }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Prefer",
+              "value": "return=single"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"vendor_name_input\": \"{{ JSON.parse($json.document_annotation).vendor_name }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -320,
+        16
+      ],
+      "id": "f95f56ed-fc30-4c4b-876b-5c926ff98516",
+      "name": "Get Document Data",
+      "credentials": {
+        "supabaseApi": {
+          "id": "SQ2mUi6UxYafHKBT",
+          "name": "Supabase -Vendor Credit"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the data from the previous node - handle different structures\nlet processData;\nconst inputData = $json;\n\n// Check if we got an array or single object\nif (Array.isArray(inputData)) {\n  processData = inputData[0];\n} else if (inputData.items && Array.isArray(inputData.items)) {\n  processData = inputData.items[0];\n} else {\n  processData = inputData;\n}\n\n// Check if we have the data we need\nif (!processData) {\n  throw new Error('No process data found');\n}\n\n// Get normalized data - check different possible locations\nconst normalized = processData.normalized_data || \n                   processData.normalizedData || \n                   JSON.parse(processData.normalized_data || '{}');\n\n// Validate we have the required data\nif (!normalized || !normalized.vendor) {\n  throw new Error('No normalized data found. Data structure: ' + JSON.stringify(processData).substring(0, 200));\n}\n\n// Extract VRA and PO numbers - DON'T strip the VRA prefix!\nlet vraNumbers = [];\nlet poNumbers = [];\n\nif (normalized.references) {\n  // Keep VRA numbers as-is (they need the VRA prefix)\n  vraNumbers = normalized.references.vraNumbers || [];\n  \n  // For PO numbers, you might want to keep or clean based on your format\n  poNumbers = normalized.references.poNumbers || [];\n  // Optional: Clean PO numbers if they have dashes or spaces\n  // poNumbers = poNumbers.map(po => String(po).replace(/[-\\s]/g, ''));\n}\n\n// Prepare line items for matching - use absolute values for comparison\nconst lineItems = (normalized.lineItems || []).map(item => ({\n  itemNumber: item.partNumber || item.itemNumber || '',\n  quantity: Math.abs(parseFloat(item.quantity || 0)),\n  amount: Math.abs(parseFloat(item.amount || 0)),\n  description: item.description || ''\n}));\n\n// Determine matching strategy\nlet matchingStrategy = 'none';\nif (vraNumbers.length > 0) {\n  matchingStrategy = 'direct_vra';\n} else if (poNumbers.length > 0) {\n  matchingStrategy = 'po_to_vra';\n} else if (normalized.vendor && normalized.vendor.name) {\n  matchingStrategy = 'vendor_open_vra';\n}\n\n// Return the extracted data\nreturn {\n  processId: processData.process_id || processData.processId,\n  vendorName: normalized.vendor.name || '',\n  vendorCreditNumber: normalized.vendor.documentNumber || '',\n  vraNumbers: vraNumbers,  // Now keeps \"VRA605\" instead of \"605\"\n  poNumbers: poNumbers,\n  lineItems: lineItems,\n  totalAmount: Math.abs(parseFloat(normalized.document?.totalAmount || 0)),\n  matchingStrategy: matchingStrategy,\n  documentUrl: processData.document_url || processData.documentUrl || '',\n  debug: {\n    hadVRA: vraNumbers.length > 0,\n    hadPO: poNumbers.length > 0,\n    lineItemCount: lineItems.length,\n    vraNumbersExtracted: vraNumbers,  // Show what we extracted\n    dataStructure: Object.keys(processData).join(', ')\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -144,
+        16
+      ],
+      "id": "b420d467-9ff0-4f81-bd58-4ce687fca336",
+      "name": "Extract Match Criteria"
+    },
+    {
+      "parameters": {
+        "restlet_url": "https://6952227.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=4402&deploy=1",
+        "request_body": "={{ $json }}"
+      },
+      "type": "@squaregrove/n8n-nodes-nsrestlet.NSRestlet",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        32
+      ],
+      "id": "147289ad-6200-431e-a5b5-6ca161364f46",
+      "name": "NetSuite Restlet",
+      "credentials": {
+        "ns-restletApi": {
+          "id": "JabkoLB0X2xL8GA8",
+          "name": "NetSuite Restlet account - PROD Live"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Code Node: Prepare RESTlet Request\nconst matchData = $('Extract Match Criteria').item.json;\nreturn [{\n  json: {\n    vraNumber: matchData.vraNumbers?.[0] || null,\n    poNumber: matchData.poNumbers?.[0] || null,\n    vendorId: $input.first().json.output,  // Changed from vendorName to vendorId\n    vendorName: matchData.vendorName,      // Keep original name for reference\n    lineItems: matchData.lineItems,\n    processId: matchData.processId\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        928,
+        32
+      ],
+      "id": "61f0c4fe-adfb-4328-a057-80118011f08f",
+      "name": "Prepare RESTlet Request"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Code Node: Process RESTlet Response\nconst response = $json;\n\nif (response.error) {\n  return {\n    status: 'error',\n    message: response.message,\n    moveToHumanReview: true\n  };\n}\n\nif (response.matchFound) {\n  return {\n    status: 'matched',\n    method: response.method,\n    vraData: response.vraData,\n    continueToComparison: true\n  };\n} else {\n  return {\n    status: 'no_match',\n    moveToHumanReview: true\n  };\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1312,
+        32
+      ],
+      "id": "ce4ceff3-c715-4717-a784-a497db770bf2",
+      "name": "Process RESTlet Response"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        128,
+        352
+      ],
+      "id": "77a693d4-b2ee-4f14-8f82-129e72dc840e",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "fuueA3SX0zxSWX1F",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "Vendors",
+        "description": "Vendor's name"
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolVectorStore",
+      "typeVersion": 1,
+      "position": [
+        368,
+        352
+      ],
+      "id": "68e9fe71-fff9-4e19-ba4c-6769fa7a61a5",
+      "name": "Answer questions with a vector store"
+    },
+    {
+      "parameters": {
+        "tableName": {
+          "__rl": true,
+          "value": "vendors",
+          "mode": "list",
+          "cachedResultName": "vendors"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1.1,
+      "position": [
+        224,
+        560
+      ],
+      "id": "d8f79790-ce1d-4fd0-868f-8a9e46cf202f",
+      "name": "Supabase Vector Store",
+      "credentials": {
+        "supabaseApi": {
+          "id": "eUQV73m7dq0L1jth",
+          "name": "Supabase account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        336,
+        672
+      ],
+      "id": "cb213dab-84e3-46f5-816b-350a1c1d05b1",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "fuueA3SX0zxSWX1F",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        544,
+        576
+      ],
+      "id": "42ed358c-d3bf-4744-9851-c6ed36155948",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "fuueA3SX0zxSWX1F",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are an AI agent responsible for returning the `internalId` of a vendor from a Supabase vector store named `Vendors`.\n\nA user will provide a message that may include vendor name. You must use the `Vendors` tool to find the matching vendor.\n\nRules:\n- Return only the `internalId` of the best-matching vendor\n\n- DO NOT return explanations, full addresses, or any other commentary.\n- DO NOT invent internal IDs.\n- disregard Inc. and Co. and other suffixes that may confuse you.\n\nHere is the user's input:  \n{{ $json.vendorName }}\n",
+        "options": {
+          "systemMessage": "You are a helpful assistant"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        336,
+        32
+      ],
+      "id": "4c4bdd99-6d6b-44fe-b914-3854863b8da7",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "content": "## Take Form text input and AI Vector Search for matching Vendors\n",
+        "height": 960,
+        "width": 820,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        32,
+        -64
+      ],
+      "id": "590d0653-2e33-4986-b4e4-74481ed77db8",
+      "name": "Sticky Note2"
+    }
+  ],
+  "pinData": {
+    "When clicking ‘Execute workflow’": [
+      {
+        "json": {
+          "processId": "1759169890_fdye62"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get Document Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Document Data": {
+      "main": [
+        [
+          {
+            "node": "Extract Match Criteria",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Match Criteria": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare RESTlet Request": {
+      "main": [
+        [
+          {
+            "node": "NetSuite Restlet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "NetSuite Restlet": {
+      "main": [
+        [
+          {
+            "node": "Process RESTlet Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Answer questions with a vector store": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase Vector Store": {
+      "ai_vectorStore": [
+        [
+          {
+            "node": "Answer questions with a vector store",
+            "type": "ai_vectorStore",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Supabase Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Answer questions with a vector store",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Prepare RESTlet Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "cfe10c77-2eed-4c6e-87f2-96d7efa078a2",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "cacdb952391d4a3d881d455321360290f81a1be3d919b0ecc113832df6d6119d"
+  },
+  "id": "abQqFX1e8NO7dYn0",
+  "tags": []
+}

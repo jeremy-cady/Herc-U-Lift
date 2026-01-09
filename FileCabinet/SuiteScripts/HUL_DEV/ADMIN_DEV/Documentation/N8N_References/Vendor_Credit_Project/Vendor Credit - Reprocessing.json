@@ -1,0 +1,271 @@
+{
+  "name": "Vendor Credit - Reprocessing",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 15
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "a47b5b7b-4ef0-46e5-94bf-a4c92c808dc5",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        768,
+        -128
+      ],
+      "id": "70f6958b-b62a-4c9c-a791-42d900375083",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "ed7435ef-9d88-4a01-945f-ddf541e9fe4c",
+              "leftValue": "={{$json[0]}}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        432,
+        0
+      ],
+      "id": "5bde0e47-0118-485f-9276-84f2baca53b1",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{$json.document_url}}",
+          "mode": "url"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1952,
+        -176
+      ],
+      "id": "2c8a5aee-59cc-4f77-8331-01f31aebba30",
+      "name": "Download file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "bJwCJgEucYD4nbZS",
+          "name": "Google Drive account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "url": "https://laezkwglnixpwcselgzm.supabase.co/rest/v1/needs_reprocessing?limit=5",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "supabaseApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Prefer",
+              "value": "return=representation"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        224,
+        0
+      ],
+      "id": "f2dafd55-468e-4600-8221-9bae1f886fad",
+      "name": "Get Reprocessing Queue",
+      "credentials": {
+        "supabaseApi": {
+          "id": "SQ2mUi6UxYafHKBT",
+          "name": "Supabase -Vendor Credit"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $json;\n\n// Build the data needed for reprocessing\nreturn {\n  processId: item.process_id,\n  documentName: item.document_name,\n  documentUrl: item.document_url,\n  correctedVendorName: item.corrected_vendor_name || null,\n  reviewedAt: item.reviewed_at,\n  \n  // Mark this for tracking\n  reprocessingData: {\n    originalProcessId: item.process_id,\n    isReprocess: true,\n    corrections: {\n      vendor: item.corrected_vendor_name || null\n    }\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1120,
+        0
+      ],
+      "id": "fccfe99d-d19c-4749-b4eb-10f29ef4dd21",
+      "name": "Prepare for Reprocessing"
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "https://laezkwglnixpwcselgzm.supabase.co/rest/v1/rpc/processing_history?process_id=eq.{{$json.process_id}}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "supabaseApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Prefer",
+              "value": "return=representation"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"reprocessed_at\": \"{{new Date().toISOString()}}\",\n  \"review_status\": \"reprocessing\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1392,
+        64
+      ],
+      "id": "c4b8c8ae-0ff3-4e89-899a-5ffa4e306caf",
+      "name": "Mark as Reprocessing",
+      "credentials": {
+        "supabaseApi": {
+          "id": "SQ2mUi6UxYafHKBT",
+          "name": "Supabase -Vendor Credit"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get Reprocessing Queue",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Prepare for Reprocessing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file": {
+      "main": [
+        []
+      ]
+    },
+    "Get Reprocessing Queue": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare for Reprocessing": {
+      "main": [
+        [
+          {
+            "node": "Mark as Reprocessing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mark as Reprocessing": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "bb93060f-6687-4aed-8eab-7ae1c9de733e",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "cacdb952391d4a3d881d455321360290f81a1be3d919b0ecc113832df6d6119d"
+  },
+  "id": "CJEe4SEfz6VCTCgo",
+  "tags": []
+}

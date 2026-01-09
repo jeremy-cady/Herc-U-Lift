@@ -1,0 +1,9 @@
+id,vendor_profile_id,variant_name,similarity_score,source,times_seen,last_seen,is_approved
+1a7160e2-ade1-4fb6-829e-4acf1c2542db,95fb927f-b46a-45fc-84bf-d24cbf32a004,Hoist Material Handling Inc.,80.00,ocr,1,2025-09-16 18:54:51.162579,false
+2e8a87dc-de28-440b-9aa3-5fb24b72761c,6ddbd5ab-f4f1-42e9-9540-838d9ff026a9,TVH Parts Co,75.00,ocr,3,2025-09-16 17:52:26.384075,false
+50b9f37e-e71e-46b8-bfca-3336b50c8a00,3e497f1e-50eb-426f-97ec-844cf46a8c81,Load Lifter Mfg. Ltd.,60.00,ocr,1,2025-09-16 18:54:30.429116,false
+54d0647b-725f-459d-bf29-6ef9da836761,3e497f1e-50eb-426f-97ec-844cf46a8c81,Niftylift Inc.,75.00,ocr,3,2025-09-16 18:01:57.282908,false
+6b33de34-2f25-4646-b28d-ac82f20dfae1,d37f9612-784c-4bef-8ac2-2bb0d022c0d8,Arnold Motor Supply,80.00,ocr,1,2025-09-16 19:10:33.696992,false
+aaca43b2-1c0b-41e0-bab7-76e220089c93,3e497f1e-50eb-426f-97ec-844cf46a8c81,"Big Lift, LLC",85.00,ocr,4,2025-09-16 19:07:10.715912,false
+c3136de0-362e-46db-b356-d14e62d65982,5c50060f-bdd3-4a24-946e-df82e4f217d8,Trackmobile Parts Group,80.00,ocr,5,2025-10-01 17:48:16.830422,false
+d9db3ae6-0cb8-43bb-903f-ec3b06ea2afb,40ed1e27-e910-4ab7-9d7f-fbc240304245,Load Lifter Mfg. Ltd.,60.00,ocr,1,2025-09-19 20:19:18.12708,false

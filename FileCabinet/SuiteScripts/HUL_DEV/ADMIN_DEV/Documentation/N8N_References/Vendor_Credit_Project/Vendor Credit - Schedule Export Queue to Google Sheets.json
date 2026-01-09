@@ -1,0 +1,334 @@
+{
+  "name": "Vendor Credit - Schedule Export Queue to Google Sheets",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "51cad64f-1d09-40ba-b83d-4c4685156891",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1nZAK82JBVd1aWDCFrGlE9lZHbsv9eTcb71y4SH8Jzjw",
+          "mode": "list",
+          "cachedResultName": "Vendor Credit - Vendor Test",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1nZAK82JBVd1aWDCFrGlE9lZHbsv9eTcb71y4SH8Jzjw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 110772334,
+          "mode": "list",
+          "cachedResultName": "ReviewQueue",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1nZAK82JBVd1aWDCFrGlE9lZHbsv9eTcb71y4SH8Jzjw/edit#gid=110772334"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "ReviewDate",
+              "displayName": "ReviewDate",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ProcessID",
+              "displayName": "ProcessID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Document",
+              "displayName": "Document",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Vendor",
+              "displayName": "Vendor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "DocNumber",
+              "displayName": "DocNumber",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "DocDate",
+              "displayName": "DocDate",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "QualityScore",
+              "displayName": "QualityScore",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "LineTotal",
+              "displayName": "LineTotal",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "DocTotal",
+              "displayName": "DocTotal",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Discrepancy",
+              "displayName": "Discrepancy",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "IssueType",
+              "displayName": "IssueType",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "DocumentURL",
+              "displayName": "DocumentURL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Action",
+              "displayName": "Action",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Notes",
+              "displayName": "Notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        992,
+        96
+      ],
+      "id": "a0a575b6-7c0e-4b01-be35-12f25b4e8aa4",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "8eGYCLbG2NqHX3GA",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://laezkwglnixpwcselgzm.supabase.co/rest/v1/review_queue?limit=20",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "supabaseApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "1c34bffd-7a40-4af9-8645-60598d0b55aa",
+      "name": "Get Review Queue",
+      "credentials": {
+        "supabaseApi": {
+          "id": "SQ2mUi6UxYafHKBT",
+          "name": "Supabase -Vendor Credit"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Simpler version if using Split In Batches\nconst item = $json;\n\nreturn {\n  ReviewDate: new Date().toLocaleDateString(),\n  ProcessID: item.process_id || '',\n  Document: item.document_name || '',\n  Vendor: item.vendor_name || 'UNKNOWN',\n  DocNumber: item.document_number || '',\n  DocDate: item.document_date || '',\n  QualityScore: item.quality_score || 0,\n  LineTotal: parseFloat(item.line_items_total || 0).toFixed(2),\n  DocTotal: parseFloat(item.actual_total || 0).toFixed(2),\n  Discrepancy: parseFloat(item.discrepancy || 0).toFixed(2),\n  IssueType: item.issue_type || '',\n  DocumentURL: item.document_url || '',\n  Action: '',\n  Notes: ''\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        704,
+        96
+      ],
+      "id": "18e275e7-ffc9-435a-92c6-9875cd10a0e1",
+      "name": "Format Queue for Sheets"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        416,
+        0
+      ],
+      "id": "102fa3b9-0156-4785-aabf-1769946a3f04",
+      "name": "Loop Over Items"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get Review Queue",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Review Queue": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Queue for Sheets": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Format Queue for Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "bce1eab7-9c52-409a-9d90-61917290afff",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "cacdb952391d4a3d881d455321360290f81a1be3d919b0ecc113832df6d6119d"
+  },
+  "id": "6wy8KRn1dN4TiVdc",
+  "tags": []
+}

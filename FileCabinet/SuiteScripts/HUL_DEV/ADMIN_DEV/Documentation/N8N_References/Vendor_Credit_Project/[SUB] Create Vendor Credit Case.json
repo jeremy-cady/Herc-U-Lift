@@ -1,0 +1,320 @@
+{
+  "name": "[SUB] Create Vendor Credit Case",
+  "nodes": [
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    json: {\n      customform: { id: \"112\" },\n      title: $input.first().json.vendorName + \" Vendor Credit\",\n      incomingMessage: \"VRA: \" + $input.first().json.vraNumber + \" PO: \" + $input.first().json.poNumber + \" Vendor: \" + $input.first().json.vendorName + \" document_url: \" + $input.first().json.documentURL,\n      category: { id: \"7\" },\n      company: { id: \"131487\" },\n      custevent_nx_customer: { id: \"131487\" },\n      origin: { id: \"-5\" },\n      cseg_sna_revenue_st: { id: \"2\" },\n      quicknote: $input.first().json.totalAmount\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -4080,
+        -48
+      ],
+      "id": "50a91469-8303-4b03-96a4-c71b4c67c64d",
+      "name": "Code Prep Data for API1"
+    },
+    {
+      "parameters": {
+        "operation": "rawRequest",
+        "method": "POST",
+        "path": "https://6952227.suitetalk.api.netsuite.com/services/rest/record/v1/supportCase/",
+        "options": {
+          "fullResponse": true
+        }
+      },
+      "type": "n8n-nodes-netsuite.netsuite",
+      "typeVersion": 1,
+      "position": [
+        -3872,
+        -48
+      ],
+      "id": "06b5bbdc-0f78-4bed-a0d0-982b78f754fb",
+      "name": "POST new Support Case1",
+      "credentials": {
+        "netsuite": {
+          "id": "tcxZBAPzsGAegAvI",
+          "name": "NetSuite account - PROD live"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $('When Executed by Another Workflow').item.json.documentURL }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -3520,
+        -48
+      ],
+      "id": "84fe84ec-16c2-413f-9449-a4e9c70508cb",
+      "name": "Get each image file"
+    },
+    {
+      "parameters": {
+        "jsCode": "const url = $(\"POST new Support Case1\").first().json.headers.location\n  //$input.first().json.headers.location\nconst caseId = url.split(\"/\").pop();  // gets the last part after the final /\n\nreturn [\n  {\n    json: {\n      newCaseId: caseId\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -3680,
+        -48
+      ],
+      "id": "a75947e2-e981-4869-8f5d-606bea008fa2",
+      "name": "Get New Case ID"
+    },
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -4336,
+        -48
+      ],
+      "id": "7c68294d-eae1-48b8-9e5a-387dd20442c8",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "restlet_url": "https://6952227.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=4063&deploy=1",
+        "request_body": "={\n  \"encoding\": \"UTF-8\",\n  \"function\": \"fileCreate\",\n  \"folderID\": 5741185,\n  \"contents\": \"{{ $json.contents }}\",\n  \"isOnline\": true,\n  \"description\": \"{{ $json.name }}\",\n  \"name\": \"{{ $json.name }}\",\n  \"fileType\": \"{{ $json.fileType }}\"\n} "
+      },
+      "type": "@squaregrove/n8n-nodes-nsrestlet.NSRestlet",
+      "typeVersion": 1,
+      "position": [
+        -3168,
+        -48
+      ],
+      "id": "68c434b9-a906-470f-beda-4382cc6260a1",
+      "name": "Upload File to File Cabinet",
+      "credentials": {
+        "ns-restletApi": {
+          "id": "JabkoLB0X2xL8GA8",
+          "name": "NetSuite Restlet account - PROD Live"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "restlet_url": "https://6952227.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=4062&deploy=1",
+        "request_body": "={\n  \"caseId\": {{ $('Get New Case ID').item.json.newCaseId }},\n  \"fileId\": {{ $('Upload File to File Cabinet').item.json.info.id }}\n} "
+      },
+      "type": "@squaregrove/n8n-nodes-nsrestlet.NSRestlet",
+      "typeVersion": 1,
+      "position": [
+        -2880,
+        -48
+      ],
+      "id": "4b7daa6e-7b6f-442a-a02b-e52cccb7c678",
+      "name": "Attach File to New Case1",
+      "credentials": {
+        "ns-restletApi": {
+          "id": "JabkoLB0X2xL8GA8",
+          "name": "NetSuite Restlet account - PROD Live"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const binary = $('Get each image file').first().binary.data\n\nconst typeMap = {\n  'image/png': 'PNGIMAGE',\n  'image/jpeg': 'JPGIMAGE',\n  'application/pdf': 'PDF'\n};\n\nreturn [\n  {\n    json: {\n      function: \"fileCreate\",\n      name: binary.fileName || \"photo.png\",\n      fileType: \"PDF\",  \n      contents: binary.data, // Already base64 from n8n\n      description: \"Uploaded from n8n form\",\n      encoding: \"UTF-8\",\n      folderID: 4746585,  // 👈 Replace with your NetSuite folder ID\n      isOnline: true\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -3344,
+        -48
+      ],
+      "id": "d4490b20-47ff-4065-a6ac-2ef3d642cf28",
+      "name": "Prep Binary Data for File Cabinet"
+    },
+    {
+      "parameters": {
+        "content": "## Create Case",
+        "height": 592,
+        "width": 192
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -3920,
+        -192
+      ],
+      "id": "9b851720-a9e7-4773-94e3-2f0dec1da92b",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Prep for PDF attachment to Case\n",
+        "height": 592,
+        "width": 512,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -3712,
+        -192
+      ],
+      "id": "0a15e92d-d517-4632-8b46-44496fc5b91a",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Upload to NetSuite File Cabinet",
+        "height": 592,
+        "width": 224,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -3184,
+        -192
+      ],
+      "id": "41c89ca6-8965-4b44-a0bc-4391a9f3f2ad",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Attach PDF to newly created Case",
+        "height": 592,
+        "width": 224,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -2944,
+        -192
+      ],
+      "id": "22cc02c0-774f-4058-8f21-97211adbfce2",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "## Prep data from workflow to create case",
+        "height": 592,
+        "width": 192,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -4128,
+        -192
+      ],
+      "id": "b402f4be-5a45-4dcd-8735-d4bbde64e798",
+      "name": "Sticky Note4"
+    }
+  ],
+  "pinData": {
+    "When Executed by Another Workflow": [
+      {
+        "json": {
+          "vraNumber": "VRA2392",
+          "vraInternalID": "5689839",
+          "poNumber": "P1-157368",
+          "poNumberInternalID": "5615778",
+          "vendorName": "V3612 JLG Industries Inc",
+          "vendorId": "57604",
+          "totalAmount": 222.58,
+          "documentURL": "https://drive.google.com/uc?id=1abuV95gWB3Ws4gJKcPmTu3HYOV1zpzgx&export=download"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Code Prep Data for API1": {
+      "main": [
+        [
+          {
+            "node": "POST new Support Case1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "POST new Support Case1": {
+      "main": [
+        [
+          {
+            "node": "Get New Case ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get each image file": {
+      "main": [
+        [
+          {
+            "node": "Prep Binary Data for File Cabinet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get New Case ID": {
+      "main": [
+        [
+          {
+            "node": "Get each image file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Code Prep Data for API1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prep Binary Data for File Cabinet": {
+      "main": [
+        [
+          {
+            "node": "Upload File to File Cabinet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload File to File Cabinet": {
+      "main": [
+        [
+          {
+            "node": "Attach File to New Case1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "20af08b6-1ea2-425d-befd-2b615ebfb5bc",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "cacdb952391d4a3d881d455321360290f81a1be3d919b0ecc113832df6d6119d"
+  },
+  "id": "X5TUNszRpyyO6f5G",
+  "tags": []
+}

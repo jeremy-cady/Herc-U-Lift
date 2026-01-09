@@ -1,0 +1,1568 @@
+{
+  "name": "Vendor Credit - VRA PDF Matching Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## FORM UPLOAD PROCESS\n\n1. User uploads PDF via form\n2. File is processed through OCR\n3. Matches against VRA in NetSuite\n     \nForm URL: https://automation.herculift.com/form-test/vra-pdf-processor",
+        "height": 768,
+        "width": 816
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -352,
+        -192
+      ],
+      "id": "c914c606-964e-4a3b-bcc5-904f116d0497",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Mistral OCR Annotations AI",
+        "height": 768,
+        "width": 336,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        480,
+        -192
+      ],
+      "id": "1a25fd7c-bcfe-45dd-a288-c881525f3628",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.mistral.ai/v1/ocr",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"mistral-ocr-latest\",\n  \"document\": {\n    \"document_url\": \"{{ $json.pdfURL }}\"\n  },\n  \"pages\": [0,1,2,3,4,5,6,7],\n  \"document_annotation_format\": {\n    \"type\": \"json_schema\",\n    \"json_schema\": {\n      \"schema\": {\n        \"properties\": {\n          \"vendor_name\": {\n            \"title\": \"Vendor_Name\",\n            \"type\": \"string\"\n          },\n          \"vendor_doc_number\": {\n            \"title\": \"Vendor_Doc_Number\",\n            \"type\": \"string\"\n          },\n          \"credit_date\": {\n            \"title\": \"Credit_Date\",\n            \"type\": \"string\"\n          },\n          \"total_amount\": {\n            \"title\": \"Total_Amount\",\n            \"type\": \"number\",\n            \"description\": \"Final total invoice amount\"\n          },\n          \"customer_name\": {\n            \"title\": \"Customer_Name\",\n            \"type\": \"string\"\n          },\n          \"po_numbers\": {\n            \"title\": \"PO_Numbers\",\n            \"type\": \"array\",\n            \"items\": {\"type\": \"string\"}\n          },\n          \"vra_numbers\": {\n            \"title\": \"VRA_Numbers\",\n            \"type\": \"array\",\n            \"items\": {\"type\": \"string\"}\n          },\n          \"subtotals\": {\n            \"title\": \"Subtotals\",\n            \"type\": \"object\",\n            \"properties\": {\n              \"total_parts\": {\"type\": \"number\"},\n              \"total_sales_tax\": {\"type\": \"number\"},\n              \"emergency_surcharges\": {\"type\": \"number\"},\n              \"freight_handling\": {\"type\": \"number\"},\n              \"restock_fee\": {\"type\": \"number\"},\n              \"claim_amount\": {\"type\": \"number\"},\n              \"dealer_service_fee\": {\"type\": \"number\"},\n              \"cores\": {\"type\": \"number\"},\n              \"misc_charges\": {\"type\": \"number\"}\n            },\n            \"additionalProperties\": false\n          },\n          \"line_items\": {\n            \"title\": \"Line_Items\",\n            \"type\": \"array\",\n            \"items\": {\n              \"type\": \"object\",\n              \"properties\": {\n                \"line_number\": {\"type\": \"string\"},\n                \"part_number\": {\"type\": \"string\"},\n                \"description\": {\"type\": \"string\"},\n                \"quantity_shipped\": {\"type\": \"number\"},\n                \"unit_value\": {\"type\": \"number\"},\n                \"extended_value\": {\"type\": \"number\"}\n              },\n              \"required\": [\"part_number\", \"quantity_shipped\", \"extended_value\"],\n              \"additionalProperties\": false\n            }\n          }\n        },\n        \"required\": [\n          \"vendor_name\",\n          \"vendor_doc_number\",\n          \"total_amount\",\n          \"customer_name\",\n          \"line_items\",\n          \"subtotals\"\n        ],\n        \"title\": \"CreditMemoExtraction\",\n        \"type\": \"object\",\n        \"additionalProperties\": false\n      },\n      \"name\": \"credit_memo_annotation\",\n      \"strict\": true\n    }\n  },\n  \"include_image_base64\": false\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        608,
+        32
+      ],
+      "id": "8b103da4-d1c1-4969-b219-17fd4ffaa981",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "ky4Y8Yqr7uRCbhxe",
+          "name": "Mistral Header Auth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Normalize Results\n",
+        "height": 768,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1216,
+        -192
+      ],
+      "id": "0b5999c1-b7e0-4f4c-afa8-6cca14a9b55f",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Test Logger\nNeeds review if quality less than 80% or issues is greater than 1\n",
+        "height": 768,
+        "width": 416,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1984,
+        -192
+      ],
+      "id": "3b44aac2-95e9-4081-a1b0-24b11859f6e2",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Name: \"Log Test Results\"\nconst normalized = $('Smart Normalize with Database').item.json;\nconst vendorName = normalized.vendor.name;\nconst processData = $('Initialize Process Variables').item.json;\n\n// Get OCR response - adjust this to match your actual node name\n// It might be \"Mistral OCR\" or \"OCR Extract Headers\" or similar\nlet ocrExtracted;\ntry {\n  // Try to get the parsed annotation data from the normalization input\n  ocrExtracted = normalized.rawExtraction || {};\n} catch(e) {\n  ocrExtracted = {};\n}\n\n// Create a test result object\nconst testResult = {\n  timestamp: new Date().toISOString(),\n  processId: processData.processId,\n  pdfFileName: processData.pdfFileName,\n  vendor: vendorName,\n  documentNumber: normalized.vendor.documentNumber,\n  documentDate: normalized.document.date,\n  totalAmount: normalized.document.totalAmount,\n  \n  // Extraction quality metrics\n  extractionQuality: {\n    vendorCorrect: !!normalized.vendor.name,\n    documentNumberCorrect: !!normalized.vendor.documentNumber,\n    totalCorrect: normalized.validation.lineSumMatchesTotal,\n    lineItemsCount: normalized.lineItems.length,\n    poNumbersFound: normalized.references.poNumbers.length,\n    vraNumbersFound: normalized.references.vraNumbers.length,\n    hasRestockFee: normalized.document.fees.restockFee > 0,\n    discrepancy: normalized.validation.discrepancy\n  },\n  \n  // Detailed breakdown\n  breakdown: {\n    lineItemsTotal: normalized.validation.breakdown?.lineItemsTotal || 0,\n    restockFee: normalized.document.fees.restockFee,\n    dealerServiceFee: normalized.document.fees.dealerServiceFee,\n    cores: normalized.document.fees.cores,\n    calculatedTotal: normalized.validation.breakdown?.calculatedTotal || 0\n  },\n  \n  // Issues array\n  issues: [],\n  \n  // References found\n  references: {\n    poNumbers: normalized.references.poNumbers,\n    vraNumbers: normalized.references.vraNumbers,\n    invoiceNumbers: normalized.references.invoiceNumbers\n  },\n  \n  // Part numbers extracted\n  partNumbers: normalized.lineItems.map(item => ({\n    partNumber: item.partNumber,\n    quantity: item.quantity,\n    amount: item.amount\n  }))\n};\n\n// Identify specific issues\nif (!normalized.validation.lineSumMatchesTotal) {\n  testResult.issues.push(`Total mismatch: $${normalized.validation.discrepancy.toFixed(2)}`);\n}\nif (normalized.lineItems.length === 0) {\n  testResult.issues.push(\"No line items extracted\");\n}\nif (!normalized.vendor.name) {\n  testResult.issues.push(\"Vendor name not extracted\");\n}\nif (!normalized.vendor.documentNumber) {\n  testResult.issues.push(\"Document number not extracted\");\n}\nif (normalized.references.poNumbers.length === 0) {\n  testResult.issues.push(\"No PO numbers found\");\n}\nif (normalized.warnings && normalized.warnings.length > 0) {\n  normalized.warnings.forEach(warning => testResult.issues.push(warning));\n}\n\n// Use the quality score from normalization node\ntestResult.qualityScore = normalized.validation.qualityScore;\ntestResult.qualityDetails = normalized.validation.qualityDetails;\n\n// Use consistent thresholds with the normalization\ntestResult.needsReview = normalized.learningData.needsReview || normalized.learningData.needsLearning;\ntestResult.autoApproved = normalized.learningData.autoApproved;\n\n// Format for Google Sheets (flatten for easier logging)\nconst sheetRow = {\n  timestamp: testResult.timestamp,\n  processId: testResult.processId,\n  pdfFileName: testResult.pdfFileName,\n  vendor: testResult.vendor,\n  documentNumber: testResult.documentNumber,\n  documentDate: testResult.documentDate,\n  totalAmount: testResult.totalAmount,\n  lineItemsCount: testResult.extractionQuality.lineItemsCount,\n  qualityScore: normalized.validation.qualityScore,\n  totalMatches: testResult.extractionQuality.totalCorrect ? \"YES\" : \"NO\",\n  discrepancy: testResult.extractionQuality.discrepancy.toFixed(2),\n  poNumbers: testResult.references.poNumbers.join(\", \"),\n  vraNumbers: testResult.references.vraNumbers.join(\", \") || \"None\",\n  issues: testResult.issues.join(\" | \"),\n  needsReview: testResult.needsReview ? \"YES\" : \"NO\"\n};\n\nreturn {\n  testResult,\n  sheetRow  // This format is ready for Google Sheets node\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2032,
+        32
+      ],
+      "id": "d2bb3762-5858-4a47-8faa-32cf68e72a94",
+      "name": "Log Test Results"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1nZAK82JBVd1aWDCFrGlE9lZHbsv9eTcb71y4SH8Jzjw",
+          "mode": "list",
+          "cachedResultName": "Vendor Credit - Vendor Test",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1nZAK82JBVd1aWDCFrGlE9lZHbsv9eTcb71y4SH8Jzjw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1nZAK82JBVd1aWDCFrGlE9lZHbsv9eTcb71y4SH8Jzjw/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Process ID": "={{ $json.sheetRow.processId }}",
+            "Timestamp": "={{ $json.sheetRow.timestamp }}",
+            "PDF File Name": "={{ $json.sheetRow.pdfFileName }}",
+            "Vendor": "={{ $json.sheetRow.vendor }}",
+            "Document Number": "={{ $json.sheetRow.documentNumber }}",
+            "Document Date": "={{ $json.sheetRow.documentDate }}",
+            "Total Amount": "={{ $json.sheetRow.totalAmount }}",
+            "Line Items Count": "={{ $json.sheetRow.lineItemsCount }}",
+            "Quality Score": "={{ $json.sheetRow.qualityScore }}",
+            "Needs Review": "={{ $json.sheetRow.needsReview }}",
+            "Issues": "={{ $json.sheetRow.issues }}",
+            "VRA Numbers": "={{ $json.sheetRow.vraNumbers }}",
+            "PO Numbers": "={{ $json.sheetRow.poNumbers }}",
+            "Discrepancy": "={{ $json.sheetRow.discrepancy }}",
+            "Total Matches": "={{ $json.sheetRow.totalMatches }}"
+          },
+          "matchingColumns": [
+            "Timestamp"
+          ],
+          "schema": [
+            {
+              "id": "Timestamp",
+              "displayName": "Timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Process ID",
+              "displayName": "Process ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "PDF File Name",
+              "displayName": "PDF File Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Vendor",
+              "displayName": "Vendor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Document Number",
+              "displayName": "Document Number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Document Date",
+              "displayName": "Document Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Total Amount",
+              "displayName": "Total Amount",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Line Items Count",
+              "displayName": "Line Items Count",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Quality Score",
+              "displayName": "Quality Score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Total Matches",
+              "displayName": "Total Matches",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Discrepancy",
+              "displayName": "Discrepancy",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "PO Numbers",
+              "displayName": "PO Numbers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "VRA Numbers",
+              "displayName": "VRA Numbers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Issues",
+              "displayName": "Issues",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Needs Review",
+              "displayName": "Needs Review",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2256,
+        32
+      ],
+      "id": "48a50fc0-2e9b-4805-81c2-b684bd763c6e",
+      "name": "VRA OCR Test Results",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "8eGYCLbG2NqHX3GA",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "move",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $('Initialize Process Variables').item.json.pdfFileId }}",
+          "mode": "id"
+        },
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1OCo8pCJ4ZNfrgfWyqC0W0QXtVjISDsPH",
+          "mode": "list",
+          "cachedResultName": "Done Parts",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1OCo8pCJ4ZNfrgfWyqC0W0QXtVjISDsPH"
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2992,
+        -160
+      ],
+      "id": "66cc90b5-b38b-4f3f-9490-43bbc5564722",
+      "name": "Move file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "bJwCJgEucYD4nbZS",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Move to Done Folder\n",
+        "height": 768,
+        "width": 896
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2416,
+        -192
+      ],
+      "id": "27056944-a864-4260-ab65-55c50833be91",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://laezkwglnixpwcselgzm.supabase.co/rest/v1/rpc/find_vendor",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "supabaseApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Prefer",
+              "value": "return=single"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"vendor_name_input\": \"{{ JSON.parse($json.document_annotation).vendor_name }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        960,
+        32
+      ],
+      "id": "b46118dc-5f54-4de3-b081-d6e51e5f53aa",
+      "name": "Find Vendor Profile",
+      "credentials": {
+        "supabaseApi": {
+          "id": "SQ2mUi6UxYafHKBT",
+          "name": "Supabase -Vendor Credit"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get data from previous nodes\nconst mistralResponse = $('HTTP Request').item.json;\nconst processVars = $('Initialize Process Variables').item.json;\nconst vendorProfile = $('Find Vendor Profile').item.json;\nconst extractedData = JSON.parse(mistralResponse.document_annotation);\n\n// Helper functions\nfunction roundToTwo(num) {\n  return Math.round((num + Number.EPSILON) * 100) / 100;\n}\n\nfunction normalizeDate(dateStr) {\n  if (!dateStr) return null;\n  \n  if (/^\\d{4}-\\d{2}-\\d{2}$/.test(dateStr)) {\n    return dateStr;\n  }\n  \n  const patterns = [\n    /(\\d{1,2})\\/(\\d{1,2})\\/(\\d{4})/,\n    /(\\d{1,2})\\/(\\d{1,2})\\/(\\d{2})/,\n    /(\\d{1,2})-(\\d{1,2})-(\\d{4})/\n  ];\n  \n  for (const pattern of patterns) {\n    const match = dateStr.match(pattern);\n    if (match) {\n      if (match[0].includes('/')) {\n        if (match[3].length === 4) {\n          const month = match[1].padStart(2, '0');\n          const day = match[2].padStart(2, '0');\n          const year = match[3];\n          return `${year}-${month}-${day}`;\n        } else if (match[3].length === 2) {\n          const month = match[1].padStart(2, '0');\n          const day = match[2].padStart(2, '0');\n          const yearPart = parseInt(match[3]);\n          const year = yearPart <= 50 ? `20${match[3]}` : `19${match[3]}`;\n          return `${year}-${month}-${day}`;\n        }\n      }\n    }\n  }\n  return dateStr;\n}\n\n// Process line items using vendor rules\nfunction processLineItem(item, index) {\n  let amount = parseFloat(item.extended_value) || \n               parseFloat(item.amount) || 0;\n  let quantity = parseFloat(item.quantity_shipped) || \n                 parseFloat(item.quantity) || 0;\n  \n  const desc = (item.description || '').toLowerCase();\n  const partNum = (item.part_number || '').toLowerCase();\n  \n// Check if it's a restock fee using vendor patterns\nlet isRestockFee = false;\n\n// For Big Lift, be very specific about the pattern\nif (vendorProfile.vendor_name === 'Big Lift LLC') {\n  isRestockFee = desc.includes('% restock fee for') || \n                 (desc.includes('25.0000% restock fee') && !desc.includes('customer return'));\n} else {\n  // For other vendors, use their patterns\n  isRestockFee = (vendorProfile.restock_fee_patterns || []).some(\n    pattern => {\n      const p = pattern.toLowerCase();\n      return desc.includes(p) || partNum.includes(p);\n    }\n  ) || (desc.includes('% restocking fee') || desc.includes('restocking fee for'));\n}\n  \n  // Check if it's a core charge using vendor patterns\n  const isCoreCharge = (vendorProfile.core_charge_patterns || []).some(\n    pattern => {\n      const p = pattern.toLowerCase();\n      return desc.includes(p) || partNum.includes(p);\n    }\n  ) || (desc.includes('core') && (desc.includes('charge') || desc.includes('**')));\n  \n  // Apply sign rules based on vendor profile\n  const signRule = vendorProfile.line_items_sign_rule || 'follow_total';\n  \n  switch (signRule) {\n    case 'always_negative':\n      if (!isRestockFee && amount > 0) amount = -amount;\n      if (!isRestockFee && quantity > 0) quantity = -quantity;\n      break;\n      \n    case 'always_positive':\n      amount = Math.abs(amount);\n      quantity = Math.abs(quantity);\n      break;\n      \n    case 'trust_ocr':\n      // Keep as OCR extracted\n      break;\n      \n    case 'conditional':\n      if (isRestockFee) {\n        amount = Math.abs(amount);\n        quantity = Math.abs(quantity);\n      } else {\n        if (amount > 0) amount = -amount;\n        if (quantity > 0) quantity = -quantity;\n      }\n      break;\n      \n    default:\n      // For unknown vendors, follow sign convention\n      if (vendorProfile.sign_convention === 'positive_is_credit') {\n        if (!isRestockFee && amount > 0) amount = -amount;\n      } else if (vendorProfile.sign_convention === 'negative_is_credit') {\n        if (!isRestockFee && amount < 0) amount = amount;\n      }\n  }\n  \n  return {\n    lineNumber: item.line_number || (index + 1).toString(),\n    partNumber: (item.part_number || '').trim().toUpperCase(),\n    description: (item.description || '').trim(),\n    quantity: quantity,\n    unitPrice: roundToTwo(Math.abs(\n      parseFloat(item.unit_value) || \n      parseFloat(item.dnp) || \n      parseFloat(item.unit_price) || 0\n    )),\n    amount: roundToTwo(amount),\n    isRestockFee: isRestockFee,\n    isCoreCharge: isCoreCharge\n  };\n}\n\n// Process all line items\nconst lineItems = (extractedData.line_items || []).map((item, idx) => \n  processLineItem(item, idx)\n);\n\n// Detect what fees are in line items vs subtotals\nconst hasRestockInLines = lineItems.some(item => item.isRestockFee);\nconst hasCoreInLines = lineItems.some(item => item.isCoreCharge);\n\n// Calculate fees based on vendor profile\nconst fees = {\n  restockFee: 0,\n  salesTax: parseFloat(extractedData.subtotals?.total_sales_tax) || 0,\n  miscCharges: parseFloat(extractedData.subtotals?.misc_charges) || 0,\n  cores: 0,\n  dealerServiceFee: parseFloat(extractedData.subtotals?.dealer_service_fee) || 0,\n  emergencySurcharges: parseFloat(extractedData.subtotals?.emergency_surcharges) || 0,\n  freightHandling: parseFloat(extractedData.subtotals?.freight_handling) || 0,\n  claimAmount: parseFloat(extractedData.subtotals?.claim_amount) || 0\n};\n\n// Only add fees from subtotals if not already in line items\nif (vendorProfile.restock_fee_location === 'subtotal' && !hasRestockInLines) {\n  const rawRestock = parseFloat(extractedData.subtotals?.restock_fee) || 0;\n  fees.restockFee = Math.abs(rawRestock);\n}\n\nif (vendorProfile.core_charge_location === 'subtotal' && !hasCoreInLines) {\n  fees.cores = Math.abs(parseFloat(extractedData.subtotals?.cores) || 0);\n}\n\n// Calculate totals\nconst lineSum = roundToTwo(lineItems.reduce((sum, line) => sum + line.amount, 0));\nlet calculatedTotal = lineSum;\n\n// Apply fee rules based on vendor profile\nif (fees.restockFee > 0 && vendorProfile.restock_fee_location !== 'built_in_net') {\n  calculatedTotal = roundToTwo(calculatedTotal + fees.restockFee);\n}\n\nif (vendorProfile.sales_tax_increases_credit && fees.salesTax > 0) {\n  calculatedTotal = roundToTwo(calculatedTotal - fees.salesTax);\n}\n\nif (vendorProfile.misc_charges_reduce_credit && fees.miscCharges > 0) {\n  calculatedTotal = roundToTwo(calculatedTotal + fees.miscCharges);\n}\n\nif (!hasCoreInLines && fees.cores > 0) {\n  calculatedTotal = roundToTwo(calculatedTotal + fees.cores);\n}\n\n// Add other fees (but not claim_amount - that's the total, not a fee)\ncalculatedTotal = roundToTwo(\n  calculatedTotal + \n  fees.dealerServiceFee +\n  fees.emergencySurcharges +\n  fees.freightHandling\n);\n\n// Get actual total and apply vendor-specific total sign rules\nlet actualTotal = parseFloat(extractedData.total_amount) || 0;\n\n// Apply total amount sign rule based on vendor profile\nconst totalSignRule = vendorProfile.total_amount_sign_rule || 'follow_convention';\n\nif (totalSignRule === 'always_negative' && actualTotal > 0) {\n  // Vendor shows positive amounts that should be negative for credits\n  actualTotal = -actualTotal;\n} else if (totalSignRule === 'always_positive' && actualTotal < 0) {\n  // Vendor shows negative amounts that should be positive\n  actualTotal = Math.abs(actualTotal);\n} else if (totalSignRule === 'follow_convention') {\n  // Apply based on general sign convention\n  if (vendorProfile.sign_convention === 'positive_is_credit' && actualTotal > 0) {\n    actualTotal = -actualTotal;\n  }\n}\n\nconst discrepancy = Math.abs(calculatedTotal - actualTotal);\nconst isValid = discrepancy < 0.01;\n\n// Calculate quality score - PRIORITIZING ACCURACY\nlet qualityScore = 0;\nlet qualityDetails = {};\n\n// Total validation (45 points - HIGHEST WEIGHT)\nif (discrepancy < 0.01) {\n  qualityScore += 45;\n  qualityDetails.totalMatches = true;\n} else if (discrepancy < 1) {\n  qualityScore += 35;\n  qualityDetails.totalClose = true;\n} else if (discrepancy < 10) {\n  qualityScore += 20;\n  qualityDetails.totalWithin10 = true;\n} else {\n  qualityScore += 5;\n  qualityDetails.totalOff = roundToTwo(discrepancy);\n}\n\n// Line items (25 points - SECOND PRIORITY)\nif (lineItems.length > 0) {\n  qualityScore += Math.min(25, 5 + (lineItems.length * 2));\n  // Base 5 points for having any items, +2 per item up to 25\n  qualityDetails.lineItemCount = lineItems.length;\n}\n\n// Document number (15 points)\nif (extractedData.vendor_doc_number) {\n  qualityScore += 15;\n  qualityDetails.hasDocNumber = true;\n}\n\n// Vendor match (10 points - REDUCED WEIGHT)\nif (vendorProfile.match_score >= 95) {\n  qualityScore += 10;\n  qualityDetails.vendorMatch = 'exact';\n} else if (vendorProfile.match_score >= 70) {\n  qualityScore += 7;\n  qualityDetails.vendorMatch = 'fuzzy';\n} else {\n  qualityScore += 2;\n  qualityDetails.vendorMatch = 'unknown';\n}\n\n// References (5 points)\nconst poCount = (extractedData.po_numbers || []).length;\nconst vraCount = (extractedData.vra_numbers || []).length;\nconst refScore = Math.min(5, poCount * 2 + vraCount * 2);\nqualityScore += refScore;\nif (refScore > 0) {\n  qualityDetails.hasReferences = true;\n}\n\n// Parse PO/Order numbers\nfunction extractPONumbers(poArray) {\n  if (!Array.isArray(poArray)) return { poNumbers: [], orderNumbers: [] };\n  \n  const poNumbers = [];\n  const orderNumbers = [];\n  \n  [...new Set(poArray)].forEach(po => {\n    if (!po) return;\n    const poStr = po.toString().trim();\n    \n    if (/^\\d{10}$/.test(poStr)) {\n      orderNumbers.push(poStr);\n    } else {\n      poNumbers.push(poStr);\n    }\n  });\n  \n  return { poNumbers, orderNumbers };\n}\n\nconst { poNumbers, orderNumbers } = extractPONumbers(extractedData.po_numbers);\n\n// Build warnings array\nconst warnings = [];\nif (!extractedData.vendor_doc_number) {\n  warnings.push(\"Missing document number\");\n}\nif (!isValid) {\n  warnings.push(`Total mismatch: Calculated ${calculatedTotal} vs Actual ${actualTotal} (${roundToTwo(discrepancy)} difference)`);\n}\nif (hasRestockInLines) {\n  const restockTotal = lineItems\n    .filter(item => item.isRestockFee)\n    .reduce((sum, item) => sum + item.amount, 0);\n  warnings.push(`Restock fees in line items: ${roundToTwo(restockTotal)}`);\n}\nif (fees.restockFee > 0) {\n  warnings.push(`Restock fee in subtotal: ${fees.restockFee}`);\n}\n\n// Build normalized output\nconst normalized = {\n  processId: processVars.processId,\n  timestamp: processVars.timestamp,\n  status: \"normalized\",\n  \n  vendor: {\n    name: vendorProfile.vendor_name,\n    documentNumber: extractedData.vendor_doc_number?.trim() || \"\",\n    profileId: vendorProfile.id,\n    matchScore: vendorProfile.match_score,\n    confidence: vendorProfile.confidence_level\n  },\n  \n  customer: {\n    name: extractedData.customer_name?.trim() || \"\"\n  },\n  \n  document: {\n    type: \"VENDOR_CREDIT\",\n    date: normalizeDate(extractedData.credit_date),\n    currency: extractedData.currency || \"USD\",\n    totalAmount: actualTotal,\n    fees: fees,\n    subtotalParts: fees.totalParts || lineSum\n  },\n  \n  references: {\n    vraNumbers: [...new Set((extractedData.vra_numbers || []).filter(v => v))],\n    poNumbers: poNumbers,\n    orderNumbers: orderNumbers,\n    invoiceNumbers: [...new Set((extractedData.invoice_numbers || []).filter(i => i))]\n  },\n  \n  lineItems: lineItems,\n  \n  validation: {\n    qualityScore: qualityScore,\n    qualityDetails: qualityDetails,\n    hasRequiredFields: !!vendorProfile.vendor_name && !!extractedData.vendor_doc_number && actualTotal !== 0,\n    hasVendor: !!vendorProfile.vendor_name,\n    hasDocNumber: !!extractedData.vendor_doc_number,\n    hasAmount: actualTotal !== 0,\n    hasLineItems: lineItems.length > 0,\n    lineSum: lineSum,\n    lineSumMatchesTotal: isValid,\n    calculatedTotal: calculatedTotal,\n    actualTotal: actualTotal,\n    discrepancy: discrepancy,\n    breakdown: {\n      lineItemsTotal: lineSum,\n      hasRestockFeeLineItems: hasRestockInLines,\n      hasCoreChargeLineItems: hasCoreInLines,\n      restockFee: fees.restockFee,\n      salesTax: fees.salesTax,\n      cores: fees.cores,\n      miscCharges: fees.miscCharges,\n      calculatedTotal: calculatedTotal,\n      actualTotal: actualTotal,\n      discrepancy: discrepancy\n    }\n  },\n  \n  warnings: warnings,\n  \n  readyForMatching: (qualityScore >= 80),\n  \n learningData: {\n  needsLearning: qualityScore < 70,      // Was < 80\n  needsReview: qualityScore >= 70 && qualityScore < 85,  // Was 80-99\n  autoApproved: qualityScore >= 85,      // Was >= 99\n  vendorProfileUsed: vendorProfile.id || null  // KEEP THIS\n},\n  \n  summary: {\n    vendor: vendorProfile.vendor_name,\n    documentNumber: extractedData.vendor_doc_number,\n    total: actualTotal,\n    lineCount: lineItems.length,\n    lineItemsTotal: lineSum,\n    poNumbers: poNumbers.join(', '),\n    vraNumbers: (extractedData.vra_numbers || []).join(', ') || 'None',\n    validated: isValid,\n    qualityScore: qualityScore\n  },\n  \n  rawExtraction: extractedData\n};\n\nreturn normalized;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1280,
+        32
+      ],
+      "id": "b4bb420b-e205-4661-a731-b84947a0226a",
+      "name": "Smart Normalize with Database"
+    },
+    {
+      "parameters": {
+        "content": "## Find Vendor Scanning Settings\n",
+        "height": 768,
+        "width": 368,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        832,
+        -192
+      ],
+      "id": "87d64583-71a2-4bde-b339-e8c41fe3d528",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://laezkwglnixpwcselgzm.supabase.co/rest/v1/rpc/learn_from_processing",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "supabaseApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Prefer",
+              "value": "return=representation"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"p_process_id\": \"{{$('Smart Normalize with Database').item.json.processId}}\",\n  \"p_vendor_profile_id\": {{$('Smart Normalize with Database').item.json.vendor.profileId ? '\"' + $('Smart Normalize with Database').item.json.vendor.profileId + '\"' : 'null'}},\n  \"p_vendor_name\": \"{{$('Smart Normalize with Database').item.json.vendor.name}}\",\n  \"p_quality_score\": {{$('Smart Normalize with Database').item.json.validation.qualityScore}},\n  \"p_discrepancy\": {{$('Smart Normalize with Database').item.json.validation.discrepancy}},\n  \"p_line_sum\": {{$('Smart Normalize with Database').item.json.validation.lineSum}},\n  \"p_actual_total\": {{$('Smart Normalize with Database').item.json.validation.actualTotal}},\n  \"p_has_restock_in_lines\": {{$('Smart Normalize with Database').item.json.validation.breakdown.hasRestockFeeLineItems}},\n  \"p_restock_patterns\": []\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1536,
+        32
+      ],
+      "id": "0ffa7506-d7ac-4db8-b45c-b73f3f5a3744",
+      "name": "Apply Learning",
+      "credentials": {
+        "supabaseApi": {
+          "id": "SQ2mUi6UxYafHKBT",
+          "name": "Supabase -Vendor Credit"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Apply Learnings\n\n",
+        "height": 768,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1472,
+        -192
+      ],
+      "id": "49953ea3-9f7b-4057-95fd-7b8840ba9bad",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://laezkwglnixpwcselgzm.supabase.co/rest/v1/processing_history",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "supabaseApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Prefer",
+              "value": "return=representation"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"process_id\": \"{{$('Smart Normalize with Database').item.json.processId}}\",\n  \"vendor_profile_id\": {{$('Smart Normalize with Database').item.json.vendor.profileId ? '\"' + $('Smart Normalize with Database').item.json.vendor.profileId + '\"' : 'null'}},\n  \"document_name\": \"{{$('Initialize Process Variables').item.json.pdfFileName}}\",\n  \"document_url\": \"{{$('Initialize Process Variables').item.json.pdfURL}}\",\n  \"raw_ocr_data\": {{JSON.stringify($('Smart Normalize with Database').item.json.rawExtraction)}},\n  \"normalized_data\": {{JSON.stringify($('Smart Normalize with Database').item.json)}},\n  \"quality_score\": {{$('Smart Normalize with Database').item.json.validation.qualityScore}},\n  \"validation_details\": {{JSON.stringify($('Smart Normalize with Database').item.json.validation.qualityDetails)}},\n  \"line_items_total\": {{$('Smart Normalize with Database').item.json.validation.lineSum}},\n  \"calculated_total\": {{$('Smart Normalize with Database').item.json.validation.calculatedTotal}},\n  \"actual_total\": {{$('Smart Normalize with Database').item.json.validation.actualTotal}},\n  \"discrepancy\": {{$('Smart Normalize with Database').item.json.validation.discrepancy}},\n  \"review_status\": \"{{$('Smart Normalize with Database').item.json.validation.qualityScore >= 95 ? 'auto_approved' : $('Smart Normalize with Database').item.json.validation.qualityScore >= 80 ? 'pending_review' : 'needs_review'}}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1808,
+        32
+      ],
+      "id": "4995bcf4-5c7d-4e8a-a217-43b354f3d46f",
+      "name": "Store Processing History",
+      "credentials": {
+        "supabaseApi": {
+          "id": "SQ2mUi6UxYafHKBT",
+          "name": "Supabase -Vendor Credit"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Store Learnings\n\n\n",
+        "height": 768
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1728,
+        -192
+      ],
+      "id": "f24883b5-44c7-4499-87de-a388d11540a5",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "X5TUNszRpyyO6f5G",
+          "mode": "list",
+          "cachedResultName": "[SUB] Create Vendor Credit Case"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        5824,
+        160
+      ],
+      "id": "6f3fef40-d69a-4aae-a02a-5abd4b2e83a7",
+      "name": "Execute Workflow"
+    },
+    {
+      "parameters": {
+        "content": "## Prep for VRA Matching Logic\n\n",
+        "height": 768,
+        "width": 336,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        4624,
+        -192
+      ],
+      "id": "95e40aea-bb7f-4ce2-a426-612fbb13ffb9",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "content": "## Case Creation Subworkflow\n",
+        "height": 768,
+        "width": 528,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        5728,
+        -192
+      ],
+      "id": "3998440b-1e98-40b8-ad41-e950cfd49a1e",
+      "name": "Sticky Note9"
+    },
+    {
+      "parameters": {
+        "url": "https://laezkwglnixpwcselgzm.supabase.co/rest/v1/processing_history",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "supabaseApi",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "process_id",
+              "value": "=eq.{{ $('Initialize Process Variables').item.json.processId }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Prefer",
+              "value": "return=single"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"vendor_name_input\": \"{{ JSON.parse($json.document_annotation).vendor_name }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3472,
+        48
+      ],
+      "id": "abfb5a56-fcfe-43c5-a3dc-0be508a81b2c",
+      "name": "Get Document Data",
+      "credentials": {
+        "supabaseApi": {
+          "id": "SQ2mUi6UxYafHKBT",
+          "name": "Supabase -Vendor Credit"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the data from the previous node - handle different structures\nlet processData;\nconst inputData = $json;\n\n// Check if we got an array or single object\nif (Array.isArray(inputData)) {\n  processData = inputData[0];\n} else if (inputData.items && Array.isArray(inputData.items)) {\n  processData = inputData.items[0];\n} else {\n  processData = inputData;\n}\n\n// Check if we have the data we need\nif (!processData) {\n  throw new Error('No process data found');\n}\n\n// Get normalized data - check different possible locations\nconst normalized = processData.normalized_data || \n                   processData.normalizedData || \n                   JSON.parse(processData.normalized_data || '{}');\n\n// Validate we have the required data\nif (!normalized || !normalized.vendor) {\n  throw new Error('No normalized data found. Data structure: ' + JSON.stringify(processData).substring(0, 200));\n}\n\n// Extract VRA and PO numbers - DON'T strip the VRA prefix!\nlet vraNumbers = [];\nlet poNumbers = [];\n\nif (normalized.references) {\n  // Keep VRA numbers as-is (they need the VRA prefix)\n  vraNumbers = normalized.references.vraNumbers || [];\n  \n  // For PO numbers, you might want to keep or clean based on your format\n  poNumbers = normalized.references.poNumbers || [];\n  // Optional: Clean PO numbers if they have dashes or spaces\n  // poNumbers = poNumbers.map(po => String(po).replace(/[-\\s]/g, ''));\n}\n\n// Prepare line items for matching - use absolute values for comparison\nconst lineItems = (normalized.lineItems || []).map(item => ({\n  itemNumber: item.partNumber || item.itemNumber || '',\n  quantity: Math.abs(parseFloat(item.quantity || 0)),\n  amount: Math.abs(parseFloat(item.amount || 0)),\n  description: item.description || ''\n}));\n\n// Determine matching strategy\nlet matchingStrategy = 'none';\nif (vraNumbers.length > 0) {\n  matchingStrategy = 'direct_vra';\n} else if (poNumbers.length > 0) {\n  matchingStrategy = 'po_to_vra';\n} else if (normalized.vendor && normalized.vendor.name) {\n  matchingStrategy = 'vendor_open_vra';\n}\n\n// Return the extracted data\nreturn {\n  processId: processData.process_id || processData.processId,\n  vendorName: normalized.vendor.name || '',\n  vendorCreditNumber: normalized.vendor.documentNumber || '',\n  vraNumbers: vraNumbers,  // Now keeps \"VRA605\" instead of \"605\"\n  poNumbers: poNumbers,\n  lineItems: lineItems,\n  totalAmount: Math.abs(parseFloat(normalized.document?.totalAmount || 0)),\n  matchingStrategy: matchingStrategy,\n  documentUrl: processData.document_url || processData.documentUrl || '',\n  debug: {\n    hadVRA: vraNumbers.length > 0,\n    hadPO: poNumbers.length > 0,\n    lineItemCount: lineItems.length,\n    vraNumbersExtracted: vraNumbers,  // Show what we extracted\n    dataStructure: Object.keys(processData).join(', ')\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3664,
+        48
+      ],
+      "id": "95e0d613-10ff-4f5a-a4c4-2406ea5e33f3",
+      "name": "Extract Match Criteria"
+    },
+    {
+      "parameters": {
+        "restlet_url": "https://6952227.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=4402&deploy=1",
+        "request_body": "={{ $json }}"
+      },
+      "type": "@squaregrove/n8n-nodes-nsrestlet.NSRestlet",
+      "typeVersion": 1,
+      "position": [
+        5056,
+        16
+      ],
+      "id": "38bb159c-5ec6-48db-a149-bda1e884bc64",
+      "name": "NetSuite Restlet",
+      "credentials": {
+        "ns-restletApi": {
+          "id": "JabkoLB0X2xL8GA8",
+          "name": "NetSuite Restlet account - PROD Live"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Code Node: Prepare RESTlet Request\nconst matchData = $('Extract Match Criteria').item.json;\nreturn [{\n  json: {\n    vraNumber: matchData.vraNumbers?.[0] || null,\n    poNumber: matchData.poNumbers?.[0] || null,\n    vendorId: $input.first().json.output,  // Changed from vendorName to vendorId\n    vendorName: matchData.vendorName,      // Keep original name for reference\n    lineItems: matchData.lineItems,\n    processId: matchData.processId\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4720,
+        16
+      ],
+      "id": "14d56c6a-f85a-464c-859b-38c8d47a667b",
+      "name": "Prepare RESTlet Request"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Code Node: Process RESTlet Response\nconst response = $json;\n\nif (response.error) {\n  return {\n    status: 'error',\n    message: response.message,\n    moveToHumanReview: true\n  };\n}\n\nif (response.matchFound) {\n  return {\n    status: 'matched',\n    method: response.method,\n    vraData: response.vraData,\n    continueToComparison: true\n  };\n} else {\n  return {\n    status: 'no_match',\n    moveToHumanReview: true\n  };\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        5456,
+        -96
+      ],
+      "id": "864a879a-4a0d-49b2-9fb1-30ad99044472",
+      "name": "Process RESTlet Response"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        3952,
+        48
+      ],
+      "id": "55a17745-75c5-413c-bb76-d682407cf374",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "fuueA3SX0zxSWX1F",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "Vendors",
+        "description": "Vendor's name"
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolVectorStore",
+      "typeVersion": 1,
+      "position": [
+        4112,
+        80
+      ],
+      "id": "a88815d3-649b-4100-ac62-c49a76c97d53",
+      "name": "Answer questions with a vector store"
+    },
+    {
+      "parameters": {
+        "tableName": {
+          "__rl": true,
+          "value": "vendors",
+          "mode": "list",
+          "cachedResultName": "vendors"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1.1,
+      "position": [
+        3968,
+        256
+      ],
+      "id": "34e300e8-da84-42be-91ca-748dd4f18c0f",
+      "name": "Supabase Vector Store",
+      "credentials": {
+        "supabaseApi": {
+          "id": "eUQV73m7dq0L1jth",
+          "name": "Supabase account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        3888,
+        400
+      ],
+      "id": "04d8f79d-de89-4f61-87d8-fc79a885b2ea",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "fuueA3SX0zxSWX1F",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        4208,
+        400
+      ],
+      "id": "0c8cb3e4-7034-490d-b711-7fb148ab8187",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "fuueA3SX0zxSWX1F",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are an AI agent responsible for returning the `internalId` of a vendor from a Supabase vector store named `Vendors`.\n\nA user will provide a message that may include vendor name. You must use the `Vendors` tool to find the matching vendor.\n\nRules:\n- Return only the `internalId` of the best-matching vendor\n\n- DO NOT return explanations, full addresses, or any other commentary.\n- DO NOT invent internal IDs.\n- disregard Inc. and Co. and other suffixes that may confuse you.\n\nHere is the user's input:  \n{{ $json.vendorName }}\n",
+        "options": {
+          "systemMessage": "You are a helpful assistant"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        4000,
+        -112
+      ],
+      "id": "223b1ec6-8200-489d-937f-cdef7237e356",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "content": "## Take Form text input and AI Vector Search for matching Vendors\n",
+        "height": 768,
+        "width": 1252,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        3344,
+        -192
+      ],
+      "id": "2c8e2eb4-5250-4efb-8b04-9ab557ebba52",
+      "name": "Sticky Note10"
+    },
+    {
+      "parameters": {
+        "jsCode": "const restletData = $input.first().json;\nconst rawData = $('Get Document Data').first().json;\n  const payload = {\n    // Primary matching fields\n    vraNumber: restletData.vraNumber,\n    vraInternalID: restletData.vraInternalId,\n    poNumber: restletData.poNumber,\n    poNumberInternalID: restletData.poInternalId,\n    vendorName: restletData.vendor,\n    vendorId: restletData.vendorInternalId, \n    \n    // Line items for matching\n    totalAmount: rawData.raw_ocr_data.total_amount,\n  \n    // Required tracking fields\n    documentURL: rawData.document_url\n  };\n  \n  return { json: payload };"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        5456,
+        160
+      ],
+      "id": "a56fe8c4-775b-4930-bb06-701b66916748",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyHour"
+            }
+          ]
+        },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "value": "1Zz2R-CoirUBv5Sju3gHeR1vV7LGMuDM1",
+          "mode": "list",
+          "cachedResultName": "Parts",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1Zz2R-CoirUBv5Sju3gHeR1vV7LGMuDM1"
+        },
+        "event": "fileCreated",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        -256,
+        16
+      ],
+      "id": "e1324642-b6da-4e73-ad08-067158dd1814",
+      "name": "Parts Trigger",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "bJwCJgEucYD4nbZS",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyHour"
+            }
+          ]
+        },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "value": "1yMQNrtCSbNoSQIffRx4lpRm7PcQ2GBBu",
+          "mode": "list",
+          "cachedResultName": "Warranty",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1yMQNrtCSbNoSQIffRx4lpRm7PcQ2GBBu"
+        },
+        "event": "fileCreated",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        -256,
+        192
+      ],
+      "id": "c6f4c849-218f-4602-81c9-afb60b2f6dac",
+      "name": "Warranty Trigger",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "bJwCJgEucYD4nbZS",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyHour"
+            }
+          ]
+        },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "value": "1jI2F-acNqVcYPy3IXTaUjFLabfpg_SjW",
+          "mode": "list",
+          "cachedResultName": "Sales",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1jI2F-acNqVcYPy3IXTaUjFLabfpg_SjW"
+        },
+        "event": "fileCreated",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        -256,
+        384
+      ],
+      "id": "92d0ac3b-6ee2-4560-9c02-76a1b524024d",
+      "name": "Sales Trigger",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "bJwCJgEucYD4nbZS",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nreturn items.map(item => ({\n  json: {\n    ...item.json,  // Keeps ALL Google Drive data\n    triggerType: 'parts',\n    triggerName: 'Parts Trigger'\n  }\n}));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -48,
+        16
+      ],
+      "id": "f7193345-b9f9-4767-b45a-73f284e815a7",
+      "name": "Add Parts Info"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nreturn items.map(item => ({\n  json: {\n    ...item.json,  // Keeps ALL Google Drive data\n    triggerType: 'warranty',\n    triggerName: 'Warranty Trigger'\n  }\n}));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -48,
+        192
+      ],
+      "id": "e36393ca-360f-477c-ae26-5649caacdae2",
+      "name": "Add Warranty Info"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nreturn items.map(item => ({\n  json: {\n    ...item.json,  // Keeps ALL Google Drive data\n    triggerType: 'sales',\n    triggerName: 'Sales Trigger'\n  }\n}));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -48,
+        384
+      ],
+      "id": "c542e16b-fa9c-4e5d-ac3c-c711eaf860e0",
+      "name": "Add Sales Info"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nreturn items.map(item => {\n  const data = item.json;\n  \n  // Extract vendor from filename\n  function getVendor(fileName) {\n    if (!fileName) return '';\n    const vendors = {\n      'hyundai': 'Hyundai',\n      'mitsubishi': 'Mitsubishi',\n      'jlg': 'JLG',\n      'cat': 'Caterpillar',\n      'toyota': 'Toyota',\n      'nissan': 'Nissan'\n    };\n    const lower = fileName.toLowerCase();\n    for (const [key, value] of Object.entries(vendors)) {\n      if (lower.includes(key)) return value;\n    }\n    return fileName.split(/[\\s_-]/)[0].replace('.pdf', '');\n  }\n  \n  return {\n    json: {\n      // Process identification\n      processId: `${data.triggerType.toUpperCase()}_${Date.now()}`,\n      timestamp: new Date().toISOString(),\n      triggerType: data.triggerType,\n      triggerName: data.triggerName,\n      \n      // Google Drive file info (guaranteed to be there!)\n      pdfFileName: data.name,\n      pdfFileId: data.id,\n      pdfURL: data.webContentLink,\n      pdfViewURL: data.webViewLink,\n      pdfSize: parseInt(data.size),\n      pdfThumbnail: data.thumbnailLink,\n      \n      // Metadata\n      pdfMetadata: {\n        mimeType: data.mimeType,\n        created: data.createdTime,\n        modified: data.modifiedTime,\n        owner: data.owners?.[0]?.emailAddress || '',\n        ownerName: data.owners?.[0]?.displayName || ''\n      },\n      \n      // Vendor detection\n      vendorNameHint: getVendor(data.name),\n      \n      // Status\n      status: 'processing',\n      errors: [],\n      matchResults: {},\n      vraMatches: []\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        192
+      ],
+      "id": "9eb6eebc-c3d0-4fa4-9136-8c9d5aa7992c",
+      "name": "Initialize Process Variables"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Initialize Process Variables').item.json.triggerType }}",
+                    "rightValue": "parts",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "1a752044-7f73-4212-89a3-e10c59e4c4f8"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Parts"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "c9d70bf1-7f9a-457c-b16d-42fa74c8bfa1",
+                    "leftValue": "={{ $('Initialize Process Variables').item.json.triggerType }}",
+                    "rightValue": "warranty",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Warranty"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "636ab24e-db8b-4905-9f4b-48df8ff1dbf4",
+                    "leftValue": "={{ $('Initialize Process Variables').item.json.triggerType }}",
+                    "rightValue": "sales",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Sales"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        2512,
+        16
+      ],
+      "id": "1387327e-472c-4605-8470-26e284e5ca3a",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "operation": "move",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $('Initialize Process Variables').item.json.pdfFileId }}",
+          "mode": "id"
+        },
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1-jkE3NAmwpVGr7gzUOZ9XFmDMpH-rzEA",
+          "mode": "list",
+          "cachedResultName": "Done Warranty",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1-jkE3NAmwpVGr7gzUOZ9XFmDMpH-rzEA"
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2992,
+        16
+      ],
+      "id": "c7c20ae9-d419-4d16-b6e1-2811e7e9d75a",
+      "name": "Move file1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "bJwCJgEucYD4nbZS",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "move",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $('Initialize Process Variables').item.json.pdfFileId }}",
+          "mode": "id"
+        },
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1PR3ZMUiLCOxvU4Zq4bMrXbMl3-rW6Nlg",
+          "mode": "list",
+          "cachedResultName": "Done Sales",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1PR3ZMUiLCOxvU4Zq4bMrXbMl3-rW6Nlg"
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2992,
+        176
+      ],
+      "id": "0ad47ad4-2d4f-4546-ab3b-766f6b08cf20",
+      "name": "Move file2",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "bJwCJgEucYD4nbZS",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Prep for Case Creation Workflow\n\n",
+        "height": 768,
+        "width": 336,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        5360,
+        -192
+      ],
+      "id": "9653fb93-5c73-4411-964d-7018b889e7a8",
+      "name": "Sticky Note11"
+    },
+    {
+      "parameters": {
+        "content": "## VRA Matching Restlet Logic\n\n",
+        "height": 768,
+        "width": 336,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        4992,
+        -192
+      ],
+      "id": "d464a4a5-393f-48e4-b0d2-5e47cf768128",
+      "name": "Sticky Note12"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Find Vendor Profile",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Test Results": {
+      "main": [
+        [
+          {
+            "node": "VRA OCR Test Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "VRA OCR Test Results": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Find Vendor Profile": {
+      "main": [
+        [
+          {
+            "node": "Smart Normalize with Database",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Smart Normalize with Database": {
+      "main": [
+        [
+          {
+            "node": "Apply Learning",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Apply Learning": {
+      "main": [
+        [
+          {
+            "node": "Store Processing History",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Store Processing History": {
+      "main": [
+        [
+          {
+            "node": "Log Test Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Move file": {
+      "main": [
+        [
+          {
+            "node": "Get Document Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Document Data": {
+      "main": [
+        [
+          {
+            "node": "Extract Match Criteria",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Match Criteria": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "NetSuite Restlet": {
+      "main": [
+        [
+          {
+            "node": "Process RESTlet Response",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare RESTlet Request": {
+      "main": [
+        [
+          {
+            "node": "NetSuite Restlet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Answer questions with a vector store": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase Vector Store": {
+      "ai_vectorStore": [
+        [
+          {
+            "node": "Answer questions with a vector store",
+            "type": "ai_vectorStore",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Supabase Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Answer questions with a vector store",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Prepare RESTlet Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Execute Workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parts Trigger": {
+      "main": [
+        [
+          {
+            "node": "Add Parts Info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Warranty Trigger": {
+      "main": [
+        [
+          {
+            "node": "Add Warranty Info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sales Trigger": {
+      "main": [
+        [
+          {
+            "node": "Add Sales Info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add Parts Info": {
+      "main": [
+        [
+          {
+            "node": "Initialize Process Variables",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add Warranty Info": {
+      "main": [
+        [
+          {
+            "node": "Initialize Process Variables",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add Sales Info": {
+      "main": [
+        [
+          {
+            "node": "Initialize Process Variables",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Initialize Process Variables": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Move file",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Move file1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Move file2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Move file1": {
+      "main": [
+        [
+          {
+            "node": "Get Document Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Move file2": {
+      "main": [
+        [
+          {
+            "node": "Get Document Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "c423943a-9953-4c08-bf87-9a86996b03ea",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "cacdb952391d4a3d881d455321360290f81a1be3d919b0ecc113832df6d6119d"
+  },
+  "id": "eEqoYqYtmjwFeC0D",
+  "tags": []
+}

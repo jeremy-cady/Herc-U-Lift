@@ -1,0 +1,15 @@
+Name,Is Active,Sign Convention,Line Sign Rule,Total Sign Rule,Restock Location,Restock Patterns,Core Location,Core Patterns,Item Suffixes,Match Threshold,Confidence
+Mitsubishi Logisnext Americas Inc,T,negative_credit,always_negative,trust_ocr,subtotal,[],subtotal,[],"[""-MIT"",  ""-MLN""]",50,90
+Big Lift LLC,T,mixed,trust_ocr,trust_ocr,line_item,"[""25.0000% Restock Fee"",  ""% Restock Fee for""]",none,[],[],50,85
+TVH,T,mixed,trust_ocr,trust_ocr,none,[],line_item,"[""**CORE**"",  ""Core Charge"",  ""*CORE*""]","[""-TVH""]",50,85
+Trackmobile LLC,T,positive_credit,always_negative,always_negative,none,[],none,[],"[""-TRK""]",50,85
+Hyundai,T,negative_credit,always_negative,always_negative,subtotal,[],none,[],"[""-HYU"",  ""-HYN""]",50,85
+Cascade Corporation,T,positive_credit,always_negative,always_negative,line_item,"[""RESTOCK CHARGE"",  ""CUSTOMER RESTOCKING CHARGE""]",none,[],"[""-CAS""]",50,85
+Grainger,T,negative_credit,always_negative,always_negative,subtotal,[],none,[],[],50,85
+Arnold Machinery,T,positive_credit,always_negative,always_negative,none,[],line_item,"[""**CORE**"",  ""CORE""]",[],50,80
+Hoist Liftruck,T,positive_credit,always_negative,always_negative,subtotal,[],none,[],"[""-HOI""]",50,85
+Niftylift Inc,T,mixed,conditional,always_negative,line_item,"[""RESTOCKING FEE"",  ""10% RESTOCKING FEE""]",none,[],"[""-NIF""]",50,75
+Terex Global GmbH,T,negative_credit,trust_ocr,trust_ocr,line_item,"[""Restocking Fee"",  ""CHARGES AWP""]",none,[],"[""-TER"",  ""-GEN""]",50,85
+Ronco Engineering Sales Inc,T,mixed,trust_ocr,follow_convention,none,[],none,[],[],50,30
+JLG Industries Inc.,T,mixed,trust_ocr,follow_convention,none,[],none,[],"[""-JLG""]",50,30
+Cummins Sales and Service,T,positive_credit,trust_ocr,always_negative,none,[],none,[],"[""-CUM""]",50,45

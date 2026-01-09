@@ -1,0 +1,195 @@
+{
+  "name": "Vendor Credit - Schedule Auto-Improvement",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 2
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "e182dc34-2df6-41fd-9648-4eab86752d3c",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://laezkwglnixpwcselgzm.supabase.co/rest/v1/rpc/auto_improve_vendor_profiles",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "supabaseApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "b7d7734b-0846-4cf7-a8c4-d02d973eaf69",
+      "name": "Run Auto-Improvement",
+      "credentials": {
+        "supabaseApi": {
+          "id": "SQ2mUi6UxYafHKBT",
+          "name": "Supabase -Vendor Credit"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1nZAK82JBVd1aWDCFrGlE9lZHbsv9eTcb71y4SH8Jzjw",
+          "mode": "list",
+          "cachedResultName": "Vendor Credit - Vendor Test",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1nZAK82JBVd1aWDCFrGlE9lZHbsv9eTcb71y4SH8Jzjw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 415654297,
+          "mode": "list",
+          "cachedResultName": "AutoImprovements",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1nZAK82JBVd1aWDCFrGlE9lZHbsv9eTcb71y4SH8Jzjw/edit#gid=415654297"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Timestamp",
+              "displayName": "Timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Vendor",
+              "displayName": "Vendor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Improvements",
+              "displayName": "Improvements",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        624,
+        0
+      ],
+      "id": "ff88ffdb-4a63-4cc9-a237-abdca17cf619",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "8eGYCLbG2NqHX3GA",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get results from auto-improvement\nconst improvements = $('Run Auto-Improvement').item.json;\n\n// Check if any improvements were made\nif (!improvements || improvements.length === 0) {\n  return {\n    hasImprovements: false,\n    message: \"No improvements needed - all vendors performing well\",\n    timestamp: new Date().toISOString()\n  };\n}\n\n// Format results for logging\nconst logEntries = improvements.map(improvement => {\n  const improvementDetails = Object.entries(improvement.improvements_made || {})\n    .map(([key, value]) => `${key}: ${value}`)\n    .join('; ');\n  \n  return {\n    timestamp: new Date().toISOString(),\n    vendorId: improvement.vendor_id,\n    vendorName: improvement.vendor_name,\n    improvementsApplied: improvementDetails,\n    logType: 'AUTO_IMPROVEMENT',\n    status: 'APPLIED'\n  };\n});\n\n// Prepare summary\nconst summary = {\n  totalVendorsImproved: improvements.length,\n  vendorNames: improvements.map(i => i.vendor_name).join(', '),\n  timestamp: new Date().toISOString()\n};\n\nreturn {\n  hasImprovements: true,\n  logEntries: logEntries,\n  summary: summary,\n  rawData: improvements\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        416,
+        0
+      ],
+      "id": "c3e8aeb1-978e-406e-aea3-bd99fb2e7a71",
+      "name": "Format Improvement Log"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Run Auto-Improvement",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run Auto-Improvement": {
+      "main": [
+        [
+          {
+            "node": "Format Improvement Log",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Improvement Log": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "6010a71f-9c75-4903-9616-97b7337146a1",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "cacdb952391d4a3d881d455321360290f81a1be3d919b0ecc113832df6d6119d"
+  },
+  "id": "xmCDMQVAVDxcEujl",
+  "tags": []
+}
