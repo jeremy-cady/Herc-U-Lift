@@ -1,37 +1,5 @@
 # PRD Work Checkpoint
 
-Remaining items from numbered list (11-126):
-101. sna_hul_ue_show_recalculate_rate_btn.js
-102. sna_hul_ue_so_itempricing.js
-103. sna_hul_ue_so_rental.js
-104. sna_hul_ue_so_set_codes_item_lines.js
-105. sna_hul_ue_so_temporaryitem.js
-106. sna_hul_ue_so_update_lines.js
-107. sna_hul_ue_so_van_bin.js
-108. sna_hul_ue_taskl_preferred_route_code.js
-109. sna_hul_ue_term.js
-110. sna_hul_ue_timebill.js
-111. sna_hul_ue_trigger_so_workflow.js
-112. sna_hul_ue_update_item_rate.js
-113. sna_hul_ue_update_sales_matrix_on_customer.js
-114. sna_hul_ue_update_sales_rep_cm_plan.js
-115. sna_hul_ue_update_so_line_level_fields.js
-116. sna_hul_ue_updatenbv.js
-117. sna_hul_ue_van_bin.js
-118. sna_hul_ue_vb_update_ir_rate.js
-119. sna_hul_ue_vendorprice.js
-120. sna_hul_wfa_get_nxtsrvctask.js
-121. sna_hul_wfa_reopen_case.js
-122. sna_mr_delete_records.js
-123. sna_mr_hul_create_bintransfer.js
-124. sna_sl_hul_fileupload.js
-125. sna_suiteql_query_tool.js
-126. suiteql-query-tool.v20211027.suitelet.js
-
-Skip rules (explicit):
-- Skip SweetAlert library files (sweetalert2.all.js, sweetalertModule.js).
-- Skip non-JavaScript files when asked to document JS in order.
-
 Template structure and content rules (explicit, do not deviate):
 - Use the full PRD template structure in this exact order, with the same headings and section numbering:
   1. Introduction / Overview
