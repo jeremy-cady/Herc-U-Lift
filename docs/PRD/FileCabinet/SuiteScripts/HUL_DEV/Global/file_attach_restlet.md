@@ -1,270 +1,113 @@
 # PRD: File Attach RESTlet
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-FileAttachRESTlet
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Unknown
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/HUL_DEV/Global/file_attach_restlet.js (RESTlet)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-FileAttachRESTlet
+title: File Attach RESTlet
+status: Implemented
+owner: Unknown
+created: Unknown
+last_updated: Unknown
 
-**Script Deployment (if applicable):**
-- Script ID: Not specified
-- Deployment ID: Not specified
+script:
+  type: restlet
+  file: FileCabinet/SuiteScripts/HUL_DEV/Global/file_attach_restlet.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - File
+  - supportcase
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
+## 1. Overview
 A RESTlet that attaches a File Cabinet file to a target NetSuite record, defaulting to Support Case for legacy callers.
 
-**What problem does it solve?**
-Allows external systems or workflows to attach uploaded files to NetSuite records via a simple REST call.
+---
 
-**Primary Goal:**
-Provide a lightweight file‑attachment endpoint with backward compatibility for existing case‑based callers.
+## 2. Business Goal
+Allow external systems or workflows to attach uploaded files to NetSuite records via a simple REST call.
 
 ---
 
-## 2. Goals
-
-1. Attach a file to a record using `record.attach`.
-2. Support both `caseId` (legacy) and `recordId` inputs.
-3. Default `recordType` to `supportcase` when not provided.
-
----
-
-## 3. User Stories
-
-1. **As an** integration developer, **I want to** attach files to NetSuite records via REST **so that** uploads can be automated.
-2. **As a** legacy caller, **I want to** keep using `caseId` **so that** existing integrations do not break.
-3. **As an** admin, **I want to** attach files to different record types **so that** the endpoint is reusable.
+## 3. User Story
+- As an integration developer, I want to attach files to NetSuite records via REST so that uploads can be automated.
+- As a legacy caller, I want to keep using caseId so that existing integrations do not break.
+- As an admin, I want to attach files to different record types so that the endpoint is reusable.
 
 ---
 
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. The system must accept POST requests with `fileId`.
-2. The system must accept either:
-   - `recordId` (preferred) or
-   - `caseId` (legacy).
-3. The system must accept `recordType` (defaults to `supportcase`).
-4. The system must attach the file to the target record using `record.attach`.
-5. The system must return success or error payloads.
-
-### Acceptance Criteria
-
-- [ ] File attaches successfully when `fileId` and `recordId` are provided.
-- [ ] Calls with only `caseId` still succeed using record type `supportcase`.
-- [ ] Missing parameters return a clear error.
-- [ ] Errors return `success: false` with a message.
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| RESTlet POST | fileId, recordId, caseId, recordType | recordType defaults to supportcase; recordId or caseId provided | Attach file to target record via record.attach |
 
 ---
 
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Upload files (only attaches existing file IDs).
-- Validate file ownership or permissions beyond NetSuite access rules.
-- Support GET requests.
-
----
-
-## 6. Design Considerations
-
-### User Interface
-- None (REST API).
-
-### User Experience
-- Simple JSON request/response contract.
-
-### Design References
-- None.
+## 5. Functional Requirements
+- The system must accept POST requests with fileId.
+- The system must accept either recordId (preferred) or caseId (legacy).
+- The system must accept recordType (defaults to supportcase).
+- The system must attach the file to the target record using record.attach.
+- The system must return success or error payloads.
 
 ---
 
-## 7. Technical Considerations
-
-### NetSuite Components Required
-
-**Record Types:**
+## 6. Data Contract
+### Record Types Involved
 - File
-- Target record (default `supportcase`)
+- supportcase
 
-**Script Types:**
-- [ ] Map/Reduce - Not used
-- [ ] Scheduled Script - Not used
-- [ ] Suitelet - Not used
-- [x] RESTlet - File attachment endpoint
-- [ ] User Event - Not used
-- [ ] Client Script - Not used
+### Fields Referenced
+- fileId
+- recordId
+- caseId
+- recordType
 
-**Custom Fields:**
-- None.
-
-**Saved Searches:**
-- None.
-
-### Integration Points
-- External systems submit fileId/recordId to attach.
-
-### Data Requirements
-
-**Data Volume:**
-- One attachment per request.
-
-**Data Sources:**
-- File Cabinet file ID and target record ID.
-
-**Data Retention:**
-- Managed by File Cabinet.
-
-### Technical Constraints
-- Requires valid recordType/recordId inputs.
-
-### Dependencies
-- **Libraries needed:** None.
-- **External dependencies:** None.
-- **Other features:** File upload handled elsewhere.
-
-### Governance Considerations
-- Single `record.attach` per request.
+Schemas (if known):
+- TBD
 
 ---
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- Files attach correctly to the requested records.
-- Legacy caseId calls continue to work.
-
-**How we'll measure:**
-- Integration logs and spot checks on attached files.
+## 7. Validation & Edge Cases
+- Missing fileId returns a clear error.
+- Calls with only caseId succeed using record type supportcase.
+- Invalid record ID returns success: false with a message.
 
 ---
 
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| file_attach_restlet.js | RESTlet | Attach file to record | Implemented |
-
-### Development Approach
-
-**Phase 1:** RESTlet endpoint
-- [x] Support recordId/caseId inputs
-- [x] Attach file via `record.attach`
+## 8. Implementation Notes (Optional)
+- Backward compatibility for legacy caseId callers.
 
 ---
 
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. POST with `recordId`, `recordType`, `fileId` attaches the file.
-
-**Edge Cases:**
-1. POST with `caseId` only attaches to support case.
-2. Missing fileId → error response.
-
-**Error Handling:**
-1. Invalid record ID returns `success: false`.
-
-### Test Data Requirements
-- Existing file IDs and test support case records.
-
-### Sandbox Setup
-- Deploy RESTlet and test with RESTlet tester.
+## 9. Acceptance Criteria
+- Given fileId and recordId, when POSTed, then the file attaches successfully.
+- Given only caseId, when POSTed, then the file attaches to supportcase.
+- Given missing parameters, when POSTed, then a clear error is returned.
+- Given an error, when it occurs, then success: false is returned with a message.
 
 ---
 
-## 11. Security & Permissions
-
-### Roles & Permissions
-
-**Roles that need access:**
-- Integration roles calling the RESTlet.
-
-**Permissions required:**
-- Attach files to target record type.
-- Access to File Cabinet files.
-
-### Data Security
-- Restrict RESTlet deployment to trusted roles.
+## 10. Testing Notes
+- POST with recordId, recordType, fileId and confirm attachment.
+- POST with caseId only and confirm attachment to supportcase.
+- POST missing fileId and confirm error response.
+- POST invalid record ID and confirm success: false.
 
 ---
 
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-
-- [ ] Code review completed
-- [ ] Tests passing in sandbox
-- [ ] Documentation updated
-
-### Deployment Steps
-
-1. Deploy RESTlet.
-2. Configure access role and test requests.
-
-### Post-Deployment
-
-- [ ] Monitor attachment success in logs.
-
-### Rollback Plan
-
-**If deployment fails:**
-1. Disable RESTlet deployment.
+## 11. Deployment Notes
+- Deploy RESTlet.
+- Configure access role and test requests.
+- Rollback: disable RESTlet deployment.
 
 ---
 
-## 13. Timeline
-
-| Milestone | Target Date | Actual Date | Status |
-|-----------|-------------|-------------|--------|
-| Development Complete | | | |
-| Deployment | | | |
+## 12. Open Questions / TBDs
+- Should we validate recordType against an allowlist?
+- Misuse attaches files to unintended records.
 
 ---
-
-## 14. Open Questions & Risks
-
-### Open Questions
-
-- [ ] Should we validate recordType against an allowlist?
-
-### Known Risks
-
-| Risk | Likelihood | Impact | Mitigation Strategy |
-|------|------------|--------|---------------------|
-| Misuse attaches files to unintended records | Medium | Medium | Restrict role access |
-
----
-
-## 15. References & Resources
-
-### Related PRDs
-- None.
-
-### NetSuite Documentation
-- SuiteScript 2.x RESTlet docs.
-- record.attach reference.
-
-### External Resources
-- None.
-
----
-
-## Revision History
-
-| Date | Author | Version | Changes |
-|------|--------|---------|---------|
-| Unknown | Unknown | 1.0 | Initial implementation |

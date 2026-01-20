@@ -1,274 +1,91 @@
-# PRD: Update Vendor Price from Latest Vendor Bill (User Event)
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-UpdateVPRate
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Jeremy Cady
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/SNA/sna_hul_ue_upd_vp_rate.js (User Event)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-UpdateVPRate
+title: Update Vendor Price from Latest Vendor Bill (User Event)
+status: Implemented
+owner: Jeremy Cady
+created: TBD
+last_updated: TBD
 
-**Script Deployment (if applicable):**
-- Script ID: Not specified
-- Deployment ID: Not specified
+script:
+  type: user_event
+  file: FileCabinet/SuiteScripts/SNA/sna_hul_ue_upd_vp_rate.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - Vendor Bill
+  - Vendor Price (`customrecord_sna_hul_vendorprice`)
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
+## 1. Overview
 A User Event that updates vendor price purchase rates based on the latest vendor bill for a vendor/item combination.
 
-**What problem does it solve?**
+## 2. Business Goal
 Keeps vendor price records aligned with the most recent vendor bill rates.
 
-**Primary Goal:**
-Update `customrecord_sna_hul_vendorprice` item purchase price based on latest vendor bill rates.
+## 3. User Story
+As a purchasing user, when vendor bills are saved, I want vendor prices updated from bills, so that pricing stays current.
 
----
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| afterSubmit | TBD | Vendor Bill save (non-delete) | Update vendor price purchase rate and remarks |
 
-## 2. Goals
+## 5. Functional Requirements
+- The system must run after submit for vendor bills (non-delete).
+- The system must identify the vendor and items on the bill.
+- The system must find the latest vendor bill for the vendor/items using search filters.
+- If the current bill is the latest, the system must update vendor price `custrecord_sna_hul_itempurchaseprice`.
+- The system must set `custrecord_sna_hul_remarks` to note the source transaction.
 
-1. Detect when a vendor bill is the latest for a vendor/item.
-2. Update vendor price purchase rate to match the latest bill rate.
-3. Record remarks indicating the source transaction.
-
----
-
-## 3. User Stories
-
-1. **As a** purchasing user, **I want** vendor prices updated from bills **so that** pricing stays current.
-2. **As an** admin, **I want** a note of the source bill **so that** updates are traceable.
-
----
-
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. The system must run after submit for vendor bills (non-delete).
-2. The system must identify the vendor and items on the bill.
-3. The system must find the latest vendor bill for the vendor/items using search filters.
-4. If the current bill is the latest, the system must update vendor price `custrecord_sna_hul_itempurchaseprice`.
-5. The system must set `custrecord_sna_hul_remarks` to note the source transaction.
-
-### Acceptance Criteria
-
-- [ ] Vendor price record updates when latest vendor bill is saved.
-- [ ] Remarks indicate the bill transaction number.
-
----
-
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Update vendor prices for lot items or non-inventory items.
-- Update vendor prices for excluded PO types (emergency, truck down, stock order).
-- Run on delete events.
-
----
-
-## 6. Design Considerations
-
-### User Interface
-- No UI changes.
-
-### User Experience
-- Vendor prices update automatically after vendor bill save.
-
----
-
-## 7. Technical Considerations
-
-### NetSuite Components Required
-
-**Record Types:**
+## 6. Data Contract
+### Record Types Involved
 - Vendor Bill
 - Vendor Price (`customrecord_sna_hul_vendorprice`)
 
-**Script Types:**
-- [ ] Map/Reduce - Not used
-- [ ] Scheduled Script - Not used
-- [ ] Suitelet - Not used
-- [ ] RESTlet - Not used
-- [x] User Event - Updates vendor price after submit
-- [ ] Client Script - Not used
-
-**Custom Fields:**
+### Fields Referenced
 - Vendor Bill | `custbody_sna_buy_from`
 - Vendor Price | `custrecord_sna_hul_itempurchaseprice`
 - Vendor Price | `custrecord_sna_hul_remarks`
 
-**Saved Searches:**
-- Vendor bill search filtered by vendor and items.
+Schemas (if known):
+- TBD
 
-### Integration Points
-- None.
+## 7. Validation & Edge Cases
+- Bill is not latest; no vendor price update.
+- Vendor price record missing; no update occurs.
+- Search or submitFields error is logged.
 
-### Data Requirements
-
-**Data Volume:**
-- Per vendor bill submit.
-
-**Data Sources:**
-- Vendor bill items and vendor price records.
-
-**Data Retention:**
-- Updates vendor price records.
-
-### Technical Constraints
+## 8. Implementation Notes (Optional)
 - Filters exclude certain PO types and item types.
 
-### Dependencies
-- **Libraries needed:** None.
-- **External dependencies:** None.
-- **Other features:** Vendor price records must exist.
+## 9. Acceptance Criteria
+- Given the latest vendor bill is saved, when the script runs, then the vendor price record updates.
+- Given a vendor bill that is not the latest, when the script runs, then no update occurs.
+- Given a vendor price update, when the script runs, then remarks indicate the bill transaction number.
 
-### Governance Considerations
-- Search and submitFields usage per vendor bill.
+## 10. Testing Notes
+- Save latest vendor bill and verify vendor price purchase rate updates.
+- Bill is not latest; no vendor price update.
+- Vendor price record missing; no update occurs.
+- Search or submitFields error is logged.
 
----
+## 11. Deployment Notes
+- Upload `sna_hul_ue_upd_vp_rate.js`.
+- Deploy User Event on Vendor Bill.
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- Vendor price purchase rates match latest vendor bills.
-
-**How we'll measure:**
-- Compare updated vendor prices to the latest bill rates.
-
----
-
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| sna_hul_ue_upd_vp_rate.js | User Event | Update vendor price from bills | Implemented |
-
-### Development Approach
-
-**Phase 1:** Find latest vendor bill
-- [x] Search latest bill for vendor/items.
-
-**Phase 2:** Update vendor price
-- [x] Apply rate and remarks.
+## 12. Open Questions / TBDs
+- Script ID: TBD
+- Deployment ID: TBD
+- Created date: TBD
+- Last updated date: TBD
+- Should updates include list price or contract price fields?
+- Should updates run for additional item types?
+- Risk: Latest bill selection per vendor/item is inaccurate (Mitigation: Refine search filters or use line-level logic)
+- Risk: Vendor price missing prevents update (Mitigation: Create vendor price record if missing)
 
 ---
-
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. Save latest vendor bill and verify vendor price purchase rate updates.
-
-**Edge Cases:**
-1. Bill is not latest; no vendor price update.
-2. Vendor price record missing; no update occurs.
-
-**Error Handling:**
-1. Search or submitFields error is logged.
-
-### Test Data Requirements
-- Vendor bills with inventory items and vendor price records.
-
-### Sandbox Setup
-- None.
-
----
-
-## 11. Security & Permissions
-
-### Roles & Permissions
-
-**Roles that need access:**
-- Purchasing users.
-
-**Permissions required:**
-- View and edit vendor price records
-- View vendor bills
-
-### Data Security
-- No additional data exposure.
-
----
-
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-
-- [ ] Code review completed
-- [ ] All tests passing in sandbox
-- [ ] Documentation updated (scripts commented, README updated)
-- [ ] PRD_SCRIPT_INDEX.md updated
-- [ ] Stakeholder approval obtained
-- [ ] User training materials prepared (if needed)
-
-### Deployment Steps
-
-1. Upload `sna_hul_ue_upd_vp_rate.js`.
-2. Deploy User Event on Vendor Bill.
-
-### Post-Deployment
-
-- [ ] Verify vendor price updates on latest bill.
-- [ ] Update PRD status to "Implemented".
-
-### Rollback Plan
-
-**If deployment fails:**
-1. Disable the User Event deployment.
-
----
-
-## 13. Timeline
-
-| Milestone | Target Date | Actual Date | Status |
-|-----------|-------------|-------------|--------|
-| PRD Approval | | | |
-| Development Start | | | |
-| Development Complete | | | |
-| Testing Complete | | | |
-| Stakeholder Review | | | |
-| Production Deploy | | | |
-
----
-
-## 14. Open Questions & Risks
-
-### Open Questions
-
-- [ ] Should updates include list price or contract price fields?
-- [ ] Should updates run for additional item types?
-
-### Known Risks
-
-| Risk | Likelihood | Impact | Mitigation Strategy |
-|------|------------|--------|---------------------|
-| Latest bill selection per vendor/item is inaccurate | Low | Med | Refine search filters or use line-level logic |
-| Vendor price missing prevents update | Med | Low | Create vendor price record if missing |
-
----
-
-## 15. References & Resources
-
-### Related PRDs
-- None.
-
-### NetSuite Documentation
-- SuiteScript 2.x User Event
-
-### External Resources
-- None.
-
----
-
-## Revision History
-
-| Date | Author | Version | Changes |
-|------|--------|---------|
-| Unknown | Jeremy Cady | 1.0 | Initial draft |

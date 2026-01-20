@@ -1,276 +1,119 @@
-# PRD: Create Customer Address from Site Asset (Map/Reduce)
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-CreateCustAddress
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Jeremy Cady
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/sn_hul_mr_createcustaddress.js (Map/Reduce)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-CreateCustAddress
+title: Create Customer Address from Site Asset (Map/Reduce)
+status: Implemented
+owner: Jeremy Cady
+created: TBD
+last_updated: TBD
 
-**Script Deployment (if applicable):**
-- Script ID: Not specified
-- Deployment ID: Not specified
+script:
+  type: map_reduce
+  file: FileCabinet/SuiteScripts/sn_hul_mr_createcustaddress.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - Customer
+  - Site Asset (customrecord_nx_asset)
+  - Location
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
+## 1. Overview
 A Map/Reduce script that creates customer address book entries from site asset records.
 
-**What problem does it solve?**
-Automates customer address creation based on site asset address text and links the address back to the asset.
+---
 
-**Primary Goal:**
-Parse site asset address text and add a customer address linked to the asset.
+## 2. Business Goal
+Automate customer address creation based on site asset address text and link the address back to the asset.
 
 ---
 
-## 2. Goals
-
-1. Load site asset records missing customer addresses.
-2. Parse address text into components.
-3. Create customer address book entries and link back to the asset.
+## 3. User Story
+As an admin, when site assets are missing customer addresses, I want addresses created from site assets, so that customer records stay in sync.
 
 ---
 
-## 3. User Stories
-
-1. **As an** admin, **I want** addresses created from site assets **so that** customer records stay in sync.
-
----
-
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. The system must load assets from saved search `customsearch_sna_no_address_site_asset_u`.
-2. The system must parse address text into address lines, city, state, zip, and country.
-3. The system must add a customer address book entry and tag it with the asset.
-4. The system must skip addresses that match excluded locations specified by `custscript_sn_locations_to_exclude`.
-5. The system must update the site asset with the new address internal ID.
-
-### Acceptance Criteria
-
-- [ ] Customer address book entries are created for eligible assets.
-- [ ] Site assets are updated with the new address ID.
-- [ ] Excluded location addresses are not added.
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| Map/Reduce run | custrecord_nx_asset_address_text | asset returned by `customsearch_sna_no_address_site_asset_u` | Create customer address and update asset with address ID |
 
 ---
 
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Update inactive locations.
-- Validate addresses beyond basic parsing.
-- Handle non-US address formats beyond current parsing logic.
-
----
-
-## 6. Design Considerations
-
-### User Interface
-- No UI; background Map/Reduce.
+## 5. Functional Requirements
+- Load assets from saved search `customsearch_sna_no_address_site_asset_u`.
+- Parse address text into address lines, city, state, zip, and country.
+- Add a customer address book entry and tag it with the asset.
+- Skip addresses that match excluded locations specified by `custscript_sn_locations_to_exclude`.
+- Update the site asset with the new address internal ID.
 
 ---
 
-## 7. Technical Considerations
-
-### NetSuite Components Required
-
-**Record Types:**
+## 6. Data Contract
+### Record Types Involved
 - Customer
-- Site Asset (`customrecord_nx_asset`)
+- Site Asset (customrecord_nx_asset)
 - Location
 
-**Script Types:**
-- [x] Map/Reduce - Address creation
-- [ ] Scheduled Script - Not used
-- [ ] Suitelet - Not used
-- [ ] RESTlet - Not used
-- [ ] User Event - Not used
-- [ ] Client Script - Not used
+### Fields Referenced
+- Site Asset | custrecord_nx_asset_customer
+- Site Asset | custrecord_nx_asset_address_text
+- Site Asset | custrecord_nx_asset_address
+- Address | custrecordsn_nxc_site_asset
+- Address | custrecord_sn_autocreate_asset
+- Script parameter | custscript_sn_locations_to_exclude
 
-**Custom Fields:**
-- Site Asset | `custrecord_nx_asset_customer`
-- Site Asset | `custrecord_nx_asset_address_text`
-- Site Asset | `custrecord_nx_asset_address`
-- Address | `custrecordsn_nxc_site_asset`
-- Address | `custrecord_sn_autocreate_asset`
+Schemas (if known):
+- Saved search: customsearch_sna_no_address_site_asset_u
 
-**Saved Searches:**
-- `customsearch_sna_no_address_site_asset_u`
+---
 
-### Integration Points
-- None.
+## 7. Validation & Edge Cases
+- Address matches excluded locations; no address created.
+- Address text missing or malformed; skip or incomplete results.
+- Address parsing assumes US formatting.
 
-### Data Requirements
+---
 
-**Data Volume:**
-- Site asset records returned by the saved search.
-
-**Data Sources:**
-- Site asset address text and customer record.
-
-**Data Retention:**
-- Creates address entries and updates asset references.
-
-### Technical Constraints
-- Address parsing is heuristic and assumes US formatting.
+## 8. Implementation Notes (Optional)
 - Excluded locations are derived from location records.
-
-### Dependencies
-- **Libraries needed:** None.
-- **External dependencies:** None.
-- **Other features:** Saved search and script parameter for excluded locations.
-
-### Governance Considerations
-- Record load/save operations per asset.
+- Performance/governance considerations: record load/save operations per asset.
 
 ---
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- Customers have address entries linked to site assets.
-
-**How we'll measure:**
-- Verify addressbook entries and asset `custrecord_nx_asset_address` values.
+## 9. Acceptance Criteria
+- Given an eligible asset, when the Map/Reduce runs, then a customer address book entry is created.
+- Given an eligible asset, when the Map/Reduce runs, then the site asset is updated with the new address ID.
+- Given an address matches excluded locations, when the Map/Reduce runs, then no address is added.
 
 ---
 
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| sn_hul_mr_createcustaddress.js | Map/Reduce | Create customer addresses from assets | Implemented |
-
-### Development Approach
-
-**Phase 1:** Identify assets
-- [x] Load assets without addresses.
-
-**Phase 2:** Address creation
-- [x] Parse address text and create addressbook entries.
+## 10. Testing Notes
+- Asset with valid address text; confirm address created.
+- Address matches excluded locations; confirm no address created.
+- Address text missing or malformed; confirm skipped or incomplete results.
 
 ---
 
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. Asset with valid address text creates a customer address.
-
-**Edge Cases:**
-1. Address matches excluded locations; no address created.
-2. Address text missing or malformed; skip or incomplete results.
-
-**Error Handling:**
-1. Errors in reduce stage logged in summarize.
-
-### Test Data Requirements
-- Site assets with address text and linked customers.
-
-### Sandbox Setup
-- Configure `custscript_sn_locations_to_exclude` parameter.
+## 11. Deployment Notes
+- Upload `sn_hul_mr_createcustaddress.js`.
+- Ensure saved search and excluded location parameter exist.
+- Deploy and run the Map/Reduce script.
+- Rollback: disable the Map/Reduce deployment.
 
 ---
 
-## 11. Security & Permissions
-
-### Roles & Permissions
-
-**Roles that need access:**
-- Admin or data maintenance roles.
-
-**Permissions required:**
-- Edit customers
-- Edit site assets
-- View locations
-
-### Data Security
-- No additional data exposure.
+## 12. Open Questions / TBDs
+- Created date is TBD.
+- Last updated date is TBD.
+- Script ID is TBD.
+- Deployment ID is TBD.
+- Should address parsing be moved to a shared utility?
+- Risk: Address parsing fails for non-standard formats.
+- Risk: Exclusion list is missing or invalid.
 
 ---
-
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-
-- [ ] Code review completed
-- [ ] All tests passing in sandbox
-- [ ] Documentation updated (scripts commented, README updated)
-- [ ] PRD_SCRIPT_INDEX.md updated
-- [ ] Stakeholder approval obtained
-- [ ] User training materials prepared (if needed)
-
-### Deployment Steps
-
-1. Upload `sn_hul_mr_createcustaddress.js`.
-2. Ensure saved search and excluded location parameter exist.
-3. Deploy and run the Map/Reduce script.
-
-### Post-Deployment
-
-- [ ] Verify addressbook entries and asset updates.
-- [ ] Update PRD status to "Implemented".
-
-### Rollback Plan
-
-**If deployment fails:**
-1. Disable the Map/Reduce deployment.
-
----
-
-## 13. Timeline
-
-| Milestone | Target Date | Actual Date | Status |
-|-----------|-------------|-------------|--------|
-| PRD Approval | | | |
-| Development Start | | | |
-| Development Complete | | | |
-| Testing Complete | | | |
-| Stakeholder Review | | | |
-| Production Deploy | | | |
-
----
-
-## 14. Open Questions & Risks
-
-### Open Questions
-
-- [ ] Should address parsing be moved to a shared utility?
-
-### Known Risks
-
-| Risk | Likelihood | Impact | Mitigation Strategy |
-|------|------------|--------|---------------------|
-| Address parsing fails for non-standard formats | Med | Med | Add validation and fallback parsing |
-| Exclusion list is missing or invalid | Low | Med | Validate parameter before use |
-
----
-
-## 15. References & Resources
-
-### Related PRDs
-- None.
-
-### NetSuite Documentation
-- SuiteScript 2.x Map/Reduce
-
-### External Resources
-- None.
-
----
-
-## Revision History
-
-| Date | Author | Version | Changes |
-|------|--------|---------|
-| Unknown | Jeremy Cady | 1.0 | Initial draft |

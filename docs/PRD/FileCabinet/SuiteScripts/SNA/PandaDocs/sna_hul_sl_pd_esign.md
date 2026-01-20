@@ -1,279 +1,113 @@
-# PRD: PandaDoc E-Signature Request Suitelet
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-PandaDocESignSuitelet
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Jeremy Cady
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/SNA/PandaDocs/sna_hul_sl_pd_esign.js (Suitelet)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-PandaDocESignSuitelet
+title: PandaDoc E-Signature Request Suitelet
+status: Implemented
+owner: Jeremy Cady
+created: TBD
+last_updated: TBD
 
-**Script Deployment (if applicable):**
-- Script ID: Not specified
-- Deployment ID: Not specified
+script:
+  type: suitelet
+  file: FileCabinet/SuiteScripts/SNA/PandaDocs/sna_hul_sl_pd_esign.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - Transaction (record_type parameter)
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
+## 1. Overview
 A Suitelet endpoint that receives an e-signature request and invokes the PandaDoc module to generate and send documents for signature.
 
-**What problem does it solve?**
-Provides a server-side endpoint for client scripts to initiate PandaDoc e-signature workflows.
+---
 
-**Primary Goal:**
-Trigger PandaDoc document creation and sending for the current transaction.
+## 2. Business Goal
+Provide a server-side endpoint for client scripts to initiate PandaDoc e-signature workflows.
 
 ---
 
-## 2. Goals
-
-1. Accept e-signature request parameters via HTTP.
-2. Invoke PandaDoc module helpers to generate and send documents.
-3. Return a JSON response indicating success or failure.
+## 3. User Story
+As a sales rep, when I request e-signatures from the UI, I want a Suitelet endpoint to process the request, so that PandaDoc documents are generated and sent for signature.
 
 ---
 
-## 3. User Stories
-
-1. **As a** sales rep, **I want** a Suitelet endpoint **so that** I can request e-signatures from the UI.
-2. **As an** admin, **I want** consistent responses **so that** errors are easy to diagnose.
-3. **As a** developer, **I want** a single backend entry point **so that** the client script stays simple.
-
----
-
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. The system must accept request parameters: `action`, `id`, `record_type`, and `templateId`.
-2. When `action` is `eSignatureRequest`, the system must call `sna_hul_mod_pd.requestPandaDoceSignature`.
-3. The system must return a JSON response with `status`, `data`, and `message`.
-4. On error, the system must return `status: failed` with the error message.
-
-### Acceptance Criteria
-
-- [ ] `eSignatureRequest` returns a success response when PandaDoc request completes.
-- [ ] Errors are returned with `status: failed` and a message.
-- [ ] Response is valid JSON.
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| Suitelet request | action, id, record_type, templateId | action = eSignatureRequest | Call `sna_hul_mod_pd.requestPandaDoceSignature` and return JSON response |
 
 ---
 
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Render UI pages.
-- Validate template IDs beyond PandaDoc module checks.
-- Handle non-eSignature actions beyond a default path.
+## 5. Functional Requirements
+- Accept request parameters: `action`, `id`, `record_type`, and `templateId`.
+- When `action` is `eSignatureRequest`, call `sna_hul_mod_pd.requestPandaDoceSignature`.
+- Return a JSON response with `status`, `data`, and `message`.
+- On error, return `status: failed` with the error message.
 
 ---
 
-## 6. Design Considerations
+## 6. Data Contract
+### Record Types Involved
+- Transaction (record_type parameter)
 
-### User Interface
-- None (server-side endpoint).
+### Fields Referenced
+- action
+- id
+- record_type
+- templateId
 
-### User Experience
-- Client receives immediate JSON response indicating request status.
-
-### Design References
-- PandaDoc module `sna_hul_mod_pd`.
-
----
-
-## 7. Technical Considerations
-
-### NetSuite Components Required
-
-**Record Types:**
-- Transactions passed by `record_type`.
-
-**Script Types:**
-- [ ] Map/Reduce - Not used
-- [ ] Scheduled Script - Not used
-- [x] Suitelet - E-signature request endpoint
-- [ ] RESTlet - Not used
-- [ ] User Event - Not used
-- [ ] Client Script - Not used
-
-**Custom Fields:**
-- None in this Suitelet; handled by PandaDoc module.
-
-**Saved Searches:**
-- None.
-
-### Integration Points
-- PandaDoc API via `sna_hul_mod_pd`.
-
-### Data Requirements
-
-**Data Volume:**
-- One request per user action.
-
-**Data Sources:**
-- Transaction record and template ID.
-
-**Data Retention:**
-- Response data returned to client; transaction updates handled in module.
-
-### Technical Constraints
-- Default case attempts to call `sna_hul_mod_pd.writePage(objPopUpForm)`, but `objPopUpForm` is undefined.
-- Uses SuiteScript 2.x `N/render` to generate PDFs within the module.
-
-### Dependencies
-- **Libraries needed:** FileCabinet/SuiteScripts/SNA/PandaDocs/modules/sna_hul_mod_pd.js.
-- **External dependencies:** PandaDoc API.
-- **Other features:** Client script triggers this Suitelet.
-
-### Governance Considerations
-- Calls PandaDoc API and renders PDFs via the module.
+Schemas (if known):
+- TBD
 
 ---
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- E-signature requests complete and return success responses.
-
-**How we'll measure:**
-- Verify JSON responses and resulting PandaDoc document creation.
+## 7. Validation & Edge Cases
+- Missing parameters result in a failed response.
+- Invalid template ID results in a failed response.
+- Default case attempts to call `sna_hul_mod_pd.writePage(objPopUpForm)` but `objPopUpForm` is undefined.
 
 ---
 
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| sna_hul_sl_pd_esign.js | Suitelet | Handle e-signature requests | Implemented |
-
-### Development Approach
-
-**Phase 1:** Request handling
-- [x] Parse parameters and route `eSignatureRequest`.
-
-**Phase 2:** Response formatting
-- [x] Return structured JSON response.
+## 8. Implementation Notes (Optional)
+- Dispatcher required: TBD
+- Calls PandaDoc API and renders PDFs via the PandaDoc module.
 
 ---
 
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. Call Suitelet with `action=eSignatureRequest`; response returns success and data.
-
-**Edge Cases:**
-1. Missing parameters result in a failed response.
-2. Template ID is invalid.
-
-**Error Handling:**
-1. PandaDoc module throws an error; Suitelet returns failed response.
-
-### Test Data Requirements
-- Valid transaction ID and PandaDoc template ID.
-
-### Sandbox Setup
-- Suitelet deployment with access to transaction records and PandaDoc parameters.
+## 9. Acceptance Criteria
+- Given a request with `action=eSignatureRequest`, when the Suitelet processes it, then it returns a success response when the PandaDoc request completes.
+- Given an error occurs, when the Suitelet handles the request, then it returns `status: failed` with a message.
+- Given a request is processed, when the Suitelet responds, then the response is valid JSON.
 
 ---
 
-## 11. Security & Permissions
-
-### Roles & Permissions
-
-**Roles that need access:**
-- Users who can access the Suitelet and the transaction record.
-
-**Permissions required:**
-- View transaction
-- Access Suitelet deployment
-
-### Data Security
-- Sensitive operations (API calls, PDFs) handled server-side.
+## 10. Testing Notes
+- Call Suitelet with `action=eSignatureRequest`; expect success response and PandaDoc document creation.
+- Missing parameters; expect a failed response.
+- Invalid template ID; expect a failed response.
+- PandaDoc module throws an error; expect failed response with error message.
 
 ---
 
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-
-- [ ] Code review completed
-- [ ] All tests passing in sandbox
-- [ ] Documentation updated (scripts commented, README updated)
-- [ ] PRD_SCRIPT_INDEX.md updated
-- [ ] Stakeholder approval obtained
-- [ ] User training materials prepared (if needed)
-
-### Deployment Steps
-
-1. Upload `sna_hul_sl_pd_esign.js`.
-2. Deploy Suitelet with proper script/deployment IDs.
-3. Validate e-signature requests from the client script.
-
-### Post-Deployment
-
-- [ ] Verify successful JSON responses and PandaDoc requests.
-- [ ] Update PRD status to "Implemented".
-
-### Rollback Plan
-
-**If deployment fails:**
-1. Disable the Suitelet deployment.
+## 11. Deployment Notes
+- Upload `sna_hul_sl_pd_esign.js` and deploy the Suitelet with proper IDs.
+- Validate e-signature requests from the client script.
+- Rollback: disable the Suitelet deployment.
 
 ---
 
-## 13. Timeline
-
-| Milestone | Target Date | Actual Date | Status |
-|-----------|-------------|-------------|--------|
-| PRD Approval | | | |
-| Development Start | | | |
-| Development Complete | | | |
-| Testing Complete | | | |
-| Stakeholder Review | | | |
-| Production Deploy | | | |
-
----
-
-## 14. Open Questions & Risks
-
-### Open Questions
-
-- [ ] Should the Suitelet validate parameters before calling the PandaDoc module?
-- [ ] Should the default action be removed or fixed to avoid undefined variables?
-
-### Known Risks
-
-| Risk | Likelihood | Impact | Mitigation Strategy |
-|------|------------|--------|---------------------|
-| Undefined `objPopUpForm` in default case | Med | Med | Remove or define default handler |
-| PandaDoc API errors propagate to client | Med | Med | Add retries or user-friendly messaging |
+## 12. Open Questions / TBDs
+- Created date is TBD.
+- Last updated date is TBD.
+- Script ID is TBD.
+- Deployment ID is TBD.
+- Should the Suitelet validate parameters before calling the PandaDoc module?
+- Should the default action be removed or fixed to avoid undefined variables?
+- Risk: Undefined `objPopUpForm` in default case.
+- Risk: PandaDoc API errors propagate to client.
 
 ---
-
-## 15. References & Resources
-
-### Related PRDs
-- docs/PRD/FileCabinet/SuiteScripts/SNA/PandaDocs/modules/sna_hul_mod_pd.md
-- docs/PRD/FileCabinet/SuiteScripts/SNA/PandaDocs/sna_hul_cs_pd_esign_button.md
-
-### NetSuite Documentation
-- SuiteScript 2.x Suitelet
-- N/render module
-
-### External Resources
-- PandaDoc API documentation
-
----
-
-## Revision History
-
-| Date | Author | Version | Changes |
-|------|--------|---------|---------|
-| Unknown | Jeremy Cady | 1.0 | Initial draft |

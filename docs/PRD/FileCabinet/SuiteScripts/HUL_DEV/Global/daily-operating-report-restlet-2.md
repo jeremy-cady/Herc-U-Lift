@@ -1,280 +1,123 @@
 # PRD: Daily Operating Report RESTlet (v2)
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-DailyOperatingReportRESTv2
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Unknown
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/HUL_DEV/Global/daily-operating-report-restlet-2.js (RESTlet)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-DailyOperatingReportRESTv2
+title: Daily Operating Report RESTlet (v2)
+status: Implemented
+owner: Unknown
+created: Unknown
+last_updated: Unknown
 
-**Script Deployment (if applicable):**
-- Script ID: Not specified
-- Deployment ID: Not specified
+script:
+  type: restlet
+  file: FileCabinet/SuiteScripts/HUL_DEV/Global/daily-operating-report-restlet-2.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - Sales Order (line data)
+  - Time Entry (timebill)
+  - Item Fulfillment
+  - Item
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
+## 1. Overview
 A RESTlet that returns daily operating report data (sales order line revenue, COGS, and margin) with basic summary totals.
 
-**What problem does it solve?**
-Provides an API endpoint for pulling a daily operating dataset with margin calculations without running the Map/Reduce.
+---
 
-**Primary Goal:**
-Expose daily operating report data via REST for integrations or diagnostics.
+## 2. Business Goal
+Provide an API endpoint for pulling a daily operating dataset with margin calculations without running the Map/Reduce.
 
 ---
 
-## 2. Goals
-
-1. Query today’s sales order lines with revenue and cost details.
-2. Compute COGS per line using time entry, PO rate, or fulfillment cost.
-3. Return a summary breakdown by COGS source.
-
----
-
-## 3. User Stories
-
-1. **As a** developer, **I want to** fetch daily operating data via REST **so that** I can integrate with dashboards.
-2. **As an** analyst, **I want to** see margins and COGS sources **so that** I can validate calculations.
-3. **As an** admin, **I want to** test daily report logic in a lighter endpoint **so that** I can debug issues.
+## 3. User Story
+- As a developer, I want to fetch daily operating data via REST so that I can integrate with dashboards.
+- As an analyst, I want to see margins and COGS sources so that I can validate calculations.
+- As an admin, I want to test daily report logic in a lighter endpoint so that I can debug issues.
 
 ---
 
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. The system must handle GET requests only.
-2. The system must search sales order lines with:
-   - `type = SalesOrd`, `mainline = F`, `taxline = F`
-   - `lastmodifieddate` within today’s date range
-   - `numbertext` not starting with `R`
-3. The system must limit output to the first 100 lines (debug/testing cap).
-4. The system must calculate line COGS:
-   - Time entry cost when `serviceCodeType = 2` and `linkedTimeEntry` exists.
-   - PO rate for temp item `98642` when `custcol_sna_hul_temp_porate` exists.
-   - Fulfillment cost derived from item cost * fulfilled quantity.
-5. The system must compute gross margin and margin percent per line.
-6. The system must return summary totals and per‑COGS‑source breakdown.
-
-### Acceptance Criteria
-
-- [ ] REST response returns `success: true` with summary and lines.
-- [ ] Margin fields are calculated for each line.
-- [ ] COGS source breakdown includes counts and totals.
-- [ ] Errors return `success: false` with message details.
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| RESTlet GET | lastmodifieddate, custcol_sna_linked_time, custcol_sna_so_service_code_type, custcol_sna_hul_temp_porate | Today date range and first 100 lines | Return summary totals, per-COGS-source breakdown, and line data |
 
 ---
 
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Handle open-orders mode or parameterized date ranges.
-- Return all lines beyond the debug cap.
-- Save files to the File Cabinet.
-
----
-
-## 6. Design Considerations
-
-### User Interface
-- None (REST endpoint).
-
-### User Experience
-- JSON response optimized for API consumption.
-
-### Design References
-- Daily Operating Report Map/Reduce logic.
+## 5. Functional Requirements
+- The system must handle GET requests only.
+- The system must search sales order lines with type = SalesOrd, mainline = F, taxline = F, lastmodifieddate within today’s date range, and numbertext not starting with R.
+- The system must limit output to the first 100 lines (debug/testing cap).
+- The system must calculate line COGS using time entry cost when serviceCodeType = 2 and linkedTimeEntry exists, PO rate for temp item 98642 when custcol_sna_hul_temp_porate exists, and fulfillment cost derived from item cost * fulfilled quantity.
+- The system must compute gross margin and margin percent per line.
+- The system must return summary totals and per-COGS-source breakdown.
 
 ---
 
-## 7. Technical Considerations
-
-### NetSuite Components Required
-
-**Record Types:**
+## 6. Data Contract
+### Record Types Involved
 - Sales Order (line data)
-- Time Entry (`timebill`)
-- Item Fulfillment (for quantities)
+- Time Entry (timebill)
+- Item Fulfillment
 - Item
 
-**Script Types:**
-- [ ] Map/Reduce - Not used
-- [ ] Scheduled Script - Not used
-- [ ] Suitelet - Not used
-- [x] RESTlet - API endpoint
-- [ ] User Event - Not used
-- [ ] Client Script - Not used
+### Fields Referenced
+- type
+- mainline
+- taxline
+- lastmodifieddate
+- numbertext
+- custcol_sna_linked_time
+- custcol_sna_so_service_code_type
+- custcol_sna_hul_temp_porate
 
-**Custom Fields:**
-- Sales Order Line | `custcol_sna_linked_time`
-- Sales Order Line | `custcol_sna_so_service_code_type`
-- Sales Order Line | `custcol_sna_hul_temp_porate`
+Schemas (if known):
+- TBD
 
-**Saved Searches:**
-- None (Search API).
+---
 
-### Integration Points
-- Consumed by external dashboards or internal scripts.
+## 7. Validation & Edge Cases
+- No lines today: summary totals zero.
+- Temp item without PO rate: COGS source noFulfillmentCost.
+- Search errors return success: false.
 
-### Data Requirements
+---
 
-**Data Volume:**
-- First 100 lines (debug limit).
-
-**Data Sources:**
-- Sales order line search, time entry and item lookups.
-
-**Data Retention:**
-- N/A.
-
-### Technical Constraints
+## 8. Implementation Notes (Optional)
 - Hardcoded date range (today).
 - Debug limit stops after 100 lines.
 
-### Dependencies
-- **Libraries needed:** None.
-- **External dependencies:** None.
-- **Other features:** Item cost relies on item record fields (average, last purchase, standard).
+---
 
-### Governance Considerations
-- Multiple searches per line; usage can grow if cap increased.
+## 9. Acceptance Criteria
+- Given a GET request, when the RESTlet runs, then it returns success: true with summary and lines.
+- Given line data, when returned, then margin fields are calculated for each line.
+- Given COGS sources, when summarized, then counts and totals are included.
+- Given an error, when it occurs, then the response returns success: false with message details.
 
 ---
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- REST response returns correct margin calculations for sample lines.
-- COGS source distribution matches expectations.
-
-**How we'll measure:**
-- Spot checks against Map/Reduce outputs.
+## 10. Testing Notes
+- Send GET request and confirm summary and lines for today.
+- Verify no lines returns zero totals.
+- Verify temp item without PO rate reports noFulfillmentCost.
+- Verify search errors return success: false.
 
 ---
 
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| daily-operating-report-restlet-2.js | RESTlet | Daily operating data endpoint | Implemented |
-
-### Development Approach
-
-**Phase 1:** Core endpoint
-- [x] Sales order line search
-- [x] COGS calculations
-- [x] Summary totals
+## 11. Deployment Notes
+- Deploy RESTlet and assign integration role.
+- Validate response payload and security.
+- Rollback: disable RESTlet deployment.
 
 ---
 
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. GET request returns summary and lines for today.
-
-**Edge Cases:**
-1. No lines today → summary totals zero.
-2. Temp item without PO rate → COGS source `noFulfillmentCost`.
-
-**Error Handling:**
-1. Search errors return `success: false`.
-
-### Test Data Requirements
-- Sales orders modified today with service and inventory lines.
-
-### Sandbox Setup
-- Deploy RESTlet and call via RESTlet tester.
+## 12. Open Questions / TBDs
+- Should the 100-line cap be parameterized?
+- RESTlet used for production reporting despite debug cap.
 
 ---
-
-## 11. Security & Permissions
-
-### Roles & Permissions
-
-**Roles that need access:**
-- Integration roles calling the RESTlet.
-
-**Permissions required:**
-- View Sales Orders, Items, Time Entries, Item Fulfillments.
-
-### Data Security
-- RESTlet exposes transactional data; restrict token/role access.
-
----
-
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-
-- [ ] Code review completed
-- [ ] Tests passing in sandbox
-- [ ] Documentation updated
-
-### Deployment Steps
-
-1. Deploy RESTlet and assign integration role.
-2. Validate response payload and security.
-
-### Post-Deployment
-
-- [ ] Monitor logs for errors.
-
-### Rollback Plan
-
-**If deployment fails:**
-1. Disable RESTlet deployment.
-
----
-
-## 13. Timeline
-
-| Milestone | Target Date | Actual Date | Status |
-|-----------|-------------|-------------|--------|
-| Development Complete | | | |
-| Deployment | | | |
-
----
-
-## 14. Open Questions & Risks
-
-### Open Questions
-
-- [ ] Should the 100‑line cap be parameterized?
-
-### Known Risks
-
-| Risk | Likelihood | Impact | Mitigation Strategy |
-|------|------------|--------|---------------------|
-| RESTlet used for production reporting despite debug cap | Medium | Medium | Document intended usage |
-
----
-
-## 15. References & Resources
-
-### Related PRDs
-- `docs/PRD/FileCabinet/SuiteScripts/HUL_DEV/Global/daily-operating-report-mapreduce.md`
-
-### NetSuite Documentation
-- SuiteScript 2.1 RESTlet docs.
-- Search API docs.
-
-### External Resources
-- None.
-
----
-
-## Revision History
-
-| Date | Author | Version | Changes |
-|------|--------|---------|---------|
-| Unknown | Unknown | 1.0 | Initial implementation |

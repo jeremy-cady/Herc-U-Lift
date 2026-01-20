@@ -1,248 +1,109 @@
-# PRD: Duplicate Asset Cleanup for Projects
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-DupeAssetProject
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Jeremy Cady
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/sna_hul_mr_dupeasset_proj.js (Map/Reduce)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-DupeAssetProject
+title: Duplicate Asset Cleanup for Projects
+status: Implemented
+owner: Jeremy Cady
+created: TBD
+last_updated: TBD
 
-**Script Deployment (if applicable):**
-- Script ID: Not specified
-- Deployment ID: Not specified
+script:
+  type: map_reduce
+  file: FileCabinet/SuiteScripts/sna_hul_mr_dupeasset_proj.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - Project/Job (job)
+  - Custom Record (customrecord_nx_asset)
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
+## 1. Overview
 A Map/Reduce script that updates project (job) records to reference merged assets and inactivate duplicates.
 
-**What problem does it solve?**
-It ensures project asset references point to active assets after duplicate cleanup.
+---
 
-**Primary Goal:**
-Normalize project asset references and inactivate duplicate assets.
+## 2. Business Goal
+Ensure project asset references point to active assets after duplicate cleanup.
 
 ---
 
-## 2. Goals
-
-1. Load a saved search of projects with duplicate assets.
-2. Update project merge fields with active assets.
-3. Mark duplicate assets as inactive and link active assets to duplicates.
+## 3. User Story
+As a project admin, when duplicate assets exist, I want project asset references normalized, so that reporting uses the active asset.
 
 ---
 
-## 3. User Stories
-
-1. **As a** project admin, **I want** project asset references normalized **so that** reporting uses the active asset.
-
----
-
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. The script must load a saved search from parameter `custscript_sna_dupe_proj`.
-2. The script must write merged asset values to `custentity_sn_hul_mergesiteassetproj` and `custentity_sn_hul_mergequipassetproj`.
-3. The script must set `custrecord_sna_duplicate_asset` on the active asset.
-4. The script must inactivate old asset records referenced by the project.
-
-### Acceptance Criteria
-
-- [ ] Project merge fields are populated with active assets.
-- [ ] Old assets are inactivated and linked to active assets.
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| Map/Reduce run | custscript_sna_dupe_proj | saved search provided | Update project merge fields and inactivate assets |
 
 ---
 
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Update project history or transactions tied to assets.
-
----
-
-## 6. Design Considerations
-
-### User Interface
-- None; backend cleanup.
-
-### User Experience
-- Users see merged asset fields populated on projects.
-
-### Design References
-- None.
+## 5. Functional Requirements
+- Load a saved search from parameter `custscript_sna_dupe_proj`.
+- Write merged asset values to `custentity_sn_hul_mergesiteassetproj` and `custentity_sn_hul_mergequipassetproj`.
+- Set `custrecord_sna_duplicate_asset` on the active asset.
+- Inactivate old asset records referenced by the project.
 
 ---
 
-## 7. Technical Considerations
+## 6. Data Contract
+### Record Types Involved
+- Project/Job (job)
+- Custom Record (customrecord_nx_asset)
 
-### NetSuite Components Required
+### Fields Referenced
+- Project | custentity_nx_asset
+- Project | custentity_nxc_project_assets
+- Project | custentity_sn_hul_mergesiteassetproj
+- Project | custentity_sn_hul_mergequipassetproj
+- Asset | custrecord_sna_dup_asset
+- Asset | custrecord_sna_duplicate_asset
 
-**Record Types:**
-- Project/Job (`job`)
-- Custom Record | `customrecord_nx_asset`
+Schemas (if known):
+- Script parameter: custscript_sna_dupe_proj
 
-**Script Types:**
-- [x] Map/Reduce - Duplicate asset normalization
-- [ ] Scheduled Script - Not used
-- [ ] Suitelet - Not used
-- [ ] RESTlet - Not used
-- [ ] User Event - Not used
-- [ ] Client Script - Not used
+---
 
-**Custom Fields:**
-- Project | `custentity_nx_asset`
-- Project | `custentity_nxc_project_assets`
-- Project | `custentity_sn_hul_mergesiteassetproj`
-- Project | `custentity_sn_hul_mergequipassetproj`
-- Asset | `custrecord_sna_dup_asset`
-- Asset | `custrecord_sna_duplicate_asset`
+## 7. Validation & Edge Cases
+- Project without duplicate mapping should remain unchanged.
+- Invalid search parameter should log errors.
 
-**Saved Searches:**
-- Search from parameter `custscript_sna_dupe_proj`.
+---
 
-### Integration Points
-- None.
-
-### Data Requirements
-
-**Data Volume:**
-- Results from saved search.
-
-**Data Sources:**
-- Project records and asset records.
-
-**Data Retention:**
-- Updates project fields and asset status.
-
-### Technical Constraints
+## 8. Implementation Notes (Optional)
 - Multi-select asset fields are rewritten to merged assets only.
 
-### Dependencies
-- **Libraries needed:** N/record, N/search, N/runtime, N/error.
-- **External dependencies:** None.
+---
 
-### Governance Considerations
-- Multiple submitFields calls per project and asset.
+## 9. Acceptance Criteria
+- Given duplicate assets, when processed, then project merge fields populate and old assets are inactivated.
 
 ---
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- Projects reference active assets and duplicates are inactivated.
+## 10. Testing Notes
+- Project with duplicate assets updates merge fields and inactivates old assets.
+- No duplicate mapping; project remains unchanged.
 
 ---
 
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| sna_hul_mr_dupeasset_proj.js | Map/Reduce | Normalize project asset references | Implemented |
-
-### Development Approach (Phase 1/Phase 2)
-- **Phase 1:** Load duplicate asset mappings.
-- **Phase 2:** Update project and asset records.
+## 11. Deployment Notes
+- Upload `sna_hul_mr_dupeasset_proj.js`.
+- Deploy Map/Reduce with saved search.
+- Rollback: disable script deployment.
 
 ---
 
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. Project with duplicate assets updates merge fields and inactivates old assets.
-
-**Edge Cases:**
-1. Project without duplicate mapping should remain unchanged.
-
-**Error Handling:**
-1. Invalid search parameter should log errors.
-
-### Test Data Requirements
-- Saved search returning projects with asset references.
-
-### Sandbox Setup
-- Ensure assets have `custrecord_sna_dup_asset` populated.
+## 12. Open Questions / TBDs
+- Created date is TBD.
+- Last updated date is TBD.
+- Script ID is TBD.
+- Deployment ID is TBD.
+- Should original asset selections be retained for audit?
+- Risk: Inactivating assets still referenced elsewhere.
 
 ---
-
-## 11. Security & Permissions
-
-### Roles & Permissions
-**Roles that need access:**
-- Admin or data cleanup role.
-
-**Permissions required:**
-- Edit project and asset records.
-
-### Data Security
-- Internal asset data only.
-
----
-
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-- Configure `custscript_sna_dupe_proj` search parameter.
-
-### Deployment Steps
-1. Upload `sna_hul_mr_dupeasset_proj.js`.
-2. Deploy Map/Reduce with saved search.
-
-### Post-Deployment
-- Validate project merge fields and asset inactivation.
-
-### Rollback Plan
-- Disable script deployment.
-
----
-
-## 13. Timeline
-
-| Milestone | Target Date | Actual Date | Status |
-|-----------|-------------|-------------|--------|
-| PRD Approval | | | |
-| Development Complete | | | |
-| Production Deploy | | | |
-
----
-
-## 14. Open Questions & Risks
-
-### Open Questions
-- [ ] Should original asset selections be retained for audit?
-
-### Known Risks
-
-| Risk | Likelihood | Impact | Mitigation Strategy |
-|------|------------|--------|---------------------|
-| Inactivating assets still referenced elsewhere | Med | High | Validate usage before cleanup |
-
----
-
-## 15. References & Resources
-
-### Related PRDs
-- None.
-
-### NetSuite Documentation
-- SuiteScript 2.x Map/Reduce
-
-### External Resources
-- None.
-
----
-
-## Revision History
-
-| Date | Author | Version | Changes |
-|------|--------|---------|---------|
-| Unknown | Jeremy Cady | 1.0 | Initial draft |

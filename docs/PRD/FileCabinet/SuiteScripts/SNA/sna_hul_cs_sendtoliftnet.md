@@ -1,289 +1,100 @@
-# PRD: LiftNet Quote Integration (Client Script)
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-LiftNetCS
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Jeremy Cady
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/SNA/sna_hul_cs_sendtoliftnet.js (Client Script)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-LiftNetCS
+title: LiftNet Quote Integration (Client Script)
+status: Implemented
+owner: Jeremy Cady
+created: TBD
+last_updated: TBD
 
-**Script Deployment (if applicable):**
-- Script ID: Not specified
-- Deployment ID: Not specified
+script:
+  type: client
+  file: FileCabinet/SuiteScripts/SNA/sna_hul_cs_sendtoliftnet.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - Opportunity/Estimate
+  - Item (inventory and non-inventory)
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
+## 1. Overview
 A client script that integrates NetSuite estimates/opportunities with LiftNet by creating or updating quotes, launching the configurator, and importing quote results.
 
-**What problem does it solve?**
+## 2. Business Goal
 Automates the LiftNet quote workflow from NetSuite, including item creation, estimate generation, and quote document actions.
 
-**Primary Goal:**
-Send and retrieve quote data between NetSuite and LiftNet and manage related items and estimates.
+## 3. User Story
+As a sales rep, when I need to configure a quote, I want to launch LiftNet from NetSuite, so that I can configure quotes quickly.
 
----
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| pageInit | TBD | TBD | Hide the standard UI table block |
+| TBD | TBD | LiftNet quote actions invoked | Create/update LiftNet quote, launch configurator, or import quote results |
 
-## 2. Goals
+## 5. Functional Requirements
+- The system must hide the standard UI table block on page init.
+- The system must resolve and open the LiftNet Suitelet for sending quotes (`customscript_sna_hul_sl_sendtoliftnet`).
+- The system must send email quotes via Suitelet (`customscript_sna_hul_sl_sendquoteviaemai`).
+- The system must create or update LiftNet quotes via LiftNet API endpoints using credentials and XML payloads.
+- The system must launch the LiftNet configurator using the quote ID.
+- The system must retrieve LiftNet quote data and parse XML into JSON.
+- The system must search for or create NetSuite items based on LiftNet quote lines.
+- The system must create or update an estimate from the opportunity and add quote items.
+- The system must support printing quote documents and worksheets from LiftNet.
 
-1. Create or update LiftNet quotes from NetSuite records.
-2. Launch LiftNet configurator for quote editing.
-3. Retrieve LiftNet quote data and create/update NetSuite items and estimates.
-
----
-
-## 3. User Stories
-
-1. **As a** sales rep, **I want** to launch LiftNet from NetSuite **so that** I can configure quotes quickly.
-2. **As an** admin, **I want** quotes synced back into NetSuite **so that** estimates and items are consistent.
-3. **As a** manager, **I want** quote documents available **so that** I can email or print them.
-
----
-
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. The system must hide the standard UI table block on page init.
-2. The system must resolve and open the LiftNet Suitelet for sending quotes (`customscript_sna_hul_sl_sendtoliftnet`).
-3. The system must send email quotes via Suitelet (`customscript_sna_hul_sl_sendquoteviaemai`).
-4. The system must create or update LiftNet quotes via LiftNet API endpoints using credentials and XML payloads.
-5. The system must launch the LiftNet configurator using the quote ID.
-6. The system must retrieve LiftNet quote data and parse XML into JSON.
-7. The system must search for or create NetSuite items based on LiftNet quote lines.
-8. The system must create or update an estimate from the opportunity and add quote items.
-9. The system must support printing quote documents and worksheets from LiftNet.
-
-### Acceptance Criteria
-
-- [ ] LiftNet quote creation returns a quote ID saved to NetSuite.
-- [ ] Configurator launches for the provided quote ID.
-- [ ] LiftNet quote data is parsed and items are created or selected.
-- [ ] Estimate is created/updated with items from LiftNet.
-- [ ] Quote and worksheet print actions open LiftNet documents.
-
----
-
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Validate LiftNet credentials beyond request errors.
-- Handle LiftNet API rate limits or retries.
-- Perform server-side integration processing.
-
----
-
-## 6. Design Considerations
-
-### User Interface
-- Provides client-side buttons/actions for LiftNet workflows.
-
-### User Experience
-- Users can initiate LiftNet processes from the NetSuite UI and receive progress messages.
-
-### Design References
-- LiftNet API endpoints and document URLs.
-
----
-
-## 7. Technical Considerations
-
-### NetSuite Components Required
-
-**Record Types:**
+## 6. Data Contract
+### Record Types Involved
 - Opportunity/Estimate
 - Item (inventory and non-inventory)
 
-**Script Types:**
-- [ ] Map/Reduce - Not used
-- [ ] Scheduled Script - Not used
-- [ ] Suitelet - Used for sending quotes and emailing
-- [ ] RESTlet - Not used
-- [ ] User Event - Not used
-- [x] Client Script - LiftNet UI actions
-
-**Custom Fields:**
+### Fields Referenced
 - Opportunity/Estimate | `custbody_liftnetquoteid`
-- Custom page fields: `custpage_quoteid`, `custpage_salespersoncode`, `custpage_mcfausername`, `custpage_mcfapassword`, `custpage_customerapiinformation`
+- Custom page fields | `custpage_quoteid`, `custpage_salespersoncode`, `custpage_mcfausername`, `custpage_mcfapassword`, `custpage_customerapiinformation`
 
-**Saved Searches:**
-- Item search by name for LiftNet items.
+Schemas (if known):
+- TBD
 
-### Integration Points
-- LiftNet API endpoints (`/PDC/CreateUpdatePortalQuote`, `/PDC/ConfigureQuote`, `/PDC/LaunchConfig`).
-- LiftNet document endpoints for print/worksheet.
+## 7. Validation & Edge Cases
+- LiftNet API returns empty response.
+- Item creation fails or item already exists.
+- LiftNet request errors show alerts and halt processing.
 
-### Data Requirements
-
-**Data Volume:**
-- One LiftNet request per action; multiple items per quote.
-
-**Data Sources:**
-- LiftNet XML responses and NetSuite transaction data.
-
-**Data Retention:**
-- Quote IDs saved on transactions; items created as needed.
-
-### Technical Constraints
+## 8. Implementation Notes (Optional)
 - Uses client-side HTTPS requests to external LiftNet endpoints.
 - Includes XML-to-JSON conversion logic in the client script.
 
-### Dependencies
-- **Libraries needed:** None.
-- **External dependencies:** LiftNet endpoints, jQuery (for XML parsing helpers).
-- **Other features:** Suitelet deployments for sending quotes and emails.
+## 9. Acceptance Criteria
+- Given LiftNet quote creation, when the action runs, then a quote ID is returned and saved to NetSuite.
+- Given a quote ID, when the configurator is launched, then it opens for the provided quote ID.
+- Given LiftNet quote data, when it is imported, then items are created or selected and the estimate is updated.
+- Given print actions, when they run, then LiftNet quote and worksheet documents open.
 
-### Governance Considerations
-- Client-side record creation and search operations can be heavy.
+## 10. Testing Notes
+- Create LiftNet quote and store quote ID on opportunity.
+- Retrieve quote and create/update estimate with items.
+- Print quote and worksheet documents.
+- LiftNet API returns empty response.
+- Item creation fails or item already exists.
+- LiftNet request errors show alerts and halt processing.
 
----
+## 11. Deployment Notes
+- Upload `sna_hul_cs_sendtoliftnet.js`.
+- Deploy to opportunity/estimate forms.
+- Validate LiftNet workflow end-to-end.
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- LiftNet quotes sync into NetSuite and estimates are populated accurately.
-
-**How we'll measure:**
-- Verify quote IDs, created items, and estimate line items match LiftNet data.
-
----
-
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| sna_hul_cs_sendtoliftnet.js | Client Script | LiftNet quote integration and UI actions | Implemented |
-
-### Development Approach
-
-**Phase 1:** LiftNet API calls
-- [x] Create/update quotes and launch configurator.
-
-**Phase 2:** NetSuite updates
-- [x] Create items and estimates from LiftNet quote data.
+## 12. Open Questions / TBDs
+- Script ID: TBD
+- Deployment ID: TBD
+- Created date: TBD
+- Last updated date: TBD
+- Should LiftNet credentials be stored server-side instead of client-side?
+- Should item creation be moved to a backend script?
+- Risk: Client-side credentials exposure (Mitigation: Move LiftNet calls to Suitelet/RESTlet)
+- Risk: Large quotes cause long UI delays (Mitigation: Move processing to scheduled script)
 
 ---
-
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. Create LiftNet quote and store quote ID on opportunity.
-2. Retrieve quote and create/update estimate with items.
-3. Print quote and worksheet documents.
-
-**Edge Cases:**
-1. LiftNet API returns empty response.
-2. Item creation fails or item already exists.
-
-**Error Handling:**
-1. LiftNet request errors show alerts and halt processing.
-
-### Test Data Requirements
-- Valid LiftNet credentials and quote configurations.
-
-### Sandbox Setup
-- Client script deployed on opportunity/estimate forms with required fields.
-
----
-
-## 11. Security & Permissions
-
-### Roles & Permissions
-
-**Roles that need access:**
-- Users initiating LiftNet quote actions.
-
-**Permissions required:**
-- Create/edit estimates and items (client-side operations).
-
-### Data Security
-- LiftNet credentials handled in client context; ensure access is limited.
-
----
-
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-
-- [ ] Code review completed
-- [ ] All tests passing in sandbox
-- [ ] Documentation updated (scripts commented, README updated)
-- [ ] PRD_SCRIPT_INDEX.md updated
-- [ ] Stakeholder approval obtained
-- [ ] User training materials prepared (if needed)
-
-### Deployment Steps
-
-1. Upload `sna_hul_cs_sendtoliftnet.js`.
-2. Deploy to opportunity/estimate forms.
-3. Validate LiftNet workflow end-to-end.
-
-### Post-Deployment
-
-- [ ] Verify quote ID updates and estimate line items.
-- [ ] Update PRD status to "Implemented".
-
-### Rollback Plan
-
-**If deployment fails:**
-1. Remove the client script from affected forms.
-
----
-
-## 13. Timeline
-
-| Milestone | Target Date | Actual Date | Status |
-|-----------|-------------|-------------|--------|
-| PRD Approval | | | |
-| Development Start | | | |
-| Development Complete | | | |
-| Testing Complete | | | |
-| Stakeholder Review | | | |
-| Production Deploy | | | |
-
----
-
-## 14. Open Questions & Risks
-
-### Open Questions
-
-- [ ] Should LiftNet credentials be stored server-side instead of client-side?
-- [ ] Should item creation be moved to a backend script?
-
-### Known Risks
-
-| Risk | Likelihood | Impact | Mitigation Strategy |
-|------|------------|--------|---------------------|
-| Client-side credentials exposure | Med | High | Move LiftNet calls to Suitelet/RESTlet |
-| Large quotes cause long UI delays | Med | Med | Move processing to scheduled script |
-
----
-
-## 15. References & Resources
-
-### Related PRDs
-- None.
-
-### NetSuite Documentation
-- SuiteScript 2.x Client Script
-- N/https and N/record modules
-
-### External Resources
-- LiftNet API documentation
-
----
-
-## Revision History
-
-| Date | Author | Version | Changes |
-|------|--------|---------|---------|
-| Unknown | Jeremy Cady | 1.0 | Initial draft |

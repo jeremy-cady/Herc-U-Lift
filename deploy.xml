@@ -1,1 +1,5 @@
-<deploy></deploy>
+<deploy>
+  <files>
+    <path>~/FileCabinet/SuiteScripts/HUL_DEV/Global/hul_records_schema_mr.js</path>
+  </files>
+</deploy>

@@ -1,264 +1,125 @@
-# PRD: Set Vendor Defaults on Purchase Orders Client Script
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-SetVendor
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Jeremy Cady
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/sna_hul_cs_setvendor.js (Client Script)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-SetVendor
+title: Set Vendor Defaults on Purchase Orders Client Script
+status: Implemented
+owner: Jeremy Cady
+created: TBD
+last_updated: TBD
 
-**Script Deployment (if applicable):**
-- Script ID: Not specified
-- Deployment ID: Not specified
+script:
+  type: client
+  file: FileCabinet/SuiteScripts/sna_hul_cs_setvendor.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - Purchase Order
+  - Vendor
+  - Employee
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
+## 1. Overview
 A client script that sets default vendor, buy-from vendor, employee, location, and department values on Purchase Orders.
 
-**What problem does it solve?**
-It standardizes PO header and line defaults based on form, user, and vendor configuration.
+---
 
-**Primary Goal:**
-Apply vendor and header defaults consistently on PO creation and sourcing.
+## 2. Business Goal
+Standardize PO header and line defaults based on form, user, and vendor configuration.
 
 ---
 
-## 2. Goals
-
-1. Set employee and PO type defaults on create.
-2. Default Buy From Vendor and Pay To Vendor logic using parent vendor.
-3. Set department and location defaults based on form and employee.
+## 3. User Story
+As a buyer, when I create POs, I want defaults set automatically, so that I can create POs faster.
 
 ---
 
-## 3. User Stories
-
-1. **As a** buyer, **I want** PO defaults set automatically **so that** I can create POs faster.
-
----
-
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. On create, the script must set `employee` to the current user.
-2. On create, the script must set `custbody_po_type` based on special order or dropship context.
-3. If a parent vendor exists, the script must set `entity` to the parent vendor and `custbody_sna_buy_from` to the original vendor.
-4. When `custbody_sna_buy_from` changes, the script must update `entity` to the parent vendor or the same vendor.
-5. On item line selection, the script must set line `location` and `department` based on header values and form rules.
-6. On post sourcing (create only), the script must set department and location defaults based on the PO form and employee location.
-
-### Acceptance Criteria
-
-- [ ] PO header fields default correctly on create.
-- [ ] Vendor relationship updates Pay To Vendor and Buy From Vendor fields.
-- [ ] Line location and department defaults apply on item selection.
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| pageInit | employee, custbody_po_type | create mode | Set employee and PO type defaults |
+| fieldChanged | custbody_sna_buy_from | vendor changed | Set entity to parent vendor or same vendor |
+| postSourcing | item | item selected | Set line department and location from header and form rules |
 
 ---
 
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Calculate vendor pricing (handled elsewhere).
-- Validate vendor or department permissions.
-
----
-
-## 6. Design Considerations
-
-### User Interface
-- Header and line fields are set automatically.
-
-### User Experience
-- Users create POs with fewer manual steps.
-
-### Design References
-- None.
+## 5. Functional Requirements
+- On create, set `employee` to the current user.
+- On create, set `custbody_po_type` based on special order or dropship context.
+- If a parent vendor exists, set `entity` to the parent vendor and `custbody_sna_buy_from` to the original vendor.
+- When `custbody_sna_buy_from` changes, update `entity` to the parent vendor or the same vendor.
+- On item line selection, set line `location` and `department` based on header values and form rules.
+- On post sourcing (create only), set department and location defaults based on the PO form and employee location.
 
 ---
 
-## 7. Technical Considerations
-
-### NetSuite Components Required
-
-**Record Types:**
+## 6. Data Contract
+### Record Types Involved
 - Purchase Order
 - Vendor
 - Employee
 
-**Script Types:**
-- [ ] Map/Reduce - Not used
-- [ ] Scheduled Script - Not used
-- [ ] Suitelet - Not used
-- [ ] RESTlet - Not used
-- [ ] User Event - Not used
-- [x] Client Script - PO defaults
+### Fields Referenced
+- Header | employee
+- Header | custbody_po_type
+- Header | custbody_sna_buy_from
+- Header | custbody_sna_hul_orderid
+- Header | specord
+- Header | dropshipso
+- Header | customform
+- Header | department
+- Header | location
+- Vendor | custentity_sna_parent_vendor
+- Line | item
+- Line | department
+- Line | location
 
-**Custom Fields:**
-- Header | `employee`
-- Header | `custbody_po_type`
-- Header | `custbody_sna_buy_from`
-- Header | `custbody_sna_hul_orderid`
-- Header | `specord`
-- Header | `dropshipso`
-- Header | `customform`
-- Header | `department`
-- Header | `location`
-- Vendor | `custentity_sna_parent_vendor`
-- Line | `item`
-- Line | `department`
-- Line | `location`
+Schemas (if known):
+- TBD
 
-**Saved Searches:**
-- None.
+---
 
-### Integration Points
-- Reads vendor parent relationship to set Buy From Vendor and Pay To Vendor.
+## 7. Validation & Edge Cases
+- Vendor has no parent; `entity` stays as vendor.
+- Vendor lookup fails; retain original vendor values.
 
-### Data Requirements
+---
 
-**Data Volume:**
-- Header and line default updates during create and sourcing.
-
-**Data Sources:**
-- Vendor and employee records.
-
-**Data Retention:**
-- Updates PO header and line fields only.
-
-### Technical Constraints
+## 8. Implementation Notes (Optional)
 - Uses form IDs 108 and 130 to set department rules.
 
-### Dependencies
-- **Libraries needed:** N/search, N/currentRecord, N/runtime.
-- **External dependencies:** None.
-- **Other features:** PO form configuration and vendor parent field.
+---
 
-### Governance Considerations
-- Client-side lookups for vendor parent and employee location.
+## 9. Acceptance Criteria
+- Given a new PO, when created, then header fields default correctly.
+- Given a vendor with parent, when selected, then Pay To Vendor and Buy From Vendor fields update.
+- Given item selection, when sourced, then line location and department defaults apply.
 
 ---
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- PO defaults are applied consistently on create and line entry.
-
----
-
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| sna_hul_cs_setvendor.js | Client Script | Set vendor and header defaults on POs | Implemented |
-
-### Development Approach (Phase 1/Phase 2)
-- **Phase 1:** Header defaults on create.
-- **Phase 2:** Line defaults and vendor parent handling.
+## 10. Testing Notes
+- Create a PO and verify employee, PO type, and vendor defaults.
+- Add an item line and verify line location and department.
+- Vendor has no parent; verify `entity` stays as vendor.
 
 ---
 
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. Create a PO and verify employee, PO type, and vendor defaults.
-2. Add an item line and verify line location and department.
-
-**Edge Cases:**
-1. Vendor has no parent; `entity` stays as vendor.
-2. PO created from Sales Order link; ignore pricing trigger logic.
-
-**Error Handling:**
-1. Vendor lookup fails; retain original vendor values.
-
-### Test Data Requirements
-- Vendors with and without parent vendor.
-- PO forms 108 and 130.
-
-### Sandbox Setup
-- Deploy client script to Purchase Order form.
+## 11. Deployment Notes
+- Upload `sna_hul_cs_setvendor.js`.
+- Deploy to Purchase Order forms.
+- Rollback: remove client script deployment from PO forms.
 
 ---
 
-## 11. Security & Permissions
-
-### Roles & Permissions
-**Roles that need access:**
-- Purchasing users.
-
-**Permissions required:**
-- Create and edit Purchase Orders, view vendor and employee records.
-
-### Data Security
-- Uses internal vendor and employee data only.
+## 12. Open Questions / TBDs
+- Created date is TBD.
+- Last updated date is TBD.
+- Script ID is TBD.
+- Deployment ID is TBD.
+- Should form IDs be parameterized instead of hard-coded?
+- Risk: Form IDs change across environments.
 
 ---
-
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-- Confirm form IDs and department defaults.
-
-### Deployment Steps
-1. Upload `sna_hul_cs_setvendor.js`.
-2. Deploy to Purchase Order forms.
-
-### Post-Deployment
-- Validate defaults on create and line entry.
-
-### Rollback Plan
-- Remove client script deployment from PO forms.
-
----
-
-## 13. Timeline
-
-| Milestone | Target Date | Actual Date | Status |
-|-----------|-------------|-------------|--------|
-| PRD Approval | | | |
-| Development Complete | | | |
-| Production Deploy | | | |
-
----
-
-## 14. Open Questions & Risks
-
-### Open Questions
-- [ ] Should form IDs be parameterized instead of hard-coded?
-
-### Known Risks
-
-| Risk | Likelihood | Impact | Mitigation Strategy |
-|------|------------|--------|---------------------|
-| Form IDs change across environments | Med | Med | Move IDs to script parameters |
-
----
-
-## 15. References & Resources
-
-### Related PRDs
-- None.
-
-### NetSuite Documentation
-- SuiteScript 2.x Client Script
-
-### External Resources
-- None.
-
----
-
-## Revision History
-
-| Date | Author | Version | Changes |
-|------|--------|---------|
-| Unknown | Jeremy Cady | 1.0 | Initial draft |

@@ -1,93 +1,64 @@
-# PRD: Sales Order Consolidate Client Script
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-SalesOrderConsolidate
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Jeremy Cady
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/sna_hul_cs_sales_order_consolidate.js (Client Script)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-SalesOrderConsolidate
+title: Sales Order Consolidate Client Script
+status: Implemented
+owner: Jeremy Cady
+created: TBD
+last_updated: TBD
 
-**Script Deployment (if applicable):**
-- Script ID: Not specified
-- Deployment ID: Not specified
+script:
+  type: client
+  file: FileCabinet/SuiteScripts/sna_hul_cs_sales_order_consolidate.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - Sales Order
+  - Invoice
+  - Item Fulfillment
+  - Customer
+  - Item
+  - Location
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
+## 1. Overview
 A consolidated client script that provides Sales Order and Item Fulfillment validations and shipping-related actions, including Spee-Dee rate calculation and parcel printing.
 
-**What problem does it solve?**
-It centralizes client-side checks for PO-required customers, shipping validations, and parcel label workflow.
+---
 
-**Primary Goal:**
-Validate PO requirements and support Spee-Dee shipping cost and parcel print workflows.
-
-**Notes:**
-Header comments indicate this script is deprecated by another script.
+## 2. Business Goal
+Centralize client-side checks for PO-required customers, shipping validations, and parcel label workflow.
 
 ---
 
-## 2. Goals
-
-1. Enforce PO-required validation on sales orders and invoices.
-2. Calculate Spee-Dee shipping rates when requested.
-3. Support parcel printing actions and warranty printing helpers.
+## 3. User Story
+As a sales or shipping user, when I enter orders and fulfillments, I want PO-required and shipping validations enforced, so that orders and shipments are compliant.
 
 ---
 
-## 3. User Stories
-
-1. **As a** sales user, **I want** PO-required validation **so that** orders are not saved without required PO numbers.
-2. **As a** shipping user, **I want** Spee-Dee shipping rates calculated **so that** shipping costs are accurate.
-
----
-
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. The script must calculate Spee-Dee rates using customer and location address details and item weights.
-2. The script must block Item Fulfillment save if Spee-Dee shipping is used and rate is not calculated (based on script parameters).
-3. The script must check customer `custentity_sna_hul_po_required` and enforce `otherrefnum` when required.
-4. The script must expose client actions to calculate shipping cost, print parcels, and print warranty documents.
-
-### Acceptance Criteria
-
-- [ ] PO-required customers cannot save without a PO number.
-- [ ] Spee-Dee shipping requires rate calculation before saving fulfillment.
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| client action | shipcarrier, shipmethod | Spee-Dee shipping used | Calculate Spee-Dee rates |
+| before save | custentity_sna_hul_po_required, otherrefnum | PO required and missing PO | Block save |
+| before save (IF) | custbody_sna_speedeeorderid | Spee-Dee rate missing | Block save based on parameters |
 
 ---
 
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Replace server-side shipping calculations.
-- Provide full shipping label rendering in the client.
-
----
-
-## 6. Design Considerations
-
-### User Interface
-- Uses dialog alerts for missing required data.
-
-### User Experience
-- Warns users before saving when required shipping data is missing.
-
-### Design References
-- None.
+## 5. Functional Requirements
+- Calculate Spee-Dee rates using customer and location address details and item weights.
+- Block Item Fulfillment save if Spee-Dee shipping is used and rate is not calculated (based on script parameters).
+- Check customer `custentity_sna_hul_po_required` and enforce `otherrefnum` when required.
+- Expose client actions to calculate shipping cost, print parcels, and print warranty documents.
 
 ---
 
-## 7. Technical Considerations
-
-### NetSuite Components Required
-
-**Record Types:**
+## 6. Data Contract
+### Record Types Involved
 - Sales Order
 - Invoice
 - Item Fulfillment
@@ -95,171 +66,63 @@ Header comments indicate this script is deprecated by another script.
 - Item
 - Location
 
-**Script Types:**
-- [ ] Map/Reduce - Not used
-- [ ] Scheduled Script - Not used
-- [ ] Suitelet - Not used
-- [ ] RESTlet - Not used
-- [ ] User Event - Not used
-- [x] Client Script - Shipping and PO validation
+### Fields Referenced
+- Header | custentity_sna_hul_po_required
+- Header | otherrefnum
+- Header | custbody_sna_speedeeorderid
+- Header | shipcarrier
+- Header | shipmethod
+- Header | shipaddresslist
+- Header | location
+- Item | weight
+- Item | weightunit
 
-**Custom Fields:**
-- Header | `custentity_sna_hul_po_required`
-- Header | `otherrefnum`
-- Header | `custbody_sna_speedeeorderid`
-- Header | `shipcarrier`
-- Header | `shipmethod`
-- Header | `shipaddresslist`
-- Header | `location`
-- Item | `weight`
-- Item | `weightunit`
-
-**Saved Searches:**
-- None.
-
-### Integration Points
-- Spee-Dee rate calculation via external API (EasyPost endpoint).
-
-### Data Requirements
-
-**Data Volume:**
-- Iterates over item lines to compute weight totals.
-
-**Data Sources:**
-- Customer and location address data, item weights, shipping parameters.
-
-**Data Retention:**
-- Updates shipping cost on the transaction.
-
-### Technical Constraints
-- Uses external API calls and requires valid tokens and carrier account parameters.
-
-### Dependencies
-- **Libraries needed:** N/runtime, N/search, N/url, N/ui/message, N/ui/dialog, N/https.
-- **External dependencies:** EasyPost API for Spee-Dee rates.
-- **Other features:** Script parameters for shipping methods and tokens.
-
-### Governance Considerations
-- Client-side external HTTP calls can be slow or fail.
+Schemas (if known):
+- TBD
 
 ---
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- Orders comply with PO-required rules and shipping validation checks pass.
-
----
-
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| sna_hul_cs_sales_order_consolidate.js | Client Script | Shipping and PO-required validation | Implemented |
-
-### Development Approach (Phase 1/Phase 2)
-- **Phase 1:** Add PO-required and Spee-Dee validations.
-- **Phase 2:** Add parcel printing and warranty helpers.
+## 7. Validation & Edge Cases
+- PO-required customer without PO number; save blocked.
+- Spee-Dee fulfillment with missing rate; save blocked.
+- External API errors show user alerts.
 
 ---
 
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. Sales order with PO-required customer and PO number saves.
-2. Spee-Dee shipping rate calculated and saved on fulfillment.
-
-**Edge Cases:**
-1. PO-required customer without PO number.
-2. Spee-Dee fulfillment with missing rate.
-
-**Error Handling:**
-1. External API errors should show user alerts.
-
-### Test Data Requirements
-- Customer flagged as PO required.
-- Items with weight values.
-
-### Sandbox Setup
-- Configure script parameters for Spee-Dee tokens and shipping methods.
+## 8. Implementation Notes (Optional)
+- Script is noted as deprecated by another script.
+- External dependency: EasyPost API for Spee-Dee rates.
+- Requires valid tokens and carrier account parameters.
 
 ---
 
-## 11. Security & Permissions
-
-### Roles & Permissions
-**Roles that need access:**
-- Sales and shipping users.
-
-**Permissions required:**
-- Edit Sales Orders and Item Fulfillments.
-
-### Data Security
-- Uses customer address and shipping data only.
+## 9. Acceptance Criteria
+- Given a PO-required customer, when saving without a PO number, then save is blocked.
+- Given Spee-Dee shipping, when rate is missing, then fulfillment save is blocked.
 
 ---
 
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-- Confirm script parameter values for Spee-Dee integration.
-
-### Deployment Steps
-1. Upload `sna_hul_cs_sales_order_consolidate.js`.
-2. Deploy to Sales Order and Item Fulfillment as required.
-
-### Post-Deployment
-- Verify PO-required validation and shipping cost behavior.
-
-### Rollback Plan
-- Remove client script deployment.
+## 10. Testing Notes
+- Sales order with PO-required customer and PO number saves.
+- Spee-Dee shipping rate calculated and saved on fulfillment.
+- PO-required customer without PO number; save blocked.
 
 ---
 
-## 13. Timeline
-
-| Milestone | Target Date | Actual Date | Status |
-|-----------|-------------|-------------|--------|
-| PRD Approval | | | |
-| Development Complete | | | |
-| Production Deploy | | | |
+## 11. Deployment Notes
+- Upload `sna_hul_cs_sales_order_consolidate.js`.
+- Deploy to Sales Order and Item Fulfillment as required.
+- Rollback: remove client script deployment.
 
 ---
 
-## 14. Open Questions & Risks
-
-### Open Questions
-- [ ] Which script replaces this deprecated logic?
-
-### Known Risks
-
-| Risk | Likelihood | Impact | Mitigation Strategy |
-|------|------------|--------|---------------------|
-| External API latency | Med | Med | Provide user feedback and retries |
-| Deprecated logic still deployed | Med | Med | Confirm active deployment scripts |
+## 12. Open Questions / TBDs
+- Created date is TBD.
+- Last updated date is TBD.
+- Script ID is TBD.
+- Deployment ID is TBD.
+- Which script replaces this deprecated logic?
+- Risk: External API latency.
+- Risk: Deprecated logic still deployed.
 
 ---
-
-## 15. References & Resources
-
-### Related PRDs
-- None.
-
-### NetSuite Documentation
-- SuiteScript 2.1 Client Script
-
-### External Resources
-- EasyPost API
-
----
-
-## Revision History
-
-| Date | Author | Version | Changes |
-|------|--------|---------|---------|
-| Unknown | Jeremy Cady | 1.0 | Initial draft |

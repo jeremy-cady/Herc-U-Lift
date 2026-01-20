@@ -1,115 +1,64 @@
-# PRD: Populate Case Task Fields on Task Create (User Event)
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-PopulateTaskOnCreateUE
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Jeremy Cady
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/HUL_DEV/Service/hul_populate_task_on_case_when_created_ue.js (User Event)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-PopulateTaskOnCreateUE
+title: Populate Case Task Fields on Task Create (User Event)
+status: Implemented
+owner: Jeremy Cady
+created: TBD
+last_updated: TBD
 
-**Script Deployment (if applicable):**
-- Script ID: Not specified
-- Deployment ID: Not specified
+script:
+  type: user_event
+  file: FileCabinet/SuiteScripts/HUL_DEV/Service/hul_populate_task_on_case_when_created_ue.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - Task
+  - Support Case
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
+## 1. Overview
 A User Event that updates current/previous task summary fields on a case when a new task is created.
 
-**What problem does it solve?**
+## 2. Business Goal
 Ensures case task summary fields stay current with newly created tasks.
 
-**Primary Goal:**
-On task create, shift existing case task data to previous fields and write new task data to current fields.
+## 3. User Story
+As a service user, when a new task is created, I want new tasks reflected on cases, so that task summaries stay current.
 
----
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| afterSubmit | TBD | CREATE | Shift existing case task data to previous and write new task data to current |
 
-## 2. Goals
+## 5. Functional Requirements
+- The system must run on `afterSubmit` for `CREATE`.
+- The system must read task fields: `supportcase`, `id`, `custevent_nx_start_date`, `custevent_nx_end_date`, `custevent_nxc_task_result`, `status`, `custevent_nxc_internal_note`, `custevent_nx_actions_taken`, `assigned`.
+- The system must lookup case fields for current/previous task data.
+- If both current and previous task IDs are blank, the system must populate only current fields.
+- If current is set and previous is blank, the system must move current values into previous fields and set new task values into current fields.
+- If both current and previous are set, the system must shift current values into previous fields and set new task values into current fields.
+- Errors must be logged without blocking task creation.
 
-1. Detect new task creation.
-2. Read existing task summary fields from the case.
-3. Update case current/previous task fields appropriately.
-
----
-
-## 3. User Stories
-
-1. **As a** service user, **I want** new tasks reflected on cases **so that** task summaries stay current.
-2. **As an** admin, **I want** automatic updates **so that** users don’t edit cases manually.
-3. **As a** developer, **I want** consistent shifting logic **so that** previous/current fields remain ordered.
-
----
-
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. The system must run on `afterSubmit` for `CREATE`.
-2. The system must read task fields:
-   - `supportcase`, `id`, `custevent_nx_start_date`, `custevent_nx_end_date`
-   - `custevent_nxc_task_result`, `status`, `custevent_nxc_internal_note`
-   - `custevent_nx_actions_taken`, `assigned`
-3. The system must lookup case fields for current/previous task data.
-4. If both current and previous task IDs are blank, the system must populate only current fields.
-5. If current is set and previous is blank, the system must:
-   - Move current values into previous fields
-   - Set new task values into current fields
-6. If both current and previous are set, the system must:
-   - Shift current values into previous fields
-   - Set new task values into current fields
-7. Errors must be logged without blocking task creation.
-
-### Acceptance Criteria
-
-- [ ] New task creation updates current fields on the case.
-- [ ] Existing current data shifts to previous fields.
-- [ ] Errors are logged and do not block creation.
-
----
-
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Handle task edits (handled by other scripts).
-- Update task records.
-- Validate case type.
-
----
-
-## 6. Design Considerations
-
-### User Interface
-- None (server-side update).
-
-### User Experience
-- Cases immediately show latest task data after creation.
-
-### Design References
-- Task-to-case population scripts.
-
----
-
-## 7. Technical Considerations
-
-### NetSuite Components Required
-
-**Record Types:**
+## 6. Data Contract
+### Record Types Involved
 - Task
 - Support Case
 
-**Script Types:**
-- [ ] Map/Reduce - Not used
-- [ ] Scheduled Script - Not used
-- [ ] Suitelet - Not used
-- [ ] RESTlet - Not used
-- [x] User Event - Task create handler
-- [ ] Client Script - Not used
-
-**Custom Fields:**
+### Fields Referenced
+- Task | `supportcase`
+- Task | `id`
+- Task | `custevent_nx_start_date`
+- Task | `custevent_nx_end_date`
+- Task | `custevent_nxc_task_result`
+- Task | `status`
+- Task | `custevent_nxc_internal_note`
+- Task | `custevent_nx_actions_taken`
+- Task | `assigned`
 - Case | `custevent_hul_current_task_number`
 - Case | `custevent_hul_current_start_date`
 - Case | `custevent_current_task_date_completed`
@@ -126,178 +75,43 @@ On task create, shift existing case task data to previous fields and write new t
 - Case | `custevent_hul_prev_task_action_taken`
 - Case | `custevent_hul_prev_task_tech_assigned`
 
-**Saved Searches:**
-- None (lookupFields used).
+Schemas (if known):
+- TBD
 
-### Integration Points
-- None.
+## 7. Validation & Edge Cases
+- If both current and previous task IDs are blank, populate only current fields.
+- If current is set and previous is blank, shift current to previous and set new current.
+- If both current and previous are set, shift current to previous and set new current.
+- Undefined list values from lookupFields are handled as empty.
+- Errors are logged without blocking creation.
 
-### Data Requirements
-
-**Data Volume:**
-- Per task creation.
-
-**Data Sources:**
-- Task record fields and case lookup.
-
-**Data Retention:**
-- Updates to case fields only.
-
-### Technical Constraints
+## 8. Implementation Notes (Optional)
 - Uses lookupFields arrays for list fields; handles undefined values.
 
-### Dependencies
-- **Libraries needed:** None.
-- **External dependencies:** None.
-- **Other features:** Case task fields must exist.
+## 9. Acceptance Criteria
+- Given a new task is created, when the script runs, then current fields populate on the case.
+- Given existing current data, when the script runs, then current data shifts to previous fields.
+- Given an error occurs, when the script runs, then it is logged and does not block creation.
 
-### Governance Considerations
-- Case lookup and submitFields per task.
+## 10. Testing Notes
+- Create a task for a case with no task data; current fields populate.
+- Create a new task for a case with current data; previous fields shift and current updates.
+- Case lookup returns undefined list values; script handles as empty.
+- submitFields errors logged without blocking creation.
 
----
+## 11. Deployment Notes
+- Upload `hul_populate_task_on_case_when_created_ue.js`.
+- Deploy as User Event on task record.
+- Validate case updates on task create.
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- Case task summary fields reflect the latest created task.
-
-**How we'll measure:**
-- Spot checks on cases after task creation.
-
----
-
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| hul_populate_task_on_case_when_created_ue.js | User Event | Update case on task create | Implemented |
-
-### Development Approach
-
-**Phase 1:** Gather data
-- [x] Read task data and existing case fields
-
-**Phase 2:** Shift and update
-- [x] Move current to previous and set new current
+## 12. Open Questions / TBDs
+- Script ID: TBD
+- Deployment ID: TBD
+- Created date: TBD
+- Last updated date: TBD
+- Should this run only for certain case categories?
+- Should previous task shifting be capped to one level?
+- Risk: High task volume (Mitigation: Monitor UE performance)
+- Risk: Inconsistent field values (Mitigation: Standardize inputs)
 
 ---
-
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. Create a task for a case with no task data; current fields populate.
-2. Create a new task for a case with current data; previous fields shift and current updates.
-
-**Edge Cases:**
-1. Case lookup returns undefined list values; script handles as empty.
-
-**Error Handling:**
-1. submitFields errors logged without blocking creation.
-
-### Test Data Requirements
-- Cases with and without existing task fields.
-
-### Sandbox Setup
-- Ensure case task summary fields are present.
-
----
-
-## 11. Security & Permissions
-
-### Roles & Permissions
-
-**Roles that need access:**
-- Script deployment role with edit access to cases.
-
-**Permissions required:**
-- Edit support cases
-- View tasks
-
-### Data Security
-- Updates only case fields.
-
----
-
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-
-- [ ] Code review completed
-- [ ] All tests passing in sandbox
-- [ ] Documentation updated (scripts commented, README updated)
-- [ ] PRD_SCRIPT_INDEX.md updated
-- [ ] Stakeholder approval obtained
-- [ ] User training materials prepared (if needed)
-
-### Deployment Steps
-
-1. Upload `hul_populate_task_on_case_when_created_ue.js`.
-2. Deploy as User Event on task record.
-3. Validate case updates on task create.
-
-### Post-Deployment
-
-- [ ] Confirm case fields update on task creation.
-- [ ] Update PRD status to "Implemented".
-
-### Rollback Plan
-
-**If deployment fails:**
-1. Disable the User Event deployment.
-
----
-
-## 13. Timeline
-
-| Milestone | Target Date | Actual Date | Status |
-|-----------|-------------|-------------|--------|
-| PRD Approval | | | |
-| Development Start | | | |
-| Development Complete | | | |
-| Testing Complete | | | |
-| Stakeholder Review | | | |
-| Production Deploy | | | |
-
----
-
-## 14. Open Questions & Risks
-
-### Open Questions
-
-- [ ] Should this run only for certain case categories?
-- [ ] Should previous task shifting be capped to one level?
-
-### Known Risks
-
-| Risk | Likelihood | Impact | Mitigation Strategy |
-|------|------------|--------|---------------------|
-| High task volume | Med | Med | Monitor UE performance |
-| Inconsistent field values | Low | Low | Standardize inputs |
-
----
-
-## 15. References & Resources
-
-### Related PRDs
-- docs/PRD/FileCabinet/SuiteScripts/HUL_DEV/Service/hul_populate_new_task_data_on_case_ue.md
-- docs/PRD/FileCabinet/SuiteScripts/HUL_DEV/Service/hul_populate_task_data_on_case.md
-
-### NetSuite Documentation
-- SuiteScript 2.x User Event
-- search.lookupFields API
-
-### External Resources
-- None.
-
----
-
-## Revision History
-
-| Date | Author | Version | Changes |
-|------|--------|---------|
-| Unknown | Jeremy Cady | 1.0 | Initial draft |

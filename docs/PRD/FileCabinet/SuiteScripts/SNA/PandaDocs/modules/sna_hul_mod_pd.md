@@ -1,303 +1,101 @@
-# PRD: PandaDoc Integration Module
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-PandaDocModule
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Jeremy Cady
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/SNA/PandaDocs/modules/sna_hul_mod_pd.js (Library)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-PandaDocModule
+title: PandaDoc Integration Module
+status: Implemented
+owner: Jeremy Cady
+created: TBD
+last_updated: TBD
 
-**Script Deployment (if applicable):**
-- Script ID: Not specified
-- Deployment ID: Not specified
+script:
+  type: library
+  file: FileCabinet/SuiteScripts/SNA/PandaDocs/modules/sna_hul_mod_pd.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - Transaction records (Estimate, Sales Order)
+  - Customer
+  - File
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
+## 1. Overview
 A shared module that integrates NetSuite transactions with PandaDoc, supporting document creation, sending for e-signature, status updates, and signed document retrieval.
 
-**What problem does it solve?**
+## 2. Business Goal
 Centralizes PandaDoc API calls and NetSuite updates so multiple PandaDoc scripts can reuse the same integration logic.
 
-**Primary Goal:**
-Provide reusable helpers for PandaDoc document lifecycle management in NetSuite.
+## 3. User Story
+As a sales rep, when I need to send transactions for e-signature, I want transactions sent for e-signature, so that customers can sign digitally.
 
----
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| TBD | TBD | PandaDoc helper invoked | Create/send documents, sync status, and download signed PDFs |
 
-## 2. Goals
+## 5. Functional Requirements
+- The system must read PandaDoc credentials and configuration from script parameters: `custsecret_sna_hul_pd_api_key_1`, `custscript_sna_hul_pd_api_url`, `custscript_sna_hul_pd_pending_doc_search`, `custscript_sna_pd_doc_ds_signed_doc_fold`.
+- The system must map PandaDoc document statuses to NetSuite status values.
+- The system must call PandaDoc APIs to get document details, send documents, and download signed documents.
+- The system must update transaction `custbody_sna_pd_doc_status` based on PandaDoc status.
+- The system must create a PandaDoc document by uploading a rendered PDF and metadata.
+- The system must send the created document for e-signature.
+- The system must store PandaDoc document ID, status, and API response on the transaction.
+- The system must download a signed PDF, save it to a file cabinet folder, attach it to the transaction, and update `custbody_sna_pd_document`.
 
-1. Fetch PandaDoc document status and update NetSuite transactions.
-2. Create and send PandaDoc documents for e-signature.
-3. Download and attach signed PDFs to NetSuite transactions.
-
----
-
-## 3. User Stories
-
-1. **As a** sales rep, **I want** transactions sent for e-signature **so that** customers can sign digitally.
-2. **As an** admin, **I want** document status synced **so that** NetSuite reflects PandaDoc progress.
-3. **As a** developer, **I want** reusable PandaDoc helpers **so that** integration logic stays consistent.
-
----
-
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. The system must read PandaDoc credentials and configuration from script parameters:
-   - `custsecret_sna_hul_pd_api_key_1`
-   - `custscript_sna_hul_pd_api_url`
-   - `custscript_sna_hul_pd_pending_doc_search`
-   - `custscript_sna_pd_doc_ds_signed_doc_fold`
-2. The system must map PandaDoc document statuses to NetSuite status values.
-3. The system must call PandaDoc APIs to:
-   - Get document details (`/documents/{id}/details`).
-   - Send a document for signature (`/documents/{id}/send`).
-   - Download a signed document (`/documents/{id}/download`).
-4. The system must update transaction `custbody_sna_pd_doc_status` based on PandaDoc status.
-5. The system must create a PandaDoc document by uploading a rendered PDF and metadata.
-6. The system must send the created document for e-signature.
-7. The system must store PandaDoc document ID, status, and API response on the transaction.
-8. The system must download a signed PDF, save it to a file cabinet folder, attach it to the transaction, and update `custbody_sna_pd_document`.
-
-### Acceptance Criteria
-
-- [ ] PandaDoc status lookups update NetSuite transaction status fields.
-- [ ] Document creation uploads the rendered PDF and returns a document ID.
-- [ ] E-signature requests are sent after document creation.
-- [ ] Signed PDFs are saved, attached, and linked on the transaction.
-
----
-
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Provide UI components for document management.
-- Manage PandaDoc templates beyond the provided template ID.
-- Handle retries or advanced error recovery beyond exceptions.
-
----
-
-## 6. Design Considerations
-
-### User Interface
-- None (server-side module).
-
-### User Experience
-- Transactions reflect current PandaDoc status, and signed documents attach automatically.
-
-### Design References
-- PandaDoc API endpoints and e-signature workflow.
-
----
-
-## 7. Technical Considerations
-
-### NetSuite Components Required
-
-**Record Types:**
+## 6. Data Contract
+### Record Types Involved
 - Transaction records (Estimate, Sales Order)
-- Customer (lookup fields)
-- File (for saved PDFs)
+- Customer
+- File
 
-**Script Types:**
-- [ ] Map/Reduce - Not used directly
-- [ ] Scheduled Script - Not used directly
-- [ ] Suitelet - Used by downstream scripts
-- [ ] RESTlet - Not used
-- [ ] User Event - Not used directly
-- [ ] Client Script - Not used
-
-**Custom Fields:**
+### Fields Referenced
 - Transaction | `custbody_sna_pd_doc_id`
 - Transaction | `custbody_sna_pd_doc_status`
 - Transaction | `custbody_sna_pd_api_resp`
 - Transaction | `custbody_sna_pd_document`
+- Script parameters | `custsecret_sna_hul_pd_api_key_1`, `custscript_sna_hul_pd_api_url`, `custscript_sna_hul_pd_pending_doc_search`, `custscript_sna_pd_doc_ds_signed_doc_fold`
 
-**Saved Searches:**
-- Pending document search referenced by `custscript_sna_hul_pd_pending_doc_search` (used by other scripts).
+Schemas (if known):
+- TBD
 
-### Integration Points
-- PandaDoc public API (`https://api.pandadoc.com/public/v1`).
+## 7. Validation & Edge Cases
+- Missing customer email or name.
+- PandaDoc API returns an error response.
+- API calls fail; errors should surface to calling scripts.
 
-### Data Requirements
-
-**Data Volume:**
-- One API call per document operation (details/send/download).
-
-**Data Sources:**
-- Transaction records and customer details.
-- PandaDoc API responses.
-
-**Data Retention:**
-- API responses stored in `custbody_sna_pd_api_resp`.
-- Signed PDF stored in File Cabinet.
-
-### Technical Constraints
+## 8. Implementation Notes (Optional)
 - Uses SuiteScript 2.x modules (`N/https`, `N/file`, `N/record`, `N/search`).
 - Uses a busy-wait delay loop before sending documents.
-- Uses script parameters for API key and folder ID.
 
-### Dependencies
-- **Libraries needed:** None.
-- **External dependencies:** PandaDoc API.
-- **Other features:** Suitelet deployment referenced by `SUITELET.request_esginature`.
+## 9. Acceptance Criteria
+- Given a PandaDoc status lookup, when the module runs, then transaction status fields are updated.
+- Given document creation, when the module runs, then a document ID is returned and stored.
+- Given a signed document, when the module runs, then the signed PDF is downloaded, saved, and attached.
 
-### Governance Considerations
-- API calls and file operations consume governance units per document.
+## 10. Testing Notes
+- Create a PandaDoc document for a transaction and send for signature.
+- Update transaction status after PandaDoc status changes.
+- Download and attach a signed PDF.
+- Missing customer email or name.
+- PandaDoc API returns an error response.
 
----
+## 11. Deployment Notes
+- Upload `sna_hul_mod_pd.js`.
+- Set script parameters for API key, base URL, and folders.
+- Validate document creation and status updates.
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- PandaDoc status is accurately reflected on transactions.
-- Signed documents are stored and attached to transactions.
-
-**How we'll measure:**
-- Verify transaction status fields and attached PDF files.
-
----
-
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| sna_hul_mod_pd.js | Library | PandaDoc API integration helpers | Implemented |
-
-### Development Approach
-
-**Phase 1:** API operations
-- [x] Implement get, send, and download calls.
-
-**Phase 2:** NetSuite updates
-- [x] Update transaction fields and attach signed PDFs.
+## 12. Open Questions / TBDs
+- Script ID: TBD
+- Deployment ID: TBD
+- Created date: TBD
+- Last updated date: TBD
+- Should API failures be retried with backoff?
+- Should the busy-wait delay be replaced with a scheduled retry?
+- Risk: PandaDoc API downtime (Mitigation: Add retries and error alerts)
+- Risk: Busy-wait delay consumes governance (Mitigation: Replace with scheduled processing)
 
 ---
-
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. Create a PandaDoc document for a transaction and send for signature.
-2. Update transaction status after PandaDoc status changes.
-3. Download and attach a signed PDF.
-
-**Edge Cases:**
-1. Missing customer email or name.
-2. PandaDoc API returns an error response.
-
-**Error Handling:**
-1. API calls fail; errors should surface to calling scripts.
-
-### Test Data Requirements
-- Transactions with valid customer data and templates.
-
-### Sandbox Setup
-- Script parameters populated with PandaDoc API key and folder ID.
-
----
-
-## 11. Security & Permissions
-
-### Roles & Permissions
-
-**Roles that need access:**
-- Script execution role with permissions to edit transactions and files.
-
-**Permissions required:**
-- Edit transactions
-- Create and attach files
-- View customers
-
-### Data Security
-- PandaDoc API key stored in a script secret.
-- Signed documents stored in File Cabinet.
-
----
-
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-
-- [ ] Code review completed
-- [ ] All tests passing in sandbox
-- [ ] Documentation updated (scripts commented, README updated)
-- [ ] PRD_SCRIPT_INDEX.md updated
-- [ ] Stakeholder approval obtained
-- [ ] User training materials prepared (if needed)
-
-### Deployment Steps
-
-1. Upload `sna_hul_mod_pd.js`.
-2. Set script parameters for API key, base URL, and folders.
-3. Validate document creation and status updates.
-
-### Post-Deployment
-
-- [ ] Verify transaction updates and PDF attachments.
-- [ ] Update PRD status to "Implemented".
-
-### Rollback Plan
-
-**If deployment fails:**
-1. Disable scripts depending on the module or redeploy prior version.
-
----
-
-## 13. Timeline
-
-| Milestone | Target Date | Actual Date | Status |
-|-----------|-------------|-------------|--------|
-| PRD Approval | | | |
-| Development Start | | | |
-| Development Complete | | | |
-| Testing Complete | | | |
-| Stakeholder Review | | | |
-| Production Deploy | | | |
-
----
-
-## 14. Open Questions & Risks
-
-### Open Questions
-
-- [ ] Should API failures be retried with backoff?
-- [ ] Should the busy-wait delay be replaced with a scheduled retry?
-
-### Known Risks
-
-| Risk | Likelihood | Impact | Mitigation Strategy |
-|------|------------|--------|---------------------|
-| PandaDoc API downtime | Med | High | Add retries and error alerts |
-| Busy-wait delay consumes governance | Med | Med | Replace with scheduled processing |
-
----
-
-## 15. References & Resources
-
-### Related PRDs
-- None.
-
-### NetSuite Documentation
-- SuiteScript 2.x N/https and N/file
-- record.submitFields and record.attach
-
-### External Resources
-- PandaDoc API documentation
-
----
-
-## Revision History
-
-| Date | Author | Version | Changes |
-|------|--------|---------|---------|
-| Unknown | Jeremy Cady | 1.0 | Initial draft |

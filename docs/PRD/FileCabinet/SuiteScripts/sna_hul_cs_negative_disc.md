@@ -1,243 +1,103 @@
-# PRD: Negative Discount Validation Client Script
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-NegativeDiscount
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Jeremy Cady
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/sna_hul_cs_negative_disc.js (Client Script)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-NegativeDiscount
+title: Negative Discount Validation Client Script
+status: Implemented
+owner: Jeremy Cady
+created: TBD
+last_updated: TBD
 
-**Script Deployment (if applicable):**
-- Script ID: Not specified
-- Deployment ID: Not specified
+script:
+  type: client
+  file: FileCabinet/SuiteScripts/sna_hul_cs_negative_disc.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - Transaction record with item sublist (exact type not specified)
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
+## 1. Overview
 A client script that prevents negative discount values on item lines for a specific record.
 
-**What problem does it solve?**
-It protects against negative discount entry for a targeted transaction record.
+---
 
-**Primary Goal:**
-Clear negative discount values on item lines for the specified record ID.
+## 2. Business Goal
+Protect against negative discount entry for a targeted transaction record.
 
 ---
 
-## 2. Goals
-
-1. Detect negative percent or dollar discount values.
-2. Reset invalid discount values and warn the user.
+## 3. User Story
+As a user, when I enter discounts, I want negative discounts blocked, so that pricing stays valid.
 
 ---
 
-## 3. User Stories
-
-1. **As a** user, **I want** negative discounts blocked **so that** pricing stays valid.
-
----
-
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. On line validation, if the current record ID equals 2841204, the script must check `custcol_sna_hul_perc_disc` and `custcol_sna_hul_dollar_disc`.
-2. If either value is negative, the script must clear both fields and alert the user.
-3. Validation should allow the line to commit after clearing values.
-
-### Acceptance Criteria
-
-- [ ] Negative discount values are cleared and user is alerted.
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| validateLine | custcol_sna_hul_perc_disc, custcol_sna_hul_dollar_disc | record ID = 2841204 and negative value | Clear fields and alert user |
 
 ---
 
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Enforce discount rules for other records.
-- Block save for negative discounts beyond clearing values.
+## 5. Functional Requirements
+- On line validation, if the current record ID equals 2841204, check `custcol_sna_hul_perc_disc` and `custcol_sna_hul_dollar_disc`.
+- If either value is negative, clear both fields and alert the user.
+- Allow the line to commit after clearing values.
 
 ---
 
-## 6. Design Considerations
-
-### User Interface
-- Uses alert messages when invalid values are detected.
-
-### User Experience
-- Users are informed immediately when negative values are entered.
-
-### Design References
-- None.
-
----
-
-## 7. Technical Considerations
-
-### NetSuite Components Required
-
-**Record Types:**
+## 6. Data Contract
+### Record Types Involved
 - Transaction record with item sublist (exact type not specified)
 
-**Script Types:**
-- [ ] Map/Reduce - Not used
-- [ ] Scheduled Script - Not used
-- [ ] Suitelet - Not used
-- [ ] RESTlet - Not used
-- [ ] User Event - Not used
-- [x] Client Script - Line validation
+### Fields Referenced
+- Line | custcol_sna_hul_perc_disc
+- Line | custcol_sna_hul_dollar_disc
 
-**Custom Fields:**
-- Line | `custcol_sna_hul_perc_disc`
-- Line | `custcol_sna_hul_dollar_disc`
+Schemas (if known):
+- TBD
 
-**Saved Searches:**
-- None.
+---
 
-### Integration Points
-- None.
+## 7. Validation & Edge Cases
+- Positive discounts; no changes.
+- Different record ID; no validation executed.
 
-### Data Requirements
+---
 
-**Data Volume:**
-- One line check per validation.
-
-**Data Sources:**
-- Current line values.
-
-**Data Retention:**
-- None.
-
-### Technical Constraints
+## 8. Implementation Notes (Optional)
 - Record ID is hard-coded to 2841204.
 
-### Dependencies
-- **Libraries needed:** None.
-- **External dependencies:** None.
-- **Other features:** None.
+---
 
-### Governance Considerations
-- Client-side only; no server governance usage.
+## 9. Acceptance Criteria
+- Given record ID 2841204 and negative discount values, when validating the line, then values are cleared and an alert is shown.
 
 ---
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- Negative discounts are cleared on the targeted record.
-
----
-
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| sna_hul_cs_negative_disc.js | Client Script | Clear negative discounts on line validate | Implemented |
-
-### Development Approach (Phase 1/Phase 2)
-- **Phase 1:** Detect and clear negative values.
-- **Phase 2:** None.
+## 10. Testing Notes
+- Enter negative discount on record 2841204; verify fields cleared and alert shown.
+- Enter positive discounts; no changes.
+- Open different record ID; no validation executed.
 
 ---
 
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. Enter a negative discount on record 2841204; fields clear and alert shows.
-
-**Edge Cases:**
-1. Enter positive discounts; no changes.
-2. Open a different record ID; no validation executed.
-
-**Error Handling:**
-1. Missing record ID should not trigger validation.
-
-### Test Data Requirements
-- Record ID 2841204 with item lines.
-
-### Sandbox Setup
-- Deploy script to the relevant transaction form.
+## 11. Deployment Notes
+- Upload `sna_hul_cs_negative_disc.js`.
+- Deploy to the relevant transaction form.
+- Rollback: remove client script deployment.
 
 ---
 
-## 11. Security & Permissions
-
-### Roles & Permissions
-**Roles that need access:**
-- Users editing the specific transaction.
-
-**Permissions required:**
-- Edit transactions.
-
-### Data Security
-- Uses in-form data only.
+## 12. Open Questions / TBDs
+- Created date is TBD.
+- Last updated date is TBD.
+- Script ID is TBD.
+- Deployment ID is TBD.
+- Should the record ID be parameterized instead of hard-coded?
+- Risk: Record ID changes or differs in other environments.
 
 ---
-
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-- Confirm record ID 2841204 is correct for scope.
-
-### Deployment Steps
-1. Upload `sna_hul_cs_negative_disc.js`.
-2. Deploy to the relevant transaction form.
-
-### Post-Deployment
-- Verify negative discount handling.
-
-### Rollback Plan
-- Remove client script deployment.
-
----
-
-## 13. Timeline
-
-| Milestone | Target Date | Actual Date | Status |
-|-----------|-------------|-------------|--------|
-| PRD Approval | | | |
-| Development Complete | | | |
-| Production Deploy | | | |
-
----
-
-## 14. Open Questions & Risks
-
-### Open Questions
-- [ ] Should the record ID be parameterized instead of hard-coded?
-
-### Known Risks
-
-| Risk | Likelihood | Impact | Mitigation Strategy |
-|------|------------|--------|---------------------|
-| Record ID changes or differs in other environments | Med | Med | Use script parameter for target record |
-
----
-
-## 15. References & Resources
-
-### Related PRDs
-- None.
-
-### NetSuite Documentation
-- SuiteScript 2.x Client Script
-
-### External Resources
-- None.
-
----
-
-## Revision History
-
-| Date | Author | Version | Changes |
-|------|--------|---------|
-| Unknown | Jeremy Cady | 1.0 | Initial draft |

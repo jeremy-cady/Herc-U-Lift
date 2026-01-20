@@ -1,251 +1,111 @@
-# PRD: Duplicate Asset Cleanup for Cases
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-DupeAssetCase
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Jeremy Cady
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/sna_hul_mr_dupasset_case.js (Map/Reduce)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-DupeAssetCase
+title: Duplicate Asset Cleanup for Cases
+status: Implemented
+owner: Jeremy Cady
+created: TBD
+last_updated: TBD
 
-**Script Deployment (if applicable):**
-- Script ID: Not specified
-- Deployment ID: Not specified
+script:
+  type: map_reduce
+  file: FileCabinet/SuiteScripts/sna_hul_mr_dupasset_case.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - Support Case (supportcase)
+  - Custom Record (customrecord_nx_asset)
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
+## 1. Overview
 A Map/Reduce script that resolves duplicate equipment assets referenced on Support Case records.
 
-**What problem does it solve?**
-It replaces duplicate asset references with the active asset, records merge fields, and inactivates old assets.
+---
 
-**Primary Goal:**
-Normalize case asset references and mark duplicate assets as merged/inactive.
+## 2. Business Goal
+Replace duplicate asset references with the active asset, record merge fields, and inactivate old assets.
 
 ---
 
-## 2. Goals
-
-1. Identify duplicate assets from a saved search.
-2. Update case fields with merged asset values.
-3. Mark duplicate assets as inactive and link active assets to their duplicates.
+## 3. User Story
+As a service admin, when duplicate assets exist on cases, I want cases to reference the correct active asset, so that data stays consistent.
 
 ---
 
-## 3. User Stories
-
-1. **As a** service admin, **I want** cases to reference the correct active asset **so that** data stays consistent.
-
----
-
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. The script must load a saved search from parameter `custscript_sna_dupe_case`.
-2. For each case, the script must derive active assets using `custrecord_sna_dup_asset` on asset records.
-3. The script must write merged asset values to `custevent_sna_case_mergedsite` and `custevent_sna_case_mergedequipment`.
-4. The script must set `custrecord_sna_duplicate_asset` on the active asset to reference the old asset.
-5. The script must inactivate old asset records referenced by the case.
-
-### Acceptance Criteria
-
-- [ ] Case merged fields are populated with active assets.
-- [ ] Old assets are inactivated and linked to active assets.
-- [ ] Script completes without failing when assets are empty.
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| Map/Reduce run | custscript_sna_dupe_case | saved search provided | Merge case asset references and inactivate duplicates |
 
 ---
 
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Rebuild case history or transactions related to assets.
-- Reactivate previously inactivated assets.
-
----
-
-## 6. Design Considerations
-
-### User Interface
-- None; backend cleanup.
-
-### User Experience
-- Users see merged asset fields populated automatically.
-
-### Design References
-- None.
+## 5. Functional Requirements
+- Load a saved search from parameter `custscript_sna_dupe_case`.
+- For each case, derive active assets using `custrecord_sna_dup_asset` on asset records.
+- Write merged asset values to `custevent_sna_case_mergedsite` and `custevent_sna_case_mergedequipment`.
+- Set `custrecord_sna_duplicate_asset` on the active asset to reference the old asset.
+- Inactivate old asset records referenced by the case.
 
 ---
 
-## 7. Technical Considerations
+## 6. Data Contract
+### Record Types Involved
+- Support Case (supportcase)
+- Custom Record (customrecord_nx_asset)
 
-### NetSuite Components Required
+### Fields Referenced
+- Case | custevent_nx_case_asset
+- Case | custevent_nxc_case_assets
+- Case | custevent_sna_case_mergedsite
+- Case | custevent_sna_case_mergedequipment
+- Asset | custrecord_sna_dup_asset
+- Asset | custrecord_sna_duplicate_asset
 
-**Record Types:**
-- Support Case (`supportcase`)
-- Custom Record | `customrecord_nx_asset`
+Schemas (if known):
+- Script parameter: custscript_sna_dupe_case
 
-**Script Types:**
-- [x] Map/Reduce - Duplicate asset normalization
-- [ ] Scheduled Script - Not used
-- [ ] Suitelet - Not used
-- [ ] RESTlet - Not used
-- [ ] User Event - Not used
-- [ ] Client Script - Not used
+---
 
-**Custom Fields:**
-- Case | `custevent_nx_case_asset`
-- Case | `custevent_nxc_case_assets`
-- Case | `custevent_sna_case_mergedsite`
-- Case | `custevent_sna_case_mergedequipment`
-- Asset | `custrecord_sna_dup_asset`
-- Asset | `custrecord_sna_duplicate_asset`
+## 7. Validation & Edge Cases
+- Case with no duplicate asset values should remain unchanged.
+- Missing search parameter should fail gracefully.
 
-**Saved Searches:**
-- Search from parameter `custscript_sna_dupe_case`.
+---
 
-### Integration Points
-- None.
-
-### Data Requirements
-
-**Data Volume:**
-- Processes results from the saved search.
-
-**Data Sources:**
-- Case records and asset records.
-
-**Data Retention:**
-- Updates case fields and asset status.
-
-### Technical Constraints
+## 8. Implementation Notes (Optional)
 - Multi-select asset fields are rewritten to merged assets only.
 
-### Dependencies
-- **Libraries needed:** N/record, N/search, N/runtime, N/error.
-- **External dependencies:** None.
+---
 
-### Governance Considerations
-- Multiple submitFields calls per case and asset.
+## 9. Acceptance Criteria
+- Given duplicate assets, when processed, then case merged fields populate with active assets.
+- Given duplicate assets, when processed, then old assets are inactivated and linked to active assets.
 
 ---
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- Cases reference active assets and duplicates are inactivated.
+## 10. Testing Notes
+- Case with duplicate asset references updates merged fields and inactivates old assets.
+- Case with no duplicate asset values remains unchanged.
 
 ---
 
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| sna_hul_mr_dupasset_case.js | Map/Reduce | Normalize case asset references | Implemented |
-
-### Development Approach (Phase 1/Phase 2)
-- **Phase 1:** Identify duplicates and merge target assets.
-- **Phase 2:** Update case fields and inactivate old assets.
+## 11. Deployment Notes
+- Upload `sna_hul_mr_dupasset_case.js`.
+- Deploy Map/Reduce with saved search.
+- Rollback: disable script deployment.
 
 ---
 
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. Case with duplicate asset references updates merged fields and inactivates old assets.
-
-**Edge Cases:**
-1. Case with no duplicate asset values should remain unchanged.
-
-**Error Handling:**
-1. Missing search parameter should fail gracefully.
-
-### Test Data Requirements
-- Saved search returning cases with asset references.
-
-### Sandbox Setup
-- Ensure asset records contain `custrecord_sna_dup_asset` mappings.
+## 12. Open Questions / TBDs
+- Created date is TBD.
+- Last updated date is TBD.
+- Script ID is TBD.
+- Deployment ID is TBD.
+- Should original multi-select assets be retained anywhere for audit?
+- Risk: Inactivating assets still referenced elsewhere.
 
 ---
-
-## 11. Security & Permissions
-
-### Roles & Permissions
-**Roles that need access:**
-- Admin or data cleanup role.
-
-**Permissions required:**
-- Edit support cases and asset custom records.
-
-### Data Security
-- Internal asset data only.
-
----
-
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-- Configure `custscript_sna_dupe_case` search parameter.
-
-### Deployment Steps
-1. Upload `sna_hul_mr_dupasset_case.js`.
-2. Deploy Map/Reduce with saved search.
-
-### Post-Deployment
-- Review a sample case for merged asset fields.
-
-### Rollback Plan
-- Disable script deployment.
-
----
-
-## 13. Timeline
-
-| Milestone | Target Date | Actual Date | Status |
-|-----------|-------------|-------------|--------|
-| PRD Approval | | | |
-| Development Complete | | | |
-| Production Deploy | | | |
-
----
-
-## 14. Open Questions & Risks
-
-### Open Questions
-- [ ] Should original multi-select assets be retained anywhere for audit?
-
-### Known Risks
-
-| Risk | Likelihood | Impact | Mitigation Strategy |
-|------|------------|--------|---------------------|
-| Inactivating assets still referenced elsewhere | Med | High | Validate usage before running cleanup |
-
----
-
-## 15. References & Resources
-
-### Related PRDs
-- None.
-
-### NetSuite Documentation
-- SuiteScript 2.x Map/Reduce
-
-### External Resources
-- None.
-
----
-
-## Revision History
-
-| Date | Author | Version | Changes |
-|------|--------|---------|---------|
-| Unknown | Jeremy Cady | 1.0 | Initial draft |

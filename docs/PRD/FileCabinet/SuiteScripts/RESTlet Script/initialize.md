@@ -1,278 +1,88 @@
-# PRD: RESTlet Record Initializer
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-InitializeRESTlet
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Jeremy Cady
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/RESTlet Script/initialize.js (RESTlet)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-InitializeRESTlet
+title: RESTlet Record Initializer
+status: Implemented
+owner: Jeremy Cady
+created: TBD
+last_updated: TBD
 
-**Script Deployment (if applicable):**
-- Script ID: Not specified
-- Deployment ID: Not specified
+script:
+  type: restlet
+  file: FileCabinet/SuiteScripts/RESTlet Script/initialize.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - Any record type provided by `record_type`
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
+## 1. Overview
 A RESTlet helper that initializes a new, blank NetSuite record for a requested record type.
 
-**What problem does it solve?**
+## 2. Business Goal
 Allows clients to request a default record template from NetSuite before setting field values.
 
-**Primary Goal:**
-Create a blank record for a specified record type and return it in a formatted response.
+## 3. User Story
+As an integration, when I need to initialize a record, I want to initialize a record, so that I can populate fields client-side.
 
----
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| POST | `record_type` | Request includes `record_type` | Create a new record and return formatted reply |
 
-## 2. Goals
+## 5. Functional Requirements
+- The system must read `record_type` from the request payload.
+- The system must call `NetsuiteToolkit.createRecord(record_type)`.
+- The system must catch and store exceptions that occur during initialization.
+- The system must return a formatted reply via `NetsuiteToolkit.formatReply` including params, result, and exception.
 
-1. Accept a `record_type` parameter in the request body.
-2. Create a new record instance using `NetsuiteToolkit.createRecord`.
-3. Return a formatted reply with the initialized record or an error.
+## 6. Data Contract
+### Record Types Involved
+- Any record type provided by `record_type`
 
----
+### Fields Referenced
+- TBD
 
-## 3. User Stories
+Schemas (if known):
+- TBD
 
-1. **As an** integration, **I want to** initialize a record **so that** I can populate fields client-side.
-2. **As a** developer, **I want** a RESTlet helper for record creation templates **so that** I can reuse logic.
-3. **As an** admin, **I want** standardized error responses **so that** initialization failures are clear.
+## 7. Validation & Edge Cases
+- Missing `record_type` in request.
+- Invalid record type string.
+- createRecord throws an error; response includes exception.
 
----
-
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. The system must read `record_type` from the request payload.
-2. The system must call `NetsuiteToolkit.createRecord(record_type)`.
-3. The system must catch and store exceptions that occur during initialization.
-4. The system must return a formatted reply via `NetsuiteToolkit.formatReply` including params, result, and exception.
-
-### Acceptance Criteria
-
-- [ ] A valid `record_type` returns a blank record in the response.
-- [ ] Invalid or missing `record_type` returns an error in the response.
-- [ ] Exceptions during record creation are captured without crashing the RESTlet.
-
----
-
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Save or submit records.
-- Validate business rules or field values.
-- Provide UI or client-side handling.
-
----
-
-## 6. Design Considerations
-
-### User Interface
-- None (server-side RESTlet helper).
-
-### User Experience
-- Callers receive a blank record template or an error response.
-
-### Design References
-- Other RESTlet helpers in `FileCabinet/SuiteScripts/RESTlet Script`.
-
----
-
-## 7. Technical Considerations
-
-### NetSuite Components Required
-
-**Record Types:**
-- Any record type provided by `record_type`.
-
-**Script Types:**
-- [ ] Map/Reduce - Not used
-- [ ] Scheduled Script - Not used
-- [ ] Suitelet - Not used
-- [x] RESTlet - Record initialization helper
-- [ ] User Event - Not used
-- [ ] Client Script - Not used
-
-**Custom Fields:**
-- None.
-
-**Saved Searches:**
-- None.
-
-### Integration Points
-- RESTlet callers that submit initialization requests.
-
-### Data Requirements
-
-**Data Volume:**
-- One record initialization per request.
-
-**Data Sources:**
-- Request payload parameters.
-
-**Data Retention:**
-- No data retained; initialized record returned in response.
-
-### Technical Constraints
+## 8. Implementation Notes (Optional)
 - Depends on `NetsuiteToolkit.createRecord` for record initialization.
 - Errors are captured in `exception` and returned in the reply.
 
-### Dependencies
-- **Libraries needed:** FileCabinet/SuiteScripts/RESTlet Script/netsuite_toolkit.js.
-- **External dependencies:** None.
-- **Other features:** RESTlet deployment calling `initializePostHandler`.
+## 9. Acceptance Criteria
+- Given a valid `record_type`, when the RESTlet runs, then a blank record is returned in the response.
+- Given an invalid or missing `record_type`, when the RESTlet runs, then an error is returned in the response.
+- Given an exception during record creation, when the RESTlet runs, then the exception is captured without crashing the RESTlet.
 
-### Governance Considerations
-- One record creation call per request.
+## 10. Testing Notes
+- Request initialization of a valid record type.
+- Missing `record_type` in request.
+- Invalid record type string.
+- createRecord throws an error; response includes exception.
 
----
+## 11. Deployment Notes
+- Upload `initialize.js`.
+- Ensure the RESTlet deployment calls `initializePostHandler`.
+- Validate record initialization responses in sandbox.
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- Valid requests return a blank record object.
-- Errors are returned in a consistent formatted response.
-
-**How we'll measure:**
-- Inspect RESTlet replies for valid and invalid record type requests.
-
----
-
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| initialize.js | RESTlet | Initialize a new record | Implemented |
-
-### Development Approach
-
-**Phase 1:** Initialization request
-- [x] Read `record_type` and call createRecord.
-
-**Phase 2:** Response formatting
-- [x] Return formatted reply with record or exception.
+## 12. Open Questions / TBDs
+- Script ID: TBD
+- Deployment ID: TBD
+- Created date: TBD
+- Last updated date: TBD
+- Should initialization validate record type against an allowlist?
+- Should the response include default field values for the record type?
+- Risk: Invalid record type input (Mitigation: Validate record type before creating)
+- Risk: Large record types consume governance (Mitigation: Keep usage to a single record per call)
 
 ---
-
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. Request initialization of a valid record type.
-
-**Edge Cases:**
-1. Missing `record_type` in request.
-2. Invalid record type string.
-
-**Error Handling:**
-1. createRecord throws an error; response includes exception.
-
-### Test Data Requirements
-- None beyond a valid record type name.
-
-### Sandbox Setup
-- RESTlet deployment with permission to create the target record types.
-
----
-
-## 11. Security & Permissions
-
-### Roles & Permissions
-
-**Roles that need access:**
-- RESTlet execution role with create permission for target record types.
-
-**Permissions required:**
-- Create permission on target record types.
-
-### Data Security
-- Returns blank record objects; no sensitive data written.
-
----
-
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-
-- [ ] Code review completed
-- [ ] All tests passing in sandbox
-- [ ] Documentation updated (scripts commented, README updated)
-- [ ] PRD_SCRIPT_INDEX.md updated
-- [ ] Stakeholder approval obtained
-- [ ] User training materials prepared (if needed)
-
-### Deployment Steps
-
-1. Upload `initialize.js`.
-2. Ensure the RESTlet deployment calls `initializePostHandler`.
-3. Validate record initialization responses in sandbox.
-
-### Post-Deployment
-
-- [ ] Verify initialization responses for valid record types.
-- [ ] Update PRD status to "Implemented".
-
-### Rollback Plan
-
-**If deployment fails:**
-1. Disable the RESTlet deployment or remove the initializer handler.
-
----
-
-## 13. Timeline
-
-| Milestone | Target Date | Actual Date | Status |
-|-----------|-------------|-------------|--------|
-| PRD Approval | | | |
-| Development Start | | | |
-| Development Complete | | | |
-| Testing Complete | | | |
-| Stakeholder Review | | | |
-| Production Deploy | | | |
-
----
-
-## 14. Open Questions & Risks
-
-### Open Questions
-
-- [ ] Should initialization validate record type against an allowlist?
-- [ ] Should the response include default field values for the record type?
-
-### Known Risks
-
-| Risk | Likelihood | Impact | Mitigation Strategy |
-|------|------------|--------|---------------------|
-| Invalid record type input | Med | Low | Validate record type before creating |
-| Large record types consume governance | Low | Low | Keep usage to a single record per call |
-
----
-
-## 15. References & Resources
-
-### Related PRDs
-- None.
-
-### NetSuite Documentation
-- SuiteScript RESTlet
-- record.create API
-
-### External Resources
-- None.
-
----
-
-## Revision History
-
-| Date | Author | Version | Changes |
-|------|--------|---------|---------|
-| Unknown | Jeremy Cady | 1.0 | Initial draft |

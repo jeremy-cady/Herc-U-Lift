@@ -1,278 +1,92 @@
-# PRD: Customer Payment Delete Cleanup (User Event)
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-CustomerPaymentCleanup
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Jeremy Cady
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/SNA/sna_hul_ue_customerpayment.js (User Event)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-CustomerPaymentCleanup
+title: Customer Payment Delete Cleanup (User Event)
+status: Implemented
+owner: Jeremy Cady
+created: TBD
+last_updated: TBD
 
-**Script Deployment (if applicable):**
-- Script ID: Not specified
-- Deployment ID: Not specified
+script:
+  type: user_event
+  file: FileCabinet/SuiteScripts/SNA/sna_hul_ue_customerpayment.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - Customer Payment
+  - Invoice
+  - Internal Billing (`customrecord_sna_hul_internal_billing`)
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
+## 1. Overview
 A User Event that untags invoice line items when a customer payment is deleted for internal billing processing.
 
-**What problem does it solve?**
+## 2. Business Goal
 Ensures invoice lines can be reprocessed if the payment tied to internal billing is removed.
 
-**Primary Goal:**
-Reset internal billing flags on invoice lines when related payments are deleted.
+## 3. User Story
+As an accounting user, when a payment is deleted, I want invoice lines reset when a payment is deleted, so that internal billing can be rerun.
 
----
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| DELETE | `custrecord_sna_hul_linked_payment` | Customer payment delete | Clear internal billing processed flags on invoice lines |
 
-## 2. Goals
+## 5. Functional Requirements
+- The system must run only on `DELETE` operations for customer payments.
+- The system must search `customrecord_sna_hul_internal_billing` for records linked to the payment.
+- The system must group invoice line IDs by invoice.
+- The system must set `custcol_sn_internal_billing_processed` to `false` on those invoice lines.
 
-1. Find internal billing task records tied to the deleted payment.
-2. Group invoice line IDs by invoice.
-3. Clear the internal billing processed flag on those invoice lines.
-
----
-
-## 3. User Stories
-
-1. **As an** accounting user, **I want** invoice lines reset when a payment is deleted **so that** internal billing can be rerun.
-2. **As an** admin, **I want** payment deletions to clean up related invoice data **so that** records stay consistent.
-
----
-
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. The system must run only on `DELETE` operations for customer payments.
-2. The system must search `customrecord_sna_hul_internal_billing` for records linked to the payment.
-3. The system must group invoice line IDs by invoice.
-4. The system must set `custcol_sn_internal_billing_processed` to `false` on those invoice lines.
-
-### Acceptance Criteria
-
-- [ ] Invoice line flags reset when a linked payment is deleted.
-- [ ] Errors are logged without blocking the delete operation.
-
----
-
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Delete internal billing task records.
-- Validate that invoice lines are still open or billable.
-- Update invoices on non-delete events.
-
----
-
-## 6. Design Considerations
-
-### User Interface
-- No UI changes; runs on delete.
-
-### User Experience
-- Transparent cleanup during payment deletion.
-
-### Design References
-- Custom record `customrecord_sna_hul_internal_billing`.
-
----
-
-## 7. Technical Considerations
-
-### NetSuite Components Required
-
-**Record Types:**
+## 6. Data Contract
+### Record Types Involved
 - Customer Payment
 - Invoice
 - Internal Billing (`customrecord_sna_hul_internal_billing`)
 
-**Script Types:**
-- [ ] Map/Reduce - Not used
-- [ ] Scheduled Script - Not used
-- [ ] Suitelet - Not used
-- [ ] RESTlet - Not used
-- [x] User Event - Cleanup on delete
-- [ ] Client Script - Not used
-
-**Custom Fields:**
+### Fields Referenced
 - Internal Billing | `custrecord_sna_hul_linked_payment`
 - Internal Billing | `custrecord_sna_hul_linked_invoice`
 - Internal Billing | `custrecord_sna_internal_billing_line_id`
 - Invoice line | `custcol_sn_internal_billing_processed`
 
-**Saved Searches:**
-- Search on internal billing records tied to the payment.
+Schemas (if known):
+- TBD
 
-### Integration Points
-- None.
+## 7. Validation & Edge Cases
+- Payment has no linked internal billing records; no updates occur.
+- Invoice line IDs are missing or invalid; errors are logged.
+- Invoice load/save errors are logged.
 
-### Data Requirements
-
-**Data Volume:**
-- Up to 1000 internal billing task records per delete.
-
-**Data Sources:**
-- Internal billing records and invoice lines.
-
-**Data Retention:**
-- Updates invoice line flags only.
-
-### Technical Constraints
+## 8. Implementation Notes (Optional)
 - Uses promise-based record load/save; execution timing depends on NetSuite async handling.
 
-### Dependencies
-- **Libraries needed:** None.
-- **External dependencies:** None.
-- **Other features:** Internal billing record maintenance.
+## 9. Acceptance Criteria
+- Given a linked payment is deleted, when the script runs, then invoice line flags reset.
+- Given errors occur, when the script runs, then they are logged without blocking the delete operation.
 
-### Governance Considerations
-- Multiple invoice loads and saves per delete.
+## 10. Testing Notes
+- Delete a customer payment and verify invoice line flags reset.
+- Payment has no linked internal billing records; no updates occur.
+- Invoice line IDs are missing or invalid; errors are logged.
+- Invoice load/save errors are logged.
 
----
+## 11. Deployment Notes
+- Upload `sna_hul_ue_customerpayment.js`.
+- Deploy on Customer Payment record.
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- Invoice lines are untagged when payments are deleted.
-
-**How we'll measure:**
-- Verify `custcol_sn_internal_billing_processed` is false on affected invoices.
-
----
-
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| sna_hul_ue_customerpayment.js | User Event | Untag invoice lines on payment delete | Implemented |
-
-### Development Approach
-
-**Phase 1:** Lookup internal billing records
-- [x] Search and group invoice line IDs.
-
-**Phase 2:** Invoice updates
-- [x] Reset internal billing flags on invoice lines.
+## 12. Open Questions / TBDs
+- Script ID: TBD
+- Deployment ID: TBD
+- Created date: TBD
+- Last updated date: TBD
+- Should internal billing records be updated or cleaned up after delete?
+- Should invoice updates be performed synchronously or via a scheduled script?
+- Risk: Async promises do not complete before delete finalizes (Mitigation: Consider Map/Reduce or Scheduled fallback)
+- Risk: Large invoice updates consume governance (Mitigation: Batch updates if needed)
 
 ---
-
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. Delete a customer payment and verify invoice line flags reset.
-
-**Edge Cases:**
-1. Payment has no linked internal billing records; no updates occur.
-2. Invoice line IDs are missing or invalid; errors are logged.
-
-**Error Handling:**
-1. Invoice load/save errors are logged.
-
-### Test Data Requirements
-- Customer payment linked to internal billing records.
-
-### Sandbox Setup
-- Ensure internal billing custom record is populated with test data.
-
----
-
-## 11. Security & Permissions
-
-### Roles & Permissions
-
-**Roles that need access:**
-- Accounting admins.
-
-**Permissions required:**
-- Edit invoices
-- View internal billing records
-
-### Data Security
-- No additional data exposure beyond existing access.
-
----
-
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-
-- [ ] Code review completed
-- [ ] All tests passing in sandbox
-- [ ] Documentation updated (scripts commented, README updated)
-- [ ] PRD_SCRIPT_INDEX.md updated
-- [ ] Stakeholder approval obtained
-- [ ] User training materials prepared (if needed)
-
-### Deployment Steps
-
-1. Upload `sna_hul_ue_customerpayment.js`.
-2. Deploy on Customer Payment record.
-
-### Post-Deployment
-
-- [ ] Verify invoice line flags update on delete.
-- [ ] Update PRD status to "Implemented".
-
-### Rollback Plan
-
-**If deployment fails:**
-1. Disable the User Event deployment.
-
----
-
-## 13. Timeline
-
-| Milestone | Target Date | Actual Date | Status |
-|-----------|-------------|-------------|--------|
-| PRD Approval | | | |
-| Development Start | | | |
-| Development Complete | | | |
-| Testing Complete | | | |
-| Stakeholder Review | | | |
-| Production Deploy | | | |
-
----
-
-## 14. Open Questions & Risks
-
-### Open Questions
-
-- [ ] Should internal billing records be updated or cleaned up after delete?
-- [ ] Should invoice updates be performed synchronously or via a scheduled script?
-
-### Known Risks
-
-| Risk | Likelihood | Impact | Mitigation Strategy |
-|------|------------|--------|---------------------|
-| Async promises do not complete before delete finalizes | Med | Med | Consider Map/Reduce or Scheduled fallback |
-| Large invoice updates consume governance | Low | Med | Batch updates if needed |
-
----
-
-## 15. References & Resources
-
-### Related PRDs
-- None.
-
-### NetSuite Documentation
-- SuiteScript 2.x User Event
-
-### External Resources
-- None.
-
----
-
-## Revision History
-
-| Date | Author | Version | Changes |
-|------|--------|---------|
-| Unknown | Jeremy Cady | 1.0 | Initial draft |

@@ -1,281 +1,112 @@
 # PRD: SweetAlert2 Helper (Minimal Loader)
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-HULSwalHelper
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Unknown
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/HUL_DEV/Global/hul_swal_helper.js (Library)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-HULSwalHelper
+title: SweetAlert2 Helper (Minimal Loader)
+status: Implemented
+owner: Unknown
+created: Unknown
+last_updated: Unknown
 
-**Script Deployment (if applicable):**
-- Script ID: Not applicable (library module)
-- Deployment ID: Not applicable
+script:
+  type: client
+  file: FileCabinet/SuiteScripts/HUL_DEV/Global/hul_swal_helper.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - None
 
 ---
 
-## 1. Introduction / Overview
+## 1. Overview
+A lightweight helper module that ensures SweetAlert2 is loaded on the page and provides a basic show() API for modal dialogs.
 
-**What is this feature?**
-A lightweight helper module that ensures SweetAlert2 is loaded on the page and provides a basic `show()` API for modal dialogs.
+---
 
-**What problem does it solve?**
+## 2. Business Goal
 Some client scripts need a minimal, dependable way to load SweetAlert2 without the full helper library.
 
-**Primary Goal:**
-Expose a simple `ready()` and `show()` API for SweetAlert2 in NetSuite client scripts.
+---
+
+## 3. User Story
+- As a developer, I want to call a small SweetAlert2 loader so that I can use modals without extra wrapper logic.
+- As a user, I want dialogs to appear reliably so that I can respond to prompts.
+- As a developer, I want the loader to be idempotent so that multiple scripts don’t duplicate injections.
 
 ---
 
-## 2. Goals
-
-1. Load SweetAlert2 from a single media URL when needed.
-2. Avoid duplicate script injection.
-3. Provide a minimal `show()` wrapper.
-
----
-
-## 3. User Stories
-
-1. **As a** developer, **I want to** call a small SweetAlert2 loader **so that** I can use modals without extra wrapper logic.
-2. **As a** user, **I want** dialogs to appear reliably **so that** I can respond to prompts.
-3. **As a** developer, **I want** the loader to be idempotent **so that** multiple scripts don’t duplicate injections.
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| Client usage | ready, show | SweetAlert2 needed | Load SweetAlert2 and show modal |
 
 ---
 
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. The system must expose `ready()` to load SweetAlert2 when `window.Swal` is missing.
-2. The system must inject the SweetAlert2 script only once.
-3. The system must wait up to 10 seconds for `window.Swal` to be available.
-4. The system must expose `show(options)` that calls `window.Swal.fire(options)` when ready.
-5. The system must set `window.hulSwalLoading` and `window.hulSwalReady` flags to prevent duplicate loads.
-6. Script load errors must resolve without throwing to avoid blocking callers.
-
-### Acceptance Criteria
-
-- [ ] SweetAlert2 is injected only once.
-- [ ] `ready()` resolves after SweetAlert2 becomes available.
-- [ ] `show()` calls `Swal.fire` when available.
-- [ ] Multiple callers do not trigger duplicate loads.
+## 5. Functional Requirements
+- The system must expose ready() to load SweetAlert2 when window.Swal is missing.
+- The system must inject the SweetAlert2 script only once.
+- The system must wait up to 10 seconds for window.Swal to be available.
+- The system must expose show(options) that calls window.Swal.fire(options) when ready.
+- The system must set window.hulSwalLoading and window.hulSwalReady flags to prevent duplicate loads.
+- Script load errors must resolve without throwing to avoid blocking callers.
 
 ---
 
-## 5. Non-Goals (Out of Scope)
+## 6. Data Contract
+### Record Types Involved
+- None
 
-**This feature will NOT:**
+### Fields Referenced
+- ready
+- show
+- window.hulSwalLoading
+- window.hulSwalReady
 
-- Provide confirm/alert/toast helpers.
-- Manage z-index styling.
-- Offer fallback native alerts.
-
----
-
-## 6. Design Considerations
-
-### User Interface
-- SweetAlert2 modals rendered by the library.
-
-### User Experience
-- Minimal overhead; dialogs appear once the library loads.
-
-### Design References
-- SweetAlert2 v11 usage.
+Schemas (if known):
+- TBD
 
 ---
 
-## 7. Technical Considerations
-
-### NetSuite Components Required
-
-**Record Types:**
-- None.
-
-**Script Types:**
-- [ ] Map/Reduce - Not used
-- [ ] Scheduled Script - Not used
-- [ ] Suitelet - Not used
-- [ ] RESTlet - Not used
-- [ ] User Event - Not used
-- [ ] Client Script - Consumes this library
-
-**Custom Fields:**
-- None.
-
-**Saved Searches:**
-- None.
-
-### Integration Points
-- Client scripts that need modal dialogs.
-
-### Data Requirements
-
-**Data Volume:**
-- N/A (client-side helper only).
-
-**Data Sources:**
-- SweetAlert2 JS served from NetSuite media URL.
-
-**Data Retention:**
-- None.
-
-### Technical Constraints
-- Requires browser DOM and `window` context.
-- Depends on SweetAlert2 being reachable at the configured URL.
-
-### Dependencies
-- **Libraries needed:** SweetAlert2 v11+ (external JS).
-- **External dependencies:** NetSuite media URL for SweetAlert2.
-- **Other features:** Client scripts calling `ready()` or `show()`.
-
-### Governance Considerations
-- None (client-side).
+## 7. Validation & Edge Cases
+- SweetAlert2 fails to load: ready() resolves without throwing.
+- Multiple scripts call ready(): no duplicate injection.
 
 ---
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- SweetAlert2 is loaded and available for modal usage.
-
-**How we'll measure:**
-- UI verification in client scripts.
+## 8. Implementation Notes (Optional)
+- Wait loop up to 10 seconds for window.Swal.
 
 ---
 
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| hul_swal_helper.js | Library | Minimal SweetAlert2 loader and `show()` | Implemented |
-
-### Development Approach
-
-**Phase 1:** Loader
-- [x] Script injection and wait loop
-- [x] Global flags to avoid duplicate loads
-
-**Phase 2:** Modal wrapper
-- [x] `show()` calls `Swal.fire` after load
+## 9. Acceptance Criteria
+- Given multiple callers, when ready() is called, then SweetAlert2 is injected only once.
+- Given SweetAlert2 becomes available, when ready() resolves, then show() calls Swal.fire.
+- Given load errors, when they occur, then ready() resolves without throwing.
 
 ---
 
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. `ready()` loads SweetAlert2 and sets `hulSwalReady`.
-2. `show()` displays a modal.
-
-**Edge Cases:**
-1. SweetAlert2 fails to load; `ready()` resolves without throwing.
-2. Multiple scripts call `ready()` concurrently.
-
-**Error Handling:**
-1. Script load error resolves and does not block callers.
-
-### Test Data Requirements
-- N/A.
-
-### Sandbox Setup
-- Ensure the SweetAlert2 media URL is valid.
+## 10. Testing Notes
+- Call ready() and verify SweetAlert2 loads and hulSwalReady is set.
+- Call show() and verify modal appears.
+- Simulate missing file and verify ready() resolves without throwing.
 
 ---
 
-## 11. Security & Permissions
-
-### Roles & Permissions
-
-**Roles that need access:**
-- Users running client scripts that use the helper.
-
-**Permissions required:**
-- Access to the SweetAlert2 file in the File Cabinet.
-
-### Data Security
-- No sensitive data stored.
+## 11. Deployment Notes
+- Upload hul_swal_helper.js and sweetalert2.all.js.
+- Validate the media URL in the helper module.
+- Include the module in client scripts as needed.
+- Rollback: remove references to hul_swal_helper.js.
 
 ---
 
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-
-- [ ] Code review completed
-- [ ] All tests passing in sandbox
-- [ ] Documentation updated (scripts commented, README updated)
-- [ ] PRD_SCRIPT_INDEX.md updated
-- [ ] Stakeholder approval obtained
-- [ ] User training materials prepared (if needed)
-
-### Deployment Steps
-
-1. Upload `hul_swal_helper.js` and `sweetalert2.all.js`.
-2. Validate the media URL in the helper module.
-3. Include the module in client scripts as needed.
-
-### Post-Deployment
-
-- [ ] Validate dialogs in client scripts.
-- [ ] Update PRD status to "Implemented".
-
-### Rollback Plan
-
-**If deployment fails:**
-1. Remove or revert references to `hul_swal_helper.js` in client scripts.
+## 12. Open Questions / TBDs
+- Should this module be deprecated in favor of hul_swal.js?
+- Should the media URL be environment-specific?
+- Media URL changes.
+- Multiple loaders used.
 
 ---
-
-## 13. Timeline
-
-| Milestone | Target Date | Actual Date | Status |
-|-----------|-------------|-------------|--------|
-| PRD Approval | | | |
-| Development Start | | | |
-| Development Complete | | | |
-| Testing Complete | | | |
-| Stakeholder Review | | | |
-| Production Deploy | | | |
-
----
-
-## 14. Open Questions & Risks
-
-### Open Questions
-
-- [ ] Should this module be deprecated in favor of `hul_swal.js`?
-- [ ] Should the media URL be environment-specific?
-
-### Known Risks
-
-| Risk | Likelihood | Impact | Mitigation Strategy |
-|------|------------|--------|---------------------|
-| Media URL changes | Med | Med | Update constant before deploy |
-| Multiple loaders used | Low | Low | Standardize on one helper |
-
----
-
-## 15. References & Resources
-
-### Related PRDs
-- docs/PRD/FileCabinet/SuiteScripts/HUL_DEV/Global/hul_swal.md
-
-### NetSuite Documentation
-- SuiteScript 2.x Client Script
-
-### External Resources
-- SweetAlert2 v11 documentation
-
----
-
-## Revision History
-
-| Date | Author | Version | Changes |
-|------|--------|---------|
-| Unknown | Unknown | 1.0 | Initial draft |

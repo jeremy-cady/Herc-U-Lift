@@ -1,282 +1,92 @@
-# PRD: Rental Orders Helper Module
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-RentalOrdersModule
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Jeremy Cady
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/SNA/shared/sna_hul_mod_rental_orders.js (Library)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-RentalOrdersModule
+title: Rental Orders Helper Module
+status: Implemented
+owner: Jeremy Cady
+created: TBD
+last_updated: TBD
 
-**Script Deployment (if applicable):**
-- Script ID: Not specified
-- Deployment ID: Not specified
+script:
+  type: library
+  file: FileCabinet/SuiteScripts/SNA/shared/sna_hul_mod_rental_orders.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - Sales Order
+  - Time Bill (Time Entry)
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
+## 1. Overview
 A shared module that updates linked time entry records when a rental sales order is copied.
 
-**What problem does it solve?**
+## 2. Business Goal
 Ensures copied rental orders keep their linked time entries pointing to the new sales order and updates time entry descriptions accordingly.
 
-**Primary Goal:**
-Update time entry references and descriptions to match the copied sales order.
+## 3. User Story
+As an admin, when rental orders are copied, I want time entries updated when orders are copied, so that links remain accurate.
 
----
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| TBD | `custcol_sna_linked_time` | Sales order copy | Update time entry references and descriptions |
 
-## 2. Goals
+## 5. Functional Requirements
+- The system must read `custcol_sna_linked_time` values from each item line on the sales order.
+- The system must de-duplicate time entry IDs and ignore empty values.
+- For each time entry ID, the system must update `custcol_sna_linked_so` to the new sales order ID.
+- After updating, the system must look up the sales order `tranid` and set `custcol_nxc_time_desc` and `memo`.
+- The system must log audit details for successful updates and log errors on failure.
 
-1. Identify all linked time entries on a copied sales order.
-2. Update the time entry sales order reference.
-3. Update time entry description fields with the new sales order tranid.
-
----
-
-## 3. User Stories
-
-1. **As an** admin, **I want** time entries updated when orders are copied **so that** links remain accurate.
-2. **As a** dispatcher, **I want** time entry descriptions updated **so that** they match the current order.
-3. **As a** developer, **I want** a reusable helper **so that** copy logic stays consistent.
-
----
-
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. The system must read `custcol_sna_linked_time` values from each item line on the sales order.
-2. The system must de-duplicate time entry IDs and ignore empty values.
-3. For each time entry ID, the system must update `custcol_sna_linked_so` to the new sales order ID.
-4. After updating, the system must look up the sales order `tranid` and set:
-   - `custcol_nxc_time_desc`
-   - `memo`
-5. The system must log audit details for successful updates and log errors on failure.
-
-### Acceptance Criteria
-
-- [ ] Linked time entries point to the new sales order after copy.
-- [ ] Time entry description and memo match the new sales order tranid.
-- [ ] Errors are logged without crashing the process.
-
----
-
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Create or delete time entries.
-- Update non-linked time entries.
-- Validate sales order eligibility beyond linked fields.
-
----
-
-## 6. Design Considerations
-
-### User Interface
-- None (server-side helper module).
-
-### User Experience
-- Linked time entries remain consistent after sales order copies.
-
-### Design References
-- Field `custcol_sna_linked_time` on sales order item lines.
-
----
-
-## 7. Technical Considerations
-
-### NetSuite Components Required
-
-**Record Types:**
+## 6. Data Contract
+### Record Types Involved
 - Sales Order
 - Time Bill (Time Entry)
 
-**Script Types:**
-- [ ] Map/Reduce - Not used
-- [ ] Scheduled Script - Not used
-- [ ] Suitelet - Not used
-- [ ] RESTlet - Not used
-- [ ] User Event - Used by consuming scripts
-- [ ] Client Script - Not used
-
-**Custom Fields:**
+### Fields Referenced
 - Sales Order line | `custcol_sna_linked_time`
 - Time Entry | `custcol_sna_linked_so`
 - Time Entry | `custcol_nxc_time_desc`
 
-**Saved Searches:**
-- None.
+Schemas (if known):
+- TBD
 
-### Integration Points
-- None.
+## 7. Validation & Edge Cases
+- Sales order has no linked time entries.
+- Duplicate time entry IDs in multiple lines.
+- submitFields fails for a time entry; error logged.
 
-### Data Requirements
-
-**Data Volume:**
-- One update per unique time entry referenced on the order.
-
-**Data Sources:**
-- Sales order line items and time entry records.
-
-**Data Retention:**
-- Updates existing time entry fields only.
-
-### Technical Constraints
+## 8. Implementation Notes (Optional)
 - Uses `record.submitFields.promise` followed by a synchronous submitFields.
 - Assumes `custcol_sna_linked_time` contains time entry IDs.
 
-### Dependencies
-- **Libraries needed:** None.
-- **External dependencies:** None.
-- **Other features:** Called by sales order copy logic.
+## 9. Acceptance Criteria
+- Given linked time entries, when the helper runs, then they point to the new sales order after copy.
+- Given linked time entries, when the helper runs, then time entry description and memo match the new sales order tranid.
+- Given an error, when the helper runs, then it is logged without crashing the process.
 
-### Governance Considerations
-- One submitFields per time entry plus one lookupFields per update.
+## 10. Testing Notes
+- Copy a sales order with linked time entries; time entries update.
+- Sales order has no linked time entries.
+- Duplicate time entry IDs in multiple lines.
+- submitFields fails for a time entry; error logged.
 
----
+## 11. Deployment Notes
+- Upload `sna_hul_mod_rental_orders.js`.
+- Ensure consuming scripts reference the module.
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- Linked time entries correctly reference the copied sales order.
-
-**How we'll measure:**
-- Spot check time entries for updated `custcol_sna_linked_so`, `custcol_nxc_time_desc`, and `memo`.
-
----
-
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| sna_hul_mod_rental_orders.js | Library | Update time entries on order copy | Implemented |
-
-### Development Approach
-
-**Phase 1:** Identify linked time entries
-- [x] Extract and de-duplicate `custcol_sna_linked_time` values.
-
-**Phase 2:** Update time entries
-- [x] Update links and descriptions with the new order tranid.
+## 12. Open Questions / TBDs
+- Script ID: TBD
+- Deployment ID: TBD
+- Created date: TBD
+- Last updated date: TBD
+- Should the update be skipped if the time entry is locked or approved?
+- Should the memo updates be optional?
+- Risk: Time entry update fails due to permissions (Mitigation: Ensure deployment role has edit access)
+- Risk: Large number of time entries (Mitigation: Batch or limit updates if needed)
 
 ---
-
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. Copy a sales order with linked time entries; time entries update.
-
-**Edge Cases:**
-1. Sales order has no linked time entries.
-2. Duplicate time entry IDs in multiple lines.
-
-**Error Handling:**
-1. submitFields fails for a time entry; error logged.
-
-### Test Data Requirements
-- Sales order with `custcol_sna_linked_time` populated.
-
-### Sandbox Setup
-- Script using this module deployed on sales order copy workflow.
-
----
-
-## 11. Security & Permissions
-
-### Roles & Permissions
-
-**Roles that need access:**
-- Script deployment role with edit access to time entries.
-
-**Permissions required:**
-- Edit Time Bill records
-- View Sales Order records
-
-### Data Security
-- Updates only referenced time entry fields.
-
----
-
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-
-- [ ] Code review completed
-- [ ] All tests passing in sandbox
-- [ ] Documentation updated (scripts commented, README updated)
-- [ ] PRD_SCRIPT_INDEX.md updated
-- [ ] Stakeholder approval obtained
-- [ ] User training materials prepared (if needed)
-
-### Deployment Steps
-
-1. Upload `sna_hul_mod_rental_orders.js`.
-2. Ensure consuming scripts reference the module.
-
-### Post-Deployment
-
-- [ ] Verify time entry updates after order copy.
-- [ ] Update PRD status to "Implemented".
-
-### Rollback Plan
-
-**If deployment fails:**
-1. Remove references to the module or redeploy prior version.
-
----
-
-## 13. Timeline
-
-| Milestone | Target Date | Actual Date | Status |
-|-----------|-------------|-------------|--------|
-| PRD Approval | | | |
-| Development Start | | | |
-| Development Complete | | | |
-| Testing Complete | | | |
-| Stakeholder Review | | | |
-| Production Deploy | | | |
-
----
-
-## 14. Open Questions & Risks
-
-### Open Questions
-
-- [ ] Should the update be skipped if the time entry is locked or approved?
-- [ ] Should the memo updates be optional?
-
-### Known Risks
-
-| Risk | Likelihood | Impact | Mitigation Strategy |
-|------|------------|--------|---------------------|
-| Time entry update fails due to permissions | Med | Med | Ensure deployment role has edit access |
-| Large number of time entries | Low | Med | Batch or limit updates if needed |
-
----
-
-## 15. References & Resources
-
-### Related PRDs
-- None.
-
-### NetSuite Documentation
-- SuiteScript 2.x record.submitFields and search.lookupFields
-
-### External Resources
-- None.
-
----
-
-## Revision History
-
-| Date | Author | Version | Changes |
-|------|--------|---------|---------|
-| Unknown | Jeremy Cady | 1.0 | Initial draft |

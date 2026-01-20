@@ -1,253 +1,116 @@
-# PRD: Item Receipt Temporary Item Validation Client Script
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-IRTemporaryItem
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Jeremy Cady
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/sna_hul_cs_ir_temporaryitem.js (Client Script)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-IRTemporaryItem
+title: Item Receipt Temporary Item Validation Client Script
+status: Implemented
+owner: Jeremy Cady
+created: TBD
+last_updated: TBD
 
-**Script Deployment (if applicable):**
-- Script ID: Not specified
-- Deployment ID: Not specified
+script:
+  type: client
+  file: FileCabinet/SuiteScripts/sna_hul_cs_ir_temporaryitem.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - Item Receipt
+  - Transaction (purchase order lookup)
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
+## 1. Overview
 A client script that validates temporary item handling and inventory detail on Item Receipts.
 
-**What problem does it solve?**
-It prevents unauthorized conversion to item and enforces temporary item code matching on inventory details.
+---
 
-**Primary Goal:**
-Ensure temporary item receipts are handled and numbered correctly based on role and category rules.
+## 2. Business Goal
+Prevent unauthorized conversion to item and enforce temporary item code matching on inventory details.
 
 ---
 
-## 2. Goals
-
-1. Restrict conversion handling to approved roles.
-2. Validate inventory detail numbers against temporary item codes.
-3. Enforce checks only when receiving from purchase orders.
+## 3. User Story
+As a receiving user, when I receive temporary items, I want inventory numbers validated and conversion restricted by role, so that receipts are consistent.
 
 ---
 
-## 3. User Stories
-
-1. **As a** receiving user, **I want** temp item inventory numbers validated **so that** receipts are consistent.
-2. **As an** admin, **I want** conversion handling restricted **so that** only approved roles can convert temp items.
-
----
-
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. On page init, the script must load script parameters for temp item categories, convert-to-item value, and permitted roles.
-2. On field validation for `custcol_sna_hul_returns_handling`, the script must block conversion for temp item categories if the user role is not allowed.
-3. On save, the script must check if the Item Receipt is created from a purchase order.
-4. For each received line in a PO-based Item Receipt, the script must verify that the inventory detail `receiptinventorynumber` matches `custcol_sna_hul_temp_item_code` when the item is in a temp category.
-5. If a mismatch is detected, the script must alert the user and block save.
-
-### Acceptance Criteria
-
-- [ ] Unauthorized users cannot set temp returns handling to convert to item.
-- [ ] Temp item inventory numbers must match the temp item code or save is blocked.
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| pageInit | script parameters | form loads | Load temp item categories, convert-to-item value, permitted roles |
+| validateField | custcol_sna_hul_returns_handling | temp item category and role not allowed | Block conversion to item |
+| saveRecord | custcol_sna_hul_temp_item_code, receiptinventorynumber | PO-based receipt and temp item | Validate inventory number matches temp item code |
 
 ---
 
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Change inventory detail values automatically.
-- Validate receipts not created from purchase orders.
-
----
-
-## 6. Design Considerations
-
-### User Interface
-- Uses alert messages for validation failures.
-
-### User Experience
-- Users are prevented from saving invalid temp item receipts.
-
-### Design References
-- None.
+## 5. Functional Requirements
+- On page init, load script parameters for temp item categories, convert-to-item value, and permitted roles.
+- On field validation for `custcol_sna_hul_returns_handling`, block conversion for temp item categories if the user role is not allowed.
+- On save, check if the Item Receipt is created from a purchase order.
+- For each received line in a PO-based Item Receipt, verify that the inventory detail `receiptinventorynumber` matches `custcol_sna_hul_temp_item_code` when the item is in a temp category.
+- If a mismatch is detected, alert the user and block save.
 
 ---
 
-## 7. Technical Considerations
-
-### NetSuite Components Required
-
-**Record Types:**
+## 6. Data Contract
+### Record Types Involved
 - Item Receipt
 - Transaction (purchase order lookup)
 
-**Script Types:**
-- [ ] Map/Reduce - Not used
-- [ ] Scheduled Script - Not used
-- [ ] Suitelet - Not used
-- [ ] RESTlet - Not used
-- [ ] User Event - Not used
-- [x] Client Script - Item receipt validation
+### Fields Referenced
+- Line | custcol_sna_hul_returns_handling
+- Line | custcol_sna_hul_itemcategory
+- Line | custcol_sna_hul_temp_item_code
+- Line | itemreceive
+- Line | inventorydetail.receiptinventorynumber
 
-**Custom Fields:**
-- Line | `custcol_sna_hul_returns_handling`
-- Line | `custcol_sna_hul_itemcategory`
-- Line | `custcol_sna_hul_temp_item_code`
-- Line | `itemreceive`
-- Line | `inventorydetail.receiptinventorynumber`
+Schemas (if known):
+- TBD
 
-**Saved Searches:**
-- None.
+---
 
-### Integration Points
+## 7. Validation & Edge Cases
+- Temp item with mismatched inventory number; save blocked.
+- Non-temp items are not validated.
+- Missing script parameters should not crash the form; validation should be conservative.
+
+---
+
+## 8. Implementation Notes (Optional)
+- Relies on script parameters for category and role IDs.
 - Uses `search.lookupFields` to determine created-from transaction type.
 
-### Data Requirements
+---
 
-**Data Volume:**
-- Line-by-line validation per receipt.
-
-**Data Sources:**
-- Item receipt lines and inventory detail subrecords.
-
-**Data Retention:**
-- No data persisted beyond validation.
-
-### Technical Constraints
-- Relies on script parameters for category and role IDs.
-
-### Dependencies
-- **Libraries needed:** N/currentRecord, N/runtime, N/search.
-- **External dependencies:** None.
-- **Other features:** Script parameters for temp categories and roles.
-
-### Governance Considerations
-- Client-side lookups and subrecord reads on save.
+## 9. Acceptance Criteria
+- Given an unauthorized role, when attempting convert-to-item handling, then the action is blocked.
+- Given temp items received from PO, when inventory numbers do not match, then save is blocked.
 
 ---
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- Temp item receipts fail validation when inventory numbers do not match the temp item code.
-
----
-
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| sna_hul_cs_ir_temporaryitem.js | Client Script | Validate temp item handling and inventory detail | Implemented |
-
-### Development Approach (Phase 1/Phase 2)
-- **Phase 1:** Role-based handling restriction.
-- **Phase 2:** Inventory detail matching validation.
+## 10. Testing Notes
+- Receive a temp item with matching inventory detail number; save succeeds.
+- Temp item with mismatched inventory number; save blocked.
+- Non-temp items; no validation error.
+- User without allowed role tries convert-to-item handling; blocked.
 
 ---
 
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. Receive a temp item with matching inventory detail number; save succeeds.
-
-**Edge Cases:**
-1. Temp item with mismatched inventory number; save blocked.
-2. Non-temp items are not validated.
-3. User without allowed role tries convert-to-item handling.
-
-**Error Handling:**
-1. Missing script parameters should not crash the form; validation should be conservative.
-
-### Test Data Requirements
-- PO with temp item lines and inventory detail entries.
-
-### Sandbox Setup
-- Deploy script to item receipt forms with required parameters.
+## 11. Deployment Notes
+- Upload `sna_hul_cs_ir_temporaryitem.js`.
+- Deploy to Item Receipt forms with required parameters.
+- Rollback: remove the client script deployment.
 
 ---
 
-## 11. Security & Permissions
-
-### Roles & Permissions
-**Roles that need access:**
-- Receiving users and admins.
-
-**Permissions required:**
-- Edit Item Receipts.
-
-### Data Security
-- Uses internal transaction data only.
+## 12. Open Questions / TBDs
+- Created date is TBD.
+- Last updated date is TBD.
+- Script ID is TBD.
+- Deployment ID is TBD.
+- Should the script validate temp item categories for non-PO receipts?
+- Risk: Missing or incorrect script parameters.
 
 ---
-
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-- Confirm script parameters for temp categories and roles.
-
-### Deployment Steps
-1. Upload `sna_hul_cs_ir_temporaryitem.js`.
-2. Deploy to Item Receipt forms.
-
-### Post-Deployment
-- Validate temp item receipts and role restrictions.
-
-### Rollback Plan
-- Remove the client script deployment.
-
----
-
-## 13. Timeline
-
-| Milestone | Target Date | Actual Date | Status |
-|-----------|-------------|-------------|--------|
-| PRD Approval | | | |
-| Development Complete | | | |
-| Production Deploy | | | |
-
----
-
-## 14. Open Questions & Risks
-
-### Open Questions
-- [ ] Should the script validate temp item categories for non-PO receipts?
-
-### Known Risks
-
-| Risk | Likelihood | Impact | Mitigation Strategy |
-|------|------------|--------|---------------------|
-| Missing or incorrect script parameters | Med | Med | Validate parameters at deploy time |
-
----
-
-## 15. References & Resources
-
-### Related PRDs
-- None.
-
-### NetSuite Documentation
-- SuiteScript 2.x Client Script
-
-### External Resources
-- None.
-
----
-
-## Revision History
-
-| Date | Author | Version | Changes |
-|------|--------|---------|---------|
-| Unknown | Jeremy Cady | 1.0 | Initial draft |

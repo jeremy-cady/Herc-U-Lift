@@ -1,267 +1,110 @@
-# PRD: Invoice Custom Form Mass Update (Production)
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-MassUpdateInvCustFormProd
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Jeremy Cady
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/massUpdateInvCustFormProd.js (Mass Update)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-MassUpdateInvCustFormProd
+title: Invoice Custom Form Mass Update (Production)
+status: Implemented
+owner: Jeremy Cady
+created: TBD
+last_updated: TBD
 
-**Script Deployment (if applicable):**
-- Script ID: Not specified
-- Deployment ID: Not specified
+script:
+  type: mass_update
+  file: FileCabinet/SuiteScripts/massUpdateInvCustFormProd.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - Invoice
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
+## 1. Overview
 A Mass Update script that assigns invoice custom forms based on invoice transaction number prefixes.
 
-**What problem does it solve?**
-Ensures invoices use the correct custom form for rental, equipment, or lease invoices in production.
+---
 
-**Primary Goal:**
-Set the invoice `customform` field based on the invoice document number prefix.
+## 2. Business Goal
+Ensure invoices use the correct custom form for rental, equipment, or lease invoices in production.
 
 ---
 
-## 2. Goals
-
-1. Read each invoice transaction number.
-2. Determine invoice type by prefix (R, S, FIN).
-3. Update the invoice custom form accordingly.
+## 3. User Story
+As an admin, when invoices are processed by a Mass Update, I want invoice custom forms set by prefix, so that formatting matches invoice type.
 
 ---
 
-## 3. User Stories
-
-1. **As an** admin, **I want** invoice custom forms set by prefix **so that** formatting matches invoice type.
-
----
-
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. The system must run as a Mass Update on invoice records.
-2. The system must read `tranid` for each invoice.
-3. If `tranid` starts with `R`, the system must set `customform` to `138`.
-4. If `tranid` starts with `S`, the system must set `customform` to `144`.
-5. If `tranid` starts with `FIN`, the system must set `customform` to `139`.
-
-### Acceptance Criteria
-
-- [ ] Rental invoices use form `138`.
-- [ ] Equipment invoices use form `144`.
-- [ ] Lease invoices use form `139`.
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| Mass Update run | tranid | tranid starts with R | Set `customform` to 138 |
+| Mass Update run | tranid | tranid starts with S | Set `customform` to 144 |
+| Mass Update run | tranid | tranid starts with FIN | Set `customform` to 139 |
 
 ---
 
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Update invoices without a `tranid`.
-- Handle other prefixes not specified.
-- Update invoices outside the Mass Update run.
-
----
-
-## 6. Design Considerations
-
-### User Interface
-- No UI changes; Mass Update only.
+## 5. Functional Requirements
+- Run as a Mass Update on invoice records.
+- Read `tranid` for each invoice.
+- If `tranid` starts with `R`, set `customform` to `138`.
+- If `tranid` starts with `S`, set `customform` to `144`.
+- If `tranid` starts with `FIN`, set `customform` to `139`.
 
 ---
 
-## 7. Technical Considerations
-
-### NetSuite Components Required
-
-**Record Types:**
+## 6. Data Contract
+### Record Types Involved
 - Invoice
 
-**Script Types:**
-- [ ] Map/Reduce - Not used
-- [ ] Scheduled Script - Not used
-- [ ] Suitelet - Not used
-- [ ] RESTlet - Not used
-- [ ] User Event - Not used
-- [ ] Client Script - Not used
-- [x] Mass Update - Invoice custom form updates
+### Fields Referenced
+- tranid
+- customform
 
-**Custom Fields:**
-- Invoice | `customform`
-
-**Saved Searches:**
-- Mass update is driven by a saved search or selection.
-
-### Integration Points
-- None.
-
-### Data Requirements
-
-**Data Volume:**
-- All invoices in the mass update selection.
-
-**Data Sources:**
-- Invoice `tranid`.
-
-**Data Retention:**
-- Updates `customform` field only.
-
-### Technical Constraints
-- Uses hardcoded form IDs for production.
-
-### Dependencies
-- **Libraries needed:** None.
-- **External dependencies:** None.
-- **Other features:** Mass update saved search for invoices.
-
-### Governance Considerations
-- One lookup and submitFields per invoice.
+Schemas (if known):
+- TBD
 
 ---
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- Invoices are assigned the correct form based on prefix.
-
-**How we'll measure:**
-- Spot check invoices after the mass update run.
+## 7. Validation & Edge Cases
+- Invoices without `tranid` are not updated.
+- Unrecognized prefixes are not updated.
 
 ---
 
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| massUpdateInvCustFormProd.js | Mass Update | Set invoice custom form by prefix | Implemented |
-
-### Development Approach
-
-**Phase 1:** Determine prefix
-- [x] Read `tranid` and check prefixes.
-
-**Phase 2:** Update form
-- [x] Submit `customform` updates.
+## 8. Implementation Notes (Optional)
+- Performance/governance considerations: one lookup and submitFields per invoice.
 
 ---
 
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. Run mass update with invoices starting with R, S, and FIN; forms updated.
-
-**Edge Cases:**
-1. Invoice without `tranid`; no update.
-2. Unrecognized prefix; no update.
-
-**Error Handling:**
-1. SubmitFields errors logged.
-
-### Test Data Requirements
-- Invoices with R, S, and FIN prefixes.
-
-### Sandbox Setup
-- Confirm form IDs match environment.
+## 9. Acceptance Criteria
+- Given an invoice with tranid starting with `R`, when the Mass Update runs, then `customform` is set to `138`.
+- Given an invoice with tranid starting with `S`, when the Mass Update runs, then `customform` is set to `144`.
+- Given an invoice with tranid starting with `FIN`, when the Mass Update runs, then `customform` is set to `139`.
 
 ---
 
-## 11. Security & Permissions
-
-### Roles & Permissions
-
-**Roles that need access:**
-- Admins running mass updates.
-
-**Permissions required:**
-- Edit invoices
-
-### Data Security
-- No additional data exposure.
+## 10. Testing Notes
+- Run Mass Update with invoices starting with R, S, and FIN; confirm forms updated.
+- Invoice without `tranid`; confirm no update.
+- Unrecognized prefix; confirm no update.
 
 ---
 
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-
-- [ ] Code review completed
-- [ ] All tests passing in sandbox
-- [ ] Documentation updated (scripts commented, README updated)
-- [ ] PRD_SCRIPT_INDEX.md updated
-- [ ] Stakeholder approval obtained
-- [ ] User training materials prepared (if needed)
-
-### Deployment Steps
-
-1. Upload `massUpdateInvCustFormProd.js`.
-2. Create or select saved search for target invoices.
-3. Run Mass Update and confirm results.
-
-### Post-Deployment
-
-- [ ] Verify updated invoice forms.
-- [ ] Update PRD status to "Implemented".
-
-### Rollback Plan
-
-**If deployment fails:**
-1. Re-run mass update with previous form values if needed.
+## 11. Deployment Notes
+- Upload `massUpdateInvCustFormProd.js`.
+- Create or select saved search for target invoices.
+- Run Mass Update and confirm results.
+- Rollback: re-run mass update with previous form values if needed.
 
 ---
 
-## 13. Timeline
-
-| Milestone | Target Date | Actual Date | Status |
-|-----------|-------------|-------------|--------|
-| PRD Approval | | | |
-| Development Start | | | |
-| Development Complete | | | |
-| Testing Complete | | | |
-| Stakeholder Review | | | |
-| Production Deploy | | | |
+## 12. Open Questions / TBDs
+- Created date is TBD.
+- Last updated date is TBD.
+- Script ID is TBD.
+- Deployment ID is TBD.
+- Should prefix mapping be configurable via script parameters?
+- Risk: Hardcoded form IDs differ by environment.
 
 ---
-
-## 14. Open Questions & Risks
-
-### Open Questions
-
-- [ ] Should prefix mapping be configurable via script parameters?
-
-### Known Risks
-
-| Risk | Likelihood | Impact | Mitigation Strategy |
-|------|------------|--------|---------------------|
-| Hardcoded form IDs differ by environment | Med | Med | Move IDs to parameters per environment |
-
----
-
-## 15. References & Resources
-
-### Related PRDs
-- None.
-
-### NetSuite Documentation
-- SuiteScript 2.x Mass Update
-
-### External Resources
-- None.
-
----
-
-## Revision History
-
-| Date | Author | Version | Changes |
-|------|--------|---------|
-| Unknown | Jeremy Cady | 1.0 | Initial draft |

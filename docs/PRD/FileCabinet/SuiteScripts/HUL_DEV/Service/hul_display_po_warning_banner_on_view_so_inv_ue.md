@@ -1,282 +1,110 @@
-# PRD: Display PO Warning on View (User Event)
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-POWarningBannerUE
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Jeremy Cady
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/HUL_DEV/Service/hul_display_po_warning_banner_on_view_so_inv_ue.js (User Event)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-POWarningBannerUE
+title: Display PO Warning on View (User Event)
+status: Implemented
+owner: Jeremy Cady
+created: Unknown
+last_updated: Unknown
 
-**Script Deployment (if applicable):**
-- Script ID: Not specified
-- Deployment ID: Not specified
+script:
+  type: user_event
+  file: FileCabinet/SuiteScripts/HUL_DEV/Service/hul_display_po_warning_banner_on_view_so_inv_ue.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - Customer
+  - Sales Order / Invoice
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
+## 1. Overview
 A User Event that displays a warning banner on Sales Order or Invoice view pages when the customer requires a PO number and the PO# field is blank.
 
-**What problem does it solve?**
-Prompts users to enter a required purchase order number for customers flagged as PO‑required.
+---
 
-**Primary Goal:**
-Show a page‑init warning message when `custentity_sna_hul_po_required` is true and `otherrefnum` is empty.
+## 2. Business Goal
+Prompt users to enter a required purchase order number for customers flagged as PO-required.
 
 ---
 
-## 2. Goals
-
-1. Detect PO-required customers on view.
-2. Check whether a PO number is present.
-3. Display a warning banner if missing.
-
----
-
-## 3. User Stories
-
-1. **As a** sales user, **I want** a warning when PO# is required **so that** I can add it.
-2. **As an** admin, **I want** reminders on view **so that** missing POs are corrected.
-3. **As a** support user, **I want** a clear banner **so that** the issue is visible immediately.
+## 3. User Story
+- As a sales user, I want a warning when PO# is required so that I can add it.
+- As an admin, I want reminders on view so that missing POs are corrected.
+- As a support user, I want a clear banner so that the issue is visible immediately.
 
 ---
 
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. The system must run on `beforeLoad` for `VIEW`.
-2. The system must read:
-   - Customer ID (`entity`)
-   - PO number (`otherrefnum`)
-3. The system must look up customer field `custentity_sna_hul_po_required`.
-4. If PO required is true and PO number is blank, the system must add a page init message:
-   - Title: “PO is Required for this Customer”
-   - Message: “Please Enter Purchase Order Number On PO# field”
-5. Errors must be logged without blocking the page.
-
-### Acceptance Criteria
-
-- [ ] Warning banner appears when PO is required and missing.
-- [ ] Banner does not appear when PO is present or not required.
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| beforeLoad (view) | entity, otherrefnum | custentity_sna_hul_po_required = true and otherrefnum blank | Add page init warning message |
 
 ---
 
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Enforce PO entry on save.
-- Run on edit or create.
-- Update any record data.
-
----
-
-## 6. Design Considerations
-
-### User Interface
-- NetSuite page init message banner (error style).
-
-### User Experience
-- Immediate visibility of missing PO requirement.
-
-### Design References
-- None.
+## 5. Functional Requirements
+- The system must run on beforeLoad for VIEW.
+- The system must read customer ID (entity) and PO number (otherrefnum).
+- The system must look up customer field custentity_sna_hul_po_required.
+- If PO required is true and PO number is blank, the system must add a page init message with title "PO is Required for this Customer" and message "Please Enter Purchase Order Number On PO# field".
+- Errors must be logged without blocking the page.
 
 ---
 
-## 7. Technical Considerations
-
-### NetSuite Components Required
-
-**Record Types:**
+## 6. Data Contract
+### Record Types Involved
 - Customer
-- Sales Order / Invoice (or any record with `otherrefnum`)
+- Sales Order / Invoice
 
-**Script Types:**
-- [ ] Map/Reduce - Not used
-- [ ] Scheduled Script - Not used
-- [ ] Suitelet - Not used
-- [ ] RESTlet - Not used
-- [x] User Event - View-time warning
-- [ ] Client Script - Not used
+### Fields Referenced
+- entity
+- otherrefnum
+- custentity_sna_hul_po_required
 
-**Custom Fields:**
-- Customer | `custentity_sna_hul_po_required`
-
-**Saved Searches:**
-- None (lookupFields used).
-
-### Integration Points
-- None.
-
-### Data Requirements
-
-**Data Volume:**
-- Per record view.
-
-**Data Sources:**
-- Customer lookup and record fields.
-
-**Data Retention:**
-- None.
-
-### Technical Constraints
-- Only runs on VIEW.
-
-### Dependencies
-- **Libraries needed:** None.
-- **External dependencies:** None.
-- **Other features:** Customer PO required flag.
-
-### Governance Considerations
-- One lookupFields call per view.
+Schemas (if known):
+- TBD
 
 ---
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- Users are prompted to enter PO numbers when required.
-
-**How we'll measure:**
-- Reduced missing PO numbers and user feedback.
+## 7. Validation & Edge Cases
+- Customer lookup fails: no banner and error logged.
+- PO present or not required: no banner.
 
 ---
 
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| hul_display_po_warning_banner_on_view_so_inv_ue.js | User Event | Show PO required warning banner | Implemented |
-
-### Development Approach
-
-**Phase 1:** Lookup
-- [x] Check customer PO required flag
-
-**Phase 2:** UI
-- [x] Add page init message when missing PO
+## 8. Implementation Notes (Optional)
+- Runs only on VIEW.
 
 ---
 
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. View a transaction for PO-required customer with blank PO#; banner appears.
-2. View same transaction with PO# populated; no banner.
-
-**Edge Cases:**
-1. Customer lookup fails; no banner, error logged.
-
-**Error Handling:**
-1. Lookup errors logged without blocking page load.
-
-### Test Data Requirements
-- Customer with `custentity_sna_hul_po_required = true`.
-- Transactions with and without `otherrefnum`.
-
-### Sandbox Setup
-- Ensure PO required field exists and is set.
+## 9. Acceptance Criteria
+- Given a PO-required customer with blank PO#, when viewing, then a warning banner appears.
+- Given a PO-required customer with PO# filled, when viewing, then no banner appears.
+- Given a non-required customer, when viewing, then no banner appears.
 
 ---
 
-## 11. Security & Permissions
-
-### Roles & Permissions
-
-**Roles that need access:**
-- Users viewing transactions.
-
-**Permissions required:**
-- View access to customer records.
-
-### Data Security
-- Read-only checks; no data updates.
+## 10. Testing Notes
+- View a transaction with PO-required customer and blank PO#; confirm banner appears.
+- View a transaction with PO# populated; confirm no banner.
+- Simulate lookup error; confirm page still loads.
 
 ---
 
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-
-- [ ] Code review completed
-- [ ] All tests passing in sandbox
-- [ ] Documentation updated (scripts commented, README updated)
-- [ ] PRD_SCRIPT_INDEX.md updated
-- [ ] Stakeholder approval obtained
-- [ ] User training materials prepared (if needed)
-
-### Deployment Steps
-
-1. Upload `hul_display_po_warning_banner_on_view_so_inv_ue.js`.
-2. Deploy on Sales Order/Invoice record types.
-3. Validate banner behavior on view.
-
-### Post-Deployment
-
-- [ ] Confirm warning banner displays as expected.
-- [ ] Update PRD status to "Implemented".
-
-### Rollback Plan
-
-**If deployment fails:**
-1. Disable the User Event deployment.
+## 11. Deployment Notes
+- Upload hul_display_po_warning_banner_on_view_so_inv_ue.js.
+- Deploy on Sales Order/Invoice record types.
+- Rollback: disable the User Event deployment.
 
 ---
 
-## 13. Timeline
-
-| Milestone | Target Date | Actual Date | Status |
-|-----------|-------------|-------------|--------|
-| PRD Approval | | | |
-| Development Start | | | |
-| Development Complete | | | |
-| Testing Complete | | | |
-| Stakeholder Review | | | |
-| Production Deploy | | | |
+## 12. Open Questions / TBDs
+- Should the banner also appear on edit?
+- Should the message be a warning instead of error?
+- Customer lookup fails.
+- Users ignore banner.
 
 ---
-
-## 14. Open Questions & Risks
-
-### Open Questions
-
-- [ ] Should the banner also appear on edit?
-- [ ] Should the message be a warning instead of error?
-
-### Known Risks
-
-| Risk | Likelihood | Impact | Mitigation Strategy |
-|------|------------|--------|---------------------|
-| Customer lookup fails | Low | Low | Log and continue |
-| Users ignore banner | Med | Low | Add save-time enforcement |
-
----
-
-## 15. References & Resources
-
-### Related PRDs
-- None identified.
-
-### NetSuite Documentation
-- SuiteScript 2.x User Event
-- message API
-
-### External Resources
-- None.
-
----
-
-## Revision History
-
-| Date | Author | Version | Changes |
-|------|--------|---------|
-| Unknown | Jeremy Cady | 1.0 | Initial draft |

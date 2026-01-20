@@ -1,302 +1,127 @@
 # PRD: VRA Matcher RESTlet
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-VRAMatcherRestlet
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Unknown
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/HUL_DEV/Global/vra_matcher_restlet.js (RESTlet)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-VRAMatcherRestlet
+title: VRA Matcher RESTlet
+status: Implemented
+owner: Unknown
+created: Unknown
+last_updated: Unknown
 
-**Script Deployment (if applicable):**
-- Script ID: Not specified
-- Deployment ID: Not specified
+script:
+  type: restlet
+  file: FileCabinet/SuiteScripts/HUL_DEV/Global/vra_matcher_restlet.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - Vendor Return Authorization
+  - Vendor
+  - Item
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
+## 1. Overview
 A RESTlet that matches vendor credits to Vendor Return Authorizations (VRAs) using a VRA number, PO number, or vendor + item matching logic.
 
-**What problem does it solve?**
-Automates matching vendor credits to VRAs for downstream processing and reconciliation workflows.
+---
 
-**Primary Goal:**
-Return the best VRA match and its line items based on the provided request data.
+## 2. Business Goal
+Automate matching vendor credits to VRAs for downstream processing and reconciliation workflows.
 
 ---
 
-## 2. Goals
-
-1. Match VRAs by direct VRA number.
-2. Match VRAs by related PO number.
-3. Match VRAs by vendor and line-item similarity.
-
----
-
-## 3. User Stories
-
-1. **As an** integration system, **I want to** match a credit to a VRA **so that** reconciliation is automated.
-2. **As a** buyer, **I want** PO or VRA matching **so that** I can review return data quickly.
-3. **As an** operator, **I want** fallback item matching **so that** I can still match when IDs are missing.
+## 3. User Story
+- As an integration system, I want to match a credit to a VRA so that reconciliation is automated.
+- As a buyer, I want PO or VRA matching so that I can review return data quickly.
+- As an operator, I want fallback item matching so that I can still match when IDs are missing.
 
 ---
 
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. The system must accept POST data with:
-   - `vraNumber`
-   - `poNumber`
-   - `vendorId`
-   - `vendorName`
-   - `lineItems`
-   - `processId`
-   - `creditTotal`
-2. The system must attempt matching in order:
-   - Direct VRA number search
-   - PO number to VRA search
-   - Vendor + line item matching
-3. The system must return `matchFound: true` with VRA details when a match is found.
-4. The system must return `matchFound: false` with attempted search details when no match is found.
-5. Vendor line item matching must:
-   - Compare credit item part numbers to VRA item numbers
-   - Allow VRA item suffix removal (`-JLG`, `-MIT`, `-MITSU`, `-CAT`, `-HYU`)
-   - Compare vendor item name field `custcol_sna_vendor_item_name`
-6. The system must choose the best VRA match based on match percentage and require >= 50% threshold.
-7. The system must return VRA line items for matched VRAs.
-8. Errors must return a response with `matchFound: false` and error details.
-
-### Acceptance Criteria
-
-- [ ] VRA match by `vraNumber` returns a direct match.
-- [ ] VRA match by `poNumber` returns a match when available.
-- [ ] Vendor matching returns the best match when >= 50% of items match.
-- [ ] No-match response includes attempted search parameters.
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| RESTlet POST | vraNumber, poNumber, vendorId, vendorName, lineItems, processId, creditTotal | Match attempts in order (VRA number, PO number, vendor + items) | Return best VRA match and line items |
 
 ---
 
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Create or update any NetSuite records.
-- Validate credit totals against VRAs.
-- Handle GET requests.
-
----
-
-## 6. Design Considerations
-
-### User Interface
-- None (REST API).
-
-### User Experience
-- Deterministic matching order with a clear response payload.
-
-### Design References
-- None.
+## 5. Functional Requirements
+- The system must accept POST data with vraNumber, poNumber, vendorId, vendorName, lineItems, processId, creditTotal.
+- The system must attempt matching in order: direct VRA number search, PO number to VRA search, vendor + line item matching.
+- The system must return matchFound: true with VRA details when a match is found.
+- The system must return matchFound: false with attempted search details when no match is found.
+- Vendor line item matching must compare credit item part numbers to VRA item numbers, allow VRA item suffix removal (-JLG, -MIT, -MITSU, -CAT, -HYU), and compare vendor item name field custcol_sna_vendor_item_name.
+- The system must choose the best VRA match based on match percentage and require >= 50% threshold.
+- The system must return VRA line items for matched VRAs.
+- Errors must return a response with matchFound: false and error details.
 
 ---
 
-## 7. Technical Considerations
-
-### NetSuite Components Required
-
-**Record Types:**
+## 6. Data Contract
+### Record Types Involved
 - Vendor Return Authorization
 - Vendor
 - Item
 
-**Script Types:**
-- [ ] Map/Reduce - Not used
-- [ ] Scheduled Script - Not used
-- [ ] Suitelet - Not used
-- [x] RESTlet - VRA matching
-- [ ] User Event - Not used
-- [ ] Client Script - Not used
+### Fields Referenced
+- vraNumber
+- poNumber
+- vendorId
+- vendorName
+- lineItems
+- processId
+- creditTotal
+- custcol_sna_vendor_item_name
 
-**Custom Fields:**
-- VRA Line | `custcol_sna_vendor_item_name`
+Schemas (if known):
+- TBD
 
-**Saved Searches:**
-- None (searches created in script).
+---
 
-### Integration Points
-- External integration (n8n) posts VRA matching requests.
+## 7. Validation & Edge Cases
+- Vendor name not found returns no match.
+- Line items do not match any VRA lines.
+- Multiple VRAs exist; best match selected by score.
+- Search errors return matchFound: false with error text.
 
-### Data Requirements
+---
 
-**Data Volume:**
-- Single matching request with multiple line items.
-
-**Data Sources:**
-- Vendor return authorization searches and line-item searches.
-
-**Data Retention:**
-- None; read-only.
-
-### Technical Constraints
-- Vendor matching uses line-level search (mainline = F).
+## 8. Implementation Notes (Optional)
 - Matching threshold fixed at 50%.
 
-### Dependencies
-- **Libraries needed:** None.
-- **External dependencies:** n8n or other integration client.
-- **Other features:** VRA line field `custcol_sna_vendor_item_name`.
+---
 
-### Governance Considerations
-- Multiple searches per request; large line item lists may add latency.
+## 9. Acceptance Criteria
+- Given vraNumber, when posted, then a direct match is returned when available.
+- Given poNumber, when posted, then a PO-based match is returned when available.
+- Given vendor + line items, when posted, then the best match is returned when >= 50% of items match.
+- Given no match, when posted, then matchFound: false is returned with attempted search details.
 
 ---
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- Matching logic returns correct VRAs for credits.
-
-**How we'll measure:**
-- Integration logs and reconciliation outcomes.
+## 10. Testing Notes
+- POST with valid vraNumber and confirm direct match.
+- POST with poNumber and confirm PO match.
+- POST with vendor + line items and confirm match above 50%.
+- Verify vendor name not found returns no match.
+- Verify search errors return matchFound: false.
 
 ---
 
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| vra_matcher_restlet.js | RESTlet | Match credits to VRAs | Implemented |
-
-### Development Approach
-
-**Phase 1:** Direct matching
-- [x] VRA number search
-- [x] PO number search
-
-**Phase 2:** Vendor matching
-- [x] Vendor ID resolution by name
-- [x] Line item matching and scoring
+## 11. Deployment Notes
+- Upload vra_matcher_restlet.js.
+- Create RESTlet script record and deploy.
+- Assign integration role permissions.
+- Rollback: disable RESTlet deployment.
 
 ---
 
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. POST with valid `vraNumber` returns a direct match.
-2. POST with `poNumber` returns a VRA match.
-3. POST with vendor + line items returns a match above 50%.
-
-**Edge Cases:**
-1. Vendor name not found returns no match.
-2. Line items do not match any VRA lines.
-3. Multiple VRAs exist; best match selected by score.
-
-**Error Handling:**
-1. Search errors return `matchFound: false` with error text.
-
-### Test Data Requirements
-- Vendor returns with known VRA numbers, POs, and line items.
-
-### Sandbox Setup
-- Ensure `custcol_sna_vendor_item_name` is populated where needed.
+## 12. Open Questions / TBDs
+- Should the match threshold be configurable?
+- Should creditTotal be used to validate matches?
+- Low match accuracy with noisy item numbers.
+- High latency with many line items.
 
 ---
-
-## 11. Security & Permissions
-
-### Roles & Permissions
-
-**Roles that need access:**
-- Integration roles with RESTlet access.
-
-**Permissions required:**
-- View access to vendor return authorizations, vendors, and items.
-
-### Data Security
-- Restrict RESTlet access to trusted roles/integration tokens.
-
----
-
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-
-- [ ] Code review completed
-- [ ] All tests passing in sandbox
-- [ ] Documentation updated (scripts commented, README updated)
-- [ ] PRD_SCRIPT_INDEX.md updated
-- [ ] Stakeholder approval obtained
-- [ ] User training materials prepared (if needed)
-
-### Deployment Steps
-
-1. Upload `vra_matcher_restlet.js`.
-2. Create RESTlet script record and deploy.
-3. Assign integration role permissions.
-
-### Post-Deployment
-
-- [ ] Monitor RESTlet logs for match outcomes.
-- [ ] Update PRD status to "Implemented".
-
-### Rollback Plan
-
-**If deployment fails:**
-1. Disable the RESTlet deployment.
-
----
-
-## 13. Timeline
-
-| Milestone | Target Date | Actual Date | Status |
-|-----------|-------------|-------------|--------|
-| PRD Approval | | | |
-| Development Start | | | |
-| Development Complete | | | |
-| Testing Complete | | | |
-| Stakeholder Review | | | |
-| Production Deploy | | | |
-
----
-
-## 14. Open Questions & Risks
-
-### Open Questions
-
-- [ ] Should the match threshold be configurable?
-- [ ] Should `creditTotal` be used to validate matches?
-
-### Known Risks
-
-| Risk | Likelihood | Impact | Mitigation Strategy |
-|------|------------|--------|---------------------|
-| Low match accuracy with noisy item numbers | Med | Med | Enhance normalization rules |
-| High latency with many line items | Med | Med | Optimize search or limit items |
-
----
-
-## 15. References & Resources
-
-### Related PRDs
-- None identified.
-
-### NetSuite Documentation
-- SuiteScript 2.1 RESTlet
-- Search API
-
-### External Resources
-- None.
-
----
-
-## Revision History
-
-| Date | Author | Version | Changes |
-|------|--------|---------|
-| Unknown | Unknown | 1.0 | Initial draft |

@@ -1,253 +1,118 @@
-# PRD: Sales Order Approval Forwarding (Parts Bucket)
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-SoApproveForward
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Jeremy Cady
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/sna_hul_mr_so_approve_forward.js (Map/Reduce)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-SoApproveForward
+title: Sales Order Approval Forwarding (Parts Bucket)
+status: Implemented
+owner: Jeremy Cady
+created: TBD
+last_updated: TBD
 
-**Script Deployment (if applicable):**
-- Script ID: Not specified
-- Deployment ID: Not specified
+script:
+  type: map_reduce
+  file: FileCabinet/SuiteScripts/sna_hul_mr_so_approve_forward.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - Sales Order (salesorder)
+  - Support Case (supportcase) or search source record containing `custevent_nx_case_transaction`
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
+## 1. Overview
 A Map/Reduce script that sets the Sales Order Service Bucket to Parts and triggers the approval workflow.
 
-**What problem does it solve?**
+---
+
+## 2. Business Goal
 Ensures Sales Orders flagged for parts processing move forward in the approval workflow with the correct bucket.
 
-**Primary Goal:**
-Update the Service Bucket and trigger the approval workflow for qualifying Sales Orders.
+---
+
+## 3. User Story
+As a service coordinator, when Sales Orders need to be routed to Parts, I want them routed automatically, so that approvals follow the correct flow.
 
 ---
 
-## 2. Goals
-
-1. Load Sales Orders from a saved search parameter.
-2. Set `custbody_sna_hul_service_bucket_` to Parts (1).
-3. Trigger workflow `customworkflow_sna_hul_so_approval`.
-
----
-
-## 3. User Stories
-
-1. **As a** service coordinator, **I want** Sales Orders routed to Parts automatically **so that** approvals follow the correct flow.
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| TBD | `custevent_nx_case_transaction` | Saved search result | Set `custbody_sna_hul_service_bucket_` to 1 and trigger workflow `customworkflow_sna_hul_so_approval` action `workflowaction271` |
 
 ---
 
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. The script must load a saved search from parameter `custscript_so_appr_fwd_bucket_search`.
-2. The script must read `custevent_nx_case_transaction` from each result to obtain the Sales Order ID.
-3. The script must update `custbody_sna_hul_service_bucket_` to `1` (Parts).
-4. If submitFields fails, the script must retry via record load and save.
-5. The script must trigger workflow `customworkflow_sna_hul_so_approval` action `workflowaction271`.
-
-### Acceptance Criteria
-
-- [ ] Sales Orders have Service Bucket set to Parts.
-- [ ] Approval workflow action is triggered for each order.
-- [ ] Errors are logged without halting the run.
+## 5. Functional Requirements
+- The script must load a saved search from parameter `custscript_so_appr_fwd_bucket_search`.
+- The script must read `custevent_nx_case_transaction` from each result to obtain the Sales Order ID.
+- The script must update `custbody_sna_hul_service_bucket_` to `1` (Parts).
+- If submitFields fails, the script must retry via record load and save.
+- The script must trigger workflow `customworkflow_sna_hul_so_approval` action `workflowaction271`.
 
 ---
 
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Modify other Sales Order fields.
-- Change workflow definitions or routing rules.
-
----
-
-## 6. Design Considerations
-
-### User Interface
-- None; backend automation.
-
-### User Experience
-- Orders progress through approval with correct bucket assignment.
-
-### Design References
-- None.
-
----
-
-## 7. Technical Considerations
-
-### NetSuite Components Required
-
-**Record Types:**
+## 6. Data Contract
+### Record Types Involved
 - Sales Order (`salesorder`)
 - Support Case (`supportcase`) or search source record containing `custevent_nx_case_transaction`
 
-**Script Types:**
-- [x] Map/Reduce - Bucket update and workflow trigger
-- [ ] Scheduled Script - Not used
-- [ ] Suitelet - Not used
-- [ ] RESTlet - Not used
-- [ ] User Event - Not used
-- [ ] Client Script - Not used
-
-**Custom Fields:**
+### Fields Referenced
 - Sales Order | `custbody_sna_hul_service_bucket_`
 - Case/Source Record | `custevent_nx_case_transaction`
 
-**Saved Searches:**
-- Search from parameter `custscript_so_appr_fwd_bucket_search`.
-
-### Integration Points
-- Workflow `customworkflow_sna_hul_so_approval` (action `workflowaction271`).
-
-### Data Requirements
-
-**Data Volume:**
-- Processes all results from the configured search.
-
-**Data Sources:**
-- Saved search results containing Sales Order references.
-
-**Data Retention:**
-- No data retention beyond Sales Order updates.
-
-### Technical Constraints
-- Requires Service Bucket field and workflow to be active.
-
-### Dependencies
-
-**Libraries needed:**
-- None.
-
-**External dependencies:**
-- None.
-
-**Other features:**
-- Workflow deployment and search configuration.
-
-### Governance Considerations
-- One Sales Order update and workflow trigger per result row.
+Schemas (if known):
+- TBD
 
 ---
 
-## 8. Success Metrics
-
-- Sales Orders are routed to Parts bucket and approval workflow is triggered.
-
----
-
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| sna_hul_mr_so_approve_forward.js | Map/Reduce | Update bucket and trigger approval workflow | Implemented |
-
-### Development Approach (Phase 1/Phase 2)
-- **Phase 1:** Load search results and identify Sales Orders.
-- **Phase 2:** Update Service Bucket and trigger workflow.
+## 7. Validation & Edge Cases
+- SubmitFields failure retries via record load and save.
+- Workflow trigger failure is logged.
 
 ---
 
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. Sales Orders from the search update bucket and trigger workflow.
-
-**Edge Cases:**
-1. SubmitFields failure retries via record load and save.
-
-**Error Handling:**
-1. Workflow trigger failure is logged.
-
-### Test Data Requirements
-- Saved search returning Sales Orders that should move to Parts.
-
-### Sandbox Setup
-- Ensure workflow `customworkflow_sna_hul_so_approval` is active.
+## 8. Implementation Notes (Optional)
+- Performance/governance considerations: One Sales Order update and workflow trigger per result row.
+- Constraints: Requires Service Bucket field and workflow to be active.
+- Dependencies: Workflow deployment and search configuration.
+- Risk: Incorrect bucket assignment.
 
 ---
 
-## 11. Security & Permissions
-
-### Roles & Permissions
-**Roles that need access:**
-- Admin or workflow admin roles.
-
-**Permissions required:**
-- Edit Sales Orders and execute workflows.
-
-### Data Security
-- Standard Sales Order access controls.
+## 9. Acceptance Criteria
+- Given Sales Orders from the search, when the script runs, then Sales Orders have Service Bucket set to Parts.
+- Given a Sales Order is updated, when the script runs, then the approval workflow action is triggered for the order.
+- Given errors occur, when the script runs, then errors are logged without halting the run.
 
 ---
 
-## 12. Deployment Plan
+## 10. Testing Notes
+- Happy path: Sales Orders from the search update bucket and trigger workflow.
+- Edge case: SubmitFields failure retries via record load and save.
+- Error handling: Workflow trigger failure is logged.
+- Test data: Saved search returning Sales Orders that should move to Parts.
+- Sandbox setup: Ensure workflow `customworkflow_sna_hul_so_approval` is active.
 
-### Pre-Deployment Checklist
+---
+
+## 11. Deployment Notes
 - Configure search parameter `custscript_so_appr_fwd_bucket_search`.
-
-### Deployment Steps
-1. Upload `sna_hul_mr_so_approve_forward.js`.
-2. Deploy Map/Reduce with search parameter.
-
-### Post-Deployment
-- Validate Service Bucket changes on sample orders.
-
-### Rollback Plan
-- Disable the script deployment.
+- Upload `sna_hul_mr_so_approve_forward.js`.
+- Deploy Map/Reduce with search parameter.
+- Post-deployment: Validate Service Bucket changes on sample orders.
+- Rollback plan: Disable the script deployment.
 
 ---
 
-## 13. Timeline
-
-| Milestone | Target Date | Actual Date | Status |
-|-----------|-------------|-------------|--------|
-| PRD Approval | | | |
-| Development Complete | | | |
-| Production Deploy | | | |
-
----
-
-## 14. Open Questions & Risks
-
-### Open Questions
-- [ ] Should the workflow trigger be conditional on current bucket value?
-
-### Known Risks
-
-| Risk | Likelihood | Impact | Mitigation Strategy |
-|------|------------|--------|---------------------|
-| Incorrect bucket assignment | Low | Med | Validate search criteria and bucket value |
+## 12. Open Questions / TBDs
+- Created date is not specified.
+- Last updated date is not specified.
+- Script ID is not specified.
+- Deployment ID is not specified.
+- Schema details are not specified.
+- Should the workflow trigger be conditional on current bucket value?
+- Timeline milestone dates are not specified.
+- Revision history date is not specified.
 
 ---
-
-## 15. References & Resources
-
-### Related PRDs
-- None.
-
-### NetSuite Documentation
-- SuiteScript 2.x Map/Reduce
-- Workflow.trigger
-
-### External Resources
-- None.
-
----
-
-## Revision History
-
-| Date | Author | Version | Changes |
-|------|--------|---------|---------|
-| Unknown | Jeremy Cady | 1.0 | Initial draft |

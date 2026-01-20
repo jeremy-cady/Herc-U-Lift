@@ -1,278 +1,89 @@
-# PRD: Bulk Invoice Update Trigger (Map/Reduce)
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-BulkInvoiceUpdateMR
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Jeremy Cady
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/SNA/sna_hul_mr_bulk_update.js (Map/Reduce)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-BulkInvoiceUpdateMR
+title: Bulk Invoice Update Trigger (Map/Reduce)
+status: Implemented
+owner: Jeremy Cady
+created: TBD
+last_updated: TBD
 
-**Script Deployment (if applicable):**
-- Script ID: Not specified
-- Deployment ID: Not specified
+script:
+  type: map_reduce
+  file: FileCabinet/SuiteScripts/SNA/sna_hul_mr_bulk_update.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - Invoice
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
+## 1. Overview
 A Map/Reduce script that loads invoices from a saved search and re-saves them to trigger User Event logic.
 
-**What problem does it solve?**
+## 2. Business Goal
 Provides a controlled way to reprocess invoices in bulk when User Events need to re-run.
 
-**Primary Goal:**
-Trigger invoice User Event scripts by loading and saving invoices from a saved search.
+## 3. User Story
+As an admin, when I need to re-run invoice User Events in bulk, I want a bulk trigger, so that I can rerun logic without manual edits.
 
----
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| TBD | `custscript_sna_bulk_srch_upd` | Script run | Load and save invoices to trigger User Events |
 
-## 2. Goals
+## 5. Functional Requirements
+- The system must load a saved search ID from `custscript_sna_bulk_srch_upd`.
+- The system must parse each search result and load the invoice record by ID.
+- The system must save the invoice record without changes to trigger User Events.
+- The system must log updated invoice IDs.
+- The system must log any map errors in the summarize stage.
 
-1. Load a saved search specified by a script parameter.
-2. Iterate through invoice results and resave each invoice.
-3. Log processing and errors during the run.
-
----
-
-## 3. User Stories
-
-1. **As an** admin, **I want** to re-run invoice User Events in bulk **so that** data is corrected.
-2. **As a** developer, **I want** a simple bulk trigger **so that** I can rerun logic without manual edits.
-3. **As an** accountant, **I want** invoices reprocessed **so that** related fields update consistently.
-
----
-
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. The system must load a saved search ID from `custscript_sna_bulk_srch_upd`.
-2. The system must parse each search result and load the invoice record by ID.
-3. The system must save the invoice record without changes to trigger User Events.
-4. The system must log updated invoice IDs.
-5. The system must log any map errors in the summarize stage.
-
-### Acceptance Criteria
-
-- [ ] Invoices from the saved search are loaded and saved.
-- [ ] User Event scripts are triggered by the save.
-- [ ] Errors are logged in the summarize stage.
-
----
-
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Apply field updates directly.
-- Modify invoice data intentionally.
-- Process records outside the saved search.
-
----
-
-## 6. Design Considerations
-
-### User Interface
-- None (batch processing).
-
-### User Experience
-- Background process re-saves invoices without UI interaction.
-
-### Design References
-- Saved search specified by script parameter.
-
----
-
-## 7. Technical Considerations
-
-### NetSuite Components Required
-
-**Record Types:**
+## 6. Data Contract
+### Record Types Involved
 - Invoice
 
-**Script Types:**
-- [x] Map/Reduce - Bulk invoice re-save
-- [ ] Scheduled Script - Not used
-- [ ] Suitelet - Not used
-- [ ] RESTlet - Not used
-- [ ] User Event - Triggered by invoice save
-- [ ] Client Script - Not used
+### Fields Referenced
+- Script parameter | `custscript_sna_bulk_srch_upd`
 
-**Custom Fields:**
-- None.
+Schemas (if known):
+- TBD
 
-**Saved Searches:**
-- Saved search referenced by `custscript_sna_bulk_srch_upd`.
+## 7. Validation & Edge Cases
+- Saved search ID missing or invalid.
+- Invoice load fails for a result.
+- Map errors are logged in summarize.
 
-### Integration Points
-- None.
-
-### Data Requirements
-
-**Data Volume:**
-- One save per invoice in the search.
-
-**Data Sources:**
-- Saved search results.
-
-**Data Retention:**
-- No data retained; invoices are re-saved.
-
-### Technical Constraints
+## 8. Implementation Notes (Optional)
 - Map stage saves invoices without modification.
 - Reduce stage is unused.
 
-### Dependencies
-- **Libraries needed:** None.
-- **External dependencies:** None.
-- **Other features:** User Event scripts on invoice.
+## 9. Acceptance Criteria
+- Given a saved search, when the script runs, then invoices are loaded and saved.
+- Given the script runs, when invoices are saved, then User Event scripts are triggered.
+- Given errors occur, when the script runs, then they are logged in summarize.
 
-### Governance Considerations
-- One load/save per invoice; governance usage scales with result count.
+## 10. Testing Notes
+- Saved search returns invoices; each is saved and logged.
+- Saved search ID missing or invalid.
+- Invoice load fails for a result.
+- Map errors are logged in summarize.
 
----
+## 11. Deployment Notes
+- Upload `sna_hul_mr_bulk_update.js`.
+- Set `custscript_sna_bulk_srch_upd` to a saved search ID.
+- Run the Map/Reduce in sandbox.
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- User Event logic runs for all invoices in the search.
-
-**How we'll measure:**
-- Confirm updated fields or logs produced by downstream User Events.
-
----
-
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| sna_hul_mr_bulk_update.js | Map/Reduce | Re-save invoices to trigger User Events | Implemented |
-
-### Development Approach
-
-**Phase 1:** Input search
-- [x] Load saved search from script parameter.
-
-**Phase 2:** Re-save invoices
-- [x] Load and save each invoice in map stage.
+## 12. Open Questions / TBDs
+- Script ID: TBD
+- Deployment ID: TBD
+- Created date: TBD
+- Last updated date: TBD
+- Should the script support record types other than invoices?
+- Should map stage include error retries for failed saves?
+- Risk: Large searches consume governance (Mitigation: Limit search size or schedule runs)
+- Risk: Re-saving triggers unintended side effects (Mitigation: Validate UE logic before run)
 
 ---
-
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. Saved search returns invoices; each is saved and logged.
-
-**Edge Cases:**
-1. Saved search ID missing or invalid.
-2. Invoice load fails for a result.
-
-**Error Handling:**
-1. Map errors are logged in summarize.
-
-### Test Data Requirements
-- Saved search with a small set of invoices.
-
-### Sandbox Setup
-- Map/Reduce deployment with `custscript_sna_bulk_srch_upd` set.
-
----
-
-## 11. Security & Permissions
-
-### Roles & Permissions
-
-**Roles that need access:**
-- Script deployment role with edit access to invoices.
-
-**Permissions required:**
-- View and edit invoices
-
-### Data Security
-- No external data transmitted.
-
----
-
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-
-- [ ] Code review completed
-- [ ] All tests passing in sandbox
-- [ ] Documentation updated (scripts commented, README updated)
-- [ ] PRD_SCRIPT_INDEX.md updated
-- [ ] Stakeholder approval obtained
-- [ ] User training materials prepared (if needed)
-
-### Deployment Steps
-
-1. Upload `sna_hul_mr_bulk_update.js`.
-2. Set `custscript_sna_bulk_srch_upd` to a saved search ID.
-3. Run the Map/Reduce in sandbox.
-
-### Post-Deployment
-
-- [ ] Verify invoices were processed and updated.
-- [ ] Update PRD status to "Implemented".
-
-### Rollback Plan
-
-**If deployment fails:**
-1. Disable the Map/Reduce deployment.
-
----
-
-## 13. Timeline
-
-| Milestone | Target Date | Actual Date | Status |
-|-----------|-------------|-------------|--------|
-| PRD Approval | | | |
-| Development Start | | | |
-| Development Complete | | | |
-| Testing Complete | | | |
-| Stakeholder Review | | | |
-| Production Deploy | | | |
-
----
-
-## 14. Open Questions & Risks
-
-### Open Questions
-
-- [ ] Should the script support record types other than invoices?
-- [ ] Should map stage include error retries for failed saves?
-
-### Known Risks
-
-| Risk | Likelihood | Impact | Mitigation Strategy |
-|------|------------|--------|---------------------|
-| Large searches consume governance | Med | Med | Limit search size or schedule runs |
-| Re-saving triggers unintended side effects | Med | Med | Validate UE logic before run |
-
----
-
-## 15. References & Resources
-
-### Related PRDs
-- None.
-
-### NetSuite Documentation
-- SuiteScript 2.x Map/Reduce
-- record.load and record.save APIs
-
-### External Resources
-- None.
-
----
-
-## Revision History
-
-| Date | Author | Version | Changes |
-|------|--------|---------|
-| Unknown | Jeremy Cady | 1.0 | Initial draft |

@@ -1,241 +1,102 @@
-# PRD: Sales Rep Matrix Mapping Client Script
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-SalesRepMatrixMapping
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Jeremy Cady
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/sna_hul_cs_sales_rep_matrix_mapping.js (Client Script)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-SalesRepMatrixMapping
+title: Sales Rep Matrix Mapping Client Script
+status: Implemented
+owner: Jeremy Cady
+created: TBD
+last_updated: TBD
 
-**Script Deployment (if applicable):**
-- Script ID: Not specified
-- Deployment ID: Not specified
+script:
+  type: client
+  file: FileCabinet/SuiteScripts/sna_hul_cs_sales_rep_matrix_mapping.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - Custom Record (Sales Rep Matrix Customer Mapping)
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
+## 1. Overview
 A client script on the Sales Rep Matrix Customer Mapping record that forces the override flag when editing a Sales Rep mapping.
 
-**What problem does it solve?**
-It ensures override logic is preserved when editing mapping records via a special URL parameter.
+---
 
-**Primary Goal:**
-Set the override checkbox automatically when edit mode is triggered with the `editSalesRep` parameter.
+## 2. Business Goal
+Ensure override logic is preserved when editing mapping records via a special URL parameter.
 
 ---
 
-## 2. Goals
-
-1. Auto-set the override flag during edit flow.
-2. Reload the record with `editSalesRep=T` when override is enabled.
+## 3. User Story
+As an admin, when I edit sales rep mappings, I want override mode preserved, so that mapping updates are intentional.
 
 ---
 
-## 3. User Stories
-
-1. **As an** admin, **I want** override mode preserved when editing **so that** mapping updates are intentional.
-
----
-
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. On page init, if URL parameter `editSalesRep` is `T`, the script must set `custrecord_salesrep_mapping_override` to true.
-2. When `custrecord_salesrep_mapping_override` changes to true, the script must reload the record in edit mode with `editSalesRep=T` in the URL.
-
-### Acceptance Criteria
-
-- [ ] Override flag is set automatically when editing with `editSalesRep=T`.
-- [ ] Enabling override refreshes the record in edit mode.
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| pageInit | editSalesRep | URL parameter is T | Set custrecord_salesrep_mapping_override to true |
+| fieldChanged | custrecord_salesrep_mapping_override | value set to true | Reload record with editSalesRep=T |
 
 ---
 
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Validate sales rep mappings.
-- Update any related transaction data.
+## 5. Functional Requirements
+- On page init, if URL parameter `editSalesRep` is `T`, set `custrecord_salesrep_mapping_override` to true.
+- When `custrecord_salesrep_mapping_override` changes to true, reload the record in edit mode with `editSalesRep=T` in the URL.
 
 ---
 
-## 6. Design Considerations
+## 6. Data Contract
+### Record Types Involved
+- Custom Record (Sales Rep Matrix Customer Mapping)
 
-### User Interface
-- Uses URL parameters to control override behavior.
+### Fields Referenced
+- custrecord_salesrep_mapping_override
 
-### User Experience
-- Users editing mapping records see override automatically enabled.
-
-### Design References
-- None.
+Schemas (if known):
+- TBD
 
 ---
 
-## 7. Technical Considerations
+## 7. Validation & Edge Cases
+- Missing record ID should prevent reload.
+- URL param removed by navigation.
 
-### NetSuite Components Required
+---
 
-**Record Types:**
-- Custom Record | Sales Rep Matrix Customer Mapping
-
-**Script Types:**
-- [ ] Map/Reduce - Not used
-- [ ] Scheduled Script - Not used
-- [ ] Suitelet - Not used
-- [ ] RESTlet - Not used
-- [ ] User Event - Not used
-- [x] Client Script - Mapping override control
-
-**Custom Fields:**
-- `custrecord_salesrep_mapping_override`
-
-**Saved Searches:**
-- None.
-
-### Integration Points
-- None.
-
-### Data Requirements
-
-**Data Volume:**
-- Single record update per edit.
-
-**Data Sources:**
-- URL parameter and record field value.
-
-**Data Retention:**
-- Updates the mapping record only.
-
-### Technical Constraints
+## 8. Implementation Notes (Optional)
 - Relies on browser URL parameter `editSalesRep`.
 
-### Dependencies
-- **Libraries needed:** N/url.
-- **External dependencies:** None.
-- **Other features:** Mapping record edit flow.
+---
 
-### Governance Considerations
-- Client-side only.
+## 9. Acceptance Criteria
+- Given `editSalesRep=T`, when the record loads, then override flag is set automatically.
+- Given override set to true, when changed, then the record reloads with the parameter.
 
 ---
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- Override mode persists during edits of mapping records.
+## 10. Testing Notes
+- Open mapping record with `editSalesRep=T`; verify override checked.
+- Toggle override without URL parameter; verify record reloads with parameter.
 
 ---
 
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| sna_hul_cs_sales_rep_matrix_mapping.js | Client Script | Enable override on mapping edit | Implemented |
-
-### Development Approach (Phase 1/Phase 2)
-- **Phase 1:** Add page init override behavior.
-- **Phase 2:** Add edit-mode reload on override change.
+## 11. Deployment Notes
+- Upload `sna_hul_cs_sales_rep_matrix_mapping.js`.
+- Deploy to the Sales Rep Matrix Customer Mapping record.
+- Rollback: remove client script deployment.
 
 ---
 
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. Open mapping record with `editSalesRep=T` and verify override is checked.
-
-**Edge Cases:**
-1. Toggle override without URL parameter; record reloads with parameter.
-
-**Error Handling:**
-1. Missing record ID should prevent reload.
-
-### Test Data Requirements
-- Sales rep mapping record available for edit.
-
-### Sandbox Setup
-- Deploy client script to the mapping record.
+## 12. Open Questions / TBDs
+- Created date is TBD.
+- Last updated date is TBD.
+- Script ID is TBD.
+- Deployment ID is TBD.
+- Should override be set only when editing specific fields?
+- Risk: URL param removed by navigation.
 
 ---
-
-## 11. Security & Permissions
-
-### Roles & Permissions
-**Roles that need access:**
-- Admins managing sales rep mappings.
-
-**Permissions required:**
-- Edit mapping records.
-
-### Data Security
-- No sensitive data handled.
-
----
-
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-- Confirm mapping record deployment.
-
-### Deployment Steps
-1. Upload `sna_hul_cs_sales_rep_matrix_mapping.js`.
-2. Deploy to the Sales Rep Matrix Customer Mapping record.
-
-### Post-Deployment
-- Verify override flag behavior on edit.
-
-### Rollback Plan
-- Remove client script deployment.
-
----
-
-## 13. Timeline
-
-| Milestone | Target Date | Actual Date | Status |
-|-----------|-------------|-------------|--------|
-| PRD Approval | | | |
-| Development Complete | | | |
-| Production Deploy | | | |
-
----
-
-## 14. Open Questions & Risks
-
-### Open Questions
-- [ ] Should override be set only when editing specific fields?
-
-### Known Risks
-
-| Risk | Likelihood | Impact | Mitigation Strategy |
-|------|------------|--------|---------------------|
-| URL param removed by navigation | Low | Low | Keep edit flow consistent |
-
----
-
-## 15. References & Resources
-
-### Related PRDs
-- None.
-
-### NetSuite Documentation
-- SuiteScript 2.1 Client Script
-
-### External Resources
-- None.
-
----
-
-## Revision History
-
-| Date | Author | Version | Changes |
-|------|--------|---------|---------|
-| Unknown | Jeremy Cady | 1.0 | Initial draft |

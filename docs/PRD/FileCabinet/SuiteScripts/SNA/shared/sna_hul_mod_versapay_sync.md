@@ -1,275 +1,89 @@
-# PRD: VersaPay Sync Prevention Helper
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-VersaPaySyncModule
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Jeremy Cady
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/SNA/shared/sna_hul_mod_versapay_sync.js (Library)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-VersaPaySyncModule
+title: VersaPay Sync Prevention Helper
+status: Implemented
+owner: Jeremy Cady
+created: TBD
+last_updated: TBD
 
-**Script Deployment (if applicable):**
-- Script ID: Not specified
-- Deployment ID: Not specified
+script:
+  type: library
+  file: FileCabinet/SuiteScripts/SNA/shared/sna_hul_mod_versapay_sync.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - Custom Segment: Revenue Stream (`customrecord_cseg_sna_revenue_st`)
+  - Transaction (caller record)
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
+## 1. Overview
 A shared module that marks transactions as "do not sync" with VersaPay based on the revenue stream configuration.
 
-**What problem does it solve?**
+## 2. Business Goal
 Automatically prevents internal revenue stream transactions from syncing to VersaPay.
 
-**Primary Goal:**
-Set `custbody_versapay_do_not_sync` when the revenue stream is internal.
+## 3. User Story
+As an AR admin, when transactions use internal revenue streams, I want internal transactions excluded from VersaPay, so that only external invoices sync.
 
----
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| TBD | `cseg_sna_revenue_st` | Revenue stream present | Set `custbody_versapay_do_not_sync` to internal flag value |
 
-## 2. Goals
+## 5. Functional Requirements
+- The system must read `cseg_sna_revenue_st` from the current record.
+- If no revenue stream is present, the system must exit without changes.
+- The system must lookup `custrecord_sna_hul_revstreaminternal` on the revenue stream record.
+- The system must set `custbody_versapay_do_not_sync` on the current record to the lookup value.
+- Errors in lookup must be logged without throwing.
 
-1. Identify the revenue stream on a transaction.
-2. Determine if the revenue stream is internal.
-3. Set the VersaPay sync flag accordingly.
-
----
-
-## 3. User Stories
-
-1. **As an** AR admin, **I want** internal transactions excluded from VersaPay **so that** only external invoices sync.
-2. **As a** developer, **I want** a reusable helper **so that** multiple scripts can apply the same rule.
-3. **As an** auditor, **I want** sync flags applied consistently **so that** data integrity is preserved.
-
----
-
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. The system must read `cseg_sna_revenue_st` from the current record.
-2. If no revenue stream is present, the system must exit without changes.
-3. The system must lookup `custrecord_sna_hul_revstreaminternal` on the revenue stream record.
-4. The system must set `custbody_versapay_do_not_sync` on the current record to the lookup value.
-5. Errors in lookup must be logged without throwing.
-
-### Acceptance Criteria
-
-- [ ] Transactions with internal revenue streams have `custbody_versapay_do_not_sync` set to true.
-- [ ] Transactions without a revenue stream are not modified.
-- [ ] Lookup failures are logged.
-
----
-
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Sync or transmit data to VersaPay.
-- Validate revenue stream records beyond the internal flag.
-- Update any other transaction fields.
-
----
-
-## 6. Design Considerations
-
-### User Interface
-- None (helper module).
-
-### User Experience
-- Transactions are flagged automatically based on revenue stream configuration.
-
-### Design References
-- Custom segment `cseg_sna_revenue_st` and flag `custrecord_sna_hul_revstreaminternal`.
-
----
-
-## 7. Technical Considerations
-
-### NetSuite Components Required
-
-**Record Types:**
+## 6. Data Contract
+### Record Types Involved
 - Custom Segment: Revenue Stream (`customrecord_cseg_sna_revenue_st`)
 - Transaction (caller record)
 
-**Script Types:**
-- [ ] Map/Reduce - Not used
-- [ ] Scheduled Script - Not used
-- [ ] Suitelet - Not used
-- [ ] RESTlet - Not used
-- [ ] User Event - Used by consuming scripts
-- [ ] Client Script - Not used
-
-**Custom Fields:**
+### Fields Referenced
 - Transaction | `cseg_sna_revenue_st`
 - Transaction | `custbody_versapay_do_not_sync`
 - Revenue Stream | `custrecord_sna_hul_revstreaminternal`
 
-**Saved Searches:**
-- None.
+Schemas (if known):
+- TBD
 
-### Integration Points
-- None (VersaPay integration handled elsewhere).
+## 7. Validation & Edge Cases
+- Transaction with no revenue stream does nothing.
+- Revenue stream lookup fails; error logged.
 
-### Data Requirements
-
-**Data Volume:**
-- One lookup per transaction update.
-
-**Data Sources:**
-- Revenue stream custom segment record.
-
-**Data Retention:**
-- Updates current transaction field only.
-
-### Technical Constraints
+## 8. Implementation Notes (Optional)
 - Uses `search.lookupFields.promise` and sets field asynchronously.
 
-### Dependencies
-- **Libraries needed:** None.
-- **External dependencies:** None.
-- **Other features:** Called by scripts that process transactions.
+## 9. Acceptance Criteria
+- Given an internal revenue stream, when the helper runs, then `custbody_versapay_do_not_sync` is set to true.
+- Given no revenue stream, when the helper runs, then no changes are made.
+- Given a lookup failure, when the helper runs, then the error is logged.
 
-### Governance Considerations
-- One lookupFields call per invocation.
+## 10. Testing Notes
+- Transaction with internal revenue stream sets do-not-sync flag.
+- Transaction with no revenue stream does nothing.
+- Revenue stream lookup fails; error logged.
 
----
+## 11. Deployment Notes
+- Upload `sna_hul_mod_versapay_sync.js`.
+- Ensure consuming scripts import and call the helper.
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- Internal revenue stream transactions consistently skip VersaPay sync.
-
-**How we'll measure:**
-- Review transactions for `custbody_versapay_do_not_sync` flags.
-
----
-
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| sna_hul_mod_versapay_sync.js | Library | Prevent VersaPay sync for internal revenue | Implemented |
-
-### Development Approach
-
-**Phase 1:** Revenue stream lookup
-- [x] Fetch internal flag from revenue stream record.
-
-**Phase 2:** Flag update
-- [x] Set `custbody_versapay_do_not_sync` on the current record.
+## 12. Open Questions / TBDs
+- Script ID: TBD
+- Deployment ID: TBD
+- Created date: TBD
+- Last updated date: TBD
+- Should the helper also clear the flag when revenue stream is not internal?
+- Should lookup failures block record save?
+- Risk: Async lookup completes after record save (Mitigation: Ensure caller waits or runs in beforeSubmit)
+- Risk: Incorrect revenue stream configuration (Mitigation: Validate configuration periodically)
 
 ---
-
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. Transaction with internal revenue stream sets do-not-sync flag.
-
-**Edge Cases:**
-1. Transaction with no revenue stream does nothing.
-2. Revenue stream lookup fails; error logged.
-
-**Error Handling:**
-1. lookupFields promise rejection logs error.
-
-### Test Data Requirements
-- Revenue stream record with `custrecord_sna_hul_revstreaminternal` set.
-
-### Sandbox Setup
-- Consuming script deployed on transactions that reference revenue stream segment.
-
----
-
-## 11. Security & Permissions
-
-### Roles & Permissions
-
-**Roles that need access:**
-- Script deployment role with permission to view revenue stream records.
-
-**Permissions required:**
-- View custom segment records
-- Edit transactions (to set do-not-sync field)
-
-### Data Security
-- Updates only a boolean flag on the transaction.
-
----
-
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-
-- [ ] Code review completed
-- [ ] Documentation updated
-
-### Deployment Steps
-
-1. Upload `sna_hul_mod_versapay_sync.js`.
-2. Ensure consuming scripts import and call the helper.
-
-### Post-Deployment
-
-- [ ] Verify do-not-sync flags on internal revenue stream transactions.
-- [ ] Update PRD status to "Implemented".
-
-### Rollback Plan
-
-**If deployment fails:**
-1. Remove module reference from consuming scripts or redeploy prior version.
-
----
-
-## 13. Timeline
-
-| Milestone | Target Date | Actual Date | Status |
-|-----------|-------------|-------------|--------|
-| PRD Approval | | | |
-| Development Start | | | |
-| Development Complete | | | |
-| Testing Complete | | | |
-| Stakeholder Review | | | |
-| Production Deploy | | | |
-
----
-
-## 14. Open Questions & Risks
-
-### Open Questions
-
-- [ ] Should the helper also clear the flag when revenue stream is not internal?
-- [ ] Should lookup failures block record save?
-
-### Known Risks
-
-| Risk | Likelihood | Impact | Mitigation Strategy |
-|------|------------|--------|---------------------|
-| Async lookup completes after record save | Med | Med | Ensure caller waits or runs in beforeSubmit |
-| Incorrect revenue stream configuration | Low | Med | Validate configuration periodically |
-
----
-
-## 15. References & Resources
-
-### Related PRDs
-- None.
-
-### NetSuite Documentation
-- SuiteScript 2.x search.lookupFields
-
-### External Resources
-- VersaPay integration docs (if applicable)
-
----
-
-## Revision History
-
-| Date | Author | Version | Changes |
-|------|--------|---------|---------|
-| Unknown | Jeremy Cady | 1.0 | Initial draft |
