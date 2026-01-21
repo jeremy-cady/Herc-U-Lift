@@ -1,100 +1,62 @@
-# PRD: Select Objects
+# PRD_TEMPLATE.md
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-SelectObjects
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Jeremy Cady
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/sna_hul_sl_selectobjects.js (Suitelet)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-SelectObjects
+title: Select Objects
+status: Implemented
+owner: Jeremy Cady
+created: Unknown
+last_updated: Unknown
 
-**Script Deployment:** Not specified
+script:
+  type: suitelet
+  file: FileCabinet/SuiteScripts/sna_hul_sl_selectobjects.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - customrecord_sna_objects
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
+## 1. Overview
 Suitelet that displays available rental objects and allows selection for rental workflows.
 
-**What problem does it solve?**
+---
+
+## 2. Business Goal
 Provides a filtered, paged list of objects so users can pick the correct equipment.
 
-**Primary Goal:**
-Select a rental object and pass it to the configuration flow.
+---
+
+## 3. User Story
+- As a rental user, when I filter objects by segment and location, I want to find the right equipment, so that rental setup is accurate.
+- As a rental user, when I select an object and continue, I want to configure the order line, so that the workflow continues.
 
 ---
 
-## 2. Goals
-
-1. Provide search filters for object selection.
-2. Display paged results of available objects.
-3. Pass selected object to the configure object suitelet.
-
----
-
-## 3. User Stories
-
-1. **As a** rental user, **I want to** filter objects by segment and location **so that** I can find the right equipment.
-2. **As a** rental user, **I want to** select an object and continue **so that** I can configure the order line.
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| Suitelet request | object, fleet code, segment, model, manufacturer, location | Filters provided | Display paged object results and pass selection to configuration |
 
 ---
 
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. The Suitelet must accept filters such as object, fleet code, segment, model, manufacturer, and location.
-2. The Suitelet must search `customrecord_sna_objects` using the filter criteria.
-3. The Suitelet must display paged results with select radio buttons.
-4. The Suitelet must redirect to `sna_hul_sl_configureobject` with the selected object and context.
-
-### Acceptance Criteria
-
-- [ ] Filtered object results display in a paged sublist.
-- [ ] Selection is passed to the configure object suitelet.
+## 5. Functional Requirements
+- Accept filters such as object, fleet code, segment, model, manufacturer, and location.
+- Search `customrecord_sna_objects` using the filter criteria.
+- Display paged results with select radio buttons.
+- Redirect to `sna_hul_sl_configureobject` with the selected object and context.
 
 ---
 
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Update object records.
-- Validate rental eligibility beyond filters.
-- Create rental transactions directly.
-
----
-
-## 6. Design Considerations
-
-### User Interface
-- Form titled "Available Objects" with filters and results sublist.
-
-### User Experience
-- Paged navigation with select and submit.
-
-### Design References
-- Client script `sna_hul_cs_selectobjects.js`.
-
----
-
-## 7. Technical Considerations
-
-### NetSuite Components Required
-
-**Record Types:**
+## 6. Data Contract
+### Record Types Involved
 - customrecord_sna_objects
 
-**Script Types:**
-- [ ] Map/Reduce - N/A
-- [ ] Scheduled Script - N/A
-- [x] Suitelet - Object selection UI
-- [ ] RESTlet - N/A
-- [ ] User Event - N/A
-- [ ] Client Script - N/A
-
-**Custom Fields:**
+### Fields Referenced
 - customrecord_sna_objects | custrecord_sna_owner_status | Owner status
 - customrecord_sna_objects | custrecord_sna_posting_status | Posting status
 - customrecord_sna_objects | custrecord_sna_hul_rent_dummy | Dummy flag
@@ -103,171 +65,48 @@ Select a rental object and pass it to the configuration flow.
 - customrecord_sna_objects | custrecord_sna_fleet_code | Fleet code
 - customrecord_sna_objects | custrecord_sna_responsibility_center | Responsibility center
 
-**Saved Searches:**
-- None (script builds search at runtime).
-
-### Integration Points
-- Redirects to `sna_hul_sl_configureobject`.
-
-### Data Requirements
-
-**Data Volume:**
-- Paged object search results.
-
-**Data Sources:**
-- Object records and location data.
-
-**Data Retention:**
-- No data changes.
-
-### Technical Constraints
-- Uses date filtering for earliest available date.
-
-### Dependencies
-- **Libraries needed:** None
-- **External dependencies:** None
-- **Other features:** Rental configuration flow
-
-### Governance Considerations
-
-- **Script governance:** Search paging per request.
-- **Search governance:** Dynamic filters with joins.
-- **API limits:** Moderate depending on result volume.
+Schemas (if known):
+- TBD
 
 ---
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- Users can find and select objects efficiently.
-
-**How we'll measure:**
-- User feedback and selection accuracy.
+## 7. Validation & Edge Cases
+- No results returns empty sublist.
+- Earliest date filter excludes future availability.
+- Invalid filters do not crash the UI.
 
 ---
 
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| sna_hul_sl_selectobjects.js | Suitelet | Select available objects | Implemented |
-
-### Development Approach
-
-**Phase 1:** Filter validation
-- [ ] Confirm filter logic and pagination
-
-**Phase 2:** Flow validation
-- [ ] Test redirect to configure object
+## 8. Implementation Notes (Optional)
+- Script must reuse existing deployment: TBD
+- Dispatcher required: TBD
+- Performance/governance considerations: Search paging per request.
 
 ---
 
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. Filters return object results and selection redirects.
-
-**Edge Cases:**
-1. No results returns empty sublist.
-2. Earliest date filter excludes future availability.
-
-**Error Handling:**
-1. Invalid filters do not crash the UI.
-
-### Test Data Requirements
-- Objects with various segments and availability dates
-
-### Sandbox Setup
-- Deploy Suitelet and client script
+## 9. Acceptance Criteria
+- Given filters are set, when the Suitelet runs, then filtered object results display in a paged sublist.
+- Given an object is selected, when the Suitelet redirects, then selection is passed to the configure object suitelet.
 
 ---
 
-## 11. Security & Permissions
-
-### Roles & Permissions
-
-**Roles that need access:**
-- Rental operations roles
-
-**Permissions required:**
-- View access to object records
-
-### Data Security
-- Object availability data should be restricted to authorized roles.
+## 10. Testing Notes
+Manual tests:
+- Filters return object results and selection redirects.
+- No results returns empty sublist.
+- Earliest date filter excludes future availability.
+- Invalid filters do not crash the UI.
 
 ---
 
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-
-- [ ] Confirm redirect target suitelet is deployed
-
-### Deployment Steps
-
-1. Deploy Suitelet.
-2. Add entry point in rental flow.
-
-### Post-Deployment
-
-- [ ] Validate selection flow
-
-### Rollback Plan
-
-**If deployment fails:**
-1. Disable Suitelet.
-2. Revert rental flow to prior selection method.
+## 11. Deployment Notes
+- Confirm redirect target suitelet is deployed.
+- Deploy Suitelet.
+- Add entry point in rental flow.
 
 ---
 
-## 13. Timeline
-
-| Milestone | Target Date | Actual Date | Status |
-|-----------|-------------|-------------|--------|
-| PRD Approval | | | |
-| Development Start | | | |
-| Development Complete | | | |
-| Testing Complete | | | |
-| Stakeholder Review | | | |
-| Production Deploy | | | |
+## 12. Open Questions / TBDs
+- Should selection allow multi-object selection?
 
 ---
-
-## 14. Open Questions & Risks
-
-### Open Questions
-
-- [ ] Should selection allow multi-object selection?
-
-### Known Risks
-
-| Risk | Likelihood | Impact | Mitigation Strategy |
-|------|------------|--------|---------------------|
-| Filter logic excludes valid objects | Low | Med | Review filter criteria with operations |
-
----
-
-## 15. References & Resources
-
-### Related PRDs
-- None.
-
-### NetSuite Documentation
-- SuiteScript 2.1 Suitelet
-- N/search module
-
-### External Resources
-- None.
-
----
-
-## Revision History
-
-| Date | Author | Version | Changes |
-|------|--------|---------|---------|
-| Unknown | Jeremy Cady | 1.0 | Initial draft |

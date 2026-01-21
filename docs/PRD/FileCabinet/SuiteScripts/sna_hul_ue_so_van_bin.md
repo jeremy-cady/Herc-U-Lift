@@ -1,110 +1,72 @@
-# PRD: Set Van Bin and Update Object on Item Receipt
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-SoVanBin
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Jeremy Cady
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/sna_hul_ue_so_van_bin.js (User Event)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-SoVanBin
+title: Set Van Bin and Update Object on Item Receipt
+status: Implemented
+owner: Jeremy Cady
+created: TBD
+last_updated: TBD
 
-**Script Deployment (if applicable):**
-- Script ID: Not specified
-- Deployment ID: Not specified
+script:
+  type: user_event
+  file: FileCabinet/SuiteScripts/sna_hul_ue_so_van_bin.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - itemreceipt
+  - salesorder
+  - item
+  - customrecord_sna_van_bin_assignment
+  - customrecord_sna_objects
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
-Populates van bin assignment on item lines and updates related Object records on item receipts.
-
-**What problem does it solve?**
-Ensures item lines reflect the correct van bin and keeps Object status, responsibility center, fleet code, and serial number in sync with item receipts.
-
-**Primary Goal:**
-Synchronize line-level van bin and Object record updates during item receipt processing.
+## 1. Overview
+Populates van bin values on item receipt lines and updates related Object records based on receipt data.
 
 ---
 
-## 2. Goals
-
-1. Set custcol_sna_van_bin based on item and location assignments.
-2. Update related Object status when item receipts reference fleet numbers.
-3. Sync fleet code and serial number to the Object record.
+## 2. Business Goal
+Keep van bin assignments and Object status/identifiers synchronized when items are received.
 
 ---
 
-## 3. User Stories
-
-1. **As a** warehouse user, **I want to** see the correct van bin on each line **so that** picking is accurate.
-2. **As an** inventory manager, **I want to** update object status on receipt **so that** fleet availability is current.
-3. **As a** service admin, **I want to** carry serial and fleet code to the object record **so that** asset data is correct.
+## 3. User Story
+As a warehouse or inventory user, when I receive items, I want van bin and object details updated automatically so that picking and asset data remain accurate.
 
 ---
 
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. On beforeSubmit, the system must set custcol_sna_van_bin per line using customrecord_sna_van_bin_assignment for the item and location.
-2. For item receipts, the system must update the related Object record when custcol_sna_hul_fleet_no is present and itemreceive is true.
-3. For item receipts, the system must set custrecord_sna_fleet_code and custrecord_sna_serial_no on the Object record when line values are present.
-4. Object status must be set to 11 when the object is linked to a sales order and to 10 otherwise.
-5. Object responsibility center must be set only when the item service code type equals 6 (Object).
-
-### Acceptance Criteria
-
-- [ ] custcol_sna_van_bin is set when a van bin assignment exists for item and location.
-- [ ] Object status updates to 10 or 11 based on sales order linkage.
-- [ ] Fleet code and serial number are pushed to the Object record on item receipt.
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| beforeSubmit | custcol_sna_van_bin | item receipt line | Set van bin using `customrecord_sna_van_bin_assignment` by item and location. |
+| beforeSubmit | custrecord_sna_status | item receipt line, itemreceive true, fleet no present | Update related Object status based on sales order linkage. |
+| beforeSubmit | custrecord_sna_fleet_code, custrecord_sna_serial_no | item receipt line, itemreceive true | Copy fleet code and serial number from line to Object record. |
+| beforeSubmit | custrecord_sna_responsibility_center | item receipt line, itemreceive true, service code type = 6 | Set Object responsibility center. |
 
 ---
 
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Create or manage van bin assignment records.
-- Update object data on non-item receipt transactions.
-- Enforce validation on missing fleet numbers.
-
----
-
-## 6. Design Considerations
-
-### User Interface
-- No UI changes.
-
-### User Experience
-- Line fields are populated automatically on save.
-
-### Design References
-- Custom record: customrecord_sna_van_bin_assignment
-- Object record: customrecord_sna_objects
+## 5. Functional Requirements
+- Set `custcol_sna_van_bin` on each item receipt line using item/location assignment.
+- When `custcol_sna_hul_fleet_no` is present and the line is received, update the related Object record.
+- Set Object `custrecord_sna_fleet_code` and `custrecord_sna_serial_no` from line values when present.
+- Set Object status to 11 when linked to a sales order; otherwise set to 10.
+- Set Object responsibility center only when the item service code type equals 6 (Object).
 
 ---
 
-## 7. Technical Considerations
-
-### NetSuite Components Required
-
-**Record Types:**
+## 6. Data Contract
+### Record Types Involved
 - Item Receipt
+- Sales Order
+- Item
 - Custom record: customrecord_sna_van_bin_assignment
 - Custom record: customrecord_sna_objects
-- Item
-- Sales Order
 
-**Script Types:**
-- [ ] Map/Reduce - N/A
-- [ ] Scheduled Script - N/A
-- [ ] Suitelet - N/A
-- [ ] RESTlet - N/A
-- [x] User Event - Line and object updates
-- [ ] Client Script - N/A
-
-**Custom Fields:**
+### Fields Referenced
 - Item line | custcol_sna_van_bin | Van bin
 - Item line | custcol_sna_hul_fleet_no | Fleet number (Object id)
 - Item line | custcol_sna_po_fleet_code | Fleet code
@@ -115,156 +77,48 @@ Synchronize line-level van bin and Object record updates during item receipt pro
 - Object | custrecord_sna_fleet_code | Fleet code
 - Object | custrecord_sna_serial_no | Serial number
 
-**Saved Searches:**
-- None
-
-### Integration Points
-- customrecord_sna_van_bin_assignment for bin mapping
-- customrecord_sna_objects for object updates
-
-### Data Requirements
-
-**Data Volume:**
-- Per item receipt, all item lines.
-
-**Data Sources:**
-- Van bin assignment records, item records, sales orders.
-
-**Data Retention:**
-- Updates persist on Object records and line fields.
-
-### Technical Constraints
-- Object updates only occur when line itemreceive is true.
-
-### Dependencies
-- **Libraries needed:** None
-- **External dependencies:** None
-- **Other features:** Object and van bin custom records
-
-### Governance Considerations
-
-- **Script governance:** Per-line searches and submitFields.
-- **Search governance:** One search per line for bin assignment and object linkage.
-- **API limits:** None.
+Schemas (if known):
+- Custom record | customrecord_sna_van_bin_assignment | Item/location to van bin mapping
+- Custom record | customrecord_sna_objects | Object master data
 
 ---
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- Van bin values are set correctly on item lines.
-- Object status and identifiers are updated on item receipt.
-
-**How we'll measure:**
-- Verify line and object fields after receipt save.
+## 7. Validation & Edge Cases
+- If no van bin assignment exists, the van bin remains blank.
+- Object updates only occur when `itemreceive` is true and a fleet number is provided.
+- If the Object record is missing, the script should log and continue.
 
 ---
 
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| sna_hul_ue_so_van_bin.js | User Event | Set van bin and update object on item receipt | Implemented |
-
-### Development Approach
-
-**Phase 1:** Van bin assignment
-- [x] Lookup and set custcol_sna_van_bin.
-
-**Phase 2:** Object updates
-- [x] Update status, fleet code, and serial number on receipt.
+## 8. Implementation Notes (Optional)
+- Uses per-line lookups to resolve van bin assignments and Object records.
+- Object status differs based on sales order linkage.
 
 ---
 
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. Save an item receipt with a fleet number and van bin assignment, verify line and object updates.
-
-**Edge Cases:**
-1. Item receipt line has itemreceive false, verify no object update.
-2. No van bin assignment exists, verify custcol_sna_van_bin is blank.
-
-**Error Handling:**
-1. Object record missing, verify script logs error and continues.
-
-### Test Data Requirements
-- Van bin assignment records for item and location.
-- Object records referenced by custcol_sna_hul_fleet_no.
-
-### Sandbox Setup
-- Deploy User Event on item receipt.
+## 9. Acceptance Criteria
+- Given an item receipt line with an assignment, when the record is saved, then `custcol_sna_van_bin` is populated.
+- Given a received line with a fleet number, when the record is saved, then the linked Object status updates to 10 or 11 depending on sales order linkage.
+- Given fleet code and serial values on the line, when the record is saved, then the Object record reflects those values.
 
 ---
 
-## 11. Security & Permissions
-
-### Roles & Permissions
-- Users need access to item receipts and custom object records.
-
-### Data Security
-- Updates limited to object and item receipt line fields.
+## 10. Testing Notes
+- Save an item receipt with a fleet number and bin assignment; verify line van bin and Object updates.
+- Save an item receipt line with itemreceive false; verify Object is not updated.
+- Save an item receipt with no bin assignment; verify van bin remains blank.
 
 ---
 
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-- [ ] Van bin assignment records populated.
-
-### Deployment Steps
-1. Deploy User Event to item receipt.
-
-### Post-Deployment
-- Validate a receipt with fleet number and bin assignments.
-
-### Rollback Plan
-- Disable the User Event deployment.
+## 11. Deployment Notes
+- Populate van bin assignment records before deployment.
+- Deploy the user event to Item Receipt.
 
 ---
 
-## 13. Timeline (table)
-
-| Phase | Owner | Duration | Target Date |
-|------|-------|----------|-------------|
-| Implementation | Jeremy Cady | Unknown | Unknown |
-| Validation | Jeremy Cady | Unknown | Unknown |
+## 12. Open Questions / TBDs
+- Confirm script ID and deployment ID.
+- Confirm created and last updated dates.
+- Should responsibility center update apply only for service code type 6 (Object)?
 
 ---
-
-## 14. Open Questions & Risks
-
-### Open Questions
-- Should responsibility center update apply only for service code type 6 (Object) or also other types?
-
-### Known Risks (table)
-
-| Risk | Impact | Mitigation |
-|------|--------|------------|
-| Missing bin assignment | Van bin remains blank | Maintain assignments per item/location |
-
----
-
-## 15. References & Resources
-
-### Related PRDs
-- None
-
-### NetSuite Documentation
-- User Event Script
-
-### External Resources
-- None
-
----
-
-## Revision History (table)
-
-| Version | Date | Author | Notes |
-|---------|------|--------|-------|
-| 1.0 | Unknown | Jeremy Cady | Initial PRD |

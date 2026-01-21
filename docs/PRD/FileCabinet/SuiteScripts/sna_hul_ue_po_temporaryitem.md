@@ -1,101 +1,65 @@
-# PRD: PO Temporary Item Handling
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-POTemporaryItem
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Jeremy Cady
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/sna_hul_ue_po_temporaryitem.js (User Event)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-POTemporaryItem
+title: PO Temporary Item Handling
+status: Implemented
+owner: Jeremy Cady
+created: Unknown
+last_updated: Unknown
 
-**Script Deployment:** Not specified
+script:
+  type: user_event
+  file: FileCabinet/SuiteScripts/sna_hul_ue_po_temporaryitem.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - purchaseorder
+  - salesorder
+  - location
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
+## 1. Overview
 User Event that updates special order Purchase Orders for temporary items, syncing temp codes, locations, quantities, and memo from Sales Orders.
 
-**What problem does it solve?**
-Ensures temporary item POs reflect the correct Sales Order data and location hierarchy for fulfillment.
+---
 
-**Primary Goal:**
-Synchronize temporary item PO lines with their originating Sales Order lines.
+## 2. Business Goal
+Ensure temporary item POs reflect the correct Sales Order data and location hierarchy for fulfillment.
 
 ---
 
-## 2. Goals
-
-1. Filter PO lines to the selected Sales Order line on create/copy.
-2. Copy temp item codes, locations, and memo from SO lines.
-3. Align PO quantities to SO quantities for temp items.
+## 3. User Story
+As a buyer, when special order POs are created for temp items, I want PO lines synced to SO lines, so that POs match Sales Order requirements.
 
 ---
 
-## 3. User Stories
-
-1. **As a** buyer, **I want to** auto-populate temp item PO details **so that** POs match Sales Order requirements.
-
----
-
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. On beforeLoad create/copy, the script must remove non-matching lines for a targeted SO line and set the PO memo/ship method.
-2. On afterSubmit for special orders/dropship/PO type, the script must sync temp codes, locations, and memo from SO lines.
-3. The script must set PO line location to parent of SO location when available.
-4. The script must remove PO lines with mismatched ship methods when special order or dropship.
-
-### Acceptance Criteria
-
-- [ ] PO lines match SO line data for temp items.
-- [ ] PO line locations and SO location references are set.
-- [ ] Non-matching ship method lines are removed on special order/dropship.
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| beforeLoad | SO line reference | PO create/copy | Remove non-matching lines and set PO memo/ship method |
+| afterSubmit | Temp item fields | special order/dropship/PO type | Sync temp codes, locations, memo from SO lines and remove mismatched ship method lines |
 
 ---
 
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Create vendor records.
-- Auto-receive items (suitelet call is commented).
-
----
-
-## 6. Design Considerations
-
-### User Interface
-- No UI changes.
-
-### User Experience
-- Temporary item POs are cleaned and synced automatically.
-
-### Design References
-- None.
+## 5. Functional Requirements
+- On beforeLoad create/copy, remove non-matching lines for a targeted SO line and set the PO memo/ship method.
+- On afterSubmit for special orders/dropship/PO type, sync temp codes, locations, and memo from SO lines.
+- Set PO line location to parent of SO location when available.
+- Remove PO lines with mismatched ship methods when special order or dropship.
 
 ---
 
-## 7. Technical Considerations
-
-### NetSuite Components Required
-
-**Record Types:**
+## 6. Data Contract
+### Record Types Involved
 - purchaseorder
 - salesorder
 - location
 
-**Script Types:**
-- [ ] Map/Reduce - N/A
-- [ ] Scheduled Script - N/A
-- [ ] Suitelet - N/A
-- [ ] RESTlet - N/A
-- [x] User Event - Temp item PO updates
-- [ ] Client Script - N/A
-
-**Custom Fields:**
+### Fields Referenced
 - purchaseorder | custbody_sna_hul_orderid | Order line key
 - purchaseorder | custbody_sna_soline_memo | SO line memo
 - purchaseorder line | custcol_sna_hul_temp_item_code | Temp item code
@@ -109,171 +73,47 @@ Synchronize temporary item PO lines with their originating Sales Order lines.
 - salesorder line | location | Line location
 - salesorder line | memo | Line memo
 
-**Saved Searches:**
-- Search on PO lines joined to applied Sales Orders.
+Schemas (if known):
+- TBD
 
-### Integration Points
+---
+
+## 7. Validation & Edge Cases
+- PO lines with different ship method are removed.
+- Parent location missing uses SO location.
+- Save errors are logged.
+
+---
+
+## 8. Implementation Notes (Optional)
 - Uses location parent lookup for line location.
-
-### Data Requirements
-
-**Data Volume:**
-- One PO load/save per event; search on PO lines.
-
-**Data Sources:**
-- Sales Order line data.
-
-**Data Retention:**
-- Updates PO line fields and removes lines.
-
-### Technical Constraints
 - Only applies to special orders, dropship, or configured PO type values.
 
-### Dependencies
-- **Libraries needed:** None
-- **External dependencies:** None
-- **Other features:** Temp item category parameters
+---
 
-### Governance Considerations
-
-- **Script governance:** Search, line updates, and saves per PO.
-- **Search governance:** PO line search per PO.
-- **API limits:** Moderate.
+## 9. Acceptance Criteria
+- Given a special order PO, when afterSubmit runs, then temp item lines match SO line data.
+- Given a parent location, when syncing, then PO line location is set to parent of SO location.
+- Given ship method mismatches, when syncing, then non-matching lines are removed.
 
 ---
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- Temp item POs reflect the correct Sales Order line data and locations.
-
-**How we'll measure:**
-- Compare PO lines to originating SO lines.
-
----
-
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| sna_hul_ue_po_temporaryitem.js | User Event | Sync temp item PO lines | Implemented |
-
-### Development Approach
-
-**Phase 1:** Line filtering
-- [ ] Validate removal of non-matching lines on create/copy
-
-**Phase 2:** Line sync
-- [ ] Validate temp code, location, and memo updates
-
----
-
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. Special order PO syncs temp item codes and locations from SO.
-
-**Edge Cases:**
-1. PO lines with different ship method are removed.
-2. Parent location missing uses SO location.
-
-**Error Handling:**
-1. Save errors are logged.
-
-### Test Data Requirements
-- Sales Order with temp item categories and special order PO
-
-### Sandbox Setup
+## 10. Testing Notes
+- Special order PO syncs temp item codes and locations from SO.
+- PO lines with different ship method are removed.
+- Parent location missing uses SO location.
 - Deploy User Event on Purchase Order.
 
 ---
 
-## 11. Security & Permissions
-
-### Roles & Permissions
-
-**Roles that need access:**
-- Purchasing roles
-
-**Permissions required:**
-- Edit Purchase Orders
-- View Sales Orders and Locations
-
-### Data Security
-- PO and SO data restricted to authorized roles.
+## 11. Deployment Notes
+- Configure temp item category parameters.
+- Deploy User Event on Purchase Order and validate temp item PO line updates.
+- Monitor logs for errors; rollback by disabling deployment if needed.
 
 ---
 
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-
-- [ ] Configure temp item category parameters
-
-### Deployment Steps
-
-1. Deploy User Event on Purchase Order.
-2. Validate temp item PO line updates.
-
-### Post-Deployment
-
-- [ ] Monitor logs for errors
-
-### Rollback Plan
-
-**If deployment fails:**
-1. Disable the User Event deployment.
-2. Correct PO lines manually if needed.
+## 12. Open Questions / TBDs
+- Should the suitelet auto-receive logic be re-enabled?
 
 ---
-
-## 13. Timeline
-
-| Milestone | Target Date | Actual Date | Status |
-|-----------|-------------|-------------|--------|
-| PRD Approval | | | |
-| Development Start | | | |
-| Development Complete | | | |
-| Testing Complete | | | |
-| Stakeholder Review | | | |
-| Production Deploy | | | |
-
----
-
-## 14. Open Questions & Risks
-
-### Open Questions
-
-- [ ] Should the suitelet auto-receive logic be re-enabled?
-
-### Known Risks
-
-| Risk | Likelihood | Impact | Mitigation Strategy |
-|------|------------|--------|---------------------|
-| Removing lines by ship method drops valid items | Low | Med | Validate ship method rules |
-
----
-
-## 15. References & Resources
-
-### Related PRDs
-- None.
-
-### NetSuite Documentation
-- SuiteScript 2.1 User Event
-
-### External Resources
-- None.
-
----
-
-## Revision History
-
-| Date | Author | Version | Changes |
-|------|--------|---------|---------|
-| Unknown | Jeremy Cady | 1.0 | Initial draft |

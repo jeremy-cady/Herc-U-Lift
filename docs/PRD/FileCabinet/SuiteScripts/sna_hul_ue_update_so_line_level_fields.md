@@ -1,105 +1,65 @@
-# PRD: Update SO Line-Level Fields from Header
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-UpdateSoLineLevelFields
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Jeremy Cady
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/sna_hul_ue_update_so_line_level_fields.js (User Event)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-UpdateSoLineLevelFields
+title: Update SO Line-Level Fields from Header
+status: Implemented
+owner: Jeremy Cady
+created: TBD
+last_updated: TBD
 
-**Script Deployment (if applicable):**
-- Script ID: Not specified
-- Deployment ID: Not specified
+script:
+  type: user_event
+  file: FileCabinet/SuiteScripts/sna_hul_ue_update_so_line_level_fields.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - salesorder
+  - employee
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
-Copies selected header values to item lines after submit and fills missing locations from assigned employees.
-
-**What problem does it solve?**
-Ensures line-level segments and assets match header values or are populated when missing.
-
-**Primary Goal:**
-Propagate header values to line fields with optional override behavior.
+## 1. Overview
+Copies selected header values to sales order lines after submit and fills missing header location from assigned employee locations.
 
 ---
 
-## 2. Goals
-
-1. Apply header revenue stream and asset values to lines.
-2. Fill missing locations from assigned-to employee location when header location is blank.
-3. Respect override flags for line updates.
+## 2. Business Goal
+Keep line-level segment and asset fields consistent with header values while preserving manual line entries when overrides are disabled.
 
 ---
 
-## 3. User Stories
-
-1. **As a** sales user, **I want to** apply header segments to lines **so that** data entry is consistent.
-2. **As a** dispatcher, **I want to** auto-populate locations from assigned employees **so that** routing uses the right location.
-3. **As an** admin, **I want to** control override behavior **so that** manual line values are preserved.
+## 3. User Story
+As a sales or dispatch user, when I save a sales order, I want header values applied to lines (when allowed) so that line data remains consistent without re-entering fields.
 
 ---
 
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. On afterSubmit (non-delete), the system must load the transaction and gather header fields for location, revenue stream, and NXC assets.
-2. If header location is empty, the system must look up assigned-to employee locations and set the header location to the first found.
-3. For each line, the system must set line fields from header values when override flags are true, or when the line value is empty.
-4. The system must save the transaction after updates.
-
-### Acceptance Criteria
-
-- [ ] Line revenue stream and asset fields are populated from header values as configured.
-- [ ] Missing header location is set from assigned employee location when available.
-- [ ] Line values are not overwritten when override flags are false and line values are present.
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| afterSubmit | header fields | non-delete | Load transaction and read header values and override flags. |
+| afterSubmit | location | header location empty | Resolve assigned-to employee locations and set header location to the first available. |
+| afterSubmit | line fields | per line | Set line fields from header when override is true or line value is empty. |
+| afterSubmit | N/A | updates applied | Save the transaction. |
 
 ---
 
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Update department lines (currently commented out).
-- Change header values other than location when missing.
-- Handle delete context.
+## 5. Functional Requirements
+- On afterSubmit (non-delete), load the transaction and read header location, revenue stream, and NXC asset values.
+- If header location is empty, look up assigned-to employee locations and set header location to the first found.
+- For each line, set line values from header values when override flags are true or when the line value is empty.
+- Save the transaction after updates.
 
 ---
 
-## 6. Design Considerations
-
-### User Interface
-- No UI changes.
-
-### User Experience
-- Line values are updated after save.
-
-### Design References
-- None
-
----
-
-## 7. Technical Considerations
-
-### NetSuite Components Required
-
-**Record Types:**
+## 6. Data Contract
+### Record Types Involved
 - Sales Order (or deployed transaction type)
 - Employee
 
-**Script Types:**
-- [ ] Map/Reduce - N/A
-- [ ] Scheduled Script - N/A
-- [ ] Suitelet - N/A
-- [ ] RESTlet - N/A
-- [x] User Event - Line updates
-- [ ] Client Script - N/A
-
-**Custom Fields:**
+### Fields Referenced
 - Transaction header | custbody_sna_hul_apply_dept_all | Apply department to all
 - Transaction header | custbody_sna_hul_apply_rev_all | Apply revenue stream to all
 - Transaction header | custbody_nx_asset | NXC site asset
@@ -110,155 +70,47 @@ Propagate header values to line fields with optional override behavior.
 - Item line | custcol_sna_task_assigned_to | Assigned to
 - Employee | custentity_nx_location | Employee location
 
-**Saved Searches:**
-- None (ad hoc search for employee locations)
-
-### Integration Points
-- Employee record lookup for location
-
-### Data Requirements
-
-**Data Volume:**
-- Per transaction, all item lines.
-
-**Data Sources:**
-- Header values and assigned-to employee locations.
-
-**Data Retention:**
-- Line values persisted on transaction.
-
-### Technical Constraints
-- Override flags for site and equipment assets currently use custbody_sna_hul_apply_rev_all.
-- Department propagation is commented out.
-
-### Dependencies
-- **Libraries needed:** None
-- **External dependencies:** None
-- **Other features:** Assigned-to employee location values
-
-### Governance Considerations
-
-- **Script governance:** Loads and saves the transaction.
-- **Search governance:** Employee lookup by assigned-to list.
-- **API limits:** None.
+Schemas (if known):
+- Employee | custentity_nx_location | Location source for header fill
 
 ---
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- Line-level segment values are consistent with header values.
-- Missing location is filled based on assigned employees.
-
-**How we'll measure:**
-- Compare header and line values after save.
+## 7. Validation & Edge Cases
+- Override flags control whether existing line values are overwritten.
+- If no assigned-to employee has a location, header location remains blank.
+- Department propagation is not applied (commented out in script).
 
 ---
 
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| sna_hul_ue_update_so_line_level_fields.js | User Event | Propagate header values to lines | Implemented |
-
-### Development Approach
-
-**Phase 1:** Header value collection
-- [x] Read header values and override flags.
-
-**Phase 2:** Line updates
-- [x] Apply values to lines and save.
+## 8. Implementation Notes (Optional)
+- Header location fallback uses assigned-to employee location lookup.
+- Asset override flags currently reuse `custbody_sna_hul_apply_rev_all`.
 
 ---
 
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. Set header revenue stream and assets, save, verify lines updated.
-
-**Edge Cases:**
-1. Header location blank, assigned-to has location, verify header and line location set.
-2. Line already has value and override flag false, verify line not overwritten.
-
-**Error Handling:**
-1. Employee lookup fails, verify script logs error and continues.
-
-### Test Data Requirements
-- Sales order with assigned-to employees and header values.
-
-### Sandbox Setup
-- Deploy User Event on the target transaction type.
+## 9. Acceptance Criteria
+- Given header revenue stream and assets, when the record is saved, then line values are updated according to override flags.
+- Given header location is blank and assigned-to employees have a location, when the record is saved, then header location is set.
+- Given line values present and override flags false, when the record is saved, then those line values remain unchanged.
 
 ---
 
-## 11. Security & Permissions
-
-### Roles & Permissions
-- Users need access to transactions and employee records.
-
-### Data Security
-- Updates only the current transaction and line fields.
+## 10. Testing Notes
+- Save a sales order with header values and verify line updates.
+- Save with blank header location and assigned-to employee locations; verify header location is populated.
+- Save with line values present and override flags false; verify no overwrite.
 
 ---
 
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-- [ ] Confirm override fields are configured on the form.
-
-### Deployment Steps
-1. Deploy User Event to sales order.
-
-### Post-Deployment
-- Validate line values on a test order.
-
-### Rollback Plan
-- Disable the User Event deployment.
+## 11. Deployment Notes
+- Ensure override fields are available on the form.
+- Deploy the user event to Sales Order.
 
 ---
 
-## 13. Timeline (table)
-
-| Phase | Owner | Duration | Target Date |
-|------|-------|----------|-------------|
-| Implementation | Jeremy Cady | Unknown | Unknown |
-| Validation | Jeremy Cady | Unknown | Unknown |
+## 12. Open Questions / TBDs
+- Confirm script ID and deployment ID.
+- Confirm created and last updated dates.
+- Should asset override flags use distinct header fields instead of `custbody_sna_hul_apply_rev_all`?
 
 ---
-
-## 14. Open Questions & Risks
-
-### Open Questions
-- Should override flags for assets use distinct header fields instead of custbody_sna_hul_apply_rev_all?
-
-### Known Risks (table)
-
-| Risk | Impact | Mitigation |
-|------|--------|------------|
-| Override flags misconfigured | Unexpected line updates | Validate header flag mapping |
-
----
-
-## 15. References & Resources
-
-### Related PRDs
-- None
-
-### NetSuite Documentation
-- User Event Script
-
-### External Resources
-- None
-
----
-
-## Revision History (table)
-
-| Version | Date | Author | Notes |
-|---------|------|--------|-------|
-| 1.0 | Unknown | Jeremy Cady | Initial PRD |

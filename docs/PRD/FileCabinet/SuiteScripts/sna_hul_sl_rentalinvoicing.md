@@ -1,283 +1,120 @@
-# PRD: Rental Invoicing
+# PRD_TEMPLATE.md
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-RentalInvoicing
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Jeremy Cady
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/sna_hul_sl_rentalinvoicing.js (Suitelet)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-RentalInvoicing
+title: Rental Invoicing
+status: Implemented
+owner: Jeremy Cady
+created: Unknown
+last_updated: Unknown
 
-**Script Deployment:** Not specified
+script:
+  type: suitelet
+  file: FileCabinet/SuiteScripts/sna_hul_sl_rentalinvoicing.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - salesorder
+  - invoice
+  - account
+  - scriptdeployment
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
+## 1. Overview
 Suitelet that searches rental sales orders and creates invoices via transform or Map/Reduce.
 
-**What problem does it solve?**
+---
+
+## 2. Business Goal
 Provides a UI to select rental orders and automate invoice generation at scale.
 
-**Primary Goal:**
-Generate invoices for eligible rental sales orders and track status.
+---
+
+## 3. User Story
+- As a billing user, when I filter rental orders, I want to invoice the right set, so that billing is accurate.
+- As an admin, when I batch invoice large sets, I want processing to remain stable, so that throughput is reliable.
 
 ---
 
-## 2. Goals
-
-1. Allow filtering of rental orders by customer, date, and location.
-2. Exclude orders with unconfigured objects or credit memos.
-3. Create invoices directly or via Map/Reduce for bulk selections.
-
----
-
-## 3. User Stories
-
-1. **As a** billing user, **I want to** filter rental orders **so that** I can invoice the right set.
-2. **As an** admin, **I want to** batch invoice large sets **so that** processing remains stable.
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| Suitelet request | filters, selection list | User submits selection | Create invoices directly or schedule MR invoicing |
 
 ---
 
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. The Suitelet must display a filter form and a paged sublist of rental sales orders.
-2. The Suitelet must exclude orders with unconfigured lines or dummy objects.
-3. The Suitelet must exclude orders with credit memos when configured.
-4. The Suitelet must allow selecting orders and submitting for invoicing.
-5. If more than 30 orders are selected, the Suitelet must invoke Map/Reduce.
-6. Otherwise, the Suitelet must transform each sales order into an invoice and set the A/R account.
-
-### Acceptance Criteria
-
-- [ ] Eligible sales orders appear in the list and can be selected.
-- [ ] Invoices are created or MR is scheduled based on selection size.
-- [ ] Status page or link is presented after processing.
+## 5. Functional Requirements
+- Display a filter form and a paged sublist of rental sales orders.
+- Exclude orders with unconfigured lines or dummy objects.
+- Exclude orders with credit memos when configured.
+- Allow selecting orders and submitting for invoicing.
+- If more than 30 orders are selected, invoke Map/Reduce.
+- Otherwise, transform each sales order into an invoice and set the A/R account.
 
 ---
 
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Modify line-level configuration data.
-- Create credit memos.
-- Post invoices to GL beyond normal transform behavior.
-
----
-
-## 6. Design Considerations
-
-### User Interface
-- Form titled "Invoice Rental Orders" with filters, sublist, and pagination.
-
-### User Experience
-- Select orders, submit, and receive status feedback.
-
-### Design References
-- Client script `sna_hul_cs_rentalinvoicing.js`.
-
----
-
-## 7. Technical Considerations
-
-### NetSuite Components Required
-
-**Record Types:**
+## 6. Data Contract
+### Record Types Involved
 - salesorder
 - invoice
 - account
 - scriptdeployment
 
-**Script Types:**
-- [ ] Map/Reduce - N/A
-- [ ] Scheduled Script - N/A
-- [x] Suitelet - Rental invoicing UI
-- [ ] RESTlet - N/A
-- [ ] User Event - N/A
-- [ ] Client Script - N/A
-
-**Custom Fields:**
+### Fields Referenced
 - Sales Order Line | custcol_sna_hul_bill_date | Bill date
 - Sales Order Line | custcol_sna_hul_object_configurator | Config JSON
 - Sales Order Line | custcol_sna_hul_object_configurator_2 | Config JSON
 - Sales Order Line | custcol_sna_hul_fleet_no.custrecord_sna_hul_rent_dummy | Dummy flag
 - Item | custitem_sna_hul_gen_prodpost_grp | Product posting group
 
-**Saved Searches:**
-- customsearch_sna_hul_rental_for_invoice
-- customsearch_sna_hul_so_with_cm
-
-### Integration Points
-- Map/Reduce `customscript_sna_hul_mr_rentalinvoicing`.
-
-### Data Requirements
-
-**Data Volume:**
-- Paged results with page size 50.
-
-**Data Sources:**
-- Sales order searches and customer filters
-
-**Data Retention:**
-- Creates invoice records.
-
-### Technical Constraints
-- Uses search filter expressions and excludes orders with unconfigured fields.
-
-### Dependencies
-- **Libraries needed:** ./SNA/shared/sna_hul_mod_utils
-- **External dependencies:** None
-- **Other features:** Rental configuration and MR invoicing
-
-### Governance Considerations
-
-- **Script governance:** Transform operations per SO; MR for larger sets.
-- **Search governance:** Multiple searches and paged results.
-- **API limits:** MR needed for larger batches.
+Schemas (if known):
+- TBD
 
 ---
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- Eligible orders are invoiced correctly.
-- MR jobs schedule and complete for large batches.
-
-**How we'll measure:**
-- Invoice counts and MR status logs.
+## 7. Validation & Edge Cases
+- Orders with unconfigured lines are excluded.
+- Orders with credit memos are excluded.
+- Transform errors send an email to the current user.
 
 ---
 
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| sna_hul_sl_rentalinvoicing.js | Suitelet | Rental invoice generation | Implemented |
-
-### Development Approach
-
-**Phase 1:** Filter validation
-- [ ] Confirm saved search logic and exclusions
-
-**Phase 2:** Invoicing validation
-- [ ] Test single and batch invoicing flows
+## 8. Implementation Notes (Optional)
+- Script must reuse existing deployment: TBD
+- Dispatcher required: TBD
+- Performance/governance considerations: Transform operations per SO; MR for larger sets.
 
 ---
 
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. Select a few orders and create invoices directly.
-2. Select many orders and schedule MR invoicing.
-
-**Edge Cases:**
-1. Orders with unconfigured lines are excluded.
-2. Orders with credit memos are excluded.
-
-**Error Handling:**
-1. Transform errors send an email to the current user.
-
-### Test Data Requirements
-- Rental sales orders with bill dates and configured objects
-- Sales orders with credit memos
-
-### Sandbox Setup
-- Deploy Suitelet, client script, and MR script
+## 9. Acceptance Criteria
+- Given filters are set, when the Suitelet runs, then eligible sales orders appear in the list and can be selected.
+- Given a selection size, when the Suitelet runs, then invoices are created or MR is scheduled based on selection size.
+- Given processing completes, when the Suitelet finishes, then a status page or link is presented.
 
 ---
 
-## 11. Security & Permissions
-
-### Roles & Permissions
-
-**Roles that need access:**
-- Billing roles
-
-**Permissions required:**
-- Transform sales orders to invoices
-- View accounts and sales orders
-
-### Data Security
-- Billing data access should be restricted to authorized roles.
+## 10. Testing Notes
+Manual tests:
+- Select a few orders and create invoices directly.
+- Select many orders and schedule MR invoicing.
+- Orders with unconfigured lines are excluded.
+- Orders with credit memos are excluded.
 
 ---
 
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-
-- [ ] MR script deployed and accessible
-- [ ] Saved searches verified
-
-### Deployment Steps
-
-1. Deploy Suitelet.
-2. Provide menu access for billing users.
-
-### Post-Deployment
-
-- [ ] Validate invoice creation and MR status links
-
-### Rollback Plan
-
-**If deployment fails:**
-1. Disable Suitelet.
-2. Revert to manual invoicing.
+## 11. Deployment Notes
+- MR script deployed and accessible.
+- Saved searches verified.
+- Deploy Suitelet.
+- Provide menu access for billing users.
 
 ---
 
-## 13. Timeline
-
-| Milestone | Target Date | Actual Date | Status |
-|-----------|-------------|-------------|--------|
-| PRD Approval | | | |
-| Development Start | | | |
-| Development Complete | | | |
-| Testing Complete | | | |
-| Stakeholder Review | | | |
-| Production Deploy | | | |
+## 12. Open Questions / TBDs
+- Should page size be configurable?
 
 ---
-
-## 14. Open Questions & Risks
-
-### Open Questions
-
-- [ ] Should page size be configurable?
-
-### Known Risks
-
-| Risk | Likelihood | Impact | Mitigation Strategy |
-|------|------------|--------|---------------------|
-| Exclusion logic may omit valid orders | Med | Med | Review search filters regularly |
-
----
-
-## 15. References & Resources
-
-### Related PRDs
-- None.
-
-### NetSuite Documentation
-- SuiteScript 2.1 Suitelet
-- N/task module
-
-### External Resources
-- None.
-
----
-
-## Revision History
-
-| Date | Author | Version | Changes |
-|------|--------|---------|---------|
-| Unknown | Jeremy Cady | 1.0 | Initial draft |

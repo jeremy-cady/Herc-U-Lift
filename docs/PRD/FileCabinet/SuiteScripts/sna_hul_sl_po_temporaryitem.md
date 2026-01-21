@@ -1,275 +1,115 @@
-# PRD: PO Temporary Item Processing
+# PRD_TEMPLATE.md
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-PoTemporaryItem
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Jeremy Cady
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/sna_hul_sl_po_temporaryitem.js (Suitelet)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-PoTemporaryItem
+title: PO Temporary Item Processing
+status: Implemented
+owner: Jeremy Cady
+created: Unknown
+last_updated: Unknown
 
-**Script Deployment:** Not specified
+script:
+  type: suitelet
+  file: FileCabinet/SuiteScripts/sna_hul_sl_po_temporaryitem.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - purchaseorder
+  - itemreceipt
+  - vendorbill
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
+## 1. Overview
 Suitelet that transforms a Purchase Order into an Item Receipt and Vendor Bill for temporary items.
 
-**What problem does it solve?**
+---
+
+## 2. Business Goal
 Automates receipt and billing for temporary items with proper inventory assignments and line filtering.
 
-**Primary Goal:**
-Auto-create Item Receipts and Vendor Bills for temporary item PO lines.
+---
+
+## 3. User Story
+- As a purchasing user, when I automate temporary item receipts, I want processing to be faster, so that receiving is efficient.
+- As an AP user, when I auto-generate vendor bills, I want billing aligned with temp items, so that payables are accurate.
 
 ---
 
-## 2. Goals
-
-1. Transform PO to Item Receipt and set inventory details for temp items.
-2. Auto-receive lines when temp item and task are present.
-3. Transform PO to Vendor Bill and keep only temp item lines tied to tasks.
-
----
-
-## 3. User Stories
-
-1. **As a** purchasing user, **I want to** automate temporary item receipts **so that** processing is faster.
-2. **As an** AP user, **I want to** auto-generate vendor bills **so that** billing stays aligned with temp items.
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| Suitelet request | poid | Request body JSON provided | Transform PO to Item Receipt and Vendor Bill for temp items |
 
 ---
 
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. The Suitelet must read `poid` from the request body JSON.
-2. The Suitelet must transform the PO into an Item Receipt.
-3. For temp items with a temp code and matching categories, the Suitelet must set inventory assignment lines.
-4. The Suitelet must set `itemreceive` based on whether a task is present.
-5. The Suitelet must save the Item Receipt and, if successful, transform the PO to a Vendor Bill.
-6. The Vendor Bill must remove lines not matching temp categories or missing tasks.
-
-### Acceptance Criteria
-
-- [ ] Item Receipt is created with inventory assignment for temp items.
-- [ ] Vendor Bill only includes valid temp item lines with tasks.
+## 5. Functional Requirements
+- Read `poid` from the request body JSON.
+- Transform the PO into an Item Receipt.
+- For temp items with a temp code and matching categories, set inventory assignment lines.
+- Set `itemreceive` based on whether a task is present.
+- Save the Item Receipt and, if successful, transform the PO to a Vendor Bill.
+- Remove Vendor Bill lines not matching temp categories or missing tasks.
 
 ---
 
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Validate temp item codes beyond presence.
-- Update PO header fields.
-- Handle non-temporary item categories.
-
----
-
-## 6. Design Considerations
-
-### User Interface
-- No UI; invoked via request body.
-
-### User Experience
-- Automated background processing.
-
-### Design References
-- None.
-
----
-
-## 7. Technical Considerations
-
-### NetSuite Components Required
-
-**Record Types:**
+## 6. Data Contract
+### Record Types Involved
 - purchaseorder
 - itemreceipt
 - vendorbill
 
-**Script Types:**
-- [ ] Map/Reduce - N/A
-- [ ] Scheduled Script - N/A
-- [x] Suitelet - PO transform automation
-- [ ] RESTlet - N/A
-- [ ] User Event - N/A
-- [ ] Client Script - N/A
-
-**Custom Fields:**
+### Fields Referenced
 - PO Line | custcol_sna_hul_temp_item_code | Temp item code
 - PO Line | custcol_sna_hul_itemcategory | Item category
 - PO Line | custcol_nx_task | Task
 - PO Line | custcol_sna_hul_vendor_name | Vendor name
 
-**Saved Searches:**
-- None.
-
-### Integration Points
-- None.
-
-### Data Requirements
-
-**Data Volume:**
-- PO line item counts per request.
-
-**Data Sources:**
-- PO line fields
-
-**Data Retention:**
-- Creates Item Receipt and Vendor Bill.
-
-### Technical Constraints
-- Uses script parameters for temp item categories.
-
-### Dependencies
-- **Libraries needed:** None
-- **External dependencies:** None
-- **Other features:** Temp item categories on line fields
-
-### Governance Considerations
-
-- **Script governance:** Record transforms and line updates.
-- **Search governance:** None.
-- **API limits:** Moderate depending on line counts.
+Schemas (if known):
+- TBD
 
 ---
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- Item Receipts and Vendor Bills are created correctly for temp items.
-
-**How we'll measure:**
-- Review generated IR and VB records.
+## 7. Validation & Edge Cases
+- Non-temp items are not received or billed.
+- Missing task prevents auto-receive and billing for that line.
+- Invalid PO ID results in no transformation.
 
 ---
 
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| sna_hul_sl_po_temporaryitem.js | Suitelet | Transform PO for temp items | Implemented |
-
-### Development Approach
-
-**Phase 1:** Parameter validation
-- [ ] Confirm temp item categories are configured
-
-**Phase 2:** Transaction validation
-- [ ] Test with POs containing temp and non-temp lines
+## 8. Implementation Notes (Optional)
+- Script must reuse existing deployment: TBD
+- Dispatcher required: TBD
+- Performance/governance considerations: Record transforms and line updates.
 
 ---
 
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. Temp item lines with tasks produce IR and VB lines.
-
-**Edge Cases:**
-1. Non-temp items are not received or billed.
-2. Missing task prevents auto-receive and billing for that line.
-
-**Error Handling:**
-1. Invalid PO ID results in no transformation.
-
-### Test Data Requirements
-- PO with temp items and temp codes
-- PO with mixed item categories
-
-### Sandbox Setup
-- Deploy Suitelet and configure script parameters
+## 9. Acceptance Criteria
+- Given temp item lines with tasks, when the Suitelet runs, then an Item Receipt is created with inventory assignment for temp items.
+- Given the Vendor Bill is created, when the Suitelet runs, then only valid temp item lines with tasks are included.
 
 ---
 
-## 11. Security & Permissions
-
-### Roles & Permissions
-
-**Roles that need access:**
-- Purchasing or inventory automation roles
-
-**Permissions required:**
-- Transform Purchase Orders to Item Receipts and Vendor Bills
-
-### Data Security
-- No sensitive data beyond transaction access.
+## 10. Testing Notes
+Manual tests:
+- Temp item lines with tasks produce IR and VB lines.
+- Non-temp items are not received or billed.
+- Missing task prevents auto-receive and billing for that line.
+- Invalid PO ID results in no transformation.
 
 ---
 
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-
-- [ ] Verify temp item category parameters
-
-### Deployment Steps
-
-1. Deploy Suitelet.
-2. Call from integration or workflow with PO ID payload.
-
-### Post-Deployment
-
-- [ ] Validate created IR and VB records
-
-### Rollback Plan
-
-**If deployment fails:**
-1. Disable Suitelet.
-2. Revert to manual receipt/billing.
+## 11. Deployment Notes
+- Verify temp item category parameters.
+- Deploy Suitelet.
+- Call from integration or workflow with PO ID payload.
 
 ---
 
-## 13. Timeline
-
-| Milestone | Target Date | Actual Date | Status |
-|-----------|-------------|-------------|--------|
-| PRD Approval | | | |
-| Development Start | | | |
-| Development Complete | | | |
-| Testing Complete | | | |
-| Stakeholder Review | | | |
-| Production Deploy | | | |
+## 12. Open Questions / TBDs
+- Should the Suitelet validate temp code format?
 
 ---
-
-## 14. Open Questions & Risks
-
-### Open Questions
-
-- [ ] Should the Suitelet validate temp code format?
-
-### Known Risks
-
-| Risk | Likelihood | Impact | Mitigation Strategy |
-|------|------------|--------|---------------------|
-| Misclassified item categories cause incorrect processing | Med | Med | Keep category parameters current |
-
----
-
-## 15. References & Resources
-
-### Related PRDs
-- None.
-
-### NetSuite Documentation
-- SuiteScript 2.1 Suitelet
-- N/record transform
-
-### External Resources
-- None.
-
----
-
-## Revision History
-
-| Date | Author | Version | Changes |
-|------|--------|---------|---------|
-| Unknown | Jeremy Cady | 1.0 | Initial draft |

@@ -1,250 +1,101 @@
-# PRD: Map/Reduce Delete Records
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-DeleteRecords
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Jeremy Cady
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/sna_mr_delete_records.js (Map/Reduce)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-DeleteRecords
+title: Map/Reduce Delete Records
+status: Implemented
+owner: Jeremy Cady
+created: TBD
+last_updated: TBD
 
-**Script Deployment (if applicable):**
-- Script ID: Not specified
-- Deployment ID: Not specified
+script:
+  type: map_reduce
+  file: FileCabinet/SuiteScripts/sna_mr_delete_records.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - TBD
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
+## 1. Overview
 Deletes records in bulk based on a saved search result set.
 
-**What problem does it solve?**
-Provides a controlled mechanism to remove records using a pre-defined search.
+---
 
-**Primary Goal:**
-Delete records returned by saved search id 497 using record.delete.
+## 2. Business Goal
+Provide a controlled bulk deletion mechanism using a pre-defined saved search.
 
 ---
 
-## 2. Goals
-
-1. Load saved search id 497 as input.
-2. Parse record type and id from each result.
-3. Delete each record and log errors.
+## 3. User Story
+As an admin, when I run a cleanup job, I want records from a saved search deleted so that large-scale cleanup is efficient and traceable.
 
 ---
 
-## 3. User Stories
-
-1. **As an** admin, **I want to** delete records in bulk **so that** cleanup is efficient.
-2. **As a** developer, **I want to** control deletion via a saved search **so that** scope is explicit.
-3. **As an** auditor, **I want to** see errors logged **so that** failures are traceable.
-
----
-
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. getInputData must load saved search id 497.
-2. map must parse mapContext.value and extract recordType and id.
-3. map must call record.delete for each record and log errors on failure.
-
-### Acceptance Criteria
-
-- [ ] Records in saved search 497 are deleted.
-- [ ] Errors are logged without stopping the run.
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| getInputData | saved search 497 | run | Load search results for deletion. |
+| map | recordType, id | each result | Delete the record and log errors on failure. |
 
 ---
 
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Validate record dependencies before deletion.
-- Provide a rollback mechanism.
-- Use reduce or summarize phases.
+## 5. Functional Requirements
+- Load saved search id 497 in `getInputData`.
+- Parse each result in `map` to extract record type and id.
+- Call `record.delete` for each record and log errors without stopping the run.
 
 ---
 
-## 6. Design Considerations
-
-### User Interface
-- No UI changes.
-
-### User Experience
-- Deletion is handled in background via Map/Reduce.
-
-### Design References
-- Saved search id 497
-
----
-
-## 7. Technical Considerations
-
-### NetSuite Components Required
-
-**Record Types:**
+## 6. Data Contract
+### Record Types Involved
 - Any record types returned by saved search 497
 
-**Script Types:**
-- [x] Map/Reduce - Bulk deletion
-- [ ] Scheduled Script - N/A
-- [ ] Suitelet - N/A
-- [ ] RESTlet - N/A
-- [ ] User Event - N/A
-- [ ] Client Script - N/A
+### Fields Referenced
+- Saved search result | recordType | Target record type
+- Saved search result | id | Target record id
 
-**Custom Fields:**
-- None
-
-**Saved Searches:**
-- 497 | Records to delete (must provide recordType and id)
-
-### Integration Points
-- None
-
-### Data Requirements
-
-**Data Volume:**
-- All results from saved search 497.
-
-**Data Sources:**
-- Saved search results.
-
-**Data Retention:**
-- Records are permanently deleted.
-
-### Technical Constraints
-- Deletion is performed in map phase only.
-
-### Dependencies
-- **Libraries needed:** None
-- **External dependencies:** None
-- **Other features:** Saved search definition for deletion scope
-
-### Governance Considerations
-
-- **Script governance:** record.delete per result.
-- **Search governance:** One saved search load.
-- **API limits:** None.
+Schemas (if known):
+- Saved search | id 497 | Records to delete
 
 ---
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- All intended records are deleted without unhandled errors.
-
-**How we'll measure:**
-- Compare saved search counts before and after run.
+## 7. Validation & Edge Cases
+- If the search returns no results, the run completes without deletion.
+- Deletion failures are logged and do not halt the run.
 
 ---
 
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| sna_mr_delete_records.js | Map/Reduce | Delete records from saved search | Implemented |
-
-### Development Approach
-
-**Phase 1:** Input
-- [x] Load saved search 497.
-
-**Phase 2:** Deletion
-- [x] Delete each record in map phase.
+## 8. Implementation Notes (Optional)
+- Deletion occurs in the map stage only; no reduce/summarize behavior is required.
 
 ---
 
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. Run MR with search returning test records, verify deletion.
-
-**Edge Cases:**
-1. Search returns empty set, verify no errors.
-
-**Error Handling:**
-1. Delete fails due to dependencies, verify error logged.
-
-### Test Data Requirements
-- Saved search 497 configured with deletable records.
-
-### Sandbox Setup
-- Deploy MR and confirm search id 497 exists.
+## 9. Acceptance Criteria
+- Given saved search 497 returns records, when the MR runs, then all results are deleted.
+- Given a deletion error occurs, when the MR runs, then the error is logged and the job continues.
 
 ---
 
-## 11. Security & Permissions
-
-### Roles & Permissions
-- Script deployment role must have delete permissions for target record types.
-
-### Data Security
-- Destructive deletion; ensure access is restricted.
+## 10. Testing Notes
+- Run with a saved search returning test records and verify deletions.
+- Run with an empty search and verify no errors.
+- Include a record that cannot be deleted and verify error logging.
 
 ---
 
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-- [ ] Validate saved search 497 results.
-
-### Deployment Steps
-1. Deploy Map/Reduce and schedule as needed.
-
-### Post-Deployment
-- Confirm records are removed.
-
-### Rollback Plan
-- No rollback; restore from backup if needed.
+## 11. Deployment Notes
+- Validate saved search 497 scope before deployment.
+- Deploy the Map/Reduce and schedule or run on demand.
 
 ---
 
-## 13. Timeline (table)
-
-| Phase | Owner | Duration | Target Date |
-|------|-------|----------|-------------|
-| Implementation | Jeremy Cady | Unknown | Unknown |
-| Validation | Jeremy Cady | Unknown | Unknown |
-
----
-
-## 14. Open Questions & Risks
-
-### Open Questions
+## 12. Open Questions / TBDs
+- Confirm script ID and deployment ID.
+- Confirm created and last updated dates.
 - Should the saved search id be parameterized instead of hard-coded?
 
-### Known Risks (table)
-
-| Risk | Impact | Mitigation |
-|------|--------|------------|
-| Wrong search scope | Accidental deletions | Validate search filters before run |
-
 ---
-
-## 15. References & Resources
-
-### Related PRDs
-- None
-
-### NetSuite Documentation
-- Map/Reduce Script
-
-### External Resources
-- None
-
----
-
-## Revision History (table)
-
-| Version | Date | Author | Notes |
-|---------|------|--------|-------|
-| 1.0 | Unknown | Jeremy Cady | Initial PRD |

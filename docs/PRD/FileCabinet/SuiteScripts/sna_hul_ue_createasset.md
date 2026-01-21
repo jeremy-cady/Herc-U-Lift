@@ -1,103 +1,69 @@
-# PRD: Create FAM Asset from Disposal Process
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-CreateAssetFromFAMProcess
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Jeremy Cady
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/sna_hul_ue_createasset.js (User Event)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-CreateAssetFromFAMProcess
+title: Create FAM Asset from Disposal Process
+status: Implemented
+owner: Jeremy Cady
+created: Unknown
+last_updated: Unknown
 
-**Script Deployment:** Not specified
+script:
+  type: user_event
+  file: FileCabinet/SuiteScripts/sna_hul_ue_createasset.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - customrecord_fam_process
+  - itemfulfillment
+  - salesorder
+  - customrecord_ncfar_asset
+  - customrecord_sna_objects
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
+## 1. Overview
 User Event that creates customer-owned FAM assets after a disposal process completes and updates related object records.
 
-**What problem does it solve?**
-Ensures fixed asset records are created and linked when disposal processes complete for customer-owned assets.
+---
 
-**Primary Goal:**
-Create new FAM assets and update object records when disposal processes complete successfully.
+## 2. Business Goal
+Ensure fixed asset records are created and linked when disposal processes complete for customer-owned assets.
 
 ---
 
-## 2. Goals
-
-1. Detect completed FAM disposal processes.
-2. Create new FAM assets based on sales order line and disposal details.
-3. Update related object records with asset ownership and status.
+## 3. User Story
+As a finance user, when a disposal process completes for a customer-owned asset, I want fixed assets created automatically, so that asset tracking stays accurate after disposal.
 
 ---
 
-## 3. User Stories
-
-1. **As a** finance user, **I want to** create customer-owned fixed assets automatically **so that** asset tracking stays accurate after disposal.
-
----
-
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. The script must run afterSubmit on FAM Process records (excluding delete).
-2. The script must confirm process completion and that process ID is "disposal".
-3. The script must load the related Item Fulfillment and Sales Order to retrieve line details.
-4. The script must create a new `customrecord_ncfar_asset` when the original asset status is disposed.
-5. The script must update related object records with fixed asset references and ownership/status fields.
-
-### Acceptance Criteria
-
-- [ ] Completed disposal processes create customer-owned fixed asset records.
-- [ ] Related object records are updated with new fixed asset references.
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| afterSubmit | FAM Process fields | not delete; process completed and process ID is "disposal" | Create new asset and update related object records |
 
 ---
 
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Dispose assets directly.
-- Update assets when the disposal process is incomplete.
-
----
-
-## 6. Design Considerations
-
-### User Interface
-- No UI changes.
-
-### User Experience
-- Asset creation occurs automatically after disposal completion.
-
-### Design References
-- None.
+## 5. Functional Requirements
+- Run afterSubmit on FAM Process records (excluding delete).
+- Confirm process completion and that process ID is "disposal".
+- Load the related Item Fulfillment and Sales Order to retrieve line details.
+- Create a new `customrecord_ncfar_asset` when the original asset status is disposed.
+- Update related object records with fixed asset references and ownership/status fields.
 
 ---
 
-## 7. Technical Considerations
-
-### NetSuite Components Required
-
-**Record Types:**
+## 6. Data Contract
+### Record Types Involved
 - customrecord_fam_process
 - itemfulfillment
 - salesorder
 - customrecord_ncfar_asset
 - customrecord_sna_objects
 
-**Script Types:**
-- [ ] Map/Reduce - N/A
-- [ ] Scheduled Script - N/A
-- [ ] Suitelet - N/A
-- [ ] RESTlet - N/A
-- [x] User Event - Create assets and update objects
-- [ ] Client Script - N/A
-
-**Custom Fields:**
+### Fields Referenced
 - customrecord_fam_process | custrecord_fam_procstatus | Process status
 - customrecord_fam_process | custrecord_fam_procid | Process ID
 - customrecord_fam_process | custrecord_fam_procstateval | Process state values
@@ -131,172 +97,46 @@ Create new FAM assets and update object records when disposal processes complete
 - customrecord_sna_objects | custrecord_sna_current_address | Current address
 - customrecord_sna_objects | custrecord_sna_owning_loc_code | Owning location
 
-**Saved Searches:**
-- Search on customrecord_ncfar_asset to pull asset info for depreciation data.
+Schemas (if known):
+- TBD
 
-### Integration Points
+---
+
+## 7. Validation & Edge Cases
+- Non-completed process does not create assets.
+- Missing snaparams skips asset creation.
+- Record creation errors are logged.
+
+---
+
+## 8. Implementation Notes (Optional)
 - Uses script parameters for posting status and depreciation method IDs.
-
-### Data Requirements
-
-**Data Volume:**
-- One asset creation per disposed asset line.
-
-**Data Sources:**
-- FAM Process, Item Fulfillment, Sales Order, asset records
-
-**Data Retention:**
-- Creates new FAM asset records and updates object records.
-
-### Technical Constraints
-- Only creates assets when original asset status is disposed and process is completed.
-
-### Dependencies
-- **Libraries needed:** None
-- **External dependencies:** FAM process workflow
-- **Other features:** Object records and fixed asset data
-
-### Governance Considerations
-
-- **Script governance:** Multiple record loads and saves.
-- **Search governance:** Asset info searches for referenced assets.
-- **API limits:** Moderate on large disposal batches.
+- Performance/governance considerations: Multiple record loads and saves.
 
 ---
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- Disposal processes create customer-owned assets and update object records correctly.
-
-**How we'll measure:**
-- Verify new fixed assets and object record updates after disposal processing.
+## 9. Acceptance Criteria
+- Given a completed disposal process, when afterSubmit runs, then a customer-owned FAM asset is created.
+- Given a completed disposal process, when afterSubmit runs, then related object records are updated with fixed asset references.
 
 ---
 
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| sna_hul_ue_createasset.js | User Event | Create fixed assets from disposal process | Implemented |
-
-### Development Approach
-
-**Phase 1:** Process detection
-- [ ] Validate process completion checks
-
-**Phase 2:** Asset creation
-- [ ] Validate asset field mapping and object updates
-
----
-
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. Completed disposal process creates customer-owned FAM asset.
-
-**Edge Cases:**
-1. Non-completed process does not create assets.
-2. Missing snaparams skips asset creation.
-
-**Error Handling:**
-1. Record creation errors are logged.
-
-### Test Data Requirements
-- Completed FAM disposal process with associated Item Fulfillment and Sales Order
-
-### Sandbox Setup
+## 10. Testing Notes
+- Completed disposal process creates customer-owned FAM asset.
+- Non-completed process does not create assets.
+- Missing snaparams skips asset creation.
 - Deploy User Event on customrecord_fam_process.
 
 ---
 
-## 11. Security & Permissions
-
-### Roles & Permissions
-
-**Roles that need access:**
-- Finance roles
-
-**Permissions required:**
-- Create customrecord_ncfar_asset
-- Edit customrecord_sna_objects
-
-### Data Security
-- Asset records should be restricted to finance roles.
+## 11. Deployment Notes
+- Confirm script parameters for posting status and depreciation method.
+- Deploy User Event on FAM Process records and validate asset creation on completed disposal processes.
+- Monitor logs for asset creation errors; rollback by disabling deployment if needed.
 
 ---
 
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-
-- [ ] Confirm script parameters for posting status and depreciation method
-
-### Deployment Steps
-
-1. Deploy User Event on FAM Process records.
-2. Validate asset creation on completed disposal processes.
-
-### Post-Deployment
-
-- [ ] Monitor logs for asset creation errors
-
-### Rollback Plan
-
-**If deployment fails:**
-1. Disable the User Event deployment.
-2. Create assets manually if needed.
+## 12. Open Questions / TBDs
+- Should asset creation occur for non-disposed asset statuses?
 
 ---
-
-## 13. Timeline
-
-| Milestone | Target Date | Actual Date | Status |
-|-----------|-------------|-------------|--------|
-| PRD Approval | | | |
-| Development Start | | | |
-| Development Complete | | | |
-| Testing Complete | | | |
-| Stakeholder Review | | | |
-| Production Deploy | | | |
-
----
-
-## 14. Open Questions & Risks
-
-### Open Questions
-
-- [ ] Should asset creation occur for non-disposed asset statuses?
-
-### Known Risks
-
-| Risk | Likelihood | Impact | Mitigation Strategy |
-|------|------------|--------|---------------------|
-| Asset data missing in snaparams | Med | Med | Validate disposal process payloads |
-
----
-
-## 15. References & Resources
-
-### Related PRDs
-- None.
-
-### NetSuite Documentation
-- SuiteScript 2.1 User Event
-- Fixed Asset Management (FAM)
-
-### External Resources
-- None.
-
----
-
-## Revision History
-
-| Date | Author | Version | Changes |
-|------|--------|---------|---------|
-| Unknown | Jeremy Cady | 1.0 | Initial draft |

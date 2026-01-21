@@ -1,266 +1,108 @@
-# PRD: SuiteQL Query Tool Suitelet (v20211027)
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-SuiteqlQueryTool20211027
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Jeremy Cady
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/suiteql-query-tool.v20211027.suitelet.js (Suitelet)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-SuiteqlQueryTool20211027
+title: SuiteQL Query Tool Suitelet (v20211027)
+status: Implemented
+owner: Jeremy Cady
+created: TBD
+last_updated: TBD
 
-**Script Deployment (if applicable):**
-- Script ID: Not specified
-- Deployment ID: Not specified
+script:
+  type: suitelet
+  file: FileCabinet/SuiteScripts/suiteql-query-tool.v20211027.suitelet.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - file
+  - workbook
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
-A Suitelet that provides a browser-based SuiteQL query tool with query execution, pagination, SQL file management, and document rendering.
-
-**What problem does it solve?**
-Enables running and managing SuiteQL queries directly in NetSuite without external tools.
-
-**Primary Goal:**
-Provide a self-contained Suitelet UI and API endpoints to execute SuiteQL and manage query assets.
+## 1. Overview
+Suitelet that provides a browser-based SuiteQL query tool with query execution, pagination, SQL file management, and document rendering.
 
 ---
 
-## 2. Goals
-
-1. Render an interactive SuiteQL editor and results viewer.
-2. Execute SuiteQL queries with pagination and optional totals.
-3. Manage SQL files, virtual views, and document generation.
+## 2. Business Goal
+Allow users to execute SuiteQL queries and manage reusable query assets directly in NetSuite.
 
 ---
 
-## 3. User Stories
-
-1. **As a** developer, **I want to** run SuiteQL queries **so that** I can inspect data quickly.
-2. **As an** analyst, **I want to** paginate results **so that** large queries are manageable.
-3. **As an** admin, **I want to** save and load queries **so that** common queries are reusable.
+## 3. User Story
+As a developer or analyst, when I need to inspect data, I want a Suitelet-based SuiteQL tool so that I can run queries and manage saved SQL without external tools.
 
 ---
 
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. On GET, the system must render the SuiteQL Query Tool UI.
-2. On POST, the system must route functions such as queryExecute, sqlFileLoad, sqlFileSave, workbooksGet, workbookLoad, documentSubmit.
-3. queryExecute must run SuiteQL queries, optionally paginate in 5,000-row chunks, and optionally return total row count.
-4. queryExecute must resolve "virtual views" (#viewname) by loading SQL files from queryFolderID.
-5. sqlFileSave and sqlFileLoad must store and retrieve SQL files in the query folder.
-6. documentSubmit must store document parameters in session and documentGenerate must render PDF or HTML output.
-
-### Acceptance Criteria
-
-- [ ] UI loads and allows query execution.
-- [ ] Query results return with pagination and totals when requested.
-- [ ] SQL files can be saved and loaded.
-- [ ] Document generation produces PDF or HTML output.
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| GET | N/A | load | Render SuiteQL Query Tool UI. |
+| POST | function name | request | Route to query execution, file load/save, workbook load, or document generation. |
 
 ---
 
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Enforce query access beyond role permissions.
-- Validate SQL beyond SuiteQL execution errors.
-- Guarantee performance for all query sizes.
-
----
-
-## 6. Design Considerations
-
-### User Interface
-- Inline HTML UI rendered via Suitelet.
-
-### User Experience
-- Supports selected-text query execution and data table formatting.
-
-### Design References
-- Tim Dietrich SuiteQL Query Tool v2021.2.
+## 5. Functional Requirements
+- Render the SuiteQL Query Tool UI on GET.
+- Route POST functions: `queryExecute`, `sqlFileLoad`, `sqlFileSave`, `workbooksGet`, `workbookLoad`, `documentSubmit`, `documentGenerate`.
+- Execute SuiteQL queries with optional pagination in 5,000-row chunks and optional total counts.
+- Resolve virtual views (`#viewname`) by loading SQL files from `queryFolderID`.
+- Save and load SQL files in the query folder.
+- Store document parameters and render PDF or HTML output from query results.
 
 ---
 
-## 7. Technical Considerations
-
-### NetSuite Components Required
-
-**Record Types:**
+## 6. Data Contract
+### Record Types Involved
 - File
 - Workbook
 
-**Script Types:**
-- [ ] Map/Reduce - N/A
-- [ ] Scheduled Script - N/A
-- [x] Suitelet - Query tool UI and API
-- [ ] RESTlet - N/A
-- [ ] User Event - N/A
-- [ ] Client Script - N/A
+### Fields Referenced
+- Query folder id | 4575360 | SQL file storage
 
-**Custom Fields:**
-- None
-
-**Saved Searches:**
-- None
-
-### Integration Points
-- N/query for SuiteQL execution
-- File cabinet for SQL file storage
-- Workbook queries via N/query.load
-
-### Data Requirements
-
-**Data Volume:**
-- Results can be paginated in 5,000-row chunks.
-
-**Data Sources:**
-- Any records accessible via SuiteQL.
-
-**Data Retention:**
-- SQL files stored in folder id 4575360.
-
-### Technical Constraints
-- queryFolderID is hard-coded to 4575360.
-- Remote library fetches from suiteql.s3.us-east-1.amazonaws.com when enabled.
-- workbooksEnabled is false by default.
-
-### Dependencies
-- **Libraries needed:** None
-- **External dependencies:** Remote library via S3 (optional)
-- **Other features:** Workbooks and file cabinet access
-
-### Governance Considerations
-
-- **Script governance:** SuiteQL execution cost depends on query complexity.
-- **Search governance:** N/A (SuiteQL).
-- **API limits:** SuiteQL limits apply.
+Schemas (if known):
+- Remote library | suiteql.s3.us-east-1.amazonaws.com | Optional query library index
 
 ---
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- Users can execute SuiteQL queries and retrieve results reliably.
-- SQL files and virtual views resolve correctly.
-
-**How we'll measure:**
-- UI usage and log output for query execution.
+## 7. Validation & Edge Cases
+- Invalid SQL returns an error response; execution should not crash the Suitelet.
+- Large results should be paginated to avoid timeouts.
+- Workbooks are disabled by default unless enabled in configuration.
 
 ---
 
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| suiteql-query-tool.v20211027.suitelet.js | Suitelet | SuiteQL query UI and execution | Implemented |
-
-### Development Approach
-
-**Phase 1:** UI
-- [x] Render tool UI on GET.
-
-**Phase 2:** Execution and storage
-- [x] Execute queries and manage SQL files.
-
-**Phase 3:** Document output
-- [x] Generate PDF/HTML from query results.
+## 8. Implementation Notes (Optional)
+- `queryFolderID` is hard-coded to 4575360.
+- Virtual view resolution loads SQL from the query folder.
 
 ---
 
-## 10. Testing Requirements
+## 9. Acceptance Criteria
+- Given a valid query, when executed, then results return with pagination and optional totals.
+- Given a virtual view reference, when executed, then the view resolves to a stored SQL file.
+- Given document generation, when requested, then PDF or HTML output is produced.
 
-### Test Scenarios
+---
 
-**Happy Path:**
-1. Run a simple SuiteQL query and verify results.
-2. Save and load an SQL file.
+## 10. Testing Notes
+- Execute a simple query and verify results.
+- Save and load an SQL file and verify content.
+- Run a large query and verify pagination works.
 
-**Edge Cases:**
-1. Query with virtual view reference, verify view resolution.
-2. Large result set, verify pagination.
+---
 
-**Error Handling:**
-1. Invalid SQL returns error payload.
-
-### Test Data Requirements
-- Accessible records for SuiteQL queries.
-
-### Sandbox Setup
+## 11. Deployment Notes
 - Ensure folder id 4575360 exists and is accessible.
+- Deploy the Suitelet and assign roles with SuiteQL and file cabinet access.
 
 ---
 
-## 11. Security & Permissions
-
-### Roles & Permissions
-- Users must have permission to execute SuiteQL and access file cabinet.
-
-### Data Security
-- Results are returned to the Suitelet UI under the user's permissions.
-
----
-
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-- [ ] Verify query folder id 4575360 exists and is accessible.
-
-### Deployment Steps
-1. Deploy the Suitelet and assign appropriate roles.
-
-### Post-Deployment
-- Validate query execution and SQL file save/load.
-
-### Rollback Plan
-- Disable the Suitelet deployment.
-
----
-
-## 13. Timeline (table)
-
-| Phase | Owner | Duration | Target Date |
-|------|-------|----------|-------------|
-| Implementation | Jeremy Cady | Unknown | Unknown |
-| Validation | Jeremy Cady | Unknown | Unknown |
-
----
-
-## 14. Open Questions & Risks
-
-### Open Questions
+## 12. Open Questions / TBDs
+- Confirm script ID and deployment ID.
+- Confirm created and last updated dates.
 - Should queryFolderID be parameterized instead of hard-coded?
 
-### Known Risks (table)
-
-| Risk | Impact | Mitigation |
-|------|--------|------------|
-| Large queries | Timeout or usage limits | Use pagination and limit rows |
-
 ---
-
-## 15. References & Resources
-
-### Related PRDs
-- None
-
-### NetSuite Documentation
-- SuiteQL and N/query
-
-### External Resources
-- https://suiteql.s3.us-east-1.amazonaws.com/queries/index.json
-
----
-
-## Revision History (table)
-
-| Version | Date | Author | Notes |
-|---------|------|--------|-------|
-| 1.0 | Unknown | Jeremy Cady | Initial PRD |

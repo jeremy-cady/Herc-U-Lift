@@ -1,101 +1,65 @@
-# PRD: Object Config Field Visibility and Updates
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-Object
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Jeremy Cady
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/sna_hul_ue_object.js (User Event)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-Object
+title: Object Config Field Visibility and Updates
+status: Implemented
+owner: Jeremy Cady
+created: Unknown
+last_updated: Unknown
 
-**Script Deployment:** Not specified
+script:
+  type: user_event
+  file: FileCabinet/SuiteScripts/sna_hul_ue_object.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - customrecord_sna_objects
+  - customrecord_sna_object_config_rule
+  - purchaseorder
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
+## 1. Overview
 User Event that controls visibility of configuration fields on Object records and triggers downstream updates when object values change.
 
-**What problem does it solve?**
-Limits object configuration fields based on equipment segment rules and keeps related Sales Orders and POs in sync when object values change.
+---
 
-**Primary Goal:**
-Show only relevant configuration fields for objects and propagate key changes to related records.
+## 2. Business Goal
+Limit object configuration fields based on equipment segment rules and keep related Sales Orders and POs in sync when object values change.
 
 ---
 
-## 2. Goals
-
-1. Show/hide configuration fields based on object segment rules.
-2. Trigger a Map/Reduce update when commissionable book value changes.
-3. Sync fleet code/serial updates to open Purchase Orders.
+## 3. User Story
+As a user or sales admin, when object values change, I want relevant fields visible and related records updated, so that data stays consistent.
 
 ---
 
-## 3. User Stories
-
-1. **As a** user, **I want to** see only relevant configuration fields **so that** object forms are easier to use.
-2. **As a** sales admin, **I want to** update SOs and POs when object values change **so that** data stays consistent.
-
----
-
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. In UI view mode, the script must show/hide fields based on configuration rules in `customrecord_sna_object_config_rule`.
-2. On edit/xedit, if commissionable book value changes, the script must trigger MR `customscript_sna_hul_mr_upd_socombookval`.
-3. On edit/xedit, if fleet code or serial number changes, the script must update matching PO lines with new values.
-
-### Acceptance Criteria
-
-- [ ] Configuration fields display based on matching segment rules.
-- [ ] Commissionable book value changes trigger MR update.
-- [ ] Related PO lines update fleet code/serial number.
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| beforeLoad | Config fields | UI view mode | Show/hide fields based on `customrecord_sna_object_config_rule` |
+| afterSubmit | custrecord_sna_hul_obj_commissionable_bv | edit/xedit | Trigger MR `customscript_sna_hul_mr_upd_socombookval` |
+| afterSubmit | custrecord_sna_fleet_code, custrecord_sna_serial_no | edit/xedit | Update matching PO lines with new values |
 
 ---
 
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Modify object configuration rules.
-- Update closed or fully received POs.
+## 5. Functional Requirements
+- In UI view mode, show/hide fields based on configuration rules in `customrecord_sna_object_config_rule`.
+- On edit/xedit, if commissionable book value changes, trigger MR `customscript_sna_hul_mr_upd_socombookval`.
+- On edit/xedit, if fleet code or serial number changes, update matching PO lines with new values.
 
 ---
 
-## 6. Design Considerations
-
-### User Interface
-- Hides or shows configuration fields dynamically in view mode.
-
-### User Experience
-- Object form shows only applicable fields for the equipment segment.
-
-### Design References
-- Configuration rules stored in `customrecord_sna_object_config_rule`.
-
----
-
-## 7. Technical Considerations
-
-### NetSuite Components Required
-
-**Record Types:**
+## 6. Data Contract
+### Record Types Involved
 - customrecord_sna_objects
 - customrecord_sna_object_config_rule
 - purchaseorder
 
-**Script Types:**
-- [ ] Map/Reduce - Uses MR for SO updates
-- [ ] Scheduled Script - N/A
-- [ ] Suitelet - N/A
-- [ ] RESTlet - N/A
-- [x] User Event - Field visibility and update triggers
-- [ ] Client Script - N/A
-
-**Custom Fields:**
+### Fields Referenced
 - object | cseg_sna_hul_eq_seg | Equipment segment
 - object | custrecord_sna_hul_obj_commissionable_bv | Commissionable book value
 - object | custrecord_sna_fleet_code | Fleet code
@@ -104,172 +68,47 @@ Show only relevant configuration fields for objects and propagate key changes to
 - PO line | custcol_sna_hul_eq_serial | Serial number
 - PO line | custcol_sna_hul_fleet_no | Fleet object
 
-**Saved Searches:**
-- Search for open POs with fleet/serial values and outstanding quantities.
+Schemas (if known):
+- TBD
 
-### Integration Points
-- Map/Reduce `customscript_sna_hul_mr_upd_socombookval`.
+---
 
-### Data Requirements
+## 7. Validation & Edge Cases
+- Object without matching config rule uses default rule.
+- No related PO lines results in no updates.
+- PO update errors are logged.
 
-**Data Volume:**
-- Field visibility controlled per form view; PO updates per matching PO.
+---
 
-**Data Sources:**
-- Object configuration rule records and PO line data.
-
-**Data Retention:**
-- Updates PO lines and triggers MR updates.
-
-### Technical Constraints
+## 8. Implementation Notes (Optional)
 - UI field hiding only runs in view mode and UI context.
-
-### Dependencies
-- **Libraries needed:** None
-- **External dependencies:** Map/Reduce script for SO updates
-- **Other features:** Object configuration rule records
-
-### Governance Considerations
-
-- **Script governance:** UI-only field logic and possible PO load/save.
-- **Search governance:** PO search when fleet/serial changes.
-- **API limits:** Moderate.
+- Map/Reduce `customscript_sna_hul_mr_upd_socombookval` used for SO updates.
 
 ---
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- Object forms show correct fields and PO/SO updates occur after object changes.
-
-**How we'll measure:**
-- Validate UI field visibility and PO updates after changes.
+## 9. Acceptance Criteria
+- Given a configured object, when viewing, then only matching configuration fields are shown.
+- Given commissionable book value changes, when afterSubmit runs, then MR update is triggered.
+- Given fleet/serial changes, when afterSubmit runs, then matching PO lines update.
 
 ---
 
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| sna_hul_ue_object.js | User Event | Field visibility and update triggers | Implemented |
-
-### Development Approach
-
-**Phase 1:** Field visibility
-- [ ] Validate rules for segment-based display
-
-**Phase 2:** Update triggers
-- [ ] Validate MR triggering and PO line updates
-
----
-
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. View object form and verify fields display per configuration rule.
-2. Update commissionable book value and verify MR triggers.
-
-**Edge Cases:**
-1. Object without matching config rule uses default rule.
-2. No related PO lines results in no updates.
-
-**Error Handling:**
-1. PO update errors are logged.
-
-### Test Data Requirements
-- Object records with configuration rules and linked PO lines
-
-### Sandbox Setup
+## 10. Testing Notes
+- View object form and verify fields display per configuration rule.
+- Update commissionable book value and verify MR triggers.
+- No related PO lines results in no updates.
 - Deploy User Event on Object record.
 
 ---
 
-## 11. Security & Permissions
-
-### Roles & Permissions
-
-**Roles that need access:**
-- Asset and sales admin roles
-
-**Permissions required:**
-- View objects
-- Edit purchase orders
-
-### Data Security
-- Object data restricted to authorized roles.
+## 11. Deployment Notes
+- Confirm configuration rule records exist.
+- Deploy User Event on Object record and validate UI and update behavior.
+- Monitor logs for MR and PO update errors; rollback by disabling deployment if needed.
 
 ---
 
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-
-- [ ] Confirm configuration rule records exist
-
-### Deployment Steps
-
-1. Deploy User Event on Object record.
-2. Validate UI and update behavior.
-
-### Post-Deployment
-
-- [ ] Monitor logs for MR and PO update errors
-
-### Rollback Plan
-
-**If deployment fails:**
-1. Disable the User Event deployment.
-2. Update POs manually if needed.
+## 12. Open Questions / TBDs
+- Should PO updates be restricted to specific PO types?
 
 ---
-
-## 13. Timeline
-
-| Milestone | Target Date | Actual Date | Status |
-|-----------|-------------|-------------|--------|
-| PRD Approval | | | |
-| Development Start | | | |
-| Development Complete | | | |
-| Testing Complete | | | |
-| Stakeholder Review | | | |
-| Production Deploy | | | |
-
----
-
-## 14. Open Questions & Risks
-
-### Open Questions
-
-- [ ] Should PO updates be restricted to specific PO types?
-
-### Known Risks
-
-| Risk | Likelihood | Impact | Mitigation Strategy |
-|------|------------|--------|---------------------|
-| Field visibility rules drift from business needs | Low | Med | Review rule records periodically |
-
----
-
-## 15. References & Resources
-
-### Related PRDs
-- None.
-
-### NetSuite Documentation
-- SuiteScript 2.1 User Event
-
-### External Resources
-- None.
-
----
-
-## Revision History
-
-| Date | Author | Version | Changes |
-|------|--------|---------|---------|
-| Unknown | Jeremy Cady | 1.0 | Initial draft |

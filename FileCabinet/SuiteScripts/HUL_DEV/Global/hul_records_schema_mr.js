@@ -2,35 +2,38 @@
  * @NApiVersion 2.x
  * @NScriptType MapReduceScript
  * @NModuleScope SameAccount
+ *
  * author: Jeremy Cady
- * Date: 01/19/2026
- * Version: 1.1
+ * Date: 01/21/2026
+ * Version: 1.6.3
  */
 define(["require", "exports", "N/log", "N/record", "N/email", "N/file"], function (require, exports, log, record, email, file) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.summarize = exports.reduce = exports.map = exports.getInputData = void 0;
-    var RECORD_TYPES = [
-        { recordType: 'salesorder' },
-        { recordType: 'invoice' },
-        { recordType: 'customer' },
-        { recordType: 'item' }
+    var SUPPORTED_RECORD_TYPES = [
+        'salesorder',
+        'invoice',
+        'creditmemo',
+        'customer',
+        'inventoryitem',
+        'noninventoryitem',
+        'serviceitem',
+        'assemblyitem',
+        'kititem',
+        'otherchargeitem',
+        'paymentitem',
+        'markupitem',
+        'descriptionitem'
     ];
     var EMAIL_RECIPIENT = 'jcady@herculift.com';
-    /**
-     * INPUT
-     */
     var getInputData = function () {
-        log.audit({
-            title: 'Schema Registry',
-            details: 'Starting schema extraction run'
-        });
-        return RECORD_TYPES;
+        log.audit('Schema Registry', 'Starting schema extraction run');
+        return SUPPORTED_RECORD_TYPES.map(function (recordType) { return ({
+            recordType: recordType
+        }); });
     };
     exports.getInputData = getInputData;
-    /**
-     * MAP
-     */
     var map = function (context) {
         var input = JSON.parse(context.value);
         context.write({
@@ -39,202 +42,155 @@ define(["require", "exports", "N/log", "N/record", "N/email", "N/file"], functio
         });
     };
     exports.map = map;
-    /**
-     * REDUCE
-     * Builds and emails v1.2 schema for Sales Orders only
-     *
-     * Change (B): Adds BODY FIELD METADATA (types + a few safe attributes)
-     * - field.type (NetSuite FieldType)
-     * - field.label (when available)
-     * - field.isMandatory (when available)
-     * - field.isDisabled (when available)
-     * - field.displayType (when available)
-     *
-     * Notes / Limits (intentional):
-     * - We do NOT attempt to extract select "source list" or options (too heavy / unreliable).
-     * - UI/system-prefixed fields may not resolve via getField(); those remain category-only.
-     * - Sublists remain IDs-only for now (sublist field objects require line context and can be unreliable).
-     */
     var reduce = function (context) {
+        var _a;
         var recordType = String(context.key);
-        // v1 scope: Sales Order only
-        if (recordType !== 'salesorder') {
+        var rec;
+        try {
+            rec = record.create({
+                type: recordType,
+                isDynamic: false
+            });
+        }
+        catch (e) {
+            log.error({
+                title: 'Record Creation Failed',
+                details: { recordType: recordType, error: String(e) }
+            });
             return;
         }
-        // Known notes (local, simple v1)
-        var KNOWN_SUBLIST_NOTES = {
-            activities: 'FSM Task list; no sublist fields expected.'
-        };
-        var rec = record.create({
-            type: recordType,
-            isDynamic: false
-        });
-        // -------- BODY FIELDS (CLASSIFIED + METADATA) --------
-        var rawBodyFields = rec.getFields().slice().sort();
+        var rawFields = rec.getFields();
         var classifiedFields = {};
-        rawBodyFields.forEach(function (rawFieldId) {
-            var _a;
-            var fieldId = String(rawFieldId);
-            // Category classification
+        for (var i = 0; i < rawFields.length; i++) {
+            var rawFieldId = rawFields[i];
+            var fieldIdStr = String(rawFieldId);
             var category = 'body';
-            if (fieldId.indexOf('custpage_') === 0) {
-                category = 'ui';
+            if (typeof rawFieldId === 'string') {
+                if (rawFieldId.indexOf('custpage_') === 0)
+                    category = 'ui';
+                else if (rawFieldId.indexOf('_') === 0)
+                    category = 'system';
             }
-            else if (fieldId.indexOf('_') === 0) {
-                category = 'system';
-            }
-            // Default entry (category always included)
-            classifiedFields[fieldId] = { category: category };
-            // Only attempt field metadata for "body" fields.
-            // UI/system fields often do not resolve through getField() on a created record.
-            if (category !== 'body') {
-                return;
-            }
+            classifiedFields[fieldIdStr] = { category: category };
+            if (category !== 'body')
+                continue;
             try {
-                var f = rec.getField({ fieldId: fieldId });
-                // Field metadata is not guaranteed to be present for every field, so we guard each read.
-                // (SuiteScript types may not expose all properties uniformly across field types.)
-                classifiedFields[fieldId].type = String((_a = f.type) !== null && _a !== void 0 ? _a : 'unknown');
-                var label = f.label;
-                if (label !== undefined && label !== null) {
-                    classifiedFields[fieldId].label = String(label);
+                var f = rec.getField({ fieldId: rawFieldId });
+                if (!f) {
+                    log.debug({
+                        title: 'Field Metadata Unavailable',
+                        details: { recordType: recordType, fieldId: fieldIdStr, error: 'getField() returned null' }
+                    });
+                    continue;
                 }
-                var isMandatory = f.isMandatory;
-                if (isMandatory !== undefined && isMandatory !== null) {
-                    classifiedFields[fieldId].isMandatory = Boolean(isMandatory);
+                classifiedFields[fieldIdStr].type = String((_a = f.type) !== null && _a !== void 0 ? _a : 'unknown');
+                if (f.label != null) {
+                    classifiedFields[fieldIdStr].label = String(f.label);
                 }
-                var isDisabled = f.isDisabled;
-                if (isDisabled !== undefined && isDisabled !== null) {
-                    classifiedFields[fieldId].isDisabled = Boolean(isDisabled);
+                if (f.isMandatory != null) {
+                    classifiedFields[fieldIdStr].isMandatory = Boolean(f.isMandatory);
                 }
-                var displayType = f.displayType;
-                if (displayType !== undefined && displayType !== null) {
-                    classifiedFields[fieldId].displayType = String(displayType);
+                if (f.isDisabled != null) {
+                    classifiedFields[fieldIdStr].isDisabled = Boolean(f.isDisabled);
+                }
+                if (f.displayType != null) {
+                    classifiedFields[fieldIdStr].displayType = String(f.displayType);
                 }
             }
             catch (e) {
-                // If getField fails, keep category-only. No guessing.
                 log.debug({
-                    title: 'Field Metadata Unavailable',
-                    details: {
-                        recordType: recordType,
-                        fieldId: fieldId,
-                        error: String(e)
-                    }
+                    title: 'Field Metadata Error',
+                    details: { recordType: recordType, fieldId: fieldIdStr, error: String(e) }
                 });
             }
-        });
-        // -------- SUBLISTS (IDs-only + known notes) --------
-        var sublists = rec.getSublists().slice().sort();
+        }
+        var sublists = rec.getSublists();
         var sublistSchemas = {};
-        sublists.forEach(function (sublistId) {
-            var sid = String(sublistId);
+        var KNOWN_SUBLIST_NOTES = {
+            activities: 'FSM Task list; no sublist fields expected.'
+        };
+        for (var i = 0; i < sublists.length; i++) {
+            var sid = String(sublists[i]);
             try {
-                var sublistFields = rec
-                    .getSublistFields({ sublistId: sublistId })
-                    .slice()
-                    .sort()
-                    .map(function (f) { return String(f); });
-                sublistSchemas[sid] = { fields: sublistFields };
+                var fields = rec
+                    .getSublistFields({ sublistId: sid })
+                    .map(function (f) { return String(f); })
+                    .sort();
+                sublistSchemas[sid] = { fields: fields };
             }
             catch (e) {
                 log.error({
                     title: 'Sublist Field Error',
-                    details: {
-                        recordType: recordType,
-                        sublistId: sid,
-                        error: String(e)
-                    }
+                    details: { recordType: recordType, sublistId: sid, error: String(e) }
                 });
                 sublistSchemas[sid] = { fields: [] };
             }
-        });
-        // -------- SCHEMA OBJECT (v1.2) --------
+        }
         var schema = {
             meta: {
                 recordType: recordType,
                 generatedAt: new Date().toISOString(),
                 source: 'netsuite',
                 method: 'record.create + getFields/getField + getSublists/getSublistFields',
-                version: '1.2',
+                version: '1.6.3',
                 notes: {
                     sublists: KNOWN_SUBLIST_NOTES,
                     limitations: [
-                        'Select field sources/options are not extracted.',
-                        'UI/system-prefixed fields may not resolve metadata via getField().',
-                        'Sublist fields are IDs-only (no sublist field metadata).'
+                        'Select field options not extracted.',
+                        'System/UI fields may lack metadata.',
+                        'Sublist fields = IDs only.'
                     ]
                 }
             },
-            record: {
-                type: recordType
-            },
+            record: { type: recordType },
             fields: classifiedFields,
             sublists: sublistSchemas
         };
-        var serializedSchema = JSON.stringify(schema, null, 2);
-        // -------- FILE ATTACHMENT --------
-        var attachment = file.create({
+        var schemaFile = file.create({
             name: "".concat(recordType, ".schema.json"),
             fileType: file.Type.JSON,
-            contents: serializedSchema
+            contents: JSON.stringify(schema, null, 2)
         });
-        // -------- EMAIL DELIVERY --------
+        var saved = schemaFile.save();
+        context.write({
+            key: recordType,
+            value: String(saved)
+        });
+        log.audit('Schema File Saved', { recordType: recordType, fileId: saved });
+    };
+    exports.reduce = reduce;
+    var summarize = function (summary) {
+        var schemaFileIds = [];
+        summary.output.iterator().each(function (key, value) {
+            schemaFileIds.push(String(value));
+            return true;
+        });
+        var attachments = [];
+        for (var i = 0; i < schemaFileIds.length; i++) {
+            try {
+                var f = file.load({ id: schemaFileIds[i] });
+                attachments.push(f);
+            }
+            catch (e) {
+                log.error({
+                    title: 'Attachment Load Failed',
+                    details: { fileId: schemaFileIds[i], error: String(e) }
+                });
+            }
+        }
         email.send({
             author: -5,
             recipients: EMAIL_RECIPIENT,
             replyTo: EMAIL_RECIPIENT,
-            subject: "NetSuite Schema Export \u2014 ".concat(recordType, " (v1.2)"),
-            body: "Attached is the v1.2 schema export for the ".concat(recordType, " record.\n\n") +
-                '• Field categories included (body | ui | system)\n' +
-                '• Body field metadata included (type/label/mandatory/disabled/displayType when available)\n' +
-                '• Sublists: IDs only\n' +
-                "\u2022 Generated at ".concat(schema.meta.generatedAt, "\n\n") +
-                'This file is intended for local use in VS Code and Git.',
-            attachments: [attachment]
+            subject: 'NetSuite Schema Export — JSON Attachments (v1.6.3)',
+            body: "Attached are the schema exports for the following record types:\n".concat(SUPPORTED_RECORD_TYPES.map(function (r) { return "\u2022 ".concat(r); }).join('\n')
+            // eslint-disable-next-line max-len
+            , "\n\nEach file includes field metadata, classification, and sublists.\n\nThese are intended for use in VS Code and Git."),
+            attachments: attachments
         });
-        log.audit({
-            title: 'Schema Email Sent',
-            details: {
-                recordType: recordType,
-                recipient: EMAIL_RECIPIENT,
-                bodyFieldCount: rawBodyFields.length,
-                sublistCount: sublists.length
-            }
-        });
-    };
-    exports.reduce = reduce;
-    /**
-     * SUMMARIZE
-     */
-    var summarize = function (summary) {
-        log.audit({
-            title: 'Schema Registry Complete',
-            details: {
-                usage: summary.usage,
-                concurrency: summary.concurrency,
-                yields: summary.yields
-            }
-        });
-        if (summary.inputSummary.error) {
-            log.error({
-                title: 'Input Error',
-                details: summary.inputSummary.error
-            });
-        }
-        summary.mapSummary.errors.iterator().each(function (key, error) {
-            log.error({
-                title: "Map Error: ".concat(key),
-                details: error
-            });
-            return true;
-        });
-        summary.reduceSummary.errors.iterator().each(function (key, error) {
-            log.error({
-                title: "Reduce Error: ".concat(key),
-                details: error
-            });
-            return true;
+        log.audit('Schema Email Sent', {
+            schemaCount: schemaFileIds.length,
+            filesAttached: attachments.length
         });
     };
     exports.summarize = summarize;

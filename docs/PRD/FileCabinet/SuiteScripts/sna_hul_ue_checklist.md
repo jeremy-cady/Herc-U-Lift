@@ -1,102 +1,68 @@
-# PRD: Checklist Hour Meter Creation
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-ChecklistHourMeter
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Jeremy Cady
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/sna_hul_ue_checklist.js (User Event)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-ChecklistHourMeter
+title: Checklist Hour Meter Creation
+status: Implemented
+owner: Jeremy Cady
+created: Unknown
+last_updated: Unknown
 
-**Script Deployment:** Not specified
+script:
+  type: user_event
+  file: FileCabinet/SuiteScripts/sna_hul_ue_checklist.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - customrecord_nxc_mr
+  - customrecord_sna_nxc_rc
+  - supportcase
+  - customrecord_nx_asset
+  - customrecord_sna_hul_hour_meter
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
+## 1. Overview
 User Event that creates Hour Meter records from Rental Checklist or Maintenance records based on case context.
 
-**What problem does it solve?**
-Ensures hour meter readings are captured automatically when checklists are created.
+---
 
-**Primary Goal:**
-Create an hour meter entry tied to the asset object with a source derived from case type and revenue stream.
+## 2. Business Goal
+Ensure hour meter readings are captured automatically when checklists are created.
 
 ---
 
-## 2. Goals
-
-1. Detect new rental checklist or maintenance records.
-2. Determine source type based on case type or revenue stream.
-3. Create a custom hour meter record with reading and source details.
+## 3. User Story
+As a service user, when a rental checklist or maintenance record is created, I want hour meter readings created automatically, so that equipment usage is tracked consistently.
 
 ---
 
-## 3. User Stories
-
-1. **As a** service user, **I want to** auto-create hour meter readings **so that** equipment usage is tracked consistently.
-
----
-
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. The script must run afterSubmit on create/copy of rental checklist or maintenance records.
-2. The script must read case, asset, and hour reading fields based on record type.
-3. The script must look up asset object and case details to determine source type.
-4. The script must create a `customrecord_sna_hul_hour_meter` record with reading, source, and time.
-
-### Acceptance Criteria
-
-- [ ] New checklist/maintenance records create an hour meter record when a case and reading exist.
-- [ ] Source type is set based on case type or revenue stream.
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| afterSubmit | Checklist/Maintenance fields | create/copy | Create hour meter record based on case and asset data |
 
 ---
 
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Update existing hour meter records.
-- Validate hour readings beyond presence checks.
-
----
-
-## 6. Design Considerations
-
-### User Interface
-- No UI changes.
-
-### User Experience
-- Hour meter entries appear automatically after checklist creation.
-
-### Design References
-- None.
+## 5. Functional Requirements
+- Run afterSubmit on create/copy of rental checklist or maintenance records.
+- Read case, asset, and hour reading fields based on record type.
+- Look up asset object and case details to determine source type.
+- Create a `customrecord_sna_hul_hour_meter` record with reading, source, and time.
 
 ---
 
-## 7. Technical Considerations
-
-### NetSuite Components Required
-
-**Record Types:**
+## 6. Data Contract
+### Record Types Involved
 - customrecord_nxc_mr
 - customrecord_sna_nxc_rc
 - supportcase
 - customrecord_nx_asset
 - customrecord_sna_hul_hour_meter
 
-**Script Types:**
-- [ ] Map/Reduce - N/A
-- [ ] Scheduled Script - N/A
-- [ ] Suitelet - N/A
-- [ ] RESTlet - N/A
-- [x] User Event - Hour meter creation
-- [ ] Client Script - N/A
-
-**Custom Fields:**
+### Fields Referenced
 - customrecord_nxc_mr | custrecord_nxc_mr_case | Case
 - customrecord_nxc_mr | custrecord_nxc_mr_field_222 | Hour reading
 - customrecord_nxc_mr | custrecord_nxc_mr_asset | Asset
@@ -115,170 +81,46 @@ Create an hour meter entry tied to the asset object with a source derived from c
 - customrecord_sna_hul_hour_meter | custrecord_sna_hul_actual_reading | Actual reading
 - customrecord_sna_hul_hour_meter | custrecord_sna_hul_source_record | Source record label
 
-**Saved Searches:**
-- None (uses lookupFields).
+Schemas (if known):
+- TBD
 
-### Integration Points
-- Uses script parameters for source type mapping.
+---
 
-### Data Requirements
+## 7. Validation & Edge Cases
+- Missing hour reading does not create a record.
+- Missing asset object results in blank object reference.
+- Record creation errors are logged.
 
-**Data Volume:**
-- One hour meter record per eligible checklist.
+---
 
-**Data Sources:**
-- Checklist/maintenance records and support cases.
-
-**Data Retention:**
-- Creates new hour meter records only.
-
-### Technical Constraints
+## 8. Implementation Notes (Optional)
 - Source type mapping depends on revenue stream and case type text values.
-
-### Dependencies
-- **Libraries needed:** None
-- **External dependencies:** None
-- **Other features:** Custom hour meter record
-
-### Governance Considerations
-
-- **Script governance:** Low.
-- **Search governance:** LookupFields for asset and case.
-- **API limits:** Low.
+- Performance/governance considerations: LookupFields for asset and case.
 
 ---
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- Hour meter records are created with correct source and reading values.
-
-**How we'll measure:**
-- Review hour meter records created from recent checklists.
+## 9. Acceptance Criteria
+- Given a checklist or maintenance record with a case and hour reading, when afterSubmit runs, then an hour meter record is created.
+- Given a case type or revenue stream, when the hour meter record is created, then the source type is set accordingly.
 
 ---
 
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| sna_hul_ue_checklist.js | User Event | Create hour meter records | Implemented |
-
-### Development Approach
-
-**Phase 1:** Source mapping
-- [ ] Validate source type mapping logic
-
-**Phase 2:** Record creation
-- [ ] Validate hour meter field values
-
----
-
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. Create a checklist with hour reading and case; hour meter record is created.
-
-**Edge Cases:**
-1. Missing hour reading does not create a record.
-2. Missing asset object results in blank object reference.
-
-**Error Handling:**
-1. Record creation errors are logged.
-
-### Test Data Requirements
-- Checklist or maintenance record linked to a case with known type and revenue stream
-
-### Sandbox Setup
+## 10. Testing Notes
+- Create a checklist with hour reading and case; hour meter record is created.
+- Missing hour reading does not create a record.
+- Missing asset object results in blank object reference.
 - Deploy User Event on checklist record types.
 
 ---
 
-## 11. Security & Permissions
-
-### Roles & Permissions
-
-**Roles that need access:**
-- Service and rental operations roles
-
-**Permissions required:**
-- Create customrecord_sna_hul_hour_meter
-
-### Data Security
-- Hour meter data restricted to service operations.
+## 11. Deployment Notes
+- Configure script parameters for source types.
+- Deploy User Event on checklist record types and validate hour meter record creation.
+- Monitor logs for missing case or asset values; rollback by disabling deployment if needed.
 
 ---
 
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-
-- [ ] Configure script parameters for source types
-
-### Deployment Steps
-
-1. Deploy User Event on checklist record types.
-2. Validate hour meter record creation.
-
-### Post-Deployment
-
-- [ ] Monitor logs for missing case or asset values
-
-### Rollback Plan
-
-**If deployment fails:**
-1. Disable the User Event deployment.
-2. Create hour meter records manually as needed.
+## 12. Open Questions / TBDs
+- Should hour meter creation be blocked when asset object is missing?
 
 ---
-
-## 13. Timeline
-
-| Milestone | Target Date | Actual Date | Status |
-|-----------|-------------|-------------|--------|
-| PRD Approval | | | |
-| Development Start | | | |
-| Development Complete | | | |
-| Testing Complete | | | |
-| Stakeholder Review | | | |
-| Production Deploy | | | |
-
----
-
-## 14. Open Questions & Risks
-
-### Open Questions
-
-- [ ] Should hour meter creation be blocked when asset object is missing?
-
-### Known Risks
-
-| Risk | Likelihood | Impact | Mitigation Strategy |
-|------|------------|--------|---------------------|
-| Case type text changes break source mapping | Med | Low | Confirm case type values in deployment | 
-
----
-
-## 15. References & Resources
-
-### Related PRDs
-- None.
-
-### NetSuite Documentation
-- SuiteScript 2.1 User Event
-
-### External Resources
-- None.
-
----
-
-## Revision History
-
-| Date | Author | Version | Changes |
-|------|--------|---------|---------|
-| Unknown | Jeremy Cady | 1.0 | Initial draft |

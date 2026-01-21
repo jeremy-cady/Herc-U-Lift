@@ -1,263 +1,101 @@
-# PRD: Link Sales Order on Purchase Orders
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-LinkSO
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Jeremy Cady
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/sna_hul_ue_link_so.js (User Event)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-LinkSO
+title: Link Sales Order on Purchase Orders
+status: Implemented
+owner: Jeremy Cady
+created: Unknown
+last_updated: Unknown
 
-**Script Deployment:** Not specified
+script:
+  type: user_event
+  file: FileCabinet/SuiteScripts/sna_hul_ue_link_so.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - purchaseorder
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
+## 1. Overview
 User Event that links Purchase Order lines to the originating Sales Order and sets PO type for dropship or special order.
 
-**What problem does it solve?**
-Ensures Purchase Orders maintain a direct reference to the originating Sales Order and correct PO type classification.
+---
 
-**Primary Goal:**
-Populate `custcol_sna_linked_so` on PO lines and set PO type for dropship/special order.
+## 2. Business Goal
+Ensure Purchase Orders maintain a direct reference to the originating Sales Order and correct PO type classification.
 
 ---
 
-## 2. Goals
-
-1. Set PO type for dropship and special order POs.
-2. Populate linked Sales Order on PO lines when created from a Sales Order.
+## 3. User Story
+As a buyer, when POs are created from Sales Orders, I want linked SO references and PO types set, so that I can track fulfillment context.
 
 ---
 
-## 3. User Stories
-
-1. **As a** buyer, **I want to** see the originating Sales Order on PO lines **so that** I can track fulfillment context.
-
----
-
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. The script must run afterSubmit on PO create/dropship/special order events.
-2. If dropship, set `custbody_po_type` to 3.
-3. If special order, set `custbody_po_type` to 6.
-4. If `createdfrom` exists, set `custcol_sna_linked_so` on all item lines.
-
-### Acceptance Criteria
-
-- [ ] PO type is set for dropship and special order POs.
-- [ ] Linked Sales Order is populated on PO lines.
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| afterSubmit | custbody_po_type, createdfrom | PO create/dropship/special order | Set PO type and populate linked SO on item lines |
 
 ---
 
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Validate Sales Order status.
-- Populate linked SO on POs without createdfrom.
-
----
-
-## 6. Design Considerations
-
-### User Interface
-- No UI changes.
-
-### User Experience
-- Linked Sales Order appears automatically on PO lines.
-
-### Design References
-- None.
+## 5. Functional Requirements
+- Run afterSubmit on PO create/dropship/special order events.
+- If dropship, set `custbody_po_type` to 3.
+- If special order, set `custbody_po_type` to 6.
+- If `createdfrom` exists, set `custcol_sna_linked_so` on all item lines.
 
 ---
 
-## 7. Technical Considerations
-
-### NetSuite Components Required
-
-**Record Types:**
+## 6. Data Contract
+### Record Types Involved
 - purchaseorder
 
-**Script Types:**
-- [ ] Map/Reduce - N/A
-- [ ] Scheduled Script - N/A
-- [ ] Suitelet - N/A
-- [ ] RESTlet - N/A
-- [x] User Event - Link Sales Order
-- [ ] Client Script - N/A
-
-**Custom Fields:**
+### Fields Referenced
 - purchaseorder | custbody_po_type | PO type
 - purchaseorder line | custcol_sna_linked_so | Linked Sales Order
 
-**Saved Searches:**
-- None.
+Schemas (if known):
+- TBD
 
-### Integration Points
-- None.
+---
 
-### Data Requirements
-
-**Data Volume:**
-- One PO load and line iteration per event.
-
-**Data Sources:**
-- Purchase Order `createdfrom` value.
-
-**Data Retention:**
-- Updates PO line fields and PO header.
-
-### Technical Constraints
+## 7. Validation & Edge Cases
+- PO without createdfrom does not update linked SO.
+- Record save errors are logged.
 - Only runs for create/dropship/special order events.
 
-### Dependencies
-- **Libraries needed:** None
-- **External dependencies:** None
-- **Other features:** PO creation from Sales Orders
+---
 
-### Governance Considerations
-
-- **Script governance:** One PO load/save per event.
-- **Search governance:** None.
-- **API limits:** Low.
+## 8. Implementation Notes (Optional)
+- PO type values are hard-coded (dropship = 3, special order = 6).
 
 ---
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- POs show linked Sales Orders and correct PO type values.
-
-**How we'll measure:**
-- Review created POs from Sales Orders.
+## 9. Acceptance Criteria
+- Given a dropship or special order PO, when afterSubmit runs, then PO type is set to the correct value.
+- Given a PO created from an SO, when afterSubmit runs, then `custcol_sna_linked_so` is populated.
 
 ---
 
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| sna_hul_ue_link_so.js | User Event | Link SO and set PO type | Implemented |
-
-### Development Approach
-
-**Phase 1:** PO type assignment
-- [ ] Validate dropship/special order PO type values
-
-**Phase 2:** Linked SO fields
-- [ ] Validate line-level linked SO values
-
----
-
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. Create dropship PO from SO and verify PO type and linked SO.
-
-**Edge Cases:**
-1. PO without createdfrom does not update linked SO.
-
-**Error Handling:**
-1. Record save errors are logged.
-
-### Test Data Requirements
-- PO created from Sales Order
-
-### Sandbox Setup
+## 10. Testing Notes
+- Create dropship PO from SO and verify PO type and linked SO.
+- PO without createdfrom does not update linked SO.
 - Deploy User Event on Purchase Order.
 
 ---
 
-## 11. Security & Permissions
-
-### Roles & Permissions
-
-**Roles that need access:**
-- Purchasing roles
-
-**Permissions required:**
-- Edit Purchase Orders
-
-### Data Security
-- Linked SO data restricted to authorized roles.
+## 11. Deployment Notes
+- Confirm PO type values for dropship/special order.
+- Deploy User Event on Purchase Order and validate linked SO values.
+- Monitor logs for save errors; rollback by disabling deployment if needed.
 
 ---
 
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-
-- [ ] Confirm PO type values for dropship/special order
-
-### Deployment Steps
-
-1. Deploy User Event on Purchase Order.
-2. Validate linked SO values.
-
-### Post-Deployment
-
-- [ ] Monitor logs for save errors
-
-### Rollback Plan
-
-**If deployment fails:**
-1. Disable the User Event deployment.
-2. Update linked SO fields manually if needed.
+## 12. Open Questions / TBDs
+- Should PO type values be configuration-driven?
 
 ---
-
-## 13. Timeline
-
-| Milestone | Target Date | Actual Date | Status |
-|-----------|-------------|-------------|--------|
-| PRD Approval | | | |
-| Development Start | | | |
-| Development Complete | | | |
-| Testing Complete | | | |
-| Stakeholder Review | | | |
-| Production Deploy | | | |
-
----
-
-## 14. Open Questions & Risks
-
-### Open Questions
-
-- [ ] Should PO type values be configuration-driven?
-
-### Known Risks
-
-| Risk | Likelihood | Impact | Mitigation Strategy |
-|------|------------|--------|---------------------|
-| Incorrect PO type values | Low | Med | Validate internal IDs in environment |
-
----
-
-## 15. References & Resources
-
-### Related PRDs
-- None.
-
-### NetSuite Documentation
-- SuiteScript 2.x User Event
-
-### External Resources
-- None.
-
----
-
-## Revision History
-
-| Date | Author | Version | Changes |
-|------|--------|---------|---------|
-| Unknown | Jeremy Cady | 1.0 | Initial draft |

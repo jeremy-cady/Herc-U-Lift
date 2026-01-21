@@ -1,10 +1,20 @@
 {
   "meta": {
     "recordType": "salesorder",
-    "generatedAt": "2026-01-20T21:06:23.530Z",
+    "generatedAt": "2026-01-20T22:38:34.575Z",
     "source": "netsuite",
-    "method": "record.create + metadata extraction",
-    "version": "1.1"
+    "method": "record.create + getFields/getField + getSublists/getSublistFields",
+    "version": "1.2",
+    "notes": {
+      "sublists": {
+        "activities": "FSM Task list; no sublist fields expected."
+      },
+      "limitations": [
+        "Select field sources/options are not extracted.",
+        "UI/system-prefixed fields may not resolve metadata via getField().",
+        "Sublist fields are IDs-only (no sublist field metadata)."
+      ]
+    }
   },
   "record": {
     "type": "salesorder"
@@ -17,991 +27,1975 @@
       "category": "system"
     },
     "address_country_state_map": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "allowemptycards": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "",
+      "isMandatory": false
     },
     "althandlingcost": {
-      "category": "body"
+      "category": "body",
+      "type": "currency",
+      "label": "Handling Cost",
+      "isMandatory": false
     },
     "altsalestotal": {
-      "category": "body"
+      "category": "body",
+      "type": "currency",
+      "label": "Total (Alt.Sales)",
+      "isMandatory": false
     },
     "altshippingcost": {
-      "category": "body"
+      "category": "body",
+      "type": "currency",
+      "label": "Shipping Cost",
+      "isMandatory": false
     },
     "authcode": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Auth. Code",
+      "isMandatory": false
     },
     "authorizedamount": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "balance": {
-      "category": "body"
+      "category": "body",
+      "type": "currency",
+      "label": "Balance",
+      "isMandatory": false
     },
     "balreadyrefunded": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "baserecordtype": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "bfreeifoveractive": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "billaddress": {
-      "category": "body"
+      "category": "body",
+      "type": "address",
+      "label": "Bill To",
+      "isMandatory": false
     },
     "billaddresslist": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Bill To Select",
+      "isMandatory": false
     },
     "billingaddress2_set": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "billingaddress_defaultvalue": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "billingaddress_key": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "billingaddress_text": {
-      "category": "body"
+      "category": "body",
+      "type": "address",
+      "label": "Billing Address",
+      "isMandatory": false
     },
     "billingaddress_type": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "billingschedule": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Billing Schedule",
+      "isMandatory": false
     },
     "billingscheduletype": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "billisresidential": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Shipping address is residential",
+      "isMandatory": false
     },
     "binclallitemsforfreeshipping": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "bmaxshipcostactive": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "bminshipcostactive": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "bnopostmain": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "bulk": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "byweightamt": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "byweightconvratetolbs": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "byweightinwholeincr": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "byweightper": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "canbeunapproved": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "cancustomergroupinvoices": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "",
+      "isMandatory": false
     },
     "canhavestackable": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Can have stackable promotions",
+      "isMandatory": false
     },
     "carddataprovided": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Card Data Provided",
+      "isMandatory": false
     },
     "cardholderauthentication": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Cardholder Authentication",
+      "isMandatory": false
     },
     "cardswipe": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "carrier": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "ccapproved": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Credit Card Approved",
+      "isMandatory": false
     },
     "ccavsstreetmatch": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "AVS Street Match",
+      "isMandatory": false
     },
     "ccavszipmatch": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "AVS Zip Match",
+      "isMandatory": false
     },
     "cccardid": {
-      "category": "body"
+      "category": "body",
+      "type": "integer",
+      "label": "",
+      "isMandatory": false
     },
     "ccexpiredate": {
-      "category": "body"
+      "category": "body",
+      "type": "ccexpdate",
+      "label": "Expires (MM/YYYY)",
+      "isMandatory": false
     },
     "cchold": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Detail",
+      "isMandatory": false
     },
     "ccholdetails": {
-      "category": "body"
+      "category": "body",
+      "type": "textarea",
+      "label": "Detail",
+      "isMandatory": false
     },
     "cciavsmatch": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "IAVS Match",
+      "isMandatory": false
     },
     "ccispurchasecardbin": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Purchase Card BIN",
+      "isMandatory": false
     },
     "ccname": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Name on Card",
+      "isMandatory": false
     },
     "ccnumber": {
-      "category": "body"
+      "category": "body",
+      "type": "ccnumber",
+      "label": "Credit Card #",
+      "isMandatory": false
     },
     "ccpanid": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "ccprocessaspurchasecard": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Send Line-Level Data",
+      "isMandatory": false
     },
     "ccprocessoraccount": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "ccstreet": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Card Street",
+      "isMandatory": false
     },
     "ccwasapproved": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "",
+      "isMandatory": false
     },
     "cczipcode": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Card Zip Code",
+      "isMandatory": false
     },
     "chargeit": {
       "category": "body"
     },
     "checkcommitted": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "checkcreditlimit": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "checknumber": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Check #",
+      "isMandatory": false
     },
     "class": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Class",
+      "isMandatory": false
     },
     "collectedamount": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "companyid": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "consolidatebalance": {
-      "category": "body"
+      "category": "body",
+      "type": "currency",
+      "label": "Consolidated Balance",
+      "isMandatory": false
     },
     "createddate": {
-      "category": "body"
+      "category": "body",
+      "type": "datetime",
+      "label": "",
+      "isMandatory": false
     },
     "credholdentity": {
-      "category": "body"
+      "category": "body",
+      "type": "integer",
+      "label": "",
+      "isMandatory": false
     },
     "credholdoverride": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "creditcard": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Credit Card Select",
+      "isMandatory": false
     },
     "creditcardprocessor": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Payment Processing Profile",
+      "isMandatory": false
     },
     "credlim": {
-      "category": "body"
+      "category": "body",
+      "type": "currency",
+      "label": "",
+      "isMandatory": false
     },
     "cseg1": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "(DNU) Equipment Posting/Category/Group",
+      "isMandatory": false
     },
     "cseg_hul_mfg": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "HUL Manufacturer (2)",
+      "isMandatory": false
     },
     "cseg_sna_hul_eq_seg": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Equipment Posting/Category/Group",
+      "isMandatory": false
     },
     "cseg_sna_revenue_st": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Revenue Streams",
+      "isMandatory": false
     },
     "currency": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Currency",
+      "isMandatory": true
     },
     "currencyprecision": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "currencysymbol": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Currency Symbol",
+      "isMandatory": false
     },
     "custbody14": {
-      "category": "body"
+      "category": "body",
+      "type": "email",
+      "label": "Email (2)",
+      "isMandatory": false
     },
     "custbody_10184_customer_entity_bank": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Entity Bank (Customer)",
+      "isMandatory": false
     },
     "custbody_15699_exclude_from_ep_process": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Exclude from Electronic Bank Payments Processing",
+      "isMandatory": false
     },
     "custbody_auto_send_document_nonstore": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Basware Automatically Send E-document Non-stored from customer",
+      "isMandatory": false
     },
     "custbody_ava_billto_latitude": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Bill-To Latitude",
+      "isMandatory": false
     },
     "custbody_ava_billto_longitude": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Bill-To Longitude",
+      "isMandatory": false
     },
     "custbody_ava_billtousecode": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Bill-To Entity/Use Code",
+      "isMandatory": false
     },
     "custbody_ava_billtousecodetext": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Bill-To Entity/Use Code Text",
+      "isMandatory": false
     },
     "custbody_ava_custexternalid": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Customer External ID",
+      "isMandatory": false
     },
     "custbody_ava_customduty": {
-      "category": "body"
+      "category": "body",
+      "type": "currency",
+      "label": "Custom Duty and Import Fees",
+      "isMandatory": false
     },
     "custbody_ava_customercompanyname": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Customer Companyname",
+      "isMandatory": false
     },
     "custbody_ava_customerentityid": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Customer Entityid",
+      "isMandatory": false
     },
     "custbody_ava_customerfirstname": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Customer Firstname",
+      "isMandatory": false
     },
     "custbody_ava_customergstin": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Customer GSTIN",
+      "isMandatory": false
     },
     "custbody_ava_customerisperson": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Customer Isperson",
+      "isMandatory": false
     },
     "custbody_ava_customerlastname": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Customer Lastname",
+      "isMandatory": false
     },
     "custbody_ava_customermiddlename": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Customer Middlename",
+      "isMandatory": false
     },
     "custbody_ava_customertaxable": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Customer Taxable",
+      "isMandatory": false
     },
     "custbody_ava_disable_tax_calculation": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Disable Avalara Tax Calculation",
+      "isMandatory": false
     },
     "custbody_ava_discountamount": {
-      "category": "body"
+      "category": "body",
+      "type": "currency",
+      "label": "Discount Amount",
+      "isMandatory": false
     },
     "custbody_ava_discountmapping": {
-      "category": "body"
+      "category": "body",
+      "type": "integer",
+      "label": "Discount Mapping",
+      "isMandatory": false
     },
     "custbody_ava_entity_type": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Entity type",
+      "isMandatory": false
     },
     "custbody_ava_exemptcertno": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Exemption Certificate No",
+      "isMandatory": false
     },
     "custbody_ava_handlingamount": {
-      "category": "body"
+      "category": "body",
+      "type": "currency",
+      "label": "Handling Amount",
+      "isMandatory": false
     },
     "custbody_ava_handlingamount1": {
-      "category": "body"
+      "category": "body",
+      "type": "currency",
+      "label": "Handling Amount1",
+      "isMandatory": false
     },
     "custbody_ava_invoicemessage": {
-      "category": "body"
+      "category": "body",
+      "type": "longtext",
+      "label": "Invoice Messaging",
+      "isMandatory": false
     },
     "custbody_ava_is_sellerimporter": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Is Seller Importer Of Record",
+      "isMandatory": false
     },
     "custbody_ava_modeoftransport": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Transport Mode",
+      "isMandatory": false
     },
     "custbody_ava_partnercompanyname": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Partner Companyname",
+      "isMandatory": false
     },
     "custbody_ava_partnerentityid": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Partner Entityid",
+      "isMandatory": false
     },
     "custbody_ava_partnerfirstname": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Partner Firstname",
+      "isMandatory": false
     },
     "custbody_ava_partnerisperson": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Partner Isperson",
+      "isMandatory": false
     },
     "custbody_ava_partnerlastname": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Partner Lastname",
+      "isMandatory": false
     },
     "custbody_ava_partnermiddlename": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Partner Middlename",
+      "isMandatory": false
     },
     "custbody_ava_partyavatidcountry": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Party A VATID Country",
+      "isMandatory": false
     },
     "custbody_ava_pickup": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Pick Up",
+      "isMandatory": false
     },
     "custbody_ava_postingperiodname": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Posting Period Name",
+      "isMandatory": false
     },
     "custbody_ava_purchaseorder_ref": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Avalara Purchase Order Ref",
+      "isMandatory": false
     },
     "custbody_ava_salesresp": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Sales Resp",
+      "isMandatory": false
     },
     "custbody_ava_scis_trans_flag": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Avalara SCIS Transaction Flag",
+      "isMandatory": false
     },
     "custbody_ava_scisnotemsg": {
-      "category": "body"
+      "category": "body",
+      "type": "longtext",
+      "label": "Avalara SCIS Note Message",
+      "isMandatory": false
     },
     "custbody_ava_sez_parameter": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Special Economic Zone",
+      "isMandatory": false
     },
     "custbody_ava_shippingamount": {
-      "category": "body"
+      "category": "body",
+      "type": "currency",
+      "label": "Shipping Amount",
+      "isMandatory": false
     },
     "custbody_ava_shippingamount1": {
-      "category": "body"
+      "category": "body",
+      "type": "currency",
+      "label": "Shipping Amount1",
+      "isMandatory": false
     },
     "custbody_ava_shippingtaxinclude": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Shipping Tax Included",
+      "isMandatory": false
     },
     "custbody_ava_shipto_latitude": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Ship-To Latitude",
+      "isMandatory": false
     },
     "custbody_ava_shipto_longitude": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Ship-To Longitude",
+      "isMandatory": false
     },
     "custbody_ava_shiptousecode": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Ship-To Entity/Use Code",
+      "isMandatory": false
     },
     "custbody_ava_shiptousecodetext": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Ship-To Entity/Use Code Text",
+      "isMandatory": false
     },
     "custbody_ava_subsidiaryaddress1": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Subsidiary Address1",
+      "isMandatory": false
     },
     "custbody_ava_subsidiaryaddress2": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Subsidiary Address2",
+      "isMandatory": false
     },
     "custbody_ava_subsidiaryaddressee": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Subsidiary Addressee",
+      "isMandatory": false
     },
     "custbody_ava_subsidiarycity": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Subsidiary City",
+      "isMandatory": false
     },
     "custbody_ava_subsidiarycountry": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Subsidiary Country",
+      "isMandatory": false
     },
     "custbody_ava_subsidiarycurrency": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Subsidiary Currency",
+      "isMandatory": false
     },
     "custbody_ava_subsidiarycurrencycode": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Subsidiary Currency Code",
+      "isMandatory": false
     },
     "custbody_ava_subsidiaryobj": {
-      "category": "body"
+      "category": "body",
+      "type": "longtext",
+      "label": "Subsidiary Object",
+      "isMandatory": false
     },
     "custbody_ava_subsidiaryshipaddress1": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Subsidiary Shipping Address1",
+      "isMandatory": false
     },
     "custbody_ava_subsidiaryshipaddress2": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Subsidiary Shipping Address2",
+      "isMandatory": false
     },
     "custbody_ava_subsidiaryshipcity": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Subsidiary Shipping City",
+      "isMandatory": false
     },
     "custbody_ava_subsidiaryshipcountry": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Subsidiary Shipping Country",
+      "isMandatory": false
     },
     "custbody_ava_subsidiaryshipstate": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Subsidiary Shipping State",
+      "isMandatory": false
     },
     "custbody_ava_subsidiaryshipzip": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Subsidiary Shipping Zip",
+      "isMandatory": false
     },
     "custbody_ava_subsidiarystate": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Subsidiary State",
+      "isMandatory": false
     },
     "custbody_ava_subsidiaryzip": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Subsidiary Zip",
+      "isMandatory": false
     },
     "custbody_ava_suspendtaxcall": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Avalara Suspend Tax Call",
+      "isMandatory": false
     },
     "custbody_ava_taxcredit": {
-      "category": "body"
+      "category": "body",
+      "type": "currency",
+      "label": "Tax Credit",
+      "isMandatory": false
     },
     "custbody_ava_taxdateoverride": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Tax Date Override",
+      "isMandatory": false
     },
     "custbody_ava_taxinclude": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Tax Included",
+      "isMandatory": false
     },
     "custbody_ava_taxoverride": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Tax Amount Override",
+      "isMandatory": false
     },
     "custbody_ava_taxoverridedate": {
-      "category": "body"
+      "category": "body",
+      "type": "date",
+      "label": "AvaTax Override Date",
+      "isMandatory": false
     },
     "custbody_ava_transport": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Transport",
+      "isMandatory": false
     },
     "custbody_ava_usebilltoaddress": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Use Bill To Address For Tax Calculation",
+      "isMandatory": false
     },
     "custbody_ava_vatbusinessid": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "VAT Business ID",
+      "isMandatory": false
     },
     "custbody_ava_vatregno": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Middle Man VAT ID",
+      "isMandatory": false
     },
     "custbody_avalara_status": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Avalara Status",
+      "isMandatory": false
     },
     "custbody_avashippingcode": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Shipping Code",
+      "isMandatory": false
     },
     "custbody_avashippingcodetext": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Shipping Code Text",
+      "isMandatory": false
     },
     "custbody_eff_nsp2p_buyerref": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "E-Document Buyer Reference",
+      "isMandatory": false
     },
     "custbody_eff_nsp2p_paymentref": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "E-Document Payment Reference",
+      "isMandatory": false
     },
     "custbody_eff_nsp2p_serialnumbers": {
-      "category": "body"
+      "category": "body",
+      "type": "longtext",
+      "label": "EFF_NSP2P - Serial Numbers",
+      "isMandatory": false
     },
     "custbody_erpff_p2p_auto_send_document": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Automatically send e-document",
+      "isMandatory": false
     },
     "custbody_erpff_p2p_basware_send_note": {
-      "category": "body"
+      "category": "body",
+      "type": "longtext",
+      "label": "Basware Send Note",
+      "isMandatory": false
     },
     "custbody_erpff_p2p_customer_reference": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "E-Document Customer Reference",
+      "isMandatory": false
     },
     "custbody_erpff_p2p_document_sent": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "E-document was sent",
+      "isMandatory": false
     },
     "custbody_ff_sc_b2pmodel": {
-      "category": "body"
+      "category": "body",
+      "type": "longtext",
+      "label": "S&C Bill To Process Model",
+      "isMandatory": false
     },
     "custbody_ff_sc_bank_details": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Primary Bank Details for E-invoice",
+      "isMandatory": false
     },
     "custbody_ff_sc_bank_details_einvoices": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Customer Bank Details for E-invoices",
+      "isMandatory": false
     },
     "custbody_ff_sc_bank_details_sec": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Secondary Bank Details for E-invoices (2)",
+      "isMandatory": false
     },
     "custbody_ff_sc_deliverydate": {
-      "category": "body"
+      "category": "body",
+      "type": "date",
+      "label": "E-Document - Delivery Date",
+      "isMandatory": false
     },
     "custbody_ff_sc_e_inv_pdf": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "E-Invoice PDF",
+      "isMandatory": false
     },
     "custbody_ff_sc_endpoint_id": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Customer Party Endpoint ID",
+      "isMandatory": false
     },
     "custbody_ff_sc_endpoint_op_id": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Customer Party Endpoint Operator ID",
+      "isMandatory": false
     },
     "custbody_ff_sc_endpoint_scheme": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Customer Party Endpoint Scheme",
+      "isMandatory": false
     },
     "custbody_ff_sc_endpoint_scheme_id": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Customer Party Endpoint Scheme ID",
+      "isMandatory": false
     },
     "custbody_ff_sc_field_block_mapping": {
-      "category": "body"
+      "category": "body",
+      "type": "longtext",
+      "label": "Field Block Mapping (2)",
+      "isMandatory": false
     },
     "custbody_ff_sc_tax_id": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Customer Tax ID",
+      "isMandatory": false
     },
     "custbody_ff_sc_tax_scheme_id": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Customer Tax Scheme ID",
+      "isMandatory": false
     },
     "custbody_ff_sc_trans_ita_apy_code": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Italian Payment Term Code (2)",
+      "isMandatory": false
     },
     "custbody_ff_sc_trans_ita_pay_term": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Italian Payment Term (2)",
+      "isMandatory": false
     },
     "custbody_ffa_0_accrual_enabled": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Accruals Enabled",
+      "isMandatory": false
     },
     "custbody_ffa_1_accrual_created": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Accrual Created",
+      "isMandatory": false
     },
     "custbody_ffa_2_reversal_created": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Accrual Reversed/Deleted",
+      "isMandatory": false
     },
     "custbody_ffa_3_delete_accruals": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Delete Accrual Postings Instead of Reversing Them",
+      "isMandatory": false
     },
     "custbody_ffa_4_no_auto_reversal": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Only Create Reversal After Approval/Rejection (2)",
+      "isMandatory": false
     },
     "custbody_ffa_5_create_accrual_asap": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Create Accrual Posting Immediately",
+      "isMandatory": false
     },
     "custbody_ffa_6_accrual_create_date": {
-      "category": "body"
+      "category": "body",
+      "type": "date",
+      "label": "Calculated Accrual Posting Create Date",
+      "isMandatory": false
     },
     "custbody_ffa_7_reversal_create_date": {
-      "category": "body"
+      "category": "body",
+      "type": "date",
+      "label": "Calculated Reversal Accrual Date",
+      "isMandatory": false
     },
     "custbody_ffa_8_acc_default_acc": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Default Unapproved Account",
+      "isMandatory": false
     },
     "custbody_ffa_accrual_days_setting": {
-      "category": "body"
+      "category": "body",
+      "type": "float",
+      "label": "FFA Accrual Days Before Month End",
+      "isMandatory": false
     },
     "custbody_ffa_app_reason_on_record": {
-      "category": "body"
+      "category": "body",
+      "type": "textarea",
+      "label": "Approval Reason on Record",
+      "isMandatory": false
     },
     "custbody_ffa_approval_log_id": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Approval Log ID number",
+      "isMandatory": false
     },
     "custbody_ffa_approve_check": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Approve Check",
+      "isMandatory": false
     },
     "custbody_ffa_cogs_accrual_enabled": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "FFA COGS Accruals Enabled",
+      "isMandatory": false
     },
     "custbody_ffa_createdby": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Created By (2)",
+      "isMandatory": false
     },
     "custbody_ffa_last_approval_log_up": {
-      "category": "body"
+      "category": "body",
+      "type": "integer",
+      "label": "FFA Last Approval Log Update",
+      "isMandatory": false
     },
     "custbody_ffa_mandatory_approvals": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Mandatory Approval",
+      "isMandatory": false
     },
     "custbody_ffa_matrix": {
-      "category": "body"
+      "category": "body",
+      "type": "multiselect",
+      "label": "Approval Matrix Applied",
+      "isMandatory": false
     },
     "custbody_ffa_matrix_exchangerate": {
-      "category": "body"
+      "category": "body",
+      "type": "float",
+      "label": "Matrix Exchange Rate",
+      "isMandatory": false
     },
     "custbody_ffa_net_amount": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Use Net Amount",
+      "isMandatory": false
     },
     "custbody_ffa_reject_check": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Rejected",
+      "isMandatory": false
     },
     "custbody_ffa_remaining_logs": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Remaining Approval logs",
+      "isMandatory": false
     },
     "custbody_ffa_reversal_days_setting": {
-      "category": "body"
+      "category": "body",
+      "type": "float",
+      "label": "FFA Reversal Days After Month End",
+      "isMandatory": false
     },
     "custbody_ffa_total_approval_time": {
-      "category": "body"
+      "category": "body",
+      "type": "float",
+      "label": "Total time transaction approval spent",
+      "isMandatory": false
     },
     "custbody_hul_datecreatedfield": {
-      "category": "body"
+      "category": "body",
+      "type": "datetimetz",
+      "label": "Created Date",
+      "isMandatory": false
     },
     "custbody_hul_processed_for_commission": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Processed For Commision",
+      "isMandatory": false
     },
     "custbody_hul_service_internal_note": {
-      "category": "body"
+      "category": "body",
+      "type": "longtext",
+      "label": "Service Internal Note",
+      "isMandatory": false
     },
     "custbody_hul_shoprequired": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Shop Required?",
+      "isMandatory": false
     },
     "custbody_hul_so_quicknote": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Quick Note",
+      "isMandatory": false
     },
     "custbody_hul_thirdpartyreviewed": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "3rd Party Reviewed?",
+      "isMandatory": false
     },
     "custbody_nx_asset": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "NextService Asset",
+      "isMandatory": false
     },
     "custbody_nx_case": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "NextService Case",
+      "isMandatory": false
     },
     "custbody_nx_customer": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "NextService Customer",
+      "isMandatory": false
     },
     "custbody_nx_customer_signature": {
-      "category": "body"
+      "category": "body",
+      "type": "richtext",
+      "label": "NextService Customer Signature",
+      "isMandatory": false
     },
     "custbody_nx_idempotency_key": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "NextService Idempotency Key",
+      "isMandatory": false
     },
     "custbody_nx_projecttask": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "NextService Project Task",
+      "isMandatory": false
     },
     "custbody_nx_task": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "NextService Task",
+      "isMandatory": false
     },
     "custbody_promisedate": {
-      "category": "body"
+      "category": "body",
+      "type": "date",
+      "label": "Promise Date",
+      "isMandatory": false
     },
     "custbody_sn_asset_dup_checking": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Asset Duplication Checking",
+      "isMandatory": false
     },
     "custbody_sn_hul_allow_prebilling": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Allow Pre- Billing",
+      "isMandatory": false
     },
     "custbody_sn_hul_billdate": {
-      "category": "body"
+      "category": "body",
+      "type": "date",
+      "label": "Bill Date (Script)",
+      "isMandatory": false
     },
     "custbody_sn_hul_rentalend": {
-      "category": "body"
+      "category": "body",
+      "type": "date",
+      "label": "Rental End Date (Script)",
+      "isMandatory": false
     },
     "custbody_sn_hul_rentalstart": {
-      "category": "body"
+      "category": "body",
+      "type": "date",
+      "label": "Rental Start Date (Script)",
+      "isMandatory": false
     },
     "custbody_sn_if_tran_num": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "SN Item Fulfillment Tran No",
+      "isMandatory": false
     },
     "custbody_sn_override_address": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Override Site Asset Address",
+      "isMandatory": false
     },
     "custbody_sn_related_if": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "SN Item Fulfillment",
+      "isMandatory": false
     },
     "custbody_sn_rental_billing_cycle": {
-      "category": "body"
+      "category": "body",
+      "type": "integer",
+      "label": "Billing Cycle",
+      "isMandatory": false
     },
     "custbody_sn_rental_contract_type": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Contract Type",
+      "isMandatory": false
     },
     "custbody_sn_rental_delivery_date": {
-      "category": "body"
+      "category": "body",
+      "type": "date",
+      "label": "Delivery Date",
+      "isMandatory": false
     },
     "custbody_sn_rental_est_enddate": {
-      "category": "body"
+      "category": "body",
+      "type": "date",
+      "label": "Estimated End Date",
+      "isMandatory": false
     },
     "custbody_sn_rental_pickup_date": {
-      "category": "body"
+      "category": "body",
+      "type": "date",
+      "label": "Pick Up Date",
+      "isMandatory": false
     },
     "custbody_sn_rental_return_date": {
-      "category": "body"
+      "category": "body",
+      "type": "date",
+      "label": "Return Date",
+      "isMandatory": false
     },
     "custbody_sn_use_qty_for_time": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Use Quantity for Time",
+      "isMandatory": false
     },
     "custbody_sna_allow_mult_rental": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Allow Multiple Rental Dates",
+      "isMandatory": false
     },
     "custbody_sna_child_updated": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Are Child Transactions Updated?",
+      "isMandatory": false
     },
     "custbody_sna_contact": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Contact",
+      "isMandatory": false
     },
     "custbody_sna_equipment_object": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Equipment Object",
+      "isMandatory": false
     },
     "custbody_sna_hold_invoice_sending": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Hold Invoice Sending",
+      "isMandatory": false
     },
     "custbody_sna_hul_address_changed": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Address Changed",
+      "isMandatory": false
     },
     "custbody_sna_hul_apply_dept_all": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Apply Department to All Lines",
+      "isMandatory": false
     },
     "custbody_sna_hul_apply_rev_all": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Apply Revenue Stream to All Lines",
+      "isMandatory": false
     },
     "custbody_sna_hul_billing_status": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Billing Status",
+      "isMandatory": false
     },
     "custbody_sna_hul_case_closed": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Case Closed?",
+      "isMandatory": false
     },
     "custbody_sna_hul_conversionerror": {
-      "category": "body"
+      "category": "body",
+      "type": "inlinehtml",
+      "label": "Conversion to Sales Order Error",
+      "isMandatory": false
     },
     "custbody_sna_hul_create_time_entry": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Create Time Entry",
+      "isMandatory": false
     },
     "custbody_sna_hul_cus_pricing_grp": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Customer Pricing Group",
+      "isMandatory": false
     },
     "custbody_sna_hul_custcredit_limit": {
-      "category": "body"
+      "category": "body",
+      "type": "currency",
+      "label": "Customer Credit Limit",
+      "isMandatory": false
     },
     "custbody_sna_hul_doc_distributed": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Document Distributed",
+      "isMandatory": false
     },
     "custbody_sna_hul_donotenforce": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Do not Enforce Credit Limit",
+      "isMandatory": false
     },
     "custbody_sna_hul_duplicate_count": {
-      "category": "body"
+      "category": "body",
+      "type": "integer",
+      "label": "Duplicate Count",
+      "isMandatory": false
     },
     "custbody_sna_hul_exclude_te_creation": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Exclude Time Entry creation",
+      "isMandatory": false
     },
     "custbody_sna_hul_fm_overtime_rate": {
-      "category": "body"
+      "category": "body",
+      "type": "float",
+      "label": "Full Maintenance Overtime Rate",
+      "isMandatory": false
     },
     "custbody_sna_hul_fmc_internal_rev_str": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "FMC Internal Revenue Stream",
+      "isMandatory": false
     },
     "custbody_sna_hul_hm_units": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Allowed Hour Meter Units",
+      "isMandatory": false
     },
     "custbody_sna_hul_hours_allowed": {
-      "category": "body"
+      "category": "body",
+      "type": "integer",
+      "label": "Hours Allowed",
+      "isMandatory": false
     },
     "custbody_sna_hul_last_invoice_seq": {
-      "category": "body"
+      "category": "body",
+      "type": "integer",
+      "label": "Last Invoice Sequence",
+      "isMandatory": false
     },
     "custbody_sna_hul_location": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "HUL Location",
+      "isMandatory": false
     },
     "custbody_sna_hul_next_approver": {
-      "category": "body"
+      "category": "body",
+      "type": "multiselect",
+      "label": "Next Approver Role",
+      "isMandatory": false
     },
     "custbody_sna_hul_nxc_eq_asset": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Nextservice Equipment Asset",
+      "isMandatory": false
     },
     "custbody_sna_hul_object_subsidiary": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Object Subsidiary",
+      "isMandatory": false
     },
     "custbody_sna_hul_orderid": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Order ID",
+      "isMandatory": false
     },
     "custbody_sna_hul_override_salesrep_csm": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Override Sales Rep/CSM",
+      "isMandatory": false
     },
     "custbody_sna_hul_rental_temp_config": {
-      "category": "body"
+      "category": "body",
+      "type": "longtext",
+      "label": "Temp Object Configurator",
+      "isMandatory": false
     },
     "custbody_sna_hul_rental_temp_config_id": {
-      "category": "body"
+      "category": "body",
+      "type": "longtext",
+      "label": "Temp Object Configurator IDs",
+      "isMandatory": false
     },
     "custbody_sna_hul_service_bucket_": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Service Bucket",
+      "isMandatory": false
     },
     "custbody_sna_hul_soownerstatus": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Owner Status (2)",
+      "isMandatory": false
     },
     "custbody_sna_hul_time_entry_recon": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Time Entries for Recon",
+      "isMandatory": false
     },
     "custbody_sna_hul_update_rev_stream": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Update Revenue Stream",
+      "isMandatory": false
     },
     "custbody_sna_hul_update_sublist_lines": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Update Sublist Lines",
+      "isMandatory": false
     },
     "custbody_sna_hul_waive_insurance": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Waive Insurance",
+      "isMandatory": false
     },
     "custbody_sna_hul_war_exp_date": {
-      "category": "body"
+      "category": "body",
+      "type": "date",
+      "label": "Warranty Expiration Date",
+      "isMandatory": false
     },
     "custbody_sna_inv_claimid": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Claim ID for Warranty",
+      "isMandatory": false
     },
     "custbody_sna_inv_create_je": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Create JE",
+      "isMandatory": false
     },
     "custbody_sna_invoice_json": {
-      "category": "body"
+      "category": "body",
+      "type": "longtext",
+      "label": "Invoice JSON",
+      "isMandatory": false
     },
     "custbody_sna_jeforwarranty": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "SNA JE For Warranty",
+      "isMandatory": false
     },
     "custbody_sna_mergedequipasset": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Merged to Equipment Asset",
+      "isMandatory": false
     },
     "custbody_sna_mfr": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Manufacturer",
+      "isMandatory": false
     },
     "custbody_sna_misc_fee_allowed": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Misc Fee allowed Transaction",
+      "isMandatory": false
     },
     "custbody_sna_misc_fee_generated": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Misc Fee Generated",
+      "isMandatory": false
     },
     "custbody_sna_model": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Model",
+      "isMandatory": false
     },
     "custbody_sna_nxc_fmc_project_type": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "NextService Full Maintenance Project Type",
+      "isMandatory": false
     },
     "custbody_sna_order_fulfillment_method": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Order Fulfillment Method",
+      "isMandatory": false
     },
     "custbody_sna_order_taken_by": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Order Taken By",
+      "isMandatory": false
     },
     "custbody_sna_pd_api_resp": {
-      "category": "body"
+      "category": "body",
+      "type": "longtext",
+      "label": "SNA PandaDoc API Response",
+      "isMandatory": false
     },
     "custbody_sna_pd_doc_id": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "SNA PandaDoc Document ID",
+      "isMandatory": false
     },
     "custbody_sna_pd_doc_status": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "SNA PandaDoc Document Status",
+      "isMandatory": false
     },
     "custbody_sna_pd_document": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "SNA PandaDoc Document",
+      "isMandatory": false
     },
     "custbody_sna_serial_number": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Serial Number",
+      "isMandatory": false
     },
     "custbody_sna_soline_memo": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "SO Line memo",
+      "isMandatory": false
     },
     "custbody_sna_taskcoderef": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Task Codes Reference",
+      "isMandatory": false
     },
     "custbody_sna_tax_processed": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Tax Processed",
+      "isMandatory": false
     },
     "custbody_sna_test_custom_field": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Test Custom Field",
+      "isMandatory": false
     },
     "custbody_sna_wip_reversal": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "WIP Reversal - One Time",
+      "isMandatory": false
     },
     "custbody_solupay_billingschd_autopay": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Billing Schedule Auto Pay",
+      "isMandatory": false
     },
     "custbody_solupay_cctoken": {
-      "category": "body"
+      "category": "body",
+      "type": "inlinehtml",
+      "label": "CC Token (2)",
+      "isMandatory": false
     },
     "custbody_solupay_cpd_ext_paymentid": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "ERP EMV Cloudpay Display External Payment ID",
+      "isMandatory": false
     },
     "custbody_solupay_req_deposit_amount": {
-      "category": "body"
+      "category": "body",
+      "type": "currency",
+      "label": "Required Deposit Amount",
+      "isMandatory": false
     },
     "custbody_solupaysp_payment_url": {
-      "category": "body"
+      "category": "body",
+      "type": "longtext",
+      "label": "Payment URL",
+      "isMandatory": false
     },
     "custbody_versapay_capture_tran_total": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Capture Transaction Total",
+      "isMandatory": false
     },
     "custbody_versapay_do_not_sync": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Do Not Sync to Versapay",
+      "isMandatory": false
     },
     "custbody_versapay_paylink_token": {
-      "category": "body"
+      "category": "body",
+      "type": "longtext",
+      "label": "Paylink Token",
+      "isMandatory": false
     },
     "custbody_vp_partial_auth": {
-      "category": "body"
+      "category": "body",
+      "type": "currency",
+      "label": "Partial Authorization",
+      "isMandatory": false
     },
     "custbody_vpy_order_id": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Versapay Order ID",
+      "isMandatory": false
     },
     "custbody_za_applogsgenerated": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Approvals Log Generated",
+      "isMandatory": false
     },
     "custbody_za_approval_threshold": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Approval Threshold",
+      "isMandatory": false
     },
     "custbody_za_approvals_data": {
-      "category": "body"
+      "category": "body",
+      "type": "textarea",
+      "label": "ZA Approvals data",
+      "isMandatory": false
     },
     "custbody_za_approvalstatus": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Approval Status (ZA)",
+      "isMandatory": false
     },
     "custbody_za_configapplied": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Approval Config Applied",
+      "isMandatory": false
     },
     "custbody_za_currentaccrualid": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "ZA Current Accrual ID",
+      "isMandatory": false
     },
     "custbody_za_email_sent": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "ZA Approval Email Sent",
+      "isMandatory": false
     },
     "custbody_za_exclusioncontext": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "ZA Exclusion Context",
+      "isMandatory": false
     },
     "custbody_za_includeadditionaldocumens": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Include Additional Documents (2)",
+      "isMandatory": false
     },
     "custbody_za_nextapprover": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Next Approver (ZA)",
+      "isMandatory": false
     },
     "custbody_za_nextgroupapprover": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Next Group Approver",
+      "isMandatory": false
     },
     "custbody_za_orig_transaction_amount": {
-      "category": "body"
+      "category": "body",
+      "type": "float",
+      "label": "Original Transaction Amount",
+      "isMandatory": false
     },
     "custbody_za_role": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Next Approver Role (2)",
+      "isMandatory": false
     },
     "custbody_za_subsforapproval": {
-      "category": "body"
+      "category": "body",
+      "type": "textarea",
+      "label": "ZA Subs for Approval",
+      "isMandatory": false
     },
     "custbody_za_triggerworkflow": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "ZA Trigger Workflow Flag",
+      "isMandatory": false
     },
     "custbody_zc_3wm_translations": {
-      "category": "body"
+      "category": "body",
+      "type": "longtext",
+      "label": "3-Way Matching Modal Translations",
+      "isMandatory": false
     },
     "custbody_zc_block_sending_as_einvoice": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "ZC Block Sending as E-invoice",
+      "isMandatory": false
     },
     "custbody_zc_contract_number": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "ZC Contract Number for E-invoices",
+      "isMandatory": false
     },
     "custbody_zc_inv_contact_name": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "ZC Customer Contact Name (2)",
+      "isMandatory": false
     },
     "custbody_zc_inv_contact_phone": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "ZC Customer Contact Phone Number (2)",
+      "isMandatory": false
     },
     "custbody_zc_partyendpt_id": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Custom Subsidiary Endpoint ID",
+      "isMandatory": false
     },
     "custbody_zc_partyendpt_scheme": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Custom Subsidiary Endpoint Scheme",
+      "isMandatory": false
     },
     "custbody_zc_partyendpt_scheme_id": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Party endpoint scheme ID",
+      "isMandatory": false
     },
     "custbody_zc_tax_id": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Custom Subsidiary Tax ID",
+      "isMandatory": false
     },
     "custbody_zc_tax_scheme": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Custom Subsidiary Tax Scheme",
+      "isMandatory": false
     },
     "custbody_zc_tax_scheme_id": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Tax scheme ID",
+      "isMandatory": false
     },
     "custbodycustbody_solupay_cpd_results": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "EPR EMV Cloudpay Display Payment Confirmation",
+      "isMandatory": false
     },
     "custcurrep": {
-      "category": "body"
+      "category": "body",
+      "type": "integer",
+      "label": "",
+      "isMandatory": false
     },
     "customercode": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Customer Code",
+      "isMandatory": false
     },
     "customform": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Custom Form",
+      "isMandatory": true
     },
     "customwhence": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "custpage_ava_beforeloadconnector": {
       "category": "ui"
@@ -1103,775 +2097,1540 @@
       "category": "ui"
     },
     "datafromredirect": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "datedriven": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "dbstrantype": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "debitksn": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "debitpinblock": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "defaultaddrbook": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "defaultaddressee": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "department": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Department",
+      "isMandatory": false
     },
     "discdays": {
-      "category": "body"
+      "category": "body",
+      "type": "integer",
+      "label": "",
+      "isMandatory": false
     },
     "discountastotal": {
-      "category": "body"
+      "category": "body",
+      "type": "currency",
+      "label": "",
+      "isMandatory": false
     },
     "discountistaxable": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "discountitem": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Discount Item",
+      "isMandatory": false
     },
     "discountrate": {
-      "category": "body"
+      "category": "body",
+      "type": "rate",
+      "label": "Rate",
+      "isMandatory": false
     },
     "discounttotal": {
-      "category": "body"
+      "category": "body",
+      "type": "currency",
+      "label": "Discount Total",
+      "isMandatory": false
     },
     "discpct": {
-      "category": "body"
+      "category": "body",
+      "type": "float",
+      "label": "",
+      "isMandatory": false
     },
     "doshippingrecalc": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "duedays": {
-      "category": "body"
+      "category": "body",
+      "type": "integer",
+      "label": "",
+      "isMandatory": false
     },
     "edition": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "email": {
-      "category": "body"
+      "category": "body",
+      "type": "emails",
+      "label": "",
+      "isMandatory": false
     },
     "enddate": {
-      "category": "body"
+      "category": "body",
+      "type": "date",
+      "label": "End Date",
+      "isMandatory": false
     },
     "entity": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Customer",
+      "isMandatory": true
     },
     "entity_nexus_country": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Country",
+      "isMandatory": false
     },
     "entityfieldname": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "entitynexus": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Nexus",
+      "isMandatory": false
     },
     "entryformquerystring": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "errornotificationsfield": {
-      "category": "body"
+      "category": "body",
+      "type": "inlinehtml",
+      "label": "",
+      "isMandatory": false
     },
     "estgrossprofit": {
-      "category": "body"
+      "category": "body",
+      "type": "currency",
+      "label": "Est. Gross Profit",
+      "isMandatory": false
     },
     "estgrossprofitpercent": {
-      "category": "body"
+      "category": "body",
+      "type": "percent",
+      "label": "Est. Gross Profit Percent",
+      "isMandatory": false
     },
     "exchangerate": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Exchange Rate",
+      "isMandatory": true
     },
     "excludecommission": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Exclude Commissions",
+      "isMandatory": false
     },
     "expectedpaymentstatus": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "externalid": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "External ID",
+      "isMandatory": false
     },
     "extraurlparams": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "fax": {
-      "category": "body"
+      "category": "body",
+      "type": "phone",
+      "label": "",
+      "isMandatory": false
     },
     "fedexservicename": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "flatrateamt": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "fob": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "FOB",
+      "isMandatory": false
     },
     "forinvoicegrouping": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "For Invoice Grouping",
+      "isMandatory": false
     },
     "generatetranidonsave": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Generate Document Number on Save",
+      "isMandatory": false
     },
     "generatetranidonsaveinitialtranidvalue": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "getauth": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Get Authorization",
+      "isMandatory": false
     },
     "handling_btaxable": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "handlingbyweightamt": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "handlingbyweightconvratetolbs": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "handlingbyweightinwholeincr": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "handlingbyweightper": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "handlingcost": {
-      "category": "body"
+      "category": "body",
+      "type": "currency",
+      "label": "Handling Cost",
+      "isMandatory": false
     },
     "handlingflatrateamt": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "handlingmode": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Handling Mode",
+      "isMandatory": true
     },
     "handlingpercentoftotalamt": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "handlingperitemdefaultprice": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "handlingtax1amt": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "handlingtax1rate": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Handling Tax Rate",
+      "isMandatory": false
     },
     "handlingtaxcode": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Handling Tax Code",
+      "isMandatory": false
     },
     "hasfedexfreightservice": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "haslines": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "hasordbilllink": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "",
+      "isMandatory": false
     },
     "hasprecalcs": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "",
+      "isMandatory": false
     },
     "id": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Internal ID",
+      "isMandatory": false
     },
     "ignoreavs": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Ignore AVS",
+      "isMandatory": false
     },
     "ignoreavsvis": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "",
+      "isMandatory": false
     },
     "ignorecsc": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Ignore CSC",
+      "isMandatory": false
     },
     "ignorecscvis": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "",
+      "isMandatory": false
     },
     "initialtranid": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "inputauthcode": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Input Auth. Code",
+      "isMandatory": false
     },
     "inputpnrefnum": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "inputreferencecode": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Input P/N Ref.",
+      "isMandatory": false
     },
     "installmentcount": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "instrumentrequireslineleveldata": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "[Missing Label:instrumentRequiresLineLevelData]",
+      "isMandatory": false
     },
     "integrationid": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "[Missing Label:integrationId]",
+      "isMandatory": false
     },
     "internalinstrument": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "[Missing Label:internalInstrument]",
+      "isMandatory": false
     },
     "inventorydetailuitype": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "isbasecurrency": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "isdefaultshippingrequest": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Is Default Shipping Request",
+      "isMandatory": false
     },
     "iseitf81on": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "isinstallment": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "isonlinetransaction": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "ispaymethundepfunds": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "ispurchasecard": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "isrecurringpayment": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Recurring Payment",
+      "isMandatory": false
     },
     "item_total": {
       "category": "body"
     },
     "itemshippingcostfxrate": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "job": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Project",
+      "isMandatory": false
     },
     "lastmodifieddate": {
-      "category": "body"
+      "category": "body",
+      "type": "datetime",
+      "label": "",
+      "isMandatory": false
     },
     "linkedtrackingnumbers": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Tracking #",
+      "isMandatory": false
     },
     "location": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Location",
+      "isMandatory": false
     },
     "locationusesbins": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "manualcredithold": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "maskedcard": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "memo": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Memo",
+      "isMandatory": false
     },
     "merchantprintblock": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "message": {
-      "category": "body"
+      "category": "body",
+      "type": "textarea",
+      "label": "Customer Message",
+      "isMandatory": false
     },
     "messagesel": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Select Message",
+      "isMandatory": false
     },
     "methodrequireslineleveldata": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "",
+      "isMandatory": false
     },
     "mindays": {
-      "category": "body"
+      "category": "body",
+      "type": "integer",
+      "label": "",
+      "isMandatory": false
     },
     "netaltsalestotal": {
-      "category": "body"
+      "category": "body",
+      "type": "currency",
+      "label": "Net Alt. Sales Total",
+      "isMandatory": false
     },
     "nextbill": {
-      "category": "body"
+      "category": "body",
+      "type": "date",
+      "label": "",
+      "isMandatory": false
     },
     "nexttranid": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "nexus": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Nexus",
+      "isMandatory": false
     },
     "nexus_country": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Country",
+      "isMandatory": false
     },
     "nlapiCC": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "nldept": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "nlloc": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "nlrole": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "nlsub": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "nluser": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "noticenotificationsfield": {
-      "category": "body"
+      "category": "body",
+      "type": "inlinehtml",
+      "label": "",
+      "isMandatory": false
     },
     "nsapiCT": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "nsapiFC": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "nsapiLC": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "nsapiLI": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "nsapiPD": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "nsapiPI": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "nsapiPS": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "nsapiRC": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "nsapiSR": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "nsapiVD": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "nsapiVF": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "nsapiVI": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "nsapiVL": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "nsbrowserenv": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "ntype": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "",
+      "isMandatory": false
     },
     "oldrevenuecommitment": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "opportunity": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Opportunity",
+      "isMandatory": false
     },
     "orderstatus": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Status",
+      "isMandatory": true
     },
     "origtotal": {
-      "category": "body"
+      "category": "body",
+      "type": "float",
+      "label": "",
+      "isMandatory": false
     },
     "origtotal2": {
-      "category": "body"
+      "category": "body",
+      "type": "float",
+      "label": "",
+      "isMandatory": false
     },
     "otherrefnum": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "PO #",
+      "isMandatory": false
     },
     "outputauthcode": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Auth. Code",
+      "isMandatory": false
     },
     "outputreferencecode": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "P/N Ref.",
+      "isMandatory": false
     },
     "overallbalance": {
-      "category": "body"
+      "category": "body",
+      "type": "currency",
+      "label": "",
+      "isMandatory": false
     },
     "overallunbilledorders": {
-      "category": "body"
+      "category": "body",
+      "type": "currency",
+      "label": "",
+      "isMandatory": false
     },
     "overridehold": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Override Hold",
+      "isMandatory": false
     },
     "overrideholdchecked": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Override Hold",
+      "isMandatory": false
     },
     "overrideshippingcost": {
-      "category": "body"
+      "category": "body",
+      "type": "float",
+      "label": "Override Shipping Cost",
+      "isMandatory": false
     },
     "partnerid": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "paymentcancelable": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "",
+      "isMandatory": false
     },
     "paymentcardcsc": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "CSC",
+      "isMandatory": false
     },
     "paymentcustomdata": {
-      "category": "body"
+      "category": "body",
+      "type": "longtext",
+      "label": "Payment Custom Data",
+      "isMandatory": false
     },
     "paymentdeviceid": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "paymenteventdate": {
-      "category": "body"
+      "category": "body",
+      "type": "datetime",
+      "label": "",
+      "isMandatory": false
     },
     "paymenteventholdreason": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Reason",
+      "isMandatory": false
     },
     "paymenteventmagiczeroused": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "",
+      "isMandatory": false
     },
     "paymenteventpurchasedatasent": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "paymenteventresult": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Status",
+      "isMandatory": false
     },
     "paymenteventtype": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "paymenteventupdatedby": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "paymentinstrumentlimit": {
-      "category": "body"
+      "category": "body",
+      "type": "poscurrency",
+      "label": "Payment Instrument Limit",
+      "isMandatory": false
     },
     "paymentinstrumenttype": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "[Missing Label:paymentInstrumentType]",
+      "isMandatory": false
     },
     "paymentmethod": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Payment Method",
+      "isMandatory": false
     },
     "paymentmethodaccount": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "[Missing Label:paymentMethodAccount]",
+      "isMandatory": false
     },
     "paymentmethodfrominstrument": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "[Missing Label:paymentMethodFromInstrument]",
+      "isMandatory": false
     },
     "paymentmethodtypeid": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "paymentoperation": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Payment Operation",
+      "isMandatory": false
     },
     "paymentoption": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Payment Option",
+      "isMandatory": false
     },
     "paymentprocessingmode": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "paymentprocessingprofile": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Payment Processing Profile",
+      "isMandatory": false
     },
     "paymentrequestid": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "paymentsession": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "paymentsessionamount": {
-      "category": "body"
+      "category": "body",
+      "type": "currency",
+      "label": "Payment Amount",
+      "isMandatory": false
     },
     "paymethacct": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "paymethtype": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "percentoftotalamt": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "peritemdefaultprice": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "persistedterms": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "pnrefnum": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "P/N Ref.",
+      "isMandatory": false
     },
     "prevdate": {
-      "category": "body"
+      "category": "body",
+      "type": "date",
+      "label": "",
+      "isMandatory": false
     },
     "previous_billaddresslist": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "previous_shipaddresslist": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "previousopportunity": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "prevrep": {
-      "category": "body"
+      "category": "body",
+      "type": "integer",
+      "label": "",
+      "isMandatory": false
     },
     "primarycurrency": {
-      "category": "body"
+      "category": "body",
+      "type": "currency",
+      "label": "",
+      "isMandatory": false
     },
     "primarycurrencyfxrate": {
-      "category": "body"
+      "category": "body",
+      "type": "currency2",
+      "label": "",
+      "isMandatory": false
     },
     "profilesupportslineleveldata": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "",
+      "isMandatory": false
     },
     "projectbillingtype": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "",
+      "isMandatory": false
     },
     "recordcreatedby": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "recordcreateddate": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "rectype_1321_14352_maxnkey": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "rectype_167_1924_maxnkey": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "rectype_310_3363_maxnkey": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "rectype_7_197_maxnkey": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "redirecturl": {
-      "category": "body"
+      "category": "body",
+      "type": "url",
+      "label": "Redirect to URL",
+      "isMandatory": false
     },
     "reimbursedamount": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "request": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "response": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "returntrackingnumbers": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Return Tracking #",
+      "isMandatory": false
     },
     "returnurl": {
-      "category": "body"
+      "category": "body",
+      "type": "url",
+      "label": "Redirect From URL",
+      "isMandatory": false
     },
     "rfreeifoveramt": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "rmaxshipcost": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "rminshipamt": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "saleseffectivedate": {
-      "category": "body"
+      "category": "body",
+      "type": "date",
+      "label": "Sales Effective Date",
+      "isMandatory": false
     },
     "salesrep": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Sales Rep",
+      "isMandatory": false
     },
     "selectedtab": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "shadow_shipaddress": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "shandlingaccount": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "shandlingcostfunction": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "shipaddress": {
-      "category": "body"
+      "category": "body",
+      "type": "address",
+      "label": "Ship To",
+      "isMandatory": false
     },
     "shipaddresslist": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Ship To Select",
+      "isMandatory": false
     },
     "shipcomplete": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "Ship Complete",
+      "isMandatory": false
     },
     "shipcountry": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Shipping Address Country",
+      "isMandatory": false
     },
     "shipdate": {
-      "category": "body"
+      "category": "body",
+      "type": "date",
+      "label": "Ship Date",
+      "isMandatory": false
     },
     "shipisresidential": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Shipping address is residential",
+      "isMandatory": false
     },
     "shipitemhasfreeshippingitems": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "shipmethod": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Shipping Method",
+      "isMandatory": false
     },
     "shipoverride": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "shipping_btaxable": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "shipping_cost_function": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "shipping_rate": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "shippingaddress2_set": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "shippingaddress_defaultvalue": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "shippingaddress_key": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "shippingaddress_text": {
-      "category": "body"
+      "category": "body",
+      "type": "address",
+      "label": "Shipping Address",
+      "isMandatory": false
     },
     "shippingaddress_type": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "shippingcost": {
-      "category": "body"
+      "category": "body",
+      "type": "currency",
+      "label": "Shipping Cost",
+      "isMandatory": false
     },
     "shippingcostoverridden": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Shipping Cost Overridden",
+      "isMandatory": false
     },
     "shippingerrormsg": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "shippingtax1amt": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "shippingtax1rate": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Shipping Tax Rate",
+      "isMandatory": false
     },
     "shippingtaxcode": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Shipping Tax Code",
+      "isMandatory": false
     },
     "shipstate": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Shipping Address State",
+      "isMandatory": false
     },
     "shipzip": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Shipping Address Zip Code",
+      "isMandatory": false
     },
     "shopperprintblock": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "signaturerequired": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "",
+      "isMandatory": false
     },
     "startdate": {
-      "category": "body"
+      "category": "body",
+      "type": "date",
+      "label": "Start Date",
+      "isMandatory": false
     },
     "subsidiary": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Subsidiary",
+      "isMandatory": true
     },
     "subtotal": {
-      "category": "body"
+      "category": "body",
+      "type": "currency",
+      "label": "Subtotal",
+      "isMandatory": false
     },
     "suppressusereventsandemails": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "synceventfield": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "sys_id": {
       "category": "body"
     },
     "tax_affecting_address_fields_before_recalc": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "taxamount2override": {
-      "category": "body"
+      "category": "body",
+      "type": "currency",
+      "label": "",
+      "isMandatory": false
     },
     "taxamountoverride": {
-      "category": "body"
+      "category": "body",
+      "type": "currency",
+      "label": "",
+      "isMandatory": false
     },
     "taxtotal": {
-      "category": "body"
+      "category": "body",
+      "type": "currency",
+      "label": "Tax Total",
+      "isMandatory": false
     },
     "templatestored": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "terms": {
-      "category": "body"
+      "category": "body",
+      "type": "select",
+      "label": "Terms",
+      "isMandatory": false
     },
     "tobeemailed": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "To Be E-mailed",
+      "isMandatory": false
     },
     "tobefaxed": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "To Be Faxed",
+      "isMandatory": false
     },
     "tobeprinted": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "To Be Printed",
+      "isMandatory": false
     },
     "total": {
-      "category": "body"
+      "category": "body",
+      "type": "currency",
+      "label": "Total",
+      "isMandatory": false
     },
     "totalcostestimate": {
-      "category": "body"
+      "category": "body",
+      "type": "currency",
+      "label": "Est. Extended Cost",
+      "isMandatory": false
     },
     "trandate": {
-      "category": "body"
+      "category": "body",
+      "type": "date",
+      "label": "Date",
+      "isMandatory": true
     },
     "tranid": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Order #",
+      "isMandatory": false
     },
     "transactionnumber": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "Transaction Number",
+      "isMandatory": false
     },
     "type": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "unbilledorders": {
-      "category": "body"
+      "category": "body",
+      "type": "currency",
+      "label": "Unbilled Orders",
+      "isMandatory": false
     },
     "updatedropshiporderqty": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "usepaymentoption": {
-      "category": "body"
+      "category": "body",
+      "type": "checkbox",
+      "label": "[Missing Label:usePaymentOption]",
+      "isMandatory": false
     },
     "warningnotificationsfield": {
-      "category": "body"
+      "category": "body",
+      "type": "inlinehtml",
+      "label": "",
+      "isMandatory": false
     },
     "warnnexuschange": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "weekendpreference": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "wfFC": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "wfPI": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "wfPS": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "wfSR": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "wfVF": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "wfinstances": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     },
     "whence": {
-      "category": "body"
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
     }
   },
   "sublists": {

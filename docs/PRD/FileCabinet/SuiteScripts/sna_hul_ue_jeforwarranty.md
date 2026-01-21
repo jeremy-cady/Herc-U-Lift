@@ -1,102 +1,65 @@
-# PRD: Warranty Journal Entry Creation
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-JEForWarranty
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Jeremy Cady
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/sna_hul_ue_jeforwarranty.js (User Event)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-JEForWarranty
+title: Warranty Journal Entry Creation
+status: Implemented
+owner: Jeremy Cady
+created: Unknown
+last_updated: Unknown
 
-**Script Deployment:** Not specified
+script:
+  type: user_event
+  file: FileCabinet/SuiteScripts/sna_hul_ue_jeforwarranty.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - invoice
+  - journalentry
+  - customerpayment
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
+## 1. Overview
 User Event that creates or updates warranty Journal Entries for invoices and auto-applies the JE as a customer payment.
 
-**What problem does it solve?**
-Automates warranty accounting entries and applies credits to invoices for warranty claims.
+---
 
-**Primary Goal:**
-Create warranty JEs for invoice lines flagged as warranty and apply them to the invoice.
+## 2. Business Goal
+Automate warranty accounting entries and apply credits to invoices for warranty claims.
 
 ---
 
-## 2. Goals
-
-1. Create or update a JE for warranty invoice lines.
-2. Determine warranty accounts based on revenue stream and service code.
-3. Auto-apply the JE as a customer payment.
+## 3. User Story
+As a finance user, when invoices contain warranty lines, I want warranty JEs created and applied automatically, so that warranty claims are accounted for consistently.
 
 ---
 
-## 3. User Stories
-
-1. **As a** finance user, **I want to** create warranty JEs automatically **so that** warranty claims are accounted for consistently.
-
----
-
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. The script must run afterSubmit on invoice create/edit (non-delete).
-2. The script must create or reload the JE referenced by `custbody_sna_jeforwarranty`.
-3. The script must add debit lines for warranty items and a credit line for the invoice account.
-4. The script must set JE fields for subsidiary, revenue stream, invoice, and claim ID.
-5. The script must update the invoice with the JE ID and auto-apply it via customer payment.
-
-### Acceptance Criteria
-
-- [ ] Warranty invoice lines create JE debit lines.
-- [ ] JE is linked to the invoice and auto-applied as payment.
-- [ ] JE uses warranty or claim accounts based on configuration.
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| afterSubmit | custbody_sna_jeforwarranty | invoice create/edit (non-delete) | Create/update warranty JE and apply via customer payment |
 
 ---
 
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Create warranty JEs for non-warranty revenue streams.
-- Process deleted invoices.
-
----
-
-## 6. Design Considerations
-
-### User Interface
-- No UI changes.
-
-### User Experience
-- Warranty JEs and payments are created automatically after invoice save.
-
-### Design References
-- Saved search: `customsearch_sna_servicecode_lookup`
+## 5. Functional Requirements
+- Run afterSubmit on invoice create/edit (non-delete).
+- Create or reload the JE referenced by `custbody_sna_jeforwarranty`.
+- Add debit lines for warranty items and a credit line for the invoice account.
+- Set JE fields for subsidiary, revenue stream, invoice, and claim ID.
+- Update the invoice with the JE ID and auto-apply it via customer payment.
 
 ---
 
-## 7. Technical Considerations
-
-### NetSuite Components Required
-
-**Record Types:**
+## 6. Data Contract
+### Record Types Involved
 - invoice
 - journalentry
 - customerpayment
 
-**Script Types:**
-- [ ] Map/Reduce - N/A
-- [ ] Scheduled Script - N/A
-- [ ] Suitelet - N/A
-- [ ] RESTlet - N/A
-- [x] User Event - Warranty JE creation
-- [ ] Client Script - N/A
-
-**Custom Fields:**
+### Fields Referenced
 - invoice | custbody_sna_jeforwarranty | Warranty JE reference
 - invoice | custbody_sna_inv_claimid | Claim ID
 - invoice line | custcol_sn_for_warranty_claim | Warranty claim line flag
@@ -105,174 +68,46 @@ Create warranty JEs for invoice lines flagged as warranty and apply them to the 
 - revenue stream | custrecord_sn_for_warranty | Warranty flag
 - warranty lookup | custrecord_sn_warranty_gl | Warranty GL account
 
-**Saved Searches:**
-- `customsearch_sna_servicecode_lookup` for warranty GL mapping.
+Schemas (if known):
+- Saved search: customsearch_sna_servicecode_lookup
 
-### Integration Points
+---
+
+## 7. Validation & Edge Cases
+- No warranty lines results in no JE creation.
+- JE or payment creation errors are logged.
+- Payment option ID depends on environment (sandbox vs production).
+
+---
+
+## 8. Implementation Notes (Optional)
 - Uses runtime user preference `custscript_sna_claimwarranty` for claim account.
 - Auto-creates customer payment to apply JE to invoice.
 
-### Data Requirements
+---
 
-**Data Volume:**
-- One JE and one payment per warranty invoice.
-
-**Data Sources:**
-- Invoice lines and revenue stream configuration.
-
-**Data Retention:**
-- Creates JE and customer payment records; updates invoice reference.
-
-### Technical Constraints
-- Payment option ID depends on environment (sandbox vs production).
-
-### Dependencies
-- **Libraries needed:** None
-- **External dependencies:** None
-- **Other features:** Warranty configuration and saved search
-
-### Governance Considerations
-
-- **Script governance:** Multiple record operations per invoice.
-- **Search governance:** Revenue stream lookups and saved search.
-- **API limits:** Moderate.
+## 9. Acceptance Criteria
+- Given invoice warranty lines, when afterSubmit runs, then JE debit lines are created and linked to the invoice.
+- Given a created JE, when afterSubmit runs, then the JE is auto-applied as a customer payment.
 
 ---
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- Warranty JEs are created and applied to invoices automatically.
-
-**How we'll measure:**
-- Review invoice-linked JE and customer payment records.
-
----
-
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| sna_hul_ue_jeforwarranty.js | User Event | Create warranty JE and apply payment | Implemented |
-
-### Development Approach
-
-**Phase 1:** JE creation
-- [ ] Validate warranty line identification and JE lines
-
-**Phase 2:** Payment application
-- [ ] Validate customer payment creation and application
-
----
-
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. Invoice with warranty lines creates JE and auto-applies payment.
-
-**Edge Cases:**
-1. No warranty lines results in no JE creation.
-
-**Error Handling:**
-1. JE or payment creation errors are logged.
-
-### Test Data Requirements
-- Invoice with warranty revenue streams and service codes
-
-### Sandbox Setup
+## 10. Testing Notes
+- Invoice with warranty lines creates JE and auto-applies payment.
+- No warranty lines results in no JE creation.
 - Deploy User Event on Invoice and ensure saved search exists.
 
 ---
 
-## 11. Security & Permissions
-
-### Roles & Permissions
-
-**Roles that need access:**
-- Finance roles
-
-**Permissions required:**
-- Create Journal Entries
-- Create Customer Payments
-- Edit invoices
-
-### Data Security
-- Warranty and financial data restricted to finance roles.
+## 11. Deployment Notes
+- Confirm saved search `customsearch_sna_servicecode_lookup`.
+- Validate payment option IDs for sandbox/production.
+- Deploy User Event on Invoice and validate warranty JE and payment creation.
+- Monitor logs for JE/payment errors; rollback by disabling deployment if needed.
 
 ---
 
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-
-- [ ] Confirm saved search `customsearch_sna_servicecode_lookup`
-- [ ] Validate payment option IDs for sandbox/production
-
-### Deployment Steps
-
-1. Deploy User Event on Invoice.
-2. Validate warranty JE and payment creation.
-
-### Post-Deployment
-
-- [ ] Monitor logs for JE/payment errors
-
-### Rollback Plan
-
-**If deployment fails:**
-1. Disable the User Event deployment.
-2. Create JEs and payments manually if needed.
+## 12. Open Questions / TBDs
+- Should warranty GL mapping be cached to reduce searches?
 
 ---
-
-## 13. Timeline
-
-| Milestone | Target Date | Actual Date | Status |
-|-----------|-------------|-------------|--------|
-| PRD Approval | | | |
-| Development Start | | | |
-| Development Complete | | | |
-| Testing Complete | | | |
-| Stakeholder Review | | | |
-| Production Deploy | | | |
-
----
-
-## 14. Open Questions & Risks
-
-### Open Questions
-
-- [ ] Should warranty GL mapping be cached to reduce searches?
-
-### Known Risks
-
-| Risk | Likelihood | Impact | Mitigation Strategy |
-|------|------------|--------|---------------------|
-| Warranty mapping missing causes JE to use claim account | Med | Med | Validate service code configuration |
-
----
-
-## 15. References & Resources
-
-### Related PRDs
-- None.
-
-### NetSuite Documentation
-- SuiteScript 2.1 User Event
-- Journal Entry and Customer Payment
-
-### External Resources
-- None.
-
----
-
-## Revision History
-
-| Date | Author | Version | Changes |
-|------|--------|---------|---------|
-| Unknown | Jeremy Cady | 1.0 | Initial draft |

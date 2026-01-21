@@ -1,107 +1,66 @@
-# PRD: Update Item Rates by PO Type
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-UpdateItemRate
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Jeremy Cady
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/sna_hul_ue_update_item_rate.js (User Event)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-UpdateItemRate
+title: Update Item Rates by PO Type
+status: Implemented
+owner: Jeremy Cady
+created: TBD
+last_updated: TBD
 
-**Script Deployment (if applicable):**
-- Script ID: Not specified
-- Deployment ID: Not specified
+script:
+  type: user_event
+  file: FileCabinet/SuiteScripts/sna_hul_ue_update_item_rate.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - purchaseorder
+  - vendor
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
-Updates item rates and amounts based on vendor markup/discount tied to the PO type.
-
-**What problem does it solve?**
-Applies vendor-specific pricing adjustments automatically and preserves original rates for future recalculations.
-
-**Primary Goal:**
-Recalculate item line rates and amounts using vendor PO type markup/discount percentages.
+## 1. Overview
+Recalculates item line rates and amounts using vendor markup/discount percentages tied to PO type, while preserving original rates.
 
 ---
 
-## 2. Goals
-
-1. Determine vendor markup/discount based on PO type.
-2. Store original item rate on create.
-3. Recalculate line rate and amount on create/edit when enabled.
+## 2. Business Goal
+Apply vendor-specific pricing adjustments consistently without compounding rate changes over time.
 
 ---
 
-## 3. User Stories
-
-1. **As a** buyer, **I want to** apply vendor markup/discount automatically **so that** line rates are consistent.
-2. **As an** admin, **I want to** retain original rates **so that** recalculation is based on the correct baseline.
-3. **As a** user, **I want to** control recalculation on edit **so that** updates are intentional.
+## 3. User Story
+As a buyer, when I create or edit a PO, I want line rates recalculated from vendor PO type percentages so that pricing is consistent and traceable.
 
 ---
 
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. On create or edit, the system must read custbody_po_type and determine the vendor field for markup/discount.
-2. The system must load the vendor markup/discount from the buy-from vendor using the PO type field mapping.
-3. On create, the system must store the current line rate into custcol_sna_original_item_rate.
-4. On edit, the system must use custcol_sna_original_item_rate as the base for recalculation.
-5. For each line, the system must update rate and amount using the markup/discount percentage.
-6. On edit, the system must only run when custbody_sna_update_price_markup_disc is true.
-
-### Acceptance Criteria
-
-- [ ] Original item rate is stored on create.
-- [ ] Line rate and amount are updated based on vendor percentage.
-- [ ] Edit recalculation occurs only when update checkbox is true.
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| beforeSubmit | custbody_po_type, custbody_sna_buy_from | create/edit | Resolve vendor percentage field based on PO type. |
+| beforeSubmit | custcol_sna_original_item_rate | create | Store original line rate. |
+| beforeSubmit | rate, amount | create/edit, update checkbox on edit | Recalculate line rate and amount using vendor percentage. |
 
 ---
 
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Handle drop ship or special order exclusion beyond current logic.
-- Validate vendor percentage values.
-- Recalculate when no vendor or PO type is present.
-
----
-
-## 6. Design Considerations
-
-### User Interface
-- Uses existing header checkbox custbody_sna_update_price_markup_disc.
-
-### User Experience
-- Pricing changes occur during save.
-
-### Design References
-- Vendor fields for PO type percentages.
+## 5. Functional Requirements
+- On create/edit, read `custbody_po_type` and map it to the vendor markup/discount field.
+- Load the vendor percentage from the buy-from vendor.
+- On create, store the current line rate in `custcol_sna_original_item_rate`.
+- On edit, use `custcol_sna_original_item_rate` as the baseline for recalculation.
+- Update line rate and amount using the vendor markup/discount percentage.
+- On edit, only run recalculation when `custbody_sna_update_price_markup_disc` is true.
 
 ---
 
-## 7. Technical Considerations
-
-### NetSuite Components Required
-
-**Record Types:**
+## 6. Data Contract
+### Record Types Involved
 - Purchase Order (or deployed transaction type)
 - Vendor
 
-**Script Types:**
-- [ ] Map/Reduce - N/A
-- [ ] Scheduled Script - N/A
-- [ ] Suitelet - N/A
-- [ ] RESTlet - N/A
-- [x] User Event - Pricing update
-- [ ] Client Script - N/A
-
-**Custom Fields:**
+### Fields Referenced
 - Transaction header | custbody_po_type | PO type
 - Transaction header | custbody_sna_buy_from | Buy-from vendor
 - Transaction header | custbody_sna_update_price_markup_disc | Update price checkbox
@@ -111,154 +70,47 @@ Recalculate item line rates and amounts using vendor PO type markup/discount per
 - Vendor | custentity_sna_hul_dropship_percent | Drop ship markup/discount
 - Vendor | custentity_sna_hul_stock_order | Stock order markup/discount
 
-**Saved Searches:**
-- None
-
-### Integration Points
-- Vendor record lookup
-
-### Data Requirements
-
-**Data Volume:**
-- Per transaction, all item lines.
-
-**Data Sources:**
-- Vendor percentage fields by PO type.
-
-**Data Retention:**
-- Original rate stored on line.
-
-### Technical Constraints
-- Uses the original rate on edit to avoid compounding changes.
-
-### Dependencies
-- **Libraries needed:** None
-- **External dependencies:** None
-- **Other features:** Vendor configuration for markup/discount fields
-
-### Governance Considerations
-
-- **Script governance:** Line iteration with lookupFields.
-- **Search governance:** Single vendor lookup per transaction.
-- **API limits:** None.
+Schemas (if known):
+- Vendor | PO type markup/discount fields | Mapping used for recalculation
 
 ---
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- Line rates match vendor markup/discount expectations.
-- Original rates are preserved for recalculation.
-
-**How we'll measure:**
-- Compare calculated rates vs vendor percentage for sample POs.
+## 7. Validation & Edge Cases
+- If no vendor or PO type is present, no recalculation occurs.
+- If vendor percentage is missing, line updates are skipped.
+- Original rate is preserved on create to prevent compounding on edits.
 
 ---
 
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| sna_hul_ue_update_item_rate.js | User Event | Update line rates based on PO type | Implemented |
-
-### Development Approach
-
-**Phase 1:** Vendor lookup
-- [x] Map PO type to vendor field and fetch percentage.
-
-**Phase 2:** Line updates
-- [x] Store original rate and recalc line rate/amount.
+## 8. Implementation Notes (Optional)
+- Uses a single vendor lookup per transaction and iterates all item lines.
+- Edit recalculation is gated by `custbody_sna_update_price_markup_disc`.
 
 ---
 
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. Create transaction with PO type and vendor percentage, verify rates updated.
-2. Edit transaction with update checkbox true, verify rates recalculated from original rate.
-
-**Edge Cases:**
-1. Missing vendor or PO type, verify no changes.
-
-**Error Handling:**
-1. Vendor field value missing, verify script skips line updates.
-
-### Test Data Requirements
-- Vendors with PO type percentage fields populated.
-
-### Sandbox Setup
-- Deploy User Event on target transaction type.
+## 9. Acceptance Criteria
+- Given a new transaction with a PO type and vendor percentage, when the record is saved, then line rates and amounts are updated and original rates are stored.
+- Given an edited transaction with update checkbox true, when the record is saved, then line rates are recalculated from `custcol_sna_original_item_rate`.
+- Given update checkbox false, when the record is saved, then no recalculation occurs.
 
 ---
 
-## 11. Security & Permissions
-
-### Roles & Permissions
-- Users need access to vendor and transaction records.
-
-### Data Security
-- Updates only line rate and amount on the current transaction.
+## 10. Testing Notes
+- Create a PO with PO type and vendor percentage and verify rate/amount updates.
+- Edit with update checkbox true and verify recalculation uses original rate.
+- Edit with update checkbox false and verify no changes.
 
 ---
 
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-- [ ] Vendor fields configured for PO type percentages.
-
-### Deployment Steps
-1. Deploy User Event to the transaction type.
-
-### Post-Deployment
-- Validate pricing on a test transaction.
-
-### Rollback Plan
-- Disable the User Event deployment.
+## 11. Deployment Notes
+- Configure vendor percentage fields for PO type mappings.
+- Deploy the user event to the target transaction type.
 
 ---
 
-## 13. Timeline (table)
-
-| Phase | Owner | Duration | Target Date |
-|------|-------|----------|-------------|
-| Implementation | Jeremy Cady | Unknown | Unknown |
-| Validation | Jeremy Cady | Unknown | Unknown |
-
----
-
-## 14. Open Questions & Risks
-
-### Open Questions
+## 12. Open Questions / TBDs
+- Confirm script ID and deployment ID.
+- Confirm created and last updated dates.
 - Should drop ship and special order contexts be excluded explicitly?
 
-### Known Risks (table)
-
-| Risk | Impact | Mitigation |
-|------|--------|------------|
-| Incorrect vendor percentage | Mispriced items | Validate vendor setup |
-
 ---
-
-## 15. References & Resources
-
-### Related PRDs
-- None
-
-### NetSuite Documentation
-- User Event Script
-
-### External Resources
-- None
-
----
-
-## Revision History (table)
-
-| Version | Date | Author | Notes |
-|---------|------|--------|-------|
-| 1.0 | Unknown | Jeremy Cady | Initial PRD |

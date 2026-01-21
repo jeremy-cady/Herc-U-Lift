@@ -1,281 +1,115 @@
-# PRD: Validate RW PO
+# PRD_TEMPLATE.md
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-ValidateRwPo
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Jeremy Cady
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/sna_hul_mr_validate_rw_po.js (Map/Reduce)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-ValidateRwPo
+title: Validate RW PO
+status: Implemented
+owner: Jeremy Cady
+created: Unknown
+last_updated: Unknown
 
-**Script Deployment:** Not specified
+script:
+  type: map_reduce
+  file: FileCabinet/SuiteScripts/sna_hul_mr_validate_rw_po.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - purchaseorder
+  - salesorder
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
+## 1. Overview
 Validates Purchase Orders created from the Requisition Worksheet and links them to Sales Order lines.
 
-**What problem does it solve?**
+---
+
+## 2. Business Goal
 Ensures Sales Order lines reference the correct linked PO when procurement is created from requisition workflows.
 
-**Primary Goal:**
-Populate `custcol_sna_linked_po` on Sales Order lines based on PO line data, then clear the validation flag.
+---
+
+## 3. User Story
+- As a procurement user, when POs are created from the Requisition Worksheet, I want them linked to Sales Order lines, so that fulfillment and billing are consistent.
+- As an admin, when validation is complete, I want flags cleared, so that records are not reprocessed.
 
 ---
 
-## 2. Goals
-
-1. Find Purchase Orders flagged for validation.
-2. Match PO lines to Sales Order lines by item, vendor, and line ID.
-3. Set linked PO references on Sales Order lines.
-4. Clear the validation flag on the Purchase Order after processing.
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| Map/Reduce execution | custbody_sna_hul_validate_with_so | Purchase Orders flagged for validation | Link PO lines to Sales Order lines and clear validation flag |
 
 ---
 
-## 3. User Stories
-
-1. **As a** procurement user, **I want to** link POs to Sales Order lines **so that** fulfillment and billing are consistent.
-2. **As an** admin, **I want to** clear validation flags after processing **so that** records are not reprocessed.
-
----
-
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. The system must search for Purchase Orders where `custbody_sna_hul_validate_with_so` is true.
-2. The system must load each PO and collect item, vendor, linked SO, and SO line ID data from PO lines.
-3. The system must load linked Sales Orders and set `custcol_sna_linked_po` on matching lines when empty.
-4. The system must set `custbody_sna_hul_validate_with_so` to false after successful processing.
-
-### Acceptance Criteria
-
-- [ ] Sales Order lines with matching item, vendor, and line ID receive the PO link.
-- [ ] The PO validation flag is cleared after processing.
-- [ ] Lines with existing linked PO values are not overwritten.
+## 5. Functional Requirements
+- Search for Purchase Orders where `custbody_sna_hul_validate_with_so` is true.
+- Load each PO and collect item, vendor, linked SO, and SO line ID data from PO lines.
+- Load linked Sales Orders and set `custcol_sna_linked_po` on matching lines when empty.
+- Set `custbody_sna_hul_validate_with_so` to false after successful processing.
 
 ---
 
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Create Purchase Orders or Sales Orders.
-- Update pricing or quantities.
-- Reconcile mismatched items or vendors.
-
----
-
-## 6. Design Considerations
-
-### User Interface
-- No UI; Map/Reduce runs via deployment.
-
-### User Experience
-- Automated linking without manual edits.
-
-### Design References
-- None.
-
----
-
-## 7. Technical Considerations
-
-### NetSuite Components Required
-
-**Record Types:**
+## 6. Data Contract
+### Record Types Involved
 - purchaseorder
 - salesorder
 
-**Script Types:**
-- [x] Map/Reduce - Validate and link PO/SO lines
-- [ ] Scheduled Script - N/A
-- [ ] Suitelet - N/A
-- [ ] RESTlet - N/A
-- [ ] User Event - N/A
-- [ ] Client Script - N/A
+### Fields Referenced
+- purchaseorder.custbody_sna_hul_validate_with_so
+- purchaseorder.custbody_sna_buy_from
+- purchaseorderline.custcol_sna_linked_so
+- purchaseorderline.custcol_sn_hul_so_line_id
+- salesorderline.custcol_sna_csi_povendor
+- salesorderline.custcol_sna_linked_po
 
-**Custom Fields:**
-- Purchase Order | custbody_sna_hul_validate_with_so | Validation flag
-- Purchase Order | custbody_sna_buy_from | Vendor reference used for matching
-- Purchase Order Line | custcol_sna_linked_so | Linked Sales Order
-- Purchase Order Line | custcol_sn_hul_so_line_id | Linked SO line ID
-- Sales Order Line | custcol_sna_csi_povendor | PO vendor reference on SO line
-- Sales Order Line | custcol_sna_linked_po | Linked PO reference
-
-**Saved Searches:**
-- None (script builds searches at runtime).
-
-### Integration Points
-- Requisition Worksheet-generated Purchase Orders.
-
-### Data Requirements
-
-**Data Volume:**
-- All POs flagged for validation.
-
-**Data Sources:**
-- Purchase Order lines
-- Sales Order lines
-
-**Data Retention:**
-- Updates existing Sales Orders and POs.
-
-### Technical Constraints
-- Record load/save usage for each linked Sales Order.
-
-### Dependencies
-- **Libraries needed:** None
-- **External dependencies:** None
-- **Other features:** Requisition Worksheet flow
-
-### Governance Considerations
-
-- **Script governance:** Loads POs and S0s; saves when changes occur.
-- **Search governance:** Single search for flagged POs.
-- **API limits:** Potentially heavy for large PO sets.
+Schemas (if known):
+- TBD
 
 ---
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- Sales Orders reflect linked POs for validated lines.
-- Validation flags are cleared after linking.
-
-**How we'll measure:**
-- Spot checks of SO lines and PO flags.
+## 7. Validation & Edge Cases
+- PO lines missing linked SO or line ID are skipped.
+- SO lines already linked are not overwritten.
+- Invalid Sales Order ID does not stop overall processing.
 
 ---
 
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| sna_hul_mr_validate_rw_po.js | Map/Reduce | Link PO lines to SO lines | Implemented |
-
-### Development Approach
-
-**Phase 1:** Validate configuration
-- [ ] Confirm custom fields exist and are populated
-
-**Phase 2:** Execute and verify
-- [ ] Run Map/Reduce
-- [ ] Confirm linked PO fields are set
+## 8. Implementation Notes (Optional)
+- Script must reuse existing deployment: TBD
+- Dispatcher required: TBD
+- Performance/governance considerations: Record load/save usage for each linked Sales Order.
 
 ---
 
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. PO with linked SO and line IDs updates matching SO lines.
-
-**Edge Cases:**
-1. PO lines missing linked SO or line ID are skipped.
-2. SO lines already linked are not overwritten.
-
-**Error Handling:**
-1. Invalid Sales Order ID does not stop overall processing.
-
-### Test Data Requirements
-- PO with linked SO lines and vendor fields
-- SO with matching item lines
-
-### Sandbox Setup
-- Deploy Map/Reduce and ensure custom fields exist
+## 9. Acceptance Criteria
+- Given Sales Order lines match item, vendor, and line ID, when the job runs, then those lines receive the PO link.
+- Given a PO is processed, when the job completes, then the PO validation flag is cleared.
+- Given lines already contain a linked PO, when the job runs, then those lines are not overwritten.
 
 ---
 
-## 11. Security & Permissions
-
-### Roles & Permissions
-
-**Roles that need access:**
-- Administrator or procurement scripting role
-
-**Permissions required:**
-- Edit access to Purchase Orders and Sales Orders
-
-### Data Security
-- Uses transaction data only.
+## 10. Testing Notes
+Manual tests:
+- PO with linked SO and line IDs updates matching SO lines.
+- PO lines missing linked SO or line ID are skipped.
+- SO lines already linked are not overwritten.
+- Invalid Sales Order ID does not stop overall processing.
 
 ---
 
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-
-- [ ] Confirm validation flag is used in workflow
-- [ ] Validate field mapping
-
-### Deployment Steps
-
-1. Deploy Map/Reduce.
-2. Execute on flagged POs.
-
-### Post-Deployment
-
-- [ ] Verify PO flags cleared
-- [ ] Confirm linked PO on SO lines
-
-### Rollback Plan
-
-**If deployment fails:**
-1. Disable deployment.
-2. Re-run after fixing field configuration.
+## 11. Deployment Notes
+- Confirm validation flag is used in workflow.
+- Validate field mapping.
+- Deploy Map/Reduce.
+- Execute on flagged POs.
 
 ---
 
-## 13. Timeline
-
-| Milestone | Target Date | Actual Date | Status |
-|-----------|-------------|-------------|--------|
-| PRD Approval | | | |
-| Development Start | | | |
-| Development Complete | | | |
-| Testing Complete | | | |
-| Stakeholder Review | | | |
-| Production Deploy | | | |
+## 12. Open Questions / TBDs
+- Should validation include quantity or rate matching?
 
 ---
-
-## 14. Open Questions & Risks
-
-### Open Questions
-
-- [ ] Should validation include quantity or rate matching?
-
-### Known Risks
-
-| Risk | Likelihood | Impact | Mitigation Strategy |
-|------|------------|--------|---------------------|
-| Mismatched line IDs prevent linking | Med | Med | Ensure SO line ID field is populated on PO creation |
-
----
-
-## 15. References & Resources
-
-### Related PRDs
-- None.
-
-### NetSuite Documentation
-- SuiteScript 2.1 Map/Reduce
-- Purchase Order and Sales Order record fields
-
-### External Resources
-- None.
-
----
-
-## Revision History
-
-| Date | Author | Version | Changes |
-|------|--------|---------|---------|
-| Unknown | Jeremy Cady | 1.0 | Initial draft |

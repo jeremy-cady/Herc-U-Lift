@@ -1,261 +1,98 @@
-# PRD: Generate Misc Fee and PDF Buttons
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-GenerateMiscFeePrintPdf
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Jeremy Cady
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/sna_hul_ue_generate_misc_fee_print_pdf.js (User Event)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-GenerateMiscFeePrintPdf
+title: Generate Misc Fee and PDF Buttons
+status: Implemented
+owner: Jeremy Cady
+created: Unknown
+last_updated: Unknown
 
-**Script Deployment:** Not specified
+script:
+  type: user_event
+  file: FileCabinet/SuiteScripts/sna_hul_ue_generate_misc_fee_print_pdf.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - invoice
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
+## 1. Overview
 User Event that adds "Generate PDF" and "Generate MISC Fee" buttons to invoices before saving.
 
-**What problem does it solve?**
-Provides quick UI actions to generate PDFs or misc fee calculations from the invoice form.
+---
 
-**Primary Goal:**
-Expose invoice actions via custom buttons on the invoice form.
+## 2. Business Goal
+Provide quick UI actions to generate PDFs or misc fee calculations from the invoice form.
 
 ---
 
-## 2. Goals
-
-1. Add a Generate PDF button to the invoice form.
-2. Add a Generate MISC Fee button to the invoice form.
+## 3. User Story
+As a billing user, when working an invoice, I want to generate PDFs and misc fee actions from the form, so that I can complete invoice processing quickly.
 
 ---
 
-## 3. User Stories
-
-1. **As a** billing user, **I want to** generate PDFs and misc fee actions **so that** I can complete invoice processing quickly.
-
----
-
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. The script must run beforeLoad on invoice create/edit.
-2. The script must attach client script `sna_hul_cs_generate_misc_fee_print_pdf.js`.
-3. The script must add the two buttons and wire them to client functions.
-
-### Acceptance Criteria
-
-- [ ] Generate PDF button appears on the invoice form.
-- [ ] Generate MISC Fee button appears on the invoice form.
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| beforeLoad | Invoice form | create/edit | Add "Generate PDF" and "Generate MISC Fee" buttons and attach client script |
 
 ---
 
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Generate PDFs server-side in this script.
-- Execute misc fee logic directly.
+## 5. Functional Requirements
+- Run beforeLoad on invoice create/edit.
+- Attach client script `sna_hul_cs_generate_misc_fee_print_pdf.js`.
+- Add the two buttons and wire them to client functions.
 
 ---
 
-## 6. Design Considerations
-
-### User Interface
-- Adds two buttons to the invoice form.
-
-### User Experience
-- Users can trigger actions without leaving the invoice.
-
-### Design References
-- Client script: `sna_hul_cs_generate_misc_fee_print_pdf.js`
-
----
-
-## 7. Technical Considerations
-
-### NetSuite Components Required
-
-**Record Types:**
+## 6. Data Contract
+### Record Types Involved
 - invoice
 
-**Script Types:**
-- [ ] Map/Reduce - N/A
-- [ ] Scheduled Script - N/A
-- [ ] Suitelet - N/A
-- [ ] RESTlet - N/A
-- [x] User Event - Add buttons
-- [ ] Client Script - Handles button actions
-
-**Custom Fields:**
+### Fields Referenced
 - None.
 
-**Saved Searches:**
-- None.
+Schemas (if known):
+- TBD
 
-### Integration Points
+---
+
+## 7. Validation & Edge Cases
+- Buttons are not added in view or delete modes.
+- Button add errors are logged.
+
+---
+
+## 8. Implementation Notes (Optional)
 - Client script functions `generatePDF` and `generateMiscFee`.
 
-### Data Requirements
+---
 
-**Data Volume:**
-- None.
-
-**Data Sources:**
-- Invoice form only.
-
-**Data Retention:**
-- No record updates in this script.
-
-### Technical Constraints
-- Buttons are not added in view or delete modes.
-
-### Dependencies
-- **Libraries needed:** None
-- **External dependencies:** None
-- **Other features:** Client script logic
-
-### Governance Considerations
-
-- **Script governance:** Low.
-- **Search governance:** None.
-- **API limits:** Low.
+## 9. Acceptance Criteria
+- Given an invoice in create/edit, when beforeLoad runs, then both buttons are visible.
+- Given an invoice in view mode, when beforeLoad runs, then buttons are not added.
 
 ---
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- Invoice form shows the two buttons and actions run from client script.
-
-**How we'll measure:**
-- UI verification in sandbox.
-
----
-
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| sna_hul_ue_generate_misc_fee_print_pdf.js | User Event | Add invoice buttons | Implemented |
-
-### Development Approach
-
-**Phase 1:** Button display
-- [ ] Validate buttons show in create/edit
-
-**Phase 2:** Client script actions
-- [ ] Validate button functions execute
-
----
-
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. Open invoice in edit mode and verify both buttons.
-
-**Edge Cases:**
-1. View mode does not show buttons.
-
-**Error Handling:**
-1. Button add errors are logged.
-
-### Test Data Requirements
-- Any invoice record
-
-### Sandbox Setup
+## 10. Testing Notes
+- Open invoice in edit mode and verify both buttons.
+- View mode does not show buttons.
 - Deploy User Event on invoice and include client script.
 
 ---
 
-## 11. Security & Permissions
-
-### Roles & Permissions
-
-**Roles that need access:**
-- Billing roles
-
-**Permissions required:**
-- Access invoice form
-
-### Data Security
-- No data changes from this script.
+## 11. Deployment Notes
+- Confirm client script file exists.
+- Deploy User Event on Invoice and verify buttons on form.
+- Monitor logs for UI errors; rollback by disabling deployment if needed.
 
 ---
 
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-
-- [ ] Confirm client script file exists
-
-### Deployment Steps
-
-1. Deploy User Event on Invoice.
-2. Verify buttons on form.
-
-### Post-Deployment
-
-- [ ] Monitor logs for UI errors
-
-### Rollback Plan
-
-**If deployment fails:**
-1. Disable the User Event deployment.
-2. Remove buttons from form.
+## 12. Open Questions / TBDs
+- Should buttons be hidden for non-misc fee invoices?
 
 ---
-
-## 13. Timeline
-
-| Milestone | Target Date | Actual Date | Status |
-|-----------|-------------|-------------|--------|
-| PRD Approval | | | |
-| Development Start | | | |
-| Development Complete | | | |
-| Testing Complete | | | |
-| Stakeholder Review | | | |
-| Production Deploy | | | |
-
----
-
-## 14. Open Questions & Risks
-
-### Open Questions
-
-- [ ] Should buttons be hidden for non-misc fee invoices?
-
-### Known Risks
-
-| Risk | Likelihood | Impact | Mitigation Strategy |
-|------|------------|--------|---------------------|
-| Client script missing prevents button actions | Low | Low | Validate script deployment |
-
----
-
-## 15. References & Resources
-
-### Related PRDs
-- None.
-
-### NetSuite Documentation
-- SuiteScript 2.1 User Event
-
-### External Resources
-- None.
-
----
-
-## Revision History
-
-| Date | Author | Version | Changes |
-|------|--------|---------|---------|
-| Unknown | Jeremy Cady | 1.0 | Initial draft |

@@ -1,110 +1,72 @@
-# PRD: Update Sales Rep Commission Plan on SO Lines
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-UpdateSalesRepCmPlan
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Jeremy Cady
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/sna_hul_ue_update_sales_rep_cm_plan.js (User Event)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-UpdateSalesRepCmPlan
+title: Update Sales Rep Commission Plan on SO Lines
+status: Implemented
+owner: Jeremy Cady
+created: TBD
+last_updated: TBD
 
-**Script Deployment (if applicable):**
-- Script ID: Not specified
-- Deployment ID: Not specified
+script:
+  type: user_event
+  file: FileCabinet/SuiteScripts/sna_hul_ue_update_sales_rep_cm_plan.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - salesorder
+  - customer
+  - item
+  - employee
+  - customrecord_sna_salesrep_matrix_mapping
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
-Assigns sales rep, sales rep matrix, and commission details on sales order lines based on customer matrix mappings.
-
-**What problem does it solve?**
-Ensures line-level commission fields reflect customer, item, and revenue stream criteria at save time.
-
-**Primary Goal:**
-Populate commission-related line fields using customer sales rep matrix mapping rules.
+## 1. Overview
+Populates sales rep and commission fields on sales order lines by matching customer sales rep matrix rules and calculating commission amounts.
 
 ---
 
-## 2. Goals
-
-1. Match customer matrix entries by zip, equipment category, revenue stream, and manufacturer.
-2. Set line sales rep and commission plan fields.
-3. Calculate commission amount using revenue or gross margin rules.
+## 2. Business Goal
+Ensure line-level commission assignments and amounts are accurate based on customer, item, and revenue stream criteria.
 
 ---
 
-## 3. User Stories
-
-1. **As a** sales manager, **I want to** auto-assign sales reps by matrix rules **so that** commissions are accurate.
-2. **As a** finance user, **I want to** calculate commission amounts **so that** payouts are consistent.
-3. **As an** admin, **I want to** use line-level eligibility flags **so that** commissions apply only where allowed.
+## 3. User Story
+As a sales manager, when a sales order is saved, I want commission fields set from matrix rules so that payouts align with configured eligibility and rates.
 
 ---
 
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. On beforeSubmit (non-delete), the system must load customer matrix records for the transaction customer.
-2. The system must determine the ship-to zip code (from shipaddresslist) and item details (equipment category, revenue stream, manufacturer, eligibility).
-3. The system must select a matrix entry matching zip, equipment category, and revenue stream, and prefer manufacturer match when available.
-4. The system must set custcol_sna_sales_rep and custcol_sna_sales_rep_matrix for matching lines.
-5. When item is eligible for commission, the system must set commission plan, rate, and type fields.
-6. The system must calculate commission amount as gross margin or revenue based on commission type.
-
-### Acceptance Criteria
-
-- [ ] Sales rep and matrix id are set on matching lines.
-- [ ] Commission fields are populated for eligible items.
-- [ ] Commission amount is calculated according to commission type.
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| beforeSubmit | shipaddresslist | non-delete | Load customer matrix records and resolve ship-to zip. |
+| beforeSubmit | custcol_sna_sales_rep, custcol_sna_sales_rep_matrix | matching matrix entry | Set sales rep and matrix id on matching lines. |
+| beforeSubmit | commission fields | eligible item | Set commission plan, rate, type, and calculated amount. |
 
 ---
 
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Create or update customer matrix records.
-- Handle commission calculations outside line amount and cost estimate.
-- Validate sales rep eligibility beyond matrix selection.
-
----
-
-## 6. Design Considerations
-
-### User Interface
-- No UI changes.
-
-### User Experience
-- Commission fields are set during save.
-
-### Design References
-- Custom record: customrecord_sna_salesrep_matrix_mapping
+## 5. Functional Requirements
+- On beforeSubmit (non-delete), load customer matrix records for the transaction customer.
+- Determine ship-to zip code from `shipaddresslist` and item details (equipment category, revenue stream, manufacturer, eligibility).
+- Select a matrix entry matching zip, equipment category, and revenue stream; prefer manufacturer match when available.
+- Set `custcol_sna_sales_rep` and `custcol_sna_sales_rep_matrix` on matching lines.
+- When item is eligible for commission, set commission plan, rate, and type fields.
+- Calculate commission amount as gross margin or revenue based on commission type.
 
 ---
 
-## 7. Technical Considerations
-
-### NetSuite Components Required
-
-**Record Types:**
+## 6. Data Contract
+### Record Types Involved
 - Sales Order
 - Customer
 - Item
 - Employee
 - Custom record: customrecord_sna_salesrep_matrix_mapping
 
-**Script Types:**
-- [ ] Map/Reduce - N/A
-- [ ] Scheduled Script - N/A
-- [ ] Suitelet - N/A
-- [ ] RESTlet - N/A
-- [x] User Event - Commission field updates
-- [ ] Client Script - N/A
-
-**Custom Fields:**
+### Fields Referenced
 - Transaction header | shipaddresslist | Shipping address id
 - Item line | custcol_sna_sales_rep | Sales rep
 - Item line | custcol_sna_sales_rep_matrix | Matrix record id
@@ -119,156 +81,47 @@ Populate commission-related line fields using customer sales rep matrix mapping 
 - Item | custitem_sna_hul_eligible_for_comm | Eligible for commission
 - Employee | custentity_sna_sales_rep_tran_assignedon | Assignment date
 
-**Saved Searches:**
-- None (ad hoc search for matrix entries)
-
-### Integration Points
-- Customer matrix custom record
-
-### Data Requirements
-
-**Data Volume:**
-- Per transaction, all item lines.
-
-**Data Sources:**
-- Customer matrix mappings, item segments, shipping address zip.
-
-**Data Retention:**
-- Commission fields persisted on line.
-
-### Technical Constraints
-- Zip matching uses exact value from address record.
-- Sales rep selection uses earliest assigned-on date.
-
-### Dependencies
-- **Libraries needed:** None
-- **External dependencies:** None
-- **Other features:** Customer sales rep matrix setup
-
-### Governance Considerations
-
-- **Script governance:** Multiple searches per transaction.
-- **Search governance:** Matrix and customer address searches.
-- **API limits:** None.
+Schemas (if known):
+- Custom record | customrecord_sna_salesrep_matrix_mapping | Sales rep matrix mappings
 
 ---
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- Commission fields are correctly populated on qualifying lines.
-- Commission amounts match configured rates and types.
-
-**How we'll measure:**
-- Compare line commission values against matrix configuration.
+## 7. Validation & Edge Cases
+- If no matching matrix entry exists, leave fields unchanged.
+- If item is not eligible for commission, do not set commission fields.
+- If ship-to zip is missing, log and skip updates.
 
 ---
 
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| sna_hul_ue_update_sales_rep_cm_plan.js | User Event | Populate sales rep and commission fields | Implemented |
-
-### Development Approach
-
-**Phase 1:** Matrix matching
-- [x] Match by zip, equipment category, revenue stream, and manufacturer.
-
-**Phase 2:** Commission calculation
-- [x] Set fields and calculate commission amount.
+## 8. Implementation Notes (Optional)
+- Matching logic prioritizes manufacturer when multiple entries match zip/category/revenue stream.
+- Sales rep selection uses earliest assigned-on date when multiple reps apply.
 
 ---
 
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. Save a sales order with matching matrix entry, verify rep and commission fields.
-
-**Edge Cases:**
-1. No matching matrix entry, verify no changes.
-2. Item not eligible for commission, verify commission fields not set.
-
-**Error Handling:**
-1. Missing address zip, verify script logs error and skips.
-
-### Test Data Requirements
-- Customer matrix records with varying zip, equipment, and rev stream.
-- Items with eligibility flags.
-
-### Sandbox Setup
-- Deploy User Event on sales order.
+## 9. Acceptance Criteria
+- Given a matching matrix entry, when the sales order is saved, then sales rep and matrix id are set on the line.
+- Given an eligible item, when the sales order is saved, then commission plan, rate, type, and amount are populated.
+- Given no matrix match, when the sales order is saved, then commission fields remain unchanged.
 
 ---
 
-## 11. Security & Permissions
-
-### Roles & Permissions
-- Users need access to sales orders, customer addresses, items, and matrix records.
-
-### Data Security
-- Only line-level commission fields are updated.
+## 10. Testing Notes
+- Save an SO with a matching matrix entry and verify rep and commission fields.
+- Save an SO with a non-eligible item and verify commission fields are not set.
+- Save an SO with missing ship-to zip and verify no updates and logged error.
 
 ---
 
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-- [ ] Customer matrix records populated with commission plan data.
-
-### Deployment Steps
-1. Deploy User Event to sales order.
-
-### Post-Deployment
-- Validate commission fields on a sample order.
-
-### Rollback Plan
-- Disable the User Event deployment.
+## 11. Deployment Notes
+- Ensure customer matrix records include commission plan data.
+- Deploy the user event to Sales Order.
 
 ---
 
-## 13. Timeline (table)
-
-| Phase | Owner | Duration | Target Date |
-|------|-------|----------|-------------|
-| Implementation | Jeremy Cady | Unknown | Unknown |
-| Validation | Jeremy Cady | Unknown | Unknown |
-
----
-
-## 14. Open Questions & Risks
-
-### Open Questions
+## 12. Open Questions / TBDs
+- Confirm script ID and deployment ID.
+- Confirm created and last updated dates.
 - Should zip matching use 5-digit prefix as in customer matrix maintenance?
 
-### Known Risks (table)
-
-| Risk | Impact | Mitigation |
-|------|--------|------------|
-| Matrix mismatch | No commission assigned | Validate matrix data quality |
-
 ---
-
-## 15. References & Resources
-
-### Related PRDs
-- None
-
-### NetSuite Documentation
-- User Event Script
-
-### External Resources
-- None
-
----
-
-## Revision History (table)
-
-| Version | Date | Author | Notes |
-|---------|------|--------|-------|
-| 1.0 | Unknown | Jeremy Cady | Initial PRD |

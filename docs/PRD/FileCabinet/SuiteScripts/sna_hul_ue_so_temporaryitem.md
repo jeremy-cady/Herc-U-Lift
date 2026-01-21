@@ -1,110 +1,76 @@
-# PRD: Sales Order Temporary Item Handling
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-SoTemporaryItem
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Jeremy Cady
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/sna_hul_ue_so_temporaryitem.js (User Event)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-SoTemporaryItem
+title: Sales Order Temporary Item Handling
+status: Implemented
+owner: Jeremy Cady
+created: TBD
+last_updated: TBD
 
-**Script Deployment (if applicable):**
-- Script ID: Not specified
-- Deployment ID: Not specified
+script:
+  type: user_event
+  file: FileCabinet/SuiteScripts/sna_hul_ue_so_temporaryitem.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - salesorder
+  - estimate
+  - vendor
+  - purchaseorder
+  - item
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
-Assigns unique temporary item codes, validates required fields, and orchestrates vendor and PO creation for temporary items on Sales Orders and Estimates.
-
-**What problem does it solve?**
-Prevents incomplete temporary item lines, ensures consistent temp code generation, and initiates PO creation workflows.
-
-**Primary Goal:**
-Automate temporary item setup and related vendor/PO preparation on Sales Orders and Estimates.
+## 1. Overview
+Generates and validates temporary item codes on sales orders and estimates, and initiates vendor/PO preparation when required.
 
 ---
 
-## 2. Goals
-
-1. Clear temp codes on create/copy and regenerate as needed.
-2. Enforce required line fields for temporary items.
-3. Create or assign vendors and initiate PO creation when required.
+## 2. Business Goal
+Ensure temporary item lines are complete and traceable, and kick off PO creation workflows consistently.
 
 ---
 
-## 3. User Stories
-
-1. **As a** buyer, **I want to** have unique temp item codes generated **so that** temporary items are trackable.
-2. **As a** sales user, **I want to** be warned about missing temp item fields **so that** I can fix them before save.
-3. **As a** purchasing user, **I want to** trigger PO creation for temp items **so that** procurement is streamlined.
+## 3. User Story
+As a sales or purchasing user, when I add temporary item lines to a transaction, I want required details enforced and codes generated so that temporary items can be tracked and PO creation can be initiated.
 
 ---
 
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. On CREATE/COPY, the system must clear custcol_sna_hul_temp_item_code and custcol_sna_hul_createpo on all item lines.
-2. On VIEW, the system must populate custcol_sna_hul_cust_createpo with Drop Ship and Spec Ord PO links when createpo is Drop Ship and povendor is present.
-3. On beforeSubmit, the system must generate temp item codes based on item category and prefix mappings using the customsearch_sna_hul_tempcode_index search.
-4. On beforeSubmit, the system must validate required temp item fields and throw UI errors when missing.
-5. On beforeSubmit, the system must create or set PO vendor details when vendor info is provided.
-6. On afterSubmit, the system must backfill temp item codes for any missing lines and trigger PO creation via Suitelet when needed.
-
-### Acceptance Criteria
-
-- [ ] Temporary item lines receive a unique code with the configured prefix and sequence.
-- [ ] Missing required fields block save in UI with a clear error message.
-- [ ] PO creation triggers when createpo is set and vendor data exists.
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| beforeLoad | custcol_sna_hul_temp_item_code, custcol_sna_hul_createpo | create/copy | Clear temp item code and create PO flag on all item lines. |
+| beforeLoad | custcol_sna_hul_cust_createpo | view | Populate PO link HTML when createpo is Drop Ship and POVendor is present. |
+| beforeSubmit | custcol_sna_hul_temp_item_code, custcol_sna_hul_itemcategory | temp item line | Generate temp item codes using category/prefix mapping and saved search index. |
+| beforeSubmit | temp item fields | temp item line | Validate required temp item fields; block save with UI error when missing. |
+| beforeSubmit | vendor fields | temp item line | Create or assign vendor details when vendor info is provided. |
+| afterSubmit | custcol_sna_hul_temp_item_code | temp item line missing code | Backfill temp codes for missing lines after submit. |
+| afterSubmit | custcol_sna_hul_createpo | createpo set and vendor data exists | Trigger PO creation via Suitelet. |
 
 ---
 
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Create item records for temporary items.
-- Perform PO creation directly (delegated to Suitelet).
-- Validate vendor data beyond presence checks.
-
----
-
-## 6. Design Considerations
-
-### User Interface
-- VIEW mode shows links to create Drop Ship or Spec Ord PO.
-
-### User Experience
-- Errors are thrown during UI save to force required fields.
-
-### Design References
-- Suitelet: customscript_sna_hul_sl_so_tempitem
+## 5. Functional Requirements
+- On create/copy, clear temporary item code and create-PO flag fields on all item lines.
+- On view, populate the customer-facing create-PO field with Drop Ship/Spec Ord PO links when applicable.
+- Generate temporary item codes using category/prefix mapping and the latest index from `customsearch_sna_hul_tempcode_index`.
+- Validate required temporary item fields and block UI save with a clear error if missing.
+- When vendor details are provided, set or create vendor information for the temporary item line.
+- After submit, backfill missing temporary item codes and invoke the PO-creation Suitelet when create-PO is set.
 
 ---
 
-## 7. Technical Considerations
-
-### NetSuite Components Required
-
-**Record Types:**
+## 6. Data Contract
+### Record Types Involved
 - Sales Order
 - Estimate
 - Vendor
 - Purchase Order
 - Item
 
-**Script Types:**
-- [ ] Map/Reduce - N/A
-- [ ] Scheduled Script - N/A
-- [ ] Suitelet - PO creation
-- [ ] RESTlet - N/A
-- [x] User Event - Temporary item logic
-- [ ] Client Script - N/A
-
-**Custom Fields:**
+### Fields Referenced
 - Item line | custcol_sna_hul_temp_item_code | Temporary item code
 - Item line | custcol_sna_hul_createpo | Create PO indicator (script)
 - Item line | custcol_sna_hul_cust_createpo | PO link HTML
@@ -112,7 +78,7 @@ Automate temporary item setup and related vendor/PO preparation on Sales Orders 
 - Item line | custcol_sna_hul_item_vendor | Temporary vendor
 - Item line | custcol_sna_hul_vendor_name | Vendor name
 - Item line | custcol_sna_hul_vendor_item_code | Vendor item code
-- Item line | custcol_sna_hul_temp_porate | Temp PO rate
+- Item line | custcol_sna_hul_temp_porate | Temporary PO rate
 - Item line | custcol_sna_hul_estimated_po_rate | Estimated PO rate
 - Item line | custcol_sna_hul_company_or_indv | Vendor is person flag
 - Item line | custcol_sna_hul_vendor_phone_no | Vendor phone
@@ -126,165 +92,50 @@ Automate temporary item setup and related vendor/PO preparation on Sales Orders 
 - Item line | custcol_sna_linked_po | Linked PO
 - Item line | custcol_sna_hul_ship_meth_vendor | Vendor ship method
 
-**Saved Searches:**
-- customsearch_sna_hul_tempcode_index | Find latest temp code index by item category/prefix
-
-### Integration Points
-- Suitelet: customscript_sna_hul_sl_so_tempitem
-
-### Data Requirements
-
-**Data Volume:**
-- Per transaction, all item lines.
-
-**Data Sources:**
-- Item records for item category.
-- Saved search for temp code indexing.
-
-**Data Retention:**
-- Temp codes stored on item lines.
-
-### Technical Constraints
-- Temp code generation depends on saved search results.
-- Vendor creation only when vendor name is provided and temp vendor is blank.
-
-### Dependencies
-- **Libraries needed:** None
-- **External dependencies:** None
-- **Other features:** Suitelet for PO creation
-
-### Governance Considerations
-
-- **Script governance:** Uses record.load and multiple searches.
-- **Search governance:** Saved search and item searches per order.
-- **API limits:** HTTPS call to Suitelet per qualifying save.
+Schemas (if known):
+- Saved search | customsearch_sna_hul_tempcode_index | Latest temp code index per category/prefix
+- Suitelet | customscript_sna_hul_sl_so_tempitem | PO creation endpoint
 
 ---
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- Temporary item codes are consistently generated.
-- Required fields are enforced for temp items.
-- PO creation Suitelet is invoked as expected.
-
-**How we'll measure:**
-- Review temp item lines after save.
-- Confirm Suitelet receives PO creation calls.
+## 7. Validation & Edge Cases
+- Missing required temporary item fields block UI save with an error message.
+- If temporary item codes are missing after submit, the script backfills them.
+- PO creation is delegated to a Suitelet; failures should not prevent save.
 
 ---
 
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| sna_hul_ue_so_temporaryitem.js | User Event | Temp item codes, validation, PO prep | Implemented |
-
-### Development Approach
-
-**Phase 1:** Validation and code generation
-- [x] Clear temp codes on create/copy.
-- [x] Generate codes from saved search index.
-
-**Phase 2:** Vendor and PO integration
-- [x] Create vendors when needed.
-- [x] Trigger PO Suitelet when required.
+## 8. Implementation Notes (Optional)
+- Uses saved search `customsearch_sna_hul_tempcode_index` to resolve the latest index per category/prefix.
+- Invokes Suitelet `customscript_sna_hul_sl_so_tempitem` for PO creation.
+- Governance considerations: record loads and searches per transaction; HTTPS call for Suitelet.
 
 ---
 
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. Add a temp item line with required fields, save, verify temp code and vendor assigned.
-2. Save a Sales Order with createpo set, verify Suitelet is called.
-
-**Edge Cases:**
-1. Missing required fields on temp item line, verify UI error prevents save.
-2. Create/copy Sales Order, verify temp codes are cleared and regenerated.
-
-**Error Handling:**
-1. Suitelet call fails, verify error logged and save completes.
-
-### Test Data Requirements
-- Items with temp item categories and prefixes configured.
-- Vendors or vendor details for creation.
-
-### Sandbox Setup
-- Deploy the temp item Suitelet and saved search.
+## 9. Acceptance Criteria
+- Given a sales order or estimate with temporary item lines, when the record is saved, then each temp line has a unique code using the configured prefix and sequence.
+- Given a temporary item line with missing required fields, when a user saves in the UI, then the save is blocked with a clear error message.
+- Given create-PO is set and vendor data exists, when the record is saved, then the PO creation Suitelet is invoked.
 
 ---
 
-## 11. Security & Permissions
-
-### Roles & Permissions
-- Users must have access to create vendors and view purchase orders.
-
-### Data Security
-- Vendor data is created from line-level details only.
+## 10. Testing Notes
+- Create or copy a transaction and verify temp item codes and create-PO flags are cleared.
+- Save with missing temporary item fields and confirm the UI error.
+- Save with create-PO set and vendor details; confirm Suitelet invocation and links on view.
 
 ---
 
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-- [ ] Saved search customsearch_sna_hul_tempcode_index is available.
-- [ ] Suitelet deployment exists and is active.
-
-### Deployment Steps
-1. Deploy User Event to Sales Order and Estimate.
-2. Configure script parameters for item categories and prefixes.
-
-### Post-Deployment
-- Validate temp code generation and PO creation links.
-
-### Rollback Plan
-- Disable the User Event deployment.
+## 11. Deployment Notes
+- Ensure saved search `customsearch_sna_hul_tempcode_index` is available.
+- Suitelet `customscript_sna_hul_sl_so_tempitem` must be deployed and active.
+- Deploy the user event to Sales Order and Estimate records.
 
 ---
 
-## 13. Timeline (table)
-
-| Phase | Owner | Duration | Target Date |
-|------|-------|----------|-------------|
-| Implementation | Jeremy Cady | Unknown | Unknown |
-| Validation | Jeremy Cady | Unknown | Unknown |
+## 12. Open Questions / TBDs
+- Confirm script ID and deployment ID.
+- Confirm created and last updated dates.
+- Confirm the exact required field list for temporary items.
 
 ---
-
-## 14. Open Questions & Risks
-
-### Open Questions
-- Should temp codes be regenerated on edit when a code already exists?
-
-### Known Risks (table)
-
-| Risk | Impact | Mitigation |
-|------|--------|------------|
-| Saved search misconfigured | Duplicate or missing codes | Validate search filters and prefixes |
-
----
-
-## 15. References & Resources
-
-### Related PRDs
-- None
-
-### NetSuite Documentation
-- User Event Script
-- Vendor record creation
-
-### External Resources
-- None
-
----
-
-## Revision History (table)
-
-| Version | Date | Author | Notes |
-|---------|------|--------|-------|
-| 1.0 | Unknown | Jeremy Cady | Initial PRD |

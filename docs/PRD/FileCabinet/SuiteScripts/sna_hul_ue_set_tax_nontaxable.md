@@ -1,251 +1,97 @@
-# PRD: Set Tax Not Taxable
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-SetTaxNontaxable
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Jeremy Cady
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/sna_hul_ue_set_tax_nontaxable.js (User Event)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-SetTaxNontaxable
+title: Set Tax Not Taxable
+status: Implemented
+owner: Jeremy Cady
+created: Unknown
+last_updated: Unknown
 
-**Script Deployment:** Not specified
+script:
+  type: user_event
+  file: FileCabinet/SuiteScripts/sna_hul_ue_set_tax_nontaxable.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - transaction
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
+## 1. Overview
 User Event that redirects to a suitelet to set line tax codes to Not Taxable for internal revenue streams.
 
-**What problem does it solve?**
-Ensures tax codes are correctly set after transaction changes without blocking the save.
+---
 
-**Primary Goal:**
-Kick off the tax update suitelet after record submit.
+## 2. Business Goal
+Ensure tax codes are correctly set after transaction changes without blocking the save.
 
 ---
 
-## 2. Goals
-
-1. Trigger the tax update suitelet after save.
-2. Avoid running on delete events.
+## 3. User Story
+As a finance user, when internal revenue transactions are saved, I want non-taxable lines enforced, so that taxes are correct.
 
 ---
 
-## 3. User Stories
-
-1. **As a** finance user, **I want to** enforce non-taxable lines for internal revenue **so that** taxes are correct.
-
----
-
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. On afterSubmit (excluding delete), the script must redirect to the Set NonTaxable suitelet.
-2. The script must pass the record id and type to the suitelet.
-
-### Acceptance Criteria
-
-- [ ] Suitelet is invoked after save with the correct parameters.
-- [ ] Delete events do not trigger the suitelet.
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| afterSubmit | record id/type | non-delete | Redirect to Set NonTaxable suitelet |
 
 ---
 
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Compute tax directly in the User Event.
+## 5. Functional Requirements
+- On afterSubmit (excluding delete), redirect to the Set NonTaxable suitelet.
+- Pass the record id and type to the suitelet.
 
 ---
 
-## 6. Design Considerations
+## 6. Data Contract
+### Record Types Involved
+- transaction
 
-### User Interface
-- No UI changes beyond suitelet redirect.
-
-### User Experience
-- Tax updates occur after save without manual intervention.
-
-### Design References
+### Fields Referenced
 - None.
 
----
-
-## 7. Technical Considerations
-
-### NetSuite Components Required
-
-**Record Types:**
-- transaction (varies by deployment)
-
-**Script Types:**
-- [ ] Map/Reduce - N/A
-- [ ] Scheduled Script - N/A
-- [x] Suitelet - Set non-taxable lines
-- [ ] RESTlet - N/A
-- [x] User Event - Redirect to suitelet
-- [ ] Client Script - N/A
-
-**Custom Fields:**
-- None referenced directly by the User Event.
-
-**Saved Searches:**
-- None.
-
-### Integration Points
+Schemas (if known):
 - Suitelet: customscript_sna_hul_sl_set_nontaxable
 
-### Data Requirements
+---
 
-**Data Volume:**
-- One suitelet call per submit.
+## 7. Validation & Edge Cases
+- Delete events do not trigger the suitelet.
+- Suitelet deployment missing should log an error.
 
-**Data Sources:**
-- Record id and type from the User Event context.
+---
 
-**Data Retention:**
-- Tax code updates occur in the suitelet.
-
-### Technical Constraints
+## 8. Implementation Notes (Optional)
 - Requires suitelet deployment to be active.
 
-### Dependencies
-- **Libraries needed:** None
-- **External dependencies:** None
-- **Other features:** Set NonTaxable suitelet
+---
 
-### Governance Considerations
-
-- **Script governance:** Minimal, just redirect.
-- **Search governance:** None in UE.
-- **API limits:** Low.
+## 9. Acceptance Criteria
+- Given a saved transaction, when afterSubmit runs, then the suitelet is invoked with correct parameters.
+- Given a delete event, when afterSubmit runs, then no redirect occurs.
 
 ---
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- Non-taxable tax codes are applied after saves where required.
-
-**How we'll measure:**
-- Validate tax codes on internal revenue stream transactions.
-
----
-
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| sna_hul_ue_set_tax_nontaxable.js | User Event | Redirect to tax update suitelet | Implemented |
-
-### Development Approach
-
-**Phase 1:** Redirect behavior
-- [ ] Validate suitelet invocation
-
-**Phase 2:** Tax updates
-- [ ] Validate suitelet updates tax codes
-
----
-
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. Save a transaction and verify suitelet runs.
-
-**Edge Cases:**
-1. Delete a transaction and verify no redirect occurs.
-
-**Error Handling:**
-1. Suitelet deployment missing should log an error.
-
-### Test Data Requirements
-- Transaction with internal revenue stream.
-
-### Sandbox Setup
+## 10. Testing Notes
+- Save a transaction and verify suitelet runs.
+- Delete a transaction and verify no redirect occurs.
 - Deploy User Event on target transaction types.
 
 ---
 
-## 11. Security & Permissions
-
-### Roles & Permissions
-
-**Roles that need access:**
-- Finance users
-
-**Permissions required:**
-- Edit transactions
-
-### Data Security
-- Tax changes limited to authorized roles.
+## 11. Deployment Notes
+- Confirm suitelet deployment is active.
+- Deploy User Event on target transactions and verify suitelet execution.
+- Monitor suitelet errors; rollback by disabling deployment if needed.
 
 ---
 
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-
-- [ ] Confirm suitelet deployment is active
-
-### Deployment Steps
-
-1. Deploy User Event on target transactions.
-2. Verify suitelet execution.
-
-### Post-Deployment
-
-- [ ] Monitor suitelet errors
-
-### Rollback Plan
-
-**If deployment fails:**
-1. Disable the User Event deployment.
-2. Run suitelet manually as needed.
+## 12. Open Questions / TBDs
+- Should this redirect be conditional on transaction type?
 
 ---
-
-## 13. Timeline
-
-| Milestone | Target Date | Actual Date | Status |
-|-----------|-------------|-------------|--------|
-| PRD Approval | | | |
-| Development Start | | | |
-| Development Complete | | | |
-| Testing Complete | | | |
-| Stakeholder Review | | | |
-| Production Deploy | | | |
-
----
-
-## 14. Open Questions & Risks
-
-### Open Questions
-
-- [ ] Should this redirect be conditional on transaction type?
-
-### Known Risks
-
-| Risk | Likelihood | Impact | Mitigation Strategy |
-|------|------------|--------|---------------------|
-| Suitelet unavailable at runtime | Low | Med | Monitor deployments and alert on errors |
-
----
-
-## 15. References & Resources
-
-### Related PRDs
-- None.
-
-### NetSuite Documentation
-- SuiteScript 2.1 User Event
-
-### External Resources
-- None.

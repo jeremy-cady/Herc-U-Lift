@@ -2,9 +2,10 @@
  * @NApiVersion 2.x
  * @NScriptType MapReduceScript
  * @NModuleScope SameAccount
+ *
  * author: Jeremy Cady
- * Date: 01/19/2026
- * Version: 1.1
+ * Date: 01/21/2026
+ * Version: 1.6.3
  */
 
 import { EntryPoints } from 'N/types';
@@ -13,36 +14,38 @@ import * as record from 'N/record';
 import * as email from 'N/email';
 import * as file from 'N/file';
 
+const SUPPORTED_RECORD_TYPES: string[] = [
+    'salesorder',
+    'invoice',
+    'creditmemo',
+    'customer',
+    'inventoryitem',
+    'noninventoryitem',
+    'serviceitem',
+    'assemblyitem',
+    'kititem',
+    'otherchargeitem',
+    'paymentitem',
+    'markupitem',
+    'descriptionitem'
+];
+
+const EMAIL_RECIPIENT = 'jcady@herculift.com';
+
 type RecordSchemaInput = {
     recordType: string;
 };
 
 type FieldCategory = 'body' | 'ui' | 'system';
 
-const RECORD_TYPES: RecordSchemaInput[] = [
-    { recordType: 'salesorder' },
-    { recordType: 'invoice' },
-    { recordType: 'customer' },
-    { recordType: 'item' }
-];
-
-const EMAIL_RECIPIENT = 'jcady@herculift.com';
-
-/**
- * INPUT
- */
 export const getInputData: EntryPoints.MapReduce.getInputData = () => {
-    log.audit({
-        title: 'Schema Registry',
-        details: 'Starting schema extraction run'
-    });
+    log.audit('Schema Registry', 'Starting schema extraction run');
 
-    return RECORD_TYPES;
+    return SUPPORTED_RECORD_TYPES.map((recordType) => ({
+        recordType
+    }));
 };
 
-/**
- * MAP
- */
 export const map: EntryPoints.MapReduce.map = (context) => {
     const input = JSON.parse(context.value) as RecordSchemaInput;
 
@@ -52,43 +55,24 @@ export const map: EntryPoints.MapReduce.map = (context) => {
     });
 };
 
-/**
- * REDUCE
- * Builds and emails v1.2 schema for Sales Orders only
- *
- * Change (B): Adds BODY FIELD METADATA (types + a few safe attributes)
- * - field.type (NetSuite FieldType)
- * - field.label (when available)
- * - field.isMandatory (when available)
- * - field.isDisabled (when available)
- * - field.displayType (when available)
- *
- * Notes / Limits (intentional):
- * - We do NOT attempt to extract select "source list" or options (too heavy / unreliable).
- * - UI/system-prefixed fields may not resolve via getField(); those remain category-only.
- * - Sublists remain IDs-only for now (sublist field objects require line context and can be unreliable).
- */
 export const reduce: EntryPoints.MapReduce.reduce = (context) => {
     const recordType = String(context.key);
 
-    // v1 scope: Sales Order only
-    if (recordType !== 'salesorder') {
+    let rec;
+    try {
+        rec = record.create({
+            type: recordType,
+            isDynamic: false
+        });
+    } catch (e) {
+        log.error({
+            title: 'Record Creation Failed',
+            details: { recordType, error: String(e) }
+        });
         return;
     }
 
-    // Known notes (local, simple v1)
-    const KNOWN_SUBLIST_NOTES: { [sublistId: string]: string } = {
-        activities: 'FSM Task list; no sublist fields expected.'
-    };
-
-    const rec = record.create({
-        type: recordType,
-        isDynamic: false
-    });
-
-    // -------- BODY FIELDS (CLASSIFIED + METADATA) --------
-    const rawBodyFields = rec.getFields().slice().sort();
-
+    const rawFields = rec.getFields();
     const classifiedFields: {
         [fieldId: string]: {
             category: FieldCategory;
@@ -100,190 +84,156 @@ export const reduce: EntryPoints.MapReduce.reduce = (context) => {
         };
     } = {};
 
-    rawBodyFields.forEach((rawFieldId) => {
-        const fieldId = String(rawFieldId);
+    for (let i = 0; i < rawFields.length; i++) {
+        const rawFieldId = rawFields[i];
+        const fieldIdStr = String(rawFieldId);
 
-        // Category classification
         let category: FieldCategory = 'body';
-        if (fieldId.indexOf('custpage_') === 0) {
-            category = 'ui';
-        } else if (fieldId.indexOf('_') === 0) {
-            category = 'system';
+
+        if (typeof rawFieldId === 'string') {
+            if (rawFieldId.indexOf('custpage_') === 0) category = 'ui';
+            else if (rawFieldId.indexOf('_') === 0) category = 'system';
         }
 
-        // Default entry (category always included)
-        classifiedFields[fieldId] = { category };
+        classifiedFields[fieldIdStr] = { category };
 
-        // Only attempt field metadata for "body" fields.
-        // UI/system fields often do not resolve through getField() on a created record.
-        if (category !== 'body') {
-            return;
-        }
+        if (category !== 'body') continue;
 
         try {
-            const f = rec.getField({ fieldId });
+            const f = rec.getField({ fieldId: rawFieldId as any });
 
-            // Field metadata is not guaranteed to be present for every field, so we guard each read.
-            // (SuiteScript types may not expose all properties uniformly across field types.)
-            classifiedFields[fieldId].type = String((f as any).type ?? 'unknown');
-
-            const label = (f as any).label;
-            if (label !== undefined && label !== null) {
-                classifiedFields[fieldId].label = String(label);
+            if (!f) {
+                log.debug({
+                    title: 'Field Metadata Unavailable',
+                    details: { recordType, fieldId: fieldIdStr, error: 'getField() returned null' }
+                });
+                continue;
             }
 
-            const isMandatory = (f as any).isMandatory;
-            if (isMandatory !== undefined && isMandatory !== null) {
-                classifiedFields[fieldId].isMandatory = Boolean(isMandatory);
+            classifiedFields[fieldIdStr].type = String((f as any).type ?? 'unknown');
+
+            if ((f as any).label != null) {
+                classifiedFields[fieldIdStr].label = String((f as any).label);
             }
 
-            const isDisabled = (f as any).isDisabled;
-            if (isDisabled !== undefined && isDisabled !== null) {
-                classifiedFields[fieldId].isDisabled = Boolean(isDisabled);
+            if ((f as any).isMandatory != null) {
+                classifiedFields[fieldIdStr].isMandatory = Boolean((f as any).isMandatory);
             }
 
-            const displayType = (f as any).displayType;
-            if (displayType !== undefined && displayType !== null) {
-                classifiedFields[fieldId].displayType = String(displayType);
+            if ((f as any).isDisabled != null) {
+                classifiedFields[fieldIdStr].isDisabled = Boolean((f as any).isDisabled);
+            }
+
+            if ((f as any).displayType != null) {
+                classifiedFields[fieldIdStr].displayType = String((f as any).displayType);
             }
         } catch (e) {
-            // If getField fails, keep category-only. No guessing.
             log.debug({
-                title: 'Field Metadata Unavailable',
-                details: {
-                    recordType,
-                    fieldId,
-                    error: String(e)
-                }
+                title: 'Field Metadata Error',
+                details: { recordType, fieldId: fieldIdStr, error: String(e) }
             });
         }
-    });
+    }
 
-    // -------- SUBLISTS (IDs-only + known notes) --------
-    const sublists = rec.getSublists().slice().sort();
+    const sublists = rec.getSublists();
+    const sublistSchemas: { [sublistId: string]: { fields: string[] } } = {};
+    const KNOWN_SUBLIST_NOTES: { [sublistId: string]: string } = {
+        activities: 'FSM Task list; no sublist fields expected.'
+    };
 
-    const sublistSchemas: {
-        [sublistId: string]: { fields: string[] };
-    } = {};
-
-    sublists.forEach((sublistId) => {
-        const sid = String(sublistId);
+    for (let i = 0; i < sublists.length; i++) {
+        const sid = String(sublists[i]);
 
         try {
-            const sublistFields = rec
-                .getSublistFields({ sublistId })
-                .slice()
-                .sort()
-                .map((f) => String(f));
+            const fields = rec
+                .getSublistFields({ sublistId: sid })
+                .map((f) => String(f))
+                .sort();
 
-            sublistSchemas[sid] = { fields: sublistFields };
+            sublistSchemas[sid] = { fields };
         } catch (e) {
             log.error({
                 title: 'Sublist Field Error',
-                details: {
-                    recordType,
-                    sublistId: sid,
-                    error: String(e)
-                }
+                details: { recordType, sublistId: sid, error: String(e) }
             });
 
             sublistSchemas[sid] = { fields: [] };
         }
-    });
+    }
 
-    // -------- SCHEMA OBJECT (v1.2) --------
     const schema = {
         meta: {
             recordType,
             generatedAt: new Date().toISOString(),
             source: 'netsuite',
             method: 'record.create + getFields/getField + getSublists/getSublistFields',
-            version: '1.2',
+            version: '1.6.3',
             notes: {
                 sublists: KNOWN_SUBLIST_NOTES,
                 limitations: [
-                    'Select field sources/options are not extracted.',
-                    'UI/system-prefixed fields may not resolve metadata via getField().',
-                    'Sublist fields are IDs-only (no sublist field metadata).'
+                    'Select field options not extracted.',
+                    'System/UI fields may lack metadata.',
+                    'Sublist fields = IDs only.'
                 ]
             }
         },
-        record: {
-            type: recordType
-        },
+        record: { type: recordType },
         fields: classifiedFields,
         sublists: sublistSchemas
     };
 
-    const serializedSchema = JSON.stringify(schema, null, 2);
-
-    // -------- FILE ATTACHMENT --------
-    const attachment = file.create({
+    const schemaFile = file.create({
         name: `${recordType}.schema.json`,
         fileType: file.Type.JSON,
-        contents: serializedSchema
+        contents: JSON.stringify(schema, null, 2)
     });
 
-    // -------- EMAIL DELIVERY --------
+    const saved = schemaFile.save();
+
+    context.write({
+        key: recordType,
+        value: String(saved)
+    });
+
+    log.audit('Schema File Saved', { recordType, fileId: saved });
+};
+
+export const summarize: EntryPoints.MapReduce.summarize = (summary) => {
+    const schemaFileIds: string[] = [];
+
+    summary.output.iterator().each((key, value) => {
+        schemaFileIds.push(String(value));
+        return true;
+    });
+
+    const attachments: file.File[] = [];
+
+    for (let i = 0; i < schemaFileIds.length; i++) {
+        try {
+            const f = file.load({ id: schemaFileIds[i] });
+            attachments.push(f);
+        } catch (e) {
+            log.error({
+                title: 'Attachment Load Failed',
+                details: { fileId: schemaFileIds[i], error: String(e) }
+            });
+        }
+    }
+
     email.send({
         author: -5,
         recipients: EMAIL_RECIPIENT,
         replyTo: EMAIL_RECIPIENT,
-        subject: `NetSuite Schema Export — ${recordType} (v1.2)`,
-        body:
-            `Attached is the v1.2 schema export for the ${recordType} record.\n\n` +
-            '• Field categories included (body | ui | system)\n' +
-            '• Body field metadata included (type/label/mandatory/disabled/displayType when available)\n' +
-            '• Sublists: IDs only\n' +
-            `• Generated at ${schema.meta.generatedAt}\n\n` +
-            'This file is intended for local use in VS Code and Git.',
-        attachments: [attachment]
+        subject: 'NetSuite Schema Export — JSON Attachments (v1.6.3)',
+        body: `Attached are the schema exports for the following record types:\n${
+            SUPPORTED_RECORD_TYPES.map((r) => `• ${r}`).join('\n')
+        // eslint-disable-next-line max-len
+        }\n\nEach file includes field metadata, classification, and sublists.\n\nThese are intended for use in VS Code and Git.`,
+        attachments
     });
 
-    log.audit({
-        title: 'Schema Email Sent',
-        details: {
-            recordType,
-            recipient: EMAIL_RECIPIENT,
-            bodyFieldCount: rawBodyFields.length,
-            sublistCount: sublists.length
-        }
-    });
-};
-
-/**
- * SUMMARIZE
- */
-export const summarize: EntryPoints.MapReduce.summarize = (summary) => {
-    log.audit({
-        title: 'Schema Registry Complete',
-        details: {
-            usage: summary.usage,
-            concurrency: summary.concurrency,
-            yields: summary.yields
-        }
-    });
-
-    if (summary.inputSummary.error) {
-        log.error({
-            title: 'Input Error',
-            details: summary.inputSummary.error
-        });
-    }
-
-    summary.mapSummary.errors.iterator().each((key, error) => {
-        log.error({
-            title: `Map Error: ${  key}`,
-            details: error
-        });
-        return true;
-    });
-
-    summary.reduceSummary.errors.iterator().each((key, error) => {
-        log.error({
-            title: `Reduce Error: ${  key}`,
-            details: error
-        });
-        return true;
+    log.audit('Schema Email Sent', {
+        schemaCount: schemaFileIds.length,
+        filesAttached: attachments.length
     });
 };

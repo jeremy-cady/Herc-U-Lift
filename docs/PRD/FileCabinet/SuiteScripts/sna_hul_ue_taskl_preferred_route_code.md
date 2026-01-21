@@ -1,259 +1,110 @@
-# PRD: Task Preferred Route Code
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-TaskPreferredRouteCode
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Jeremy Cady
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/sna_hul_ue_taskl_preferred_route_code.js (User Event)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-TaskPreferredRouteCode
+title: Task Preferred Route Code
+status: Implemented
+owner: Jeremy Cady
+created: TBD
+last_updated: TBD
 
-**Script Deployment (if applicable):**
-- Script ID: Not specified
-- Deployment ID: Not specified
+script:
+  type: user_event
+  file: FileCabinet/SuiteScripts/sna_hul_ue_taskl_preferred_route_code.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - task
+  - supportcase
+  - customrecord_nx_asset
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
-Sets the task route code on a task record based on the preferred route code from related NextService assets.
-
-**What problem does it solve?**
-Ensures tasks inherit routing preferences from the related job site or equipment assets tied to the support case.
-
-**Primary Goal:**
-Populate custevent_sna_hul_task_route_code automatically on create/edit.
+## 1. Overview
+Sets the task route code based on preferred route codes from NextService assets linked to the related support case.
 
 ---
 
-## 2. Goals
-
-1. Read support case assets linked to the task.
-2. Prefer equipment asset route codes when job site assets are linked.
-3. Default to job site route code when job site asset is equipment.
+## 2. Business Goal
+Automatically apply routing preferences to tasks so scheduling aligns with the related job site or equipment assets.
 
 ---
 
-## 3. User Stories
-
-1. **As a** dispatcher, **I want to** auto-fill route codes **so that** scheduling is faster.
-2. **As a** service coordinator, **I want to** prioritize equipment asset routes **so that** routing follows the equipment location.
-3. **As an** admin, **I want to** skip updates when no assets are linked **so that** unnecessary changes are avoided.
+## 3. User Story
+As a dispatcher, when I save a task tied to a support case, I want the route code populated from linked assets so that scheduling is faster and consistent.
 
 ---
 
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. On beforeSubmit for create/edit, the system must read the task support case (supportcase).
-2. If the support case has no job site or equipment assets, the system must exit.
-3. If the job site asset type is Site, the system must check linked equipment assets and set custevent_sna_hul_task_route_code using the first equipment asset with a preferred route code.
-4. If the job site asset type is Equipment, the system must set custevent_sna_hul_task_route_code from that asset's preferred route code.
-
-### Acceptance Criteria
-
-- [ ] Task route code is set from equipment assets when job site type is Site.
-- [ ] Task route code is set from job site asset when it is Equipment.
-- [ ] No update occurs when assets are missing.
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| beforeSubmit | custevent_sna_hul_task_route_code | create/edit | Read support case assets and set route code based on asset type rules. |
 
 ---
 
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Validate route code values beyond presence.
-- Update other task fields.
-- Modify the support case.
+## 5. Functional Requirements
+- On create/edit, read the task support case.
+- If no job site or equipment assets are linked, do nothing.
+- If the job site asset type is Site, look for equipment assets and set the task route code from the first equipment asset with a preferred route code.
+- If the job site asset type is Equipment, set the task route code from that asset's preferred route code.
 
 ---
 
-## 6. Design Considerations
-
-### User Interface
-- No UI changes.
-
-### User Experience
-- Route code is set during save and visible immediately after.
-
-### Design References
-- NextService asset records.
-
----
-
-## 7. Technical Considerations
-
-### NetSuite Components Required
-
-**Record Types:**
-- Task (or deployed record type)
+## 6. Data Contract
+### Record Types Involved
+- Task
 - Support Case
 - Custom record: customrecord_nx_asset
 
-**Script Types:**
-- [ ] Map/Reduce - N/A
-- [ ] Scheduled Script - N/A
-- [ ] Suitelet - N/A
-- [ ] RESTlet - N/A
-- [x] User Event - Route code sourcing
-- [ ] Client Script - N/A
-
-**Custom Fields:**
+### Fields Referenced
 - Task | custevent_sna_hul_task_route_code | Task route code
 - Support Case | custevent_nx_case_asset | Job site asset
 - Support Case | custevent_nxc_case_assets | Equipment assets
 - NextService Asset | custrecord_nxc_na_asset_type | Asset type
 - NextService Asset | custrecord_sna_preferred_route_code | Preferred route code
 
-**Saved Searches:**
-- None
-
-### Integration Points
-- Support case and NextService asset lookups
-
-### Data Requirements
-
-**Data Volume:**
-- One task per save.
-
-**Data Sources:**
-- Support case linked assets.
-
-**Data Retention:**
-- Route code stored on task record.
-
-### Technical Constraints
-- Only runs on create/edit contexts.
-
-### Dependencies
-- **Libraries needed:** None
-- **External dependencies:** None
-- **Other features:** NextService asset data
-
-### Governance Considerations
-
-- **Script governance:** Uses lookupFields for support case and assets.
-- **Search governance:** None.
-- **API limits:** None.
+Schemas (if known):
+- NextService asset | customrecord_nx_asset | Asset master data
 
 ---
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- Tasks are saved with the correct route code when asset data exists.
-
-**How we'll measure:**
-- Compare task route code to asset preferred route code after save.
+## 7. Validation & Edge Cases
+- If no assets are linked, the task route code is not updated.
+- If equipment assets have no preferred route code, no update occurs.
+- Missing asset records should be logged without blocking save.
 
 ---
 
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| sna_hul_ue_taskl_preferred_route_code.js | User Event | Set task route code from assets | Implemented |
-
-### Development Approach
-
-**Phase 1:** Asset resolution
-- [x] Look up case job site and equipment assets.
-
-**Phase 2:** Route code selection
-- [x] Choose preferred route code based on asset type.
+## 8. Implementation Notes (Optional)
+- Uses lookups on support case and asset records during beforeSubmit.
 
 ---
 
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. Task with support case and equipment asset, verify route code set.
-
-**Edge Cases:**
-1. Support case has only job site asset of type Site and no equipment assets, verify no route code set.
-2. Support case has equipment assets with no preferred route code, verify no update.
-
-**Error Handling:**
-1. Missing asset record, verify script logs error and exits.
-
-### Test Data Requirements
-- Support cases with job site and equipment assets.
-
-### Sandbox Setup
-- Deploy User Event on task record type.
+## 9. Acceptance Criteria
+- Given a support case with job site type Site and equipment assets with preferred route codes, when the task is saved, then the task route code is set from the first matching equipment asset.
+- Given a support case with job site type Equipment, when the task is saved, then the task route code is set from that asset's preferred route code.
+- Given a support case with no linked assets, when the task is saved, then the task route code remains unchanged.
 
 ---
 
-## 11. Security & Permissions
-
-### Roles & Permissions
-- Users need access to support cases and NextService assets.
-
-### Data Security
-- Only task route code is updated.
+## 10. Testing Notes
+- Save a task with a support case that has job site and equipment assets; verify route code selection.
+- Save a task with job site type Site but no equipment assets; verify no update.
+- Save a task with missing asset data; verify the record still saves.
 
 ---
 
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-- [ ] Confirm asset records include preferred route code values.
-
-### Deployment Steps
-1. Deploy User Event to the task record.
-
-### Post-Deployment
-- Validate a task save from a support case.
-
-### Rollback Plan
-- Disable the User Event deployment.
+## 11. Deployment Notes
+- Deploy the user event to the task record type.
+- Confirm asset records include preferred route code values.
 
 ---
 
-## 13. Timeline (table)
-
-| Phase | Owner | Duration | Target Date |
-|------|-------|----------|-------------|
-| Implementation | Jeremy Cady | Unknown | Unknown |
-| Validation | Jeremy Cady | Unknown | Unknown |
+## 12. Open Questions / TBDs
+- Confirm script ID and deployment ID.
+- Confirm created and last updated dates.
+- If multiple equipment assets have route codes, should a specific one be preferred?
 
 ---
-
-## 14. Open Questions & Risks
-
-### Open Questions
-- If multiple equipment assets have route codes, should the script prefer a specific one?
-
-### Known Risks (table)
-
-| Risk | Impact | Mitigation |
-|------|--------|------------|
-| Asset data missing | Route code not set | Validate case asset data |
-
----
-
-## 15. References & Resources
-
-### Related PRDs
-- None
-
-### NetSuite Documentation
-- User Event Script
-
-### External Resources
-- None
-
----
-
-## Revision History (table)
-
-| Version | Date | Author | Notes |
-|---------|------|--------|-------|
-| 1.0 | Unknown | Jeremy Cady | Initial PRD |

@@ -1,103 +1,65 @@
-# PRD: SO Temporary Item PO Creation
+# PRD_TEMPLATE.md
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-SoTemporaryItem
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Jeremy Cady
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/sna_hul_sl_so_temporaryitem.js (Suitelet)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-SoTemporaryItem
+title: SO Temporary Item PO Creation
+status: Implemented
+owner: Jeremy Cady
+created: Unknown
+last_updated: Unknown
 
-**Script Deployment:** Not specified
+script:
+  type: suitelet
+  file: FileCabinet/SuiteScripts/sna_hul_sl_so_temporaryitem.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - salesorder
+  - purchaseorder
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
+## 1. Overview
 Suitelet that creates special Purchase Orders from a Sales Order for temporary items.
 
-**What problem does it solve?**
+---
+
+## 2. Business Goal
 Automates PO creation for temp items by vendor and shipping method, including temp inventory assignments.
 
-**Primary Goal:**
-Create vendor-specific POs for temporary items and update related POs when quantities differ.
+---
+
+## 3. User Story
+- As a buyer, when I auto-create temp item POs, I want purchasing to be faster, so that procurement is efficient.
+- As a planner, when I group POs by vendor and shipping, I want logistics to be consistent, so that fulfillment is smooth.
 
 ---
 
-## 2. Goals
-
-1. Build POs grouped by vendor and shipping method.
-2. Include only temp item categories (including sublet).
-3. Set temp item rates and inventory assignments.
-
----
-
-## 3. User Stories
-
-1. **As a** buyer, **I want to** auto-create temp item POs **so that** purchasing is faster.
-2. **As a** planner, **I want to** group POs by vendor and shipping **so that** logistics are consistent.
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| Suitelet request | soid, poinfo | JSON body provided | Create/update vendor-specific temp item POs |
 
 ---
 
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. The Suitelet must accept a JSON body with `soid`, `poinfo`, and flags.
-2. The Suitelet must create POs by vendor and shipping method and set PO type.
-3. The Suitelet must remove non-temp item lines and lines not matching vendor/ship group.
-4. The Suitelet must set temp item rates and inventory assignments when temp codes exist.
-5. The Suitelet must update existing POs when quantities differ.
-
-### Acceptance Criteria
-
-- [ ] POs are created per vendor and shipping method group.
-- [ ] Non-temp items are removed from temp POs.
-- [ ] Temp item lines have correct rate and inventory detail.
+## 5. Functional Requirements
+- Accept a JSON body with `soid`, `poinfo`, and flags.
+- Create POs by vendor and shipping method and set PO type.
+- Remove non-temp item lines and lines not matching vendor/ship group.
+- Set temp item rates and inventory assignments when temp codes exist.
+- Update existing POs when quantities differ.
 
 ---
 
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Create item fulfillments.
-- Handle non-temp items.
-- Validate vendor pricing beyond provided PO data.
-
----
-
-## 6. Design Considerations
-
-### User Interface
-- No UI; invoked via request body.
-
-### User Experience
-- Background PO creation for temp items.
-
-### Design References
-- None.
-
----
-
-## 7. Technical Considerations
-
-### NetSuite Components Required
-
-**Record Types:**
+## 6. Data Contract
+### Record Types Involved
 - salesorder
 - purchaseorder
 
-**Script Types:**
-- [ ] Map/Reduce - N/A
-- [ ] Scheduled Script - N/A
-- [x] Suitelet - Create temp item POs
-- [ ] RESTlet - N/A
-- [ ] User Event - N/A
-- [ ] Client Script - N/A
-
-**Custom Fields:**
+### Fields Referenced
 - SO Line | custcol_sna_hul_item_vendor | Temp vendor
 - SO Line | custcol_sna_hul_temp_item_code | Temp item code
 - SO Line | custcol_sna_hul_itemcategory | Item category
@@ -108,172 +70,49 @@ Create vendor-specific POs for temporary items and update related POs when quant
 - SO Line | custcol_sna_hul_createpo | PO creation type
 - SO Line | custcol_sna_po_itemcat | PO item category
 
-**Saved Searches:**
-- None (script builds searches at runtime).
-
-### Integration Points
-- Updates POs to trigger temp item UE logic.
-
-### Data Requirements
-
-**Data Volume:**
-- Sales order lines by vendor/ship method.
-
-**Data Sources:**
-- Sales order lines
-
-**Data Retention:**
-- Creates and updates POs.
-
-### Technical Constraints
-- Temp item categories provided as script parameters.
-
-### Dependencies
-- **Libraries needed:** None
-- **External dependencies:** None
-- **Other features:** Temp item categories and UE update logic
-
-### Governance Considerations
-
-- **Script governance:** PO creation and line updates.
-- **Search governance:** Searches for PO update handling.
-- **API limits:** Moderate for large SOs.
+Schemas (if known):
+- TBD
 
 ---
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- Temp item POs are created correctly by vendor and ship method.
-
-**How we'll measure:**
-- Review created POs and line details.
+## 7. Validation & Edge Cases
+- Lines with existing linked POs are skipped.
+- Quantity mismatches trigger PO updates.
+- PO save errors are logged and processing continues.
 
 ---
 
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| sna_hul_sl_so_temporaryitem.js | Suitelet | Create temp item POs | Implemented |
-
-### Development Approach
-
-**Phase 1:** Parameter validation
-- [ ] Confirm temp item category parameters
-
-**Phase 2:** PO validation
-- [ ] Verify created POs and line filters
+## 8. Implementation Notes (Optional)
+- Script must reuse existing deployment: TBD
+- Dispatcher required: TBD
+- Performance/governance considerations: PO creation and line updates.
 
 ---
 
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. Temp item lines create POs with inventory detail.
-
-**Edge Cases:**
-1. Lines with existing linked POs are skipped.
-2. Quantity mismatches trigger PO updates.
-
-**Error Handling:**
-1. PO save errors are logged and processing continues.
-
-### Test Data Requirements
-- Sales order with temp items and temp codes
-- Multiple vendors and ship methods
-
-### Sandbox Setup
-- Deploy Suitelet and set script parameters
+## 9. Acceptance Criteria
+- Given vendor and shipping groupings, when the Suitelet runs, then POs are created per vendor and shipping method group.
+- Given non-temp lines, when the Suitelet runs, then non-temp items are removed from temp POs.
+- Given temp item lines, when the Suitelet runs, then temp item lines have correct rate and inventory detail.
 
 ---
 
-## 11. Security & Permissions
-
-### Roles & Permissions
-
-**Roles that need access:**
-- Purchasing roles
-
-**Permissions required:**
-- Create and edit Purchase Orders
-
-### Data Security
-- PO creation should be restricted to authorized roles.
+## 10. Testing Notes
+Manual tests:
+- Temp item lines create POs with inventory detail.
+- Lines with existing linked POs are skipped.
+- Quantity mismatches trigger PO updates.
+- PO save errors are logged and processing continues.
 
 ---
 
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-
-- [ ] Temp item categories configured
-
-### Deployment Steps
-
-1. Deploy Suitelet.
-2. Trigger from Sales Order workflow.
-
-### Post-Deployment
-
-- [ ] Validate POs and line details
-
-### Rollback Plan
-
-**If deployment fails:**
-1. Disable Suitelet.
-2. Revert to manual PO creation.
+## 11. Deployment Notes
+- Temp item categories configured.
+- Deploy Suitelet.
+- Trigger from Sales Order workflow.
 
 ---
 
-## 13. Timeline
-
-| Milestone | Target Date | Actual Date | Status |
-|-----------|-------------|-------------|--------|
-| PRD Approval | | | |
-| Development Start | | | |
-| Development Complete | | | |
-| Testing Complete | | | |
-| Stakeholder Review | | | |
-| Production Deploy | | | |
+## 12. Open Questions / TBDs
+- Should PO grouping include item category in addition to vendor and ship method?
 
 ---
-
-## 14. Open Questions & Risks
-
-### Open Questions
-
-- [ ] Should PO grouping include item category in addition to vendor and ship method?
-
-### Known Risks
-
-| Risk | Likelihood | Impact | Mitigation Strategy |
-|------|------------|--------|---------------------|
-| Incorrect category mapping leads to wrong PO content | Med | Med | Validate category parameters regularly |
-
----
-
-## 15. References & Resources
-
-### Related PRDs
-- None.
-
-### NetSuite Documentation
-- SuiteScript 2.1 Suitelet
-- N/record module
-
-### External Resources
-- None.
-
----
-
-## Revision History
-
-| Date | Author | Version | Changes |
-|------|--------|---------|---------|
-| Unknown | Jeremy Cady | 1.0 | Initial draft |

@@ -1,282 +1,120 @@
-# PRD: Add Temporary Item
+# PRD_TEMPLATE.md
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-AddTempItem
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Jeremy Cady
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/sna_hul_sl_addtempitem.js (Suitelet)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-AddTempItem
+title: Add Temporary Item
+status: Implemented
+owner: Jeremy Cady
+created: Unknown
+last_updated: Unknown
 
-**Script Deployment:** Not specified
+script:
+  type: suitelet
+  file: FileCabinet/SuiteScripts/sna_hul_sl_addtempitem.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - item
+  - vendor
+  - customrecord_shipping_list
+  - transaction
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
+## 1. Overview
 Suitelet for the "Add Temporary Item" button that creates a popup form and inserts an item line into the parent transaction.
 
-**What problem does it solve?**
+---
+
+## 2. Business Goal
 Allows users to add temporary or special items to transactions with vendor and shipping details.
 
-**Primary Goal:**
-Collect temporary item details and insert a line on the parent record.
+---
+
+## 3. User Story
+- As a sales user, when I add a temporary item quickly, I want to complete an order, so that the transaction can proceed.
+- As a purchasing user, when I specify vendor and PO rate, I want costs captured correctly, so that the transaction is accurate.
 
 ---
 
-## 2. Goals
-
-1. Display a form for selecting temporary items and related fields.
-2. Provide shipping method options from custom record values.
-3. Insert the selected item line into the parent transaction via client-side scripting.
-
----
-
-## 3. User Stories
-
-1. **As a** sales user, **I want to** add a temporary item quickly **so that** I can complete an order.
-2. **As a** purchasing user, **I want to** specify vendor and PO rate **so that** costs are captured correctly.
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| Suitelet request | TBD | "Add Temporary Item" button opens popup | Render form and insert line item on submit |
 
 ---
 
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. The Suitelet must render a form with required fields: item, vendor, vendor item code, quantity, PO rate, description.
-2. The Suitelet must list item options filtered by configured temporary item categories.
-3. The Suitelet must list shipping methods from `customrecord_shipping_list`.
-4. On submit, the Suitelet must inject a line item into the parent record using `window.opener` calls.
-5. The Suitelet must set PO rate to `porate` for Sales Orders and `custcol_sna_hul_estimated_po_rate` for other records.
-
-### Acceptance Criteria
-
-- [ ] Temporary item options reflect configured categories.
-- [ ] Required fields are enforced on the form.
-- [ ] Line item is added to the parent record with all provided values.
+## 5. Functional Requirements
+- Render a form with required fields: item, vendor, vendor item code, quantity, PO rate, description.
+- List item options filtered by configured temporary item categories.
+- List shipping methods from `customrecord_shipping_list`.
+- On submit, inject a line item into the parent record using `window.opener` calls.
+- Set PO rate to `porate` for Sales Orders and `custcol_sna_hul_estimated_po_rate` for other records.
 
 ---
 
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Validate vendor-item relationships.
-- Create inventory records.
-- Persist data inside the Suitelet itself.
-
----
-
-## 6. Design Considerations
-
-### User Interface
-- Popup form titled "Temporary Items" with required fields and submit buttons.
-
-### User Experience
-- "Submit and Create Again" option for rapid entry.
-
-### Design References
-- Client script `sna_hul_cs_addtempitem.js`.
-
----
-
-## 7. Technical Considerations
-
-### NetSuite Components Required
-
-**Record Types:**
+## 6. Data Contract
+### Record Types Involved
 - item
 - vendor
 - customrecord_shipping_list
-- transaction (salesorder and others)
+- transaction
 
-**Script Types:**
-- [ ] Map/Reduce - N/A
-- [ ] Scheduled Script - N/A
-- [x] Suitelet - Add temporary item popup
-- [ ] RESTlet - N/A
-- [ ] User Event - N/A
-- [ ] Client Script - N/A
+### Fields Referenced
+- item.custitem_sna_hul_itemcategory
+- transactionline.custcol_sna_hul_ship_meth_vendor
+- transactionline.custcol_sna_hul_item_vendor
+- transactionline.custcol_sna_hul_vendor_item_code
+- transactionline.custcol_sna_hul_estimated_po_rate
 
-**Custom Fields:**
-- Item | custitem_sna_hul_itemcategory | Item category filter
-- Transaction Line | custcol_sna_hul_ship_meth_vendor | Shipping method (vendor)
-- Transaction Line | custcol_sna_hul_item_vendor | Vendor
-- Transaction Line | custcol_sna_hul_vendor_item_code | Vendor item code
-- Transaction Line | custcol_sna_hul_estimated_po_rate | Estimated PO rate (non-SO)
-
-**Saved Searches:**
-- None (script builds searches at runtime).
-
-### Integration Points
-- Client script `sna_hul_cs_addtempitem.js` for form behavior.
-
-### Data Requirements
-
-**Data Volume:**
-- Item search by category.
-
-**Data Sources:**
-- Item records
-- Shipping list custom record
-
-**Data Retention:**
-- Inserts line on parent record; no standalone records created.
-
-### Technical Constraints
-- Uses legacy `nlapi*` calls from the parent window.
-
-### Dependencies
-- **Libraries needed:** None
-- **External dependencies:** None
-- **Other features:** Client script for Suitelet form
-
-### Governance Considerations
-
-- **Script governance:** Minimal; search and read of select options.
-- **Search governance:** Item search and shipping list option lookup.
-- **API limits:** Low.
+Schemas (if known):
+- TBD
 
 ---
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- Temporary items can be added with required details.
-- Line fields are populated correctly on the parent transaction.
-
-**How we'll measure:**
-- User confirmation and line-level checks.
+## 7. Validation & Edge Cases
+- Non-SO record uses `custcol_sna_hul_estimated_po_rate` for rate.
+- No items available for categories results in empty item list.
+- Missing required fields prevents submit.
 
 ---
 
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| sna_hul_sl_addtempitem.js | Suitelet | Popup for adding temporary items | Implemented |
-
-### Development Approach
-
-**Phase 1:** Configure parameters
-- [ ] Set temporary item category parameters
-
-**Phase 2:** Validate behavior
-- [ ] Test line insertion on Sales Orders and other records
+## 8. Implementation Notes (Optional)
+- Script must reuse existing deployment: TBD
+- Dispatcher required: TBD
+- Performance/governance considerations: Uses legacy `nlapi*` calls from the parent window.
 
 ---
 
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. Form loads and lists temporary items.
-2. Submission adds item line with vendor, quantity, rate, and description.
-
-**Edge Cases:**
-1. Non-SO record uses `custcol_sna_hul_estimated_po_rate` for rate.
-2. No items available for categories results in empty item list.
-
-**Error Handling:**
-1. Missing required fields prevents submit.
-
-### Test Data Requirements
-- Items with category values for each configured parameter
-- Shipping list custom record options
-
-### Sandbox Setup
-- Deploy Suitelet and configure script parameters
+## 9. Acceptance Criteria
+- Given configured temporary item categories, when the form loads, then item options reflect those categories.
+- Given required fields are missing, when the user submits, then submission is blocked.
+- Given a valid submission, when the Suitelet runs, then the line item is added to the parent record with provided values.
 
 ---
 
-## 11. Security & Permissions
-
-### Roles & Permissions
-
-**Roles that need access:**
-- Transaction entry roles
-
-**Permissions required:**
-- View access to items and vendors
-- Edit access to parent transactions
-
-### Data Security
-- Uses transaction and item data only.
+## 10. Testing Notes
+Manual tests:
+- Form loads and lists temporary items.
+- Submission adds item line with vendor, quantity, rate, and description.
+- Non-SO record uses `custcol_sna_hul_estimated_po_rate` for rate.
+- No items available for categories results in empty item list.
+- Missing required fields prevents submit.
 
 ---
 
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-
-- [ ] Configure category parameters
-- [ ] Confirm client script deployment
-
-### Deployment Steps
-
-1. Deploy Suitelet.
-2. Add button on parent transaction to launch Suitelet.
-
-### Post-Deployment
-
-- [ ] Verify line insertion behavior
-
-### Rollback Plan
-
-**If deployment fails:**
-1. Disable Suitelet button.
-2. Fix configuration and re-deploy.
+## 11. Deployment Notes
+- Configure category parameters.
+- Confirm client script deployment.
+- Deploy Suitelet.
+- Add button on parent transaction to launch Suitelet.
 
 ---
 
-## 13. Timeline
-
-| Milestone | Target Date | Actual Date | Status |
-|-----------|-------------|-------------|--------|
-| PRD Approval | | | |
-| Development Start | | | |
-| Development Complete | | | |
-| Testing Complete | | | |
-| Stakeholder Review | | | |
-| Production Deploy | | | |
+## 12. Open Questions / TBDs
+- Should the Suitelet validate vendor-item combinations?
 
 ---
-
-## 14. Open Questions & Risks
-
-### Open Questions
-
-- [ ] Should the Suitelet validate vendor-item combinations?
-
-### Known Risks
-
-| Risk | Likelihood | Impact | Mitigation Strategy |
-|------|------------|--------|---------------------|
-| Parent window scripting blocked by browser policies | Low | Med | Ensure popup origin matches NetSuite domain |
-
----
-
-## 15. References & Resources
-
-### Related PRDs
-- None.
-
-### NetSuite Documentation
-- SuiteScript 2.1 Suitelet
-- N/ui/serverWidget module
-
-### External Resources
-- None.
-
----
-
-## Revision History
-
-| Date | Author | Version | Changes |
-|------|--------|---------|---------|
-| Unknown | Jeremy Cady | 1.0 | Initial draft |

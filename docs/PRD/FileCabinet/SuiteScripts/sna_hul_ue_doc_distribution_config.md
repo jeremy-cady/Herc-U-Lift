@@ -1,100 +1,65 @@
-# PRD: Document Distribution Config
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-DocDistributionConfig
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Jeremy Cady
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/sna_hul_ue_doc_distribution_config.js (User Event)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-DocDistributionConfig
+title: Document Distribution Config
+status: Implemented
+owner: Jeremy Cady
+created: Unknown
+last_updated: Unknown
 
-**Script Deployment:** Not specified
+script:
+  type: user_event
+  file: FileCabinet/SuiteScripts/sna_hul_ue_doc_distribution_config.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - message
+  - transaction
+  - customrecord_sna_hul_doc_distribution
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
+## 1. Overview
 User Event that adds recipient selection to message records and sends transaction emails/prints based on document distribution configuration.
 
-**What problem does it solve?**
-Automates email distribution and printing of transactions based on configured recipients and templates.
+---
 
-**Primary Goal:**
-Send transaction emails and print PDFs according to document distribution rules.
+## 2. Business Goal
+Automate email distribution and printing of transactions based on configured recipients and templates.
 
 ---
 
-## 2. Goals
-
-1. Add an "Add Recipients" button to message records.
-2. On transaction creation, send emails or print PDFs based on distribution configuration.
+## 3. User Story
+As an accounting user, when transactions are created, I want emails and prints sent based on document distribution rules, so that manual emailing is reduced.
 
 ---
 
-## 3. User Stories
-
-1. **As an** accounting user, **I want to** send invoices to configured recipients automatically **so that** manual emailing is reduced.
-
----
-
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. For message records, the script must attach client script and add an "Add Recipients" button.
-2. On transaction create, the script must load document distribution configuration for customer/department/type.
-3. The script must send transaction email using a configured email template, if enabled.
-4. The script must generate and save a transaction PDF when print is enabled.
-
-### Acceptance Criteria
-
-- [ ] Message records show an Add Recipients button.
-- [ ] Emails send when distribution config enables email and invoice is not on hold.
-- [ ] Transaction PDFs are printed/saved when print is enabled.
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| beforeLoad | Message form | message records | Attach client script and add "Add Recipients" button |
+| afterSubmit | Transaction fields | create | Load distribution config, send email, and/or print PDF |
 
 ---
 
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Send faxes (stubbed for future use).
-- Send emails if all lines are flagged do-not-print.
-
----
-
-## 6. Design Considerations
-
-### User Interface
-- Adds a button to message records to add recipients.
-
-### User Experience
-- Transaction emails and prints are automated on creation.
-
-### Design References
-- Client script: `sna_hul_cs_document_distribution.js`
+## 5. Functional Requirements
+- For message records, attach client script and add an "Add Recipients" button.
+- On transaction create, load document distribution configuration for customer/department/type.
+- Send transaction email using a configured email template, if enabled.
+- Generate and save a transaction PDF when print is enabled.
 
 ---
 
-## 7. Technical Considerations
-
-### NetSuite Components Required
-
-**Record Types:**
+## 6. Data Contract
+### Record Types Involved
 - message
 - transaction (invoice, salesorder, creditmemo, estimate, opportunity)
 - customrecord_sna_hul_doc_distribution
 
-**Script Types:**
-- [ ] Map/Reduce - N/A
-- [ ] Scheduled Script - N/A
-- [ ] Suitelet - N/A
-- [ ] RESTlet - N/A
-- [x] User Event - Email/print processing
-- [ ] Client Script - Recipient selection button
-
-**Custom Fields:**
+### Fields Referenced
 - transaction | custbody_sna_hold_invoice_sending | Hold email sending
 - transaction line | custcol_sna_do_not_print | Line do not print
 - revenue stream | custrecord_sna_hul_do_not_print | Revenue stream do not print
@@ -109,174 +74,47 @@ Send transaction emails and print PDFs according to document distribution rules.
 - doc distribution | custrecord_doc_distribution_print_check | Print enabled
 - doc distribution | custrecord_sna_doc_department | Department filter
 
-**Saved Searches:**
-- Search on document distribution records.
-
-### Integration Points
-- Uses email templates and PDF rendering for transactions.
-
-### Data Requirements
-
-**Data Volume:**
-- One config lookup per created transaction.
-
-**Data Sources:**
-- Document distribution custom records
-
-**Data Retention:**
-- Creates message email activity; saves PDFs to File Cabinet.
-
-### Technical Constraints
+Schemas (if known):
 - Printed PDFs saved to folder ID 1830.
 
-### Dependencies
-- **Libraries needed:** None
-- **External dependencies:** None
-- **Other features:** Document distribution configuration
+---
 
-### Governance Considerations
-
-- **Script governance:** PDF render and email send per transaction.
-- **Search governance:** One config search per transaction.
-- **API limits:** Moderate.
+## 7. Validation & Edge Cases
+- Hold invoice sending prevents email.
+- All lines do-not-print prevents email send.
+- Template merge errors are logged.
 
 ---
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- Emails and prints occur based on document distribution rules.
-
-**How we'll measure:**
-- Check email activity and printed PDFs for transactions.
+## 8. Implementation Notes (Optional)
+- Client script: `sna_hul_cs_document_distribution.js`.
+- Performance/governance considerations: PDF render and email send per transaction; one config search per transaction.
 
 ---
 
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| sna_hul_ue_doc_distribution_config.js | User Event | Email/print distribution | Implemented |
-
-### Development Approach
-
-**Phase 1:** Message UI
-- [ ] Validate button and client script behavior
-
-**Phase 2:** Transaction processing
-- [ ] Validate email/print behavior by config
+## 9. Acceptance Criteria
+- Given a message record, when beforeLoad runs, then an "Add Recipients" button is available.
+- Given a transaction with distribution config enabling email, when afterSubmit runs, then the email is sent.
+- Given a transaction with print enabled, when afterSubmit runs, then a PDF is generated and saved.
 
 ---
 
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. Create invoice with doc distribution config and confirm email sent.
-2. Print enabled saves PDF to File Cabinet.
-
-**Edge Cases:**
-1. Hold invoice sending prevents email.
-2. All lines do-not-print prevents email send.
-
-**Error Handling:**
-1. Template merge errors are logged.
-
-### Test Data Requirements
-- Document distribution configuration records
-
-### Sandbox Setup
+## 10. Testing Notes
+- Create invoice with doc distribution config and confirm email sent.
+- Print enabled saves PDF to File Cabinet.
+- Hold invoice sending prevents email.
 - Deploy User Event on relevant transaction types and message records.
 
 ---
 
-## 11. Security & Permissions
-
-### Roles & Permissions
-
-**Roles that need access:**
-- Accounting roles
-
-**Permissions required:**
-- Send email
-- Render/print transactions
-- Access File Cabinet folder 1830
-
-### Data Security
-- Email recipients and PDFs restricted to authorized roles.
+## 11. Deployment Notes
+- Verify email template IDs and document type mapping.
+- Deploy User Event on message and transaction records and validate email and print behavior.
+- Monitor email logs and PDF storage; rollback by disabling deployment if needed.
 
 ---
 
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-
-- [ ] Verify email template IDs and document type mapping
-
-### Deployment Steps
-
-1. Deploy User Event on message and transaction records.
-2. Validate email and print behavior.
-
-### Post-Deployment
-
-- [ ] Monitor email logs and PDF storage
-
-### Rollback Plan
-
-**If deployment fails:**
-1. Disable the User Event deployment.
-2. Send emails manually if needed.
+## 12. Open Questions / TBDs
+- Should fax sending be fully implemented?
 
 ---
-
-## 13. Timeline
-
-| Milestone | Target Date | Actual Date | Status |
-|-----------|-------------|-------------|--------|
-| PRD Approval | | | |
-| Development Start | | | |
-| Development Complete | | | |
-| Testing Complete | | | |
-| Stakeholder Review | | | |
-| Production Deploy | | | |
-
----
-
-## 14. Open Questions & Risks
-
-### Open Questions
-
-- [ ] Should fax sending be fully implemented?
-
-### Known Risks
-
-| Risk | Likelihood | Impact | Mitigation Strategy |
-|------|------------|--------|---------------------|
-| Missing email template causes send failures | Low | Med | Validate template configuration in sandbox |
-
----
-
-## 15. References & Resources
-
-### Related PRDs
-- None.
-
-### NetSuite Documentation
-- SuiteScript 2.1 User Event
-- Email and render modules
-
-### External Resources
-- None.
-
----
-
-## Revision History
-
-| Date | Author | Version | Changes |
-|------|--------|---------|---------|
-| Unknown | Jeremy Cady | 1.0 | Initial draft |

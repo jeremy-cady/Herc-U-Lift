@@ -1,112 +1,78 @@
-# PRD: Sales Order Item Pricing
+# NetSuite Customization Product Requirement Document
 
-**PRD ID:** PRD-UNKNOWN-SoItemPricing
-**Created:** Unknown
-**Last Updated:** Unknown
-**Author:** Jeremy Cady
-**Status:** Implemented
-**Related Scripts:**
-- FileCabinet/SuiteScripts/sna_hul_ue_so_itempricing.js (User Event)
+---
+## Metadata
+prd_id: PRD-UNKNOWN-SoItemPricing
+title: Sales Order Item Pricing
+status: Implemented
+owner: Jeremy Cady
+created: Unknown
+last_updated: Unknown
 
-**Script Deployment (if applicable):**
-- Script ID: Not specified
-- Deployment ID: Not specified
+script:
+  type: user_event
+  file: FileCabinet/SuiteScripts/sna_hul_ue_so_itempricing.js
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - salesorder
+  - estimate
+  - customer
+  - item
+  - customrecord_sna_hul_itempricelevel
+  - customrecord_sna_hul_locationmarkup
+  - customrecord_sna_hul_vendorprice
+  - customrecord_sna_service_code_type
 
 ---
 
-## 1. Introduction / Overview
-
-**What is this feature?**
+## 1. Overview
 Populates and recalculates pricing-related fields for Sales Orders and Estimates based on item category, customer pricing group, revenue stream, and location markup.
 
-**What problem does it solve?**
-Ensures line pricing and cost fields are consistently derived when records are created, copied, or edited outside the normal UI client script flow.
+---
 
-**Primary Goal:**
-Keep line pricing fields and rates in sync with pricing rules and revenue stream configuration.
+## 2. Business Goal
+Ensure line pricing and cost fields are consistently derived when records are created, copied, or edited outside the normal UI client script flow.
 
 ---
 
-## 2. Goals
-
-1. Populate pricing details links on view.
-2. Lock rates where required by item/service rules.
-3. Recalculate pricing fields when price level is missing or revenue stream changes.
+## 3. User Story
+As a sales user, when orders are created or imported, I want pricing fields synchronized with pricing rules, so that rates are correct.
 
 ---
 
-## 3. User Stories
-
-1. **As a** sales user, **I want to** see pricing details links **so that** I can review pricing logic per line.
-2. **As a** pricing admin, **I want to** enforce lock rate rules **so that** manual changes do not bypass pricing policy.
-3. **As a** sales user, **I want to** have rates recalculated after imports **so that** CSV-loaded lines are priced correctly.
-
----
-
-## 4. Functional Requirements
-
-### Core Functionality
-
-1. On VIEW, the system must inject an "Other Details" link into custcol_sna_pricing_details when empty.
-2. On CREATE/COPY, when created from an Estimate, the system must copy custcol_sna_hul_estimated_po_rate to porate.
-3. On beforeSubmit, the system must set custbody_sna_order_fulfillment_method to Will Call when header revenue stream equals the CSHOP parameter.
-4. On beforeSubmit, the system must set custcol_sna_hul_lock_rate for qualifying item lines (excluding rental/service exclusions).
-5. On afterSubmit, the system must recalculate pricing fields if the line price level is empty or the revenue stream changed.
-6. Pricing calculations must use customer pricing group, item category, location markup, vendor price, and revenue stream surcharge rules.
-
-### Acceptance Criteria
-
-- [ ] VIEW shows an "Other Details" link for each line missing custcol_sna_pricing_details.
-- [ ] COPY/CREATE from Estimate copies estimated PO rate into porate.
-- [ ] Lines meeting criteria have custcol_sna_hul_lock_rate set to true.
-- [ ] Lines with missing price level are recalculated and updated with price, rate, and amount.
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| beforeLoad | custcol_sna_pricing_details | view | Inject "Other Details" link when empty |
+| beforeSubmit | custbody_sna_order_fulfillment_method | create/copy | Set fulfillment method and lock rate flags |
+| afterSubmit | price level / revenue stream | create/edit | Recalculate pricing when needed |
 
 ---
 
-## 5. Non-Goals (Out of Scope)
-
-**This feature will NOT:**
-
-- Replace the client script pricing logic.
-- Alter tax processing (legacy logic is commented out).
-- Modify non-item sublists.
-
----
-
-## 6. Design Considerations
-
-### User Interface
-- VIEW mode adds an "Other Details" hyperlink per line.
-
-### User Experience
-- Repricing occurs after submit for non-UI contexts (e.g., CSV import) to match UI behavior.
-
-### Design References
-- Suitelet: customscript_sna_hul_sl_itempricingdet
-- Related client script behavior for pricing.
+## 5. Functional Requirements
+- On VIEW, inject an "Other Details" link into `custcol_sna_pricing_details` when empty.
+- On CREATE/COPY from an Estimate, copy `custcol_sna_hul_estimated_po_rate` to `porate`.
+- On beforeSubmit, set `custbody_sna_order_fulfillment_method` to Will Call when header revenue stream equals the CSHOP parameter.
+- On beforeSubmit, set `custcol_sna_hul_lock_rate` for qualifying item lines (excluding rental/service exclusions).
+- On afterSubmit, recalculate pricing fields if the line price level is empty or the revenue stream changed.
+- Use customer pricing group, item category, location markup, vendor price, and revenue stream surcharge rules in calculations.
 
 ---
 
-## 7. Technical Considerations
+## 6. Data Contract
+### Record Types Involved
+- salesorder
+- estimate
+- customer
+- item
+- customrecord_sna_hul_itempricelevel
+- customrecord_sna_hul_locationmarkup
+- customrecord_sna_hul_vendorprice
+- customrecord_sna_service_code_type
 
-### NetSuite Components Required
-
-**Record Types:**
-- Sales Order
-- Estimate
-- Customer (lookup)
-- Item
-- Custom records (pricing and markup)
-
-**Script Types:**
-- [ ] Map/Reduce - N/A
-- [ ] Scheduled Script - N/A
-- [ ] Suitelet - Pricing details viewer
-- [ ] RESTlet - N/A
-- [x] User Event - Pricing updates
-- [ ] Client Script - N/A
-
-**Custom Fields:**
+### Fields Referenced
 - Sales Order | custbody_sna_order_fulfillment_method | Order fulfillment method
 - Sales Order | cseg_sna_revenue_st | Header revenue stream
 - Item line | custcol_sna_pricing_details | Pricing details link HTML
@@ -132,167 +98,48 @@ Keep line pricing fields and rates in sync with pricing rules and revenue stream
 - Item line | custcol_sna_hul_item_pricelevel | Price level
 - Shipping address subrecord | custrecord_sna_cpg_parts | Customer pricing group
 
-**Saved Searches:**
-- None (script uses ad hoc searches)
+Schemas (if known):
+- Suitelet: customscript_sna_hul_sl_itempricingdet
 
-### Integration Points
-- Suitelet: customscript_sna_hul_sl_itempricingdet (line-level details)
-- Custom record: customrecord_sna_hul_itempricelevel
-- Custom record: customrecord_sna_hul_locationmarkup
-- Custom record: customrecord_sna_hul_vendorprice
-- Custom record: customrecord_sna_service_code_type
+---
 
-### Data Requirements
-
-**Data Volume:**
-- Per Sales Order/Estimate, all item lines.
-
-**Data Sources:**
-- Item records, customer address pricing group, rate card custom records.
-
-**Data Retention:**
-- Pricing values stored on the transaction line.
-
-### Technical Constraints
+## 7. Validation & Edge Cases
 - Repricing runs only when price level is missing or revenue stream changed.
-- Revenue stream defaults to header cseg_sna_revenue_st if line is empty.
-
-### Dependencies
-- **Libraries needed:** FileCabinet/SuiteScripts/sna_hul_mod_sales_tax.js (referenced, currently not active)
-- **External dependencies:** None
-- **Other features:** Suitelet for pricing details link
-
-### Governance Considerations
-
-- **Script governance:** Uses record.load and multiple searches; may be heavy on large orders.
-- **Search governance:** Uses multiple searches for items, location markup, price levels, vendor price, revenue stream.
-- **API limits:** None external.
+- Customer pricing group missing defaults to List (155).
+- Missing pricing configuration logs an error and skips line.
 
 ---
 
-## 8. Success Metrics
-
-**We will consider this feature successful when:**
-
-- Pricing fields are populated after CSV import or non-UI create.
-- Line rate and amount match pricing rules.
-- Lock rate is set where required.
-
-**How we'll measure:**
-- Compare line pricing vs expected for sample items.
-- Script logs indicate no errors.
+## 8. Implementation Notes (Optional)
+- Uses ad hoc searches for items, location markup, price levels, vendor price, and revenue stream.
+- Module `sna_hul_mod_sales_tax.js` referenced but not active.
 
 ---
 
-## 9. Implementation Plan
-
-### Script Implementations
-
-| Script Name | Type | Purpose | Status |
-|-------------|------|---------|--------|
-| sna_hul_ue_so_itempricing.js | User Event | Populate and recalc item pricing | Implemented |
-
-### Development Approach
-
-**Phase 1:** UI support
-- [x] Add pricing details link on VIEW.
-- [x] Copy estimated PO rate on CREATE/COPY.
-
-**Phase 2:** Repricing logic
-- [x] Apply lock rate and repricing after submit.
+## 9. Acceptance Criteria
+- Given a CSV import with missing price level, when afterSubmit runs, then price/rate/amount are recalculated.
+- Given view mode with empty pricing details, when beforeLoad runs, then the Other Details link appears.
+- Given qualifying lines, when beforeSubmit runs, then lock rate is set.
 
 ---
 
-## 10. Testing Requirements
-
-### Test Scenarios
-
-**Happy Path:**
-1. CSV import Sales Order with missing price level, verify fields and rate populated after save.
-2. View Sales Order with empty pricing details, verify link appears.
-
-**Edge Cases:**
-1. Revenue stream changes between edits, verify repricing occurs.
-2. Customer pricing group missing, default to List (155).
-
-**Error Handling:**
-1. Missing pricing configuration records, verify script logs error and skips line.
-
-### Test Data Requirements
-- Items with vendor price and item category mappings.
-- Customer with shipping address pricing group.
-
-### Sandbox Setup
+## 10. Testing Notes
+- CSV import Sales Order with missing price level, verify fields and rate populated after save.
+- View Sales Order with empty pricing details, verify link appears.
+- Revenue stream changes between edits trigger repricing.
 - Ensure custom records exist with pricing and markup configurations.
 
 ---
 
-## 11. Security & Permissions
-
-### Roles & Permissions
-- Users must have access to Sales Orders/Estimates and referenced custom records.
-
-### Data Security
-- Pricing fields are updated only on the current transaction.
+## 11. Deployment Notes
+- Custom records for pricing and markup are populated.
+- Suitelet for pricing details is deployed.
+- Deploy User Event on Sales Order and Estimate.
+- Confirm script parameters are set (item categories, service types, pricing groups).
 
 ---
 
-## 12. Deployment Plan
-
-### Pre-Deployment Checklist
-- [ ] Custom records for pricing and markup are populated.
-- [ ] Suitelet for pricing details is deployed.
-
-### Deployment Steps
-1. Deploy User Event on Sales Order and Estimate.
-2. Confirm script parameters are set (item categories, service types, pricing groups).
-
-### Post-Deployment
-- Verify pricing on a new and imported transaction.
-
-### Rollback Plan
-- Disable the User Event deployment.
-
----
-
-## 13. Timeline (table)
-
-| Phase | Owner | Duration | Target Date |
-|------|-------|----------|-------------|
-| Implementation | Jeremy Cady | Unknown | Unknown |
-| Validation | Jeremy Cady | Unknown | Unknown |
-
----
-
-## 14. Open Questions & Risks
-
-### Open Questions
+## 12. Open Questions / TBDs
 - Which revenue stream price calculation modes are currently active for production?
 
-### Known Risks (table)
-
-| Risk | Impact | Mitigation |
-|------|--------|------------|
-| Missing pricing configuration | Incorrect pricing | Validate custom record setup |
-
 ---
-
-## 15. References & Resources
-
-### Related PRDs
-- None
-
-### NetSuite Documentation
-- User Event Script
-- Custom record searches
-
-### External Resources
-- None
-
----
-
-## Revision History (table)
-
-| Version | Date | Author | Notes |
-|---------|------|--------|-------|
-| 1.0 | Unknown | Jeremy Cady | Initial PRD |
