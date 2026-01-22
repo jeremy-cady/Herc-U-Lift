@@ -1,0 +1,2243 @@
+{
+  "meta": {
+    "recordType": "customrecord_sna_objects",
+    "generatedAt": "2026-01-22T18:25:25.585Z",
+    "source": "netsuite",
+    "version": "1.7.4",
+    "outputFolderId": 6223347,
+    "method": "record.create + getFields/getField + getSublists/getSublistFields",
+    "recordTypeOrigin": "custom"
+  },
+  "record": {
+    "type": "customrecord_sna_objects"
+  },
+  "fields": {
+    "custrecord_sna_max_lift_height": {
+      "category": "body",
+      "type": "text",
+      "label": "Maximum Lift Height",
+      "isMandatory": false
+    },
+    "custrecord_sna_attachments": {
+      "category": "body",
+      "type": "text",
+      "label": "Attachments",
+      "isMandatory": false
+    },
+    "custrecord_sna_fuel_kit_no": {
+      "category": "body",
+      "type": "text",
+      "label": "Dysel - Fuel Kit No",
+      "isMandatory": false
+    },
+    "custrecord_sna_latitude": {
+      "category": "body",
+      "type": "integer",
+      "label": "Latitude",
+      "isMandatory": false
+    },
+    "custrecord_sna_model_description_2": {
+      "category": "body",
+      "type": "textarea",
+      "label": "Model Description 2",
+      "isMandatory": false
+    },
+    "custrecord_sna_expected_rep_date": {
+      "category": "body",
+      "type": "date",
+      "label": "Expected Replacement Date",
+      "isMandatory": false
+    },
+    "custrecord_sna_rerent_end_date": {
+      "category": "body",
+      "type": "date",
+      "label": "Rerent End Date",
+      "isMandatory": false
+    },
+    "_eml_nkey_": {
+      "category": "system",
+      "metadataUnavailableReason": "system_pseudo"
+    },
+    "custrecord_sna_preferred_resource_no": {
+      "category": "body",
+      "type": "select",
+      "label": "Preferred Resource No.",
+      "isMandatory": false
+    },
+    "custrecord_sna_purchase_date": {
+      "category": "body",
+      "type": "date",
+      "label": "Purchase Date",
+      "isMandatory": false
+    },
+    "custrecord_sna_hul_gain_loss_account": {
+      "category": "body",
+      "type": "select",
+      "label": "Gain/Loss Account",
+      "isMandatory": false
+    },
+    "custrecord_sna_transmission_make": {
+      "category": "body",
+      "type": "text",
+      "label": "Transmission Make",
+      "isMandatory": false
+    },
+    "custrecord_sna_no": {
+      "category": "body",
+      "type": "text",
+      "label": "No.",
+      "isMandatory": false
+    },
+    "custrecord_sna_vendor_shipment_date": {
+      "category": "body",
+      "type": "date",
+      "label": "Vendor Shipment Date",
+      "isMandatory": false
+    },
+    "customwhence": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_work_height": {
+      "category": "body",
+      "type": "text",
+      "label": "Work Height",
+      "isMandatory": false
+    },
+    "custrecord_sna_hul_original_cost": {
+      "category": "body",
+      "type": "currency",
+      "label": "Original Cost",
+      "isMandatory": false
+    },
+    "custrecord_sna_platform_width_inside_dim": {
+      "category": "body",
+      "type": "text",
+      "label": "Platform Width (Inside Dimension)",
+      "isMandatory": false
+    },
+    "custrecord_sna_frame_no2": {
+      "category": "body",
+      "type": "text",
+      "label": "Dysel - Frame No",
+      "isMandatory": false
+    },
+    "custrecord_sna_accessories": {
+      "category": "body",
+      "type": "text",
+      "label": "Accessories",
+      "isMandatory": false
+    },
+    "custrecord_sna_overall_height_w_mast_rai": {
+      "category": "body",
+      "type": "text",
+      "label": "Overall Height with Mast Raised",
+      "isMandatory": false
+    },
+    "custrecord_sna_warranty_period_source_en": {
+      "category": "body",
+      "type": "text",
+      "label": "Warranty Period Source Engine",
+      "isMandatory": false
+    },
+    "custrecord_sna_fuel_tank_size": {
+      "category": "body",
+      "type": "text",
+      "label": "Fuel Tank Size",
+      "isMandatory": false
+    },
+    "custrecord_sna_warranty_exp_date_engine": {
+      "category": "body",
+      "type": "date",
+      "label": "Warranty Exp. Date Engine",
+      "isMandatory": false
+    },
+    "entryformquerystring": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_skyjack_60aj": {
+      "category": "body",
+      "type": "text",
+      "label": "Skyjack 60AJ+",
+      "isMandatory": false
+    },
+    "custrecord_sna_equipment_sub_model": {
+      "category": "body",
+      "type": "text",
+      "label": "Equipment Sub Model",
+      "isMandatory": false
+    },
+    "custrecord_sna_current_post_code": {
+      "category": "body",
+      "type": "text",
+      "label": "Current Post Code",
+      "isMandatory": false
+    },
+    "custrecord_sna_deactivation_depreciation": {
+      "category": "body",
+      "type": "float",
+      "label": "Deactivation Depreciation",
+      "isMandatory": false
+    },
+    "custrecord_sna_axle_serial": {
+      "category": "body",
+      "type": "text",
+      "label": "Axle Serial",
+      "isMandatory": false
+    },
+    "custrecord_sna_year": {
+      "category": "body",
+      "type": "integer",
+      "label": "Year",
+      "isMandatory": false
+    },
+    "ownerid": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_sale": {
+      "category": "body",
+      "type": "float",
+      "label": "Sale",
+      "isMandatory": false
+    },
+    "version": {
+      "category": "body",
+      "type": "integer",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_depreciation": {
+      "category": "body",
+      "type": "float",
+      "label": "Depreciation",
+      "isMandatory": false
+    },
+    "custrecord_sna_height": {
+      "category": "body",
+      "type": "text",
+      "label": "Dysel - Height",
+      "isMandatory": false
+    },
+    "custrecord_sna_new_bv": {
+      "category": "body",
+      "type": "currency",
+      "label": "New Book Value",
+      "isMandatory": false
+    },
+    "custrecord_sna_rental_status": {
+      "category": "body",
+      "type": "select",
+      "label": "Rental Status",
+      "isMandatory": false
+    },
+    "_multibtnstate_": {
+      "category": "system",
+      "metadataUnavailableReason": "system_pseudo"
+    },
+    "custrecord_sna_fiscal_depreciation": {
+      "category": "body",
+      "type": "float",
+      "label": "Fiscal Depreciation",
+      "isMandatory": false
+    },
+    "custrecord_sna_current_object_loc": {
+      "category": "body",
+      "type": "select",
+      "label": "Current Object Location",
+      "isMandatory": false
+    },
+    "custrecord_sna_presales_cost": {
+      "category": "body",
+      "type": "float",
+      "label": "Presales Cost",
+      "isMandatory": false
+    },
+    "selectedtab": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_rental_contract_sec_date": {
+      "category": "body",
+      "type": "date",
+      "label": "Rental Contract Secured Date",
+      "isMandatory": false
+    },
+    "custrecord_sna_posting_status": {
+      "category": "body",
+      "type": "select",
+      "label": "Posting Status",
+      "isMandatory": false
+    },
+    "custrecord_sna_tires_wheels_on_rail": {
+      "category": "body",
+      "type": "text",
+      "label": "Tires/Wheels (on rail)",
+      "isMandatory": false
+    },
+    "custrecord_sna_overall_width": {
+      "category": "body",
+      "type": "text",
+      "label": "Overall Width",
+      "isMandatory": false
+    },
+    "custrecord_sna_fuel_tank": {
+      "category": "body",
+      "type": "text",
+      "label": "Fuel Tank",
+      "isMandatory": false
+    },
+    "custrecord_sna_contract_type": {
+      "category": "body",
+      "type": "select",
+      "label": "Contract Type",
+      "isMandatory": false
+    },
+    "custrecord_sna_sales_claims": {
+      "category": "body",
+      "type": "select",
+      "label": "Sales Claims",
+      "isMandatory": false
+    },
+    "custrecord_sna_maintenance_recognized_sa": {
+      "category": "body",
+      "type": "float",
+      "label": "Maintenance Recognized Sales",
+      "isMandatory": false
+    },
+    "nsapiPS": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "cseg_hul_mfg": {
+      "category": "body",
+      "type": "select",
+      "label": "HUL Manufacturer",
+      "isMandatory": false
+    },
+    "custrecord_sna_battery_charger_no": {
+      "category": "body",
+      "type": "text",
+      "label": "Dysel - Battery-Charger No.s",
+      "isMandatory": false
+    },
+    "custrecord_sna_skyjack_60t": {
+      "category": "body",
+      "type": "text",
+      "label": "Skyjack 60T",
+      "isMandatory": false
+    },
+    "custrecord_sna_cost": {
+      "category": "body",
+      "type": "float",
+      "label": "Cost",
+      "isMandatory": false
+    },
+    "custrecord_sna_last_pm_date": {
+      "category": "body",
+      "type": "date",
+      "label": "Last PM Date",
+      "isMandatory": false
+    },
+    "custrecord_sna_not_for_sales": {
+      "category": "body",
+      "type": "select",
+      "label": "Not for Sale",
+      "isMandatory": false
+    },
+    "custrecord_sna_man_code": {
+      "category": "body",
+      "type": "select",
+      "label": "xxx Manufacturer Code",
+      "isMandatory": false
+    },
+    "custrecord_sna_book3_depreciation_deact": {
+      "category": "body",
+      "type": "float",
+      "label": "Book3 Depreciation Deact.",
+      "isMandatory": false
+    },
+    "custrecord_sna_warranty_period": {
+      "category": "body",
+      "type": "date",
+      "label": "Warranty Period",
+      "isMandatory": false
+    },
+    "nsapiPI": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_sales_date": {
+      "category": "body",
+      "type": "date",
+      "label": "Sales Date",
+      "isMandatory": false
+    },
+    "custrecord_sna_serial_no": {
+      "category": "body",
+      "type": "text",
+      "label": "Serial No.",
+      "isMandatory": false
+    },
+    "custrecord_sna_eng_type": {
+      "category": "body",
+      "type": "text",
+      "label": "Dysel - Eng Type",
+      "isMandatory": false
+    },
+    "custrecord_sna_extension_deck_roll_out": {
+      "category": "body",
+      "type": "text",
+      "label": "Extension Deck (Roll Out)",
+      "isMandatory": false
+    },
+    "custrecord_sna_last_inspection_hours": {
+      "category": "body",
+      "type": "integer",
+      "label": "Last Inspection Hours",
+      "isMandatory": false
+    },
+    "nsapiPD": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_last_inspection_action": {
+      "category": "body",
+      "type": "select",
+      "label": "Last Inspection Action",
+      "isMandatory": false
+    },
+    "custrecord_sna_tax_group_code": {
+      "category": "body",
+      "type": "select",
+      "label": "Tax Group Code",
+      "isMandatory": false
+    },
+    "custrecord_sna_m2": {
+      "category": "body",
+      "type": "integer",
+      "label": "M2",
+      "isMandatory": false
+    },
+    "custrecord_sna_current_name": {
+      "category": "body",
+      "type": "text",
+      "label": "Current Name",
+      "isMandatory": false
+    },
+    "custrecord_sna_skyjack_1056th": {
+      "category": "body",
+      "type": "text",
+      "label": "Skyjack 1056TH",
+      "isMandatory": false
+    },
+    "custrecord_sna_production_date": {
+      "category": "body",
+      "type": "date",
+      "label": "Production Date",
+      "isMandatory": false
+    },
+    "custrecord_sna_customer_no": {
+      "category": "body",
+      "type": "text",
+      "label": "Customer No.",
+      "isMandatory": false
+    },
+    "custrecord_sna_battery_quantity": {
+      "category": "body",
+      "type": "integer",
+      "label": "Battery Quantity",
+      "isMandatory": false
+    },
+    "custrecord_sna_tire_size_drive": {
+      "category": "body",
+      "type": "text",
+      "label": "Tire Size, Drive",
+      "isMandatory": false
+    },
+    "custrecord_sna_remaining_amount": {
+      "category": "body",
+      "type": "float",
+      "label": "Remaining Amount",
+      "isMandatory": false
+    },
+    "custrecord_sna_new_rental_contract_no": {
+      "category": "body",
+      "type": "select",
+      "label": "New Rental Contract No.",
+      "isMandatory": false
+    },
+    "custrecord_sna_battery_weight_minimum": {
+      "category": "body",
+      "type": "text",
+      "label": "Battery Weight, Minimum",
+      "isMandatory": false
+    },
+    "custrecord_sna_tire_size_steer": {
+      "category": "body",
+      "type": "text",
+      "label": "Tire Size, Steer",
+      "isMandatory": false
+    },
+    "custrecord_sna_hul_cogs_account": {
+      "category": "body",
+      "type": "select",
+      "label": "COGS Account",
+      "isMandatory": false
+    },
+    "custrecord_sna_frame_no": {
+      "category": "body",
+      "type": "text",
+      "label": "Dysel - Frame No.",
+      "isMandatory": false
+    },
+    "custrecord_sna_min_aisle_90_stack": {
+      "category": "body",
+      "type": "text",
+      "label": "Minimum Aisle – 90° Stack – Zero Clearance without Load",
+      "isMandatory": false
+    },
+    "custrecord_sna_current_address_2": {
+      "category": "body",
+      "type": "textarea",
+      "label": "Current Address 2",
+      "isMandatory": false
+    },
+    "custrecord_sna_wheels_no_front_rear": {
+      "category": "body",
+      "type": "text",
+      "label": "Wheels, number front / rear (x=driven)",
+      "isMandatory": false
+    },
+    "custrecord_sna_rerent_vendor_return_no": {
+      "category": "body",
+      "type": "select",
+      "label": "Rerent Vendor Return No",
+      "isMandatory": false
+    },
+    "customform": {
+      "category": "body",
+      "type": "select",
+      "label": "Custom Form",
+      "isMandatory": true
+    },
+    "custrecord_sna_current_address": {
+      "category": "body",
+      "type": "textarea",
+      "label": "Current Address",
+      "isMandatory": false
+    },
+    "custrecord_sna_invoiced_maintenance_cont": {
+      "category": "body",
+      "type": "integer",
+      "label": "Invoiced Maintenance Contracts",
+      "isMandatory": false
+    },
+    "custrecord_sna_leased_contract_no": {
+      "category": "body",
+      "type": "select",
+      "label": "Leased Contract No.",
+      "isMandatory": false
+    },
+    "custrecord_sna_sales_order_date": {
+      "category": "body",
+      "type": "date",
+      "label": "Sales Order Date",
+      "isMandatory": false
+    },
+    "custrecord_sna_current_phone_no": {
+      "category": "body",
+      "type": "phone",
+      "label": "Current Phone No.",
+      "isMandatory": false
+    },
+    "custrecord_sna_load_center": {
+      "category": "body",
+      "type": "text",
+      "label": "Load Center - Distance",
+      "isMandatory": false
+    },
+    "custrecordcustrecord_hul_gps_serial": {
+      "category": "body",
+      "type": "text",
+      "label": "GPS Serial Number",
+      "isMandatory": false
+    },
+    "custrecord_sna_fixed_asset": {
+      "category": "body",
+      "type": "select",
+      "label": "Fixed Asset",
+      "isMandatory": false
+    },
+    "custrecord_sna_contact": {
+      "category": "body",
+      "type": "select",
+      "label": "Contact No.",
+      "isMandatory": false
+    },
+    "custrecord_sna_contract_finish_date": {
+      "category": "body",
+      "type": "date",
+      "label": "Contract Finish Date",
+      "isMandatory": false
+    },
+    "nlloc": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_raised_platform_height": {
+      "category": "body",
+      "type": "text",
+      "label": "Raised Platform Height",
+      "isMandatory": false
+    },
+    "custrecord_sna_leased_sales_revenue": {
+      "category": "body",
+      "type": "float",
+      "label": "Leased Sales Revenue",
+      "isMandatory": false
+    },
+    "custrecord_sna_acq_date": {
+      "category": "body",
+      "type": "date",
+      "label": "Acquisition Date",
+      "isMandatory": false
+    },
+    "custrecord_sna_expected_cost": {
+      "category": "body",
+      "type": "float",
+      "label": "Expected Cost",
+      "isMandatory": false
+    },
+    "custrecord_sna_load_dis_axle_to_fork_fac": {
+      "category": "body",
+      "type": "text",
+      "label": "Load Distance, Axle to Fork Face",
+      "isMandatory": false
+    },
+    "custrecord_sna_tire_size": {
+      "category": "body",
+      "type": "text",
+      "label": "Tire Size",
+      "isMandatory": false
+    },
+    "custrecord_sna_next_inspection_hours": {
+      "category": "body",
+      "type": "integer",
+      "label": "Next Inspection Hours",
+      "isMandatory": false
+    },
+    "externalid": {
+      "category": "body",
+      "type": "text",
+      "label": "External ID",
+      "isMandatory": false
+    },
+    "custrecord_sna_lowered_platform_height": {
+      "category": "body",
+      "type": "text",
+      "label": "Lowered Platform Height",
+      "isMandatory": false
+    },
+    "custrecord_sna_skyjack_3219": {
+      "category": "body",
+      "type": "text",
+      "label": "Skyjack 3219",
+      "isMandatory": false
+    },
+    "custpage_stickyheaders_script": {
+      "category": "ui",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custrecord_sna_transmission": {
+      "category": "body",
+      "type": "text",
+      "label": "Dysel - Transmission",
+      "isMandatory": false
+    },
+    "custrecord_sna_picture": {
+      "category": "body",
+      "type": "select",
+      "label": "Picture",
+      "isMandatory": false
+    },
+    "scriptid": {
+      "category": "body",
+      "type": "identifier",
+      "label": "Script ID",
+      "isMandatory": false
+    },
+    "custrecord_sna_aisle_width_1000_1200": {
+      "category": "body",
+      "type": "text",
+      "label": "Working Aisle width with 1,000 x 1,200 mm Pallets, Crosswise",
+      "isMandatory": false
+    },
+    "custrecord_sna_battery_weight_maximum": {
+      "category": "body",
+      "type": "text",
+      "label": "Battery Weight, Maximum",
+      "isMandatory": false
+    },
+    "custrecord_sna_capital_expenditure": {
+      "category": "body",
+      "type": "float",
+      "label": "Capital Expenditure",
+      "isMandatory": false
+    },
+    "custrecord_sna_sales_price": {
+      "category": "body",
+      "type": "float",
+      "label": "Sales Price",
+      "isMandatory": false
+    },
+    "custrecord_sna_leased_cost": {
+      "category": "body",
+      "type": "float",
+      "label": "Leased Cost",
+      "isMandatory": false
+    },
+    "custrecord_sna_equipment_category": {
+      "category": "body",
+      "type": "select",
+      "label": "xxx Equipment Category",
+      "isMandatory": false
+    },
+    "custrecord_sna_eng_model": {
+      "category": "body",
+      "type": "text",
+      "label": "Dysel - Eng Model",
+      "isMandatory": false
+    },
+    "custrecord_sna_config_notes": {
+      "category": "body",
+      "type": "textarea",
+      "label": "Configuration Notes",
+      "isMandatory": false
+    },
+    "custrecord_sna_operating_weight": {
+      "category": "body",
+      "type": "text",
+      "label": "Operating Weight",
+      "isMandatory": false
+    },
+    "custrecord_sna_weight": {
+      "category": "body",
+      "type": "text",
+      "label": "Weight",
+      "isMandatory": false
+    },
+    "custrecord_sna_prior_posting_status": {
+      "category": "body",
+      "type": "select",
+      "label": "Prior Posting Status",
+      "isMandatory": false
+    },
+    "custrecord_sna_platform_height": {
+      "category": "body",
+      "type": "text",
+      "label": "Platform Height",
+      "isMandatory": false
+    },
+    "custrecord_sna_delivery": {
+      "category": "body",
+      "type": "float",
+      "label": "Delivery",
+      "isMandatory": false
+    },
+    "custrecord_sna_entry_door_type": {
+      "category": "body",
+      "type": "text",
+      "label": "Entry Door Type",
+      "isMandatory": false
+    },
+    "custrecord_sna_hul_segment": {
+      "category": "body",
+      "type": "text",
+      "label": "SNA - Segment",
+      "isMandatory": false
+    },
+    "custrecord_sna_deactivation_fiscal_depre": {
+      "category": "body",
+      "type": "float",
+      "label": "Deactivation Fiscal Depreciation",
+      "isMandatory": false
+    },
+    "custrecord_sna_lease_company_id": {
+      "category": "body",
+      "type": "select",
+      "label": "Lease Company ID",
+      "isMandatory": false
+    },
+    "custrecord_sna_stowed_width": {
+      "category": "body",
+      "type": "text",
+      "label": "Stowed Width",
+      "isMandatory": false
+    },
+    "custrecord_sna_bill_to_customer_no": {
+      "category": "body",
+      "type": "select",
+      "label": "Bill-to Customer No.",
+      "isMandatory": false
+    },
+    "custrecord_sna_last_inspection_date": {
+      "category": "body",
+      "type": "date",
+      "label": "Last Inspection Date",
+      "isMandatory": false
+    },
+    "custrecord_sna_exp_rental_return_date": {
+      "category": "body",
+      "type": "date",
+      "label": "Expected Rental Return Date",
+      "isMandatory": false
+    },
+    "name": {
+      "category": "body",
+      "type": "text",
+      "label": "Object ID",
+      "isMandatory": true
+    },
+    "custrecord_sna_visible": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Visible",
+      "isMandatory": false
+    },
+    "custrecord_sna_joystick_configuration": {
+      "category": "body",
+      "type": "select",
+      "label": "Joystick Configuration",
+      "isMandatory": false
+    },
+    "custrecord_sna_vendor_no": {
+      "category": "body",
+      "type": "select",
+      "label": "Vendor No.",
+      "isMandatory": false
+    },
+    "custrecord_sna_depreciation_posted": {
+      "category": "body",
+      "type": "date",
+      "label": "Depreciation Posted",
+      "isMandatory": false
+    },
+    "linenumber": {
+      "category": "body",
+      "type": "integer",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_overall_height_stowed": {
+      "category": "body",
+      "type": "text",
+      "label": "Overall Height - Stowed",
+      "isMandatory": false
+    },
+    "custrecord_sna_depreciation_cost_code": {
+      "category": "body",
+      "type": "select",
+      "label": "Depreciation Cost Code",
+      "isMandatory": false
+    },
+    "nsapiLI": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_maximum_drive_height": {
+      "category": "body",
+      "type": "text",
+      "label": "Maximum Drive Height",
+      "isMandatory": false
+    },
+    "custrecord_sna_transmission_model": {
+      "category": "body",
+      "type": "text",
+      "label": "Transmission Model",
+      "isMandatory": false
+    },
+    "sys_id": {
+      "category": "system",
+      "metadataUnavailableReason": "system_pseudo"
+    },
+    "custrecord_sna_forks": {
+      "category": "body",
+      "type": "text",
+      "label": "Dysel - Forks",
+      "isMandatory": false
+    },
+    "custrecord_sna_fork_dime_thick_wid_lengt": {
+      "category": "body",
+      "type": "text",
+      "label": "Fork Dimensions (Thickness x Width x Length)",
+      "isMandatory": false
+    },
+    "custrecord_sna_wheelbase": {
+      "category": "body",
+      "type": "text",
+      "label": "Wheelbase",
+      "isMandatory": false
+    },
+    "custrecord_sna_blocked": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Blocked",
+      "isMandatory": false
+    },
+    "nldept": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_platform_length_inside_di": {
+      "category": "body",
+      "type": "text",
+      "label": "Platform Length (Inside Dimension)",
+      "isMandatory": false
+    },
+    "custrecord_sna_aisle_width_800_1200": {
+      "category": "body",
+      "type": "text",
+      "label": "Working Aisle Width with 800 x 1,200 mm Pallets, Crosswise",
+      "isMandatory": false
+    },
+    "custrecord_sna_equipment_model": {
+      "category": "body",
+      "type": "select",
+      "label": "Equipment Model",
+      "isMandatory": false
+    },
+    "nsapiLC": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_part_no_mast_chain": {
+      "category": "body",
+      "type": "text",
+      "label": "Dysel - Part No.s Mast-Chain",
+      "isMandatory": false
+    },
+    "custrecord_sna_engine_model": {
+      "category": "body",
+      "type": "text",
+      "label": "Engine Model",
+      "isMandatory": false
+    },
+    "custrecord_sna_adjustments": {
+      "category": "body",
+      "type": "float",
+      "label": "Adjustments",
+      "isMandatory": false
+    },
+    "custrecord_sna_hul_rent_dummy": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Dummy",
+      "isMandatory": false
+    },
+    "custrecord_sna_open_transfers": {
+      "category": "body",
+      "type": "select",
+      "label": "Open Transfers",
+      "isMandatory": false
+    },
+    "owner": {
+      "category": "body",
+      "type": "select",
+      "label": "Owner",
+      "isMandatory": true
+    },
+    "custrecord_sna_bv_adj_acct": {
+      "category": "body",
+      "type": "select",
+      "label": "Book Value Adjustment Account",
+      "isMandatory": false
+    },
+    "custrecord_sna_lease_expiration_date": {
+      "category": "body",
+      "type": "date",
+      "label": "Lease Expiration Date",
+      "isMandatory": false
+    },
+    "custrecord_sna_tilt_forward_backward": {
+      "category": "body",
+      "type": "text",
+      "label": "Tilt Forward/Backward",
+      "isMandatory": false
+    },
+    "custrecord_sna_hul_income_account": {
+      "category": "body",
+      "type": "select",
+      "label": "Income Account",
+      "isMandatory": false
+    },
+    "nlrole": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_pm_type": {
+      "category": "body",
+      "type": "text",
+      "label": "Dysel - PM Type",
+      "isMandatory": false
+    },
+    "custrecord_sna_cab_style": {
+      "category": "body",
+      "type": "select",
+      "label": "CAB Style",
+      "isMandatory": false
+    },
+    "custrecord_sna_platform_size": {
+      "category": "body",
+      "type": "text",
+      "label": "Platform Size",
+      "isMandatory": false
+    },
+    "custrecord_sna_warranty_expiration_date": {
+      "category": "body",
+      "type": "date",
+      "label": "Warranty Expiration Date",
+      "isMandatory": false
+    },
+    "custrecord_sna_part_no_tires": {
+      "category": "body",
+      "type": "text",
+      "label": "Dysel - Part No Tires",
+      "isMandatory": false
+    },
+    "custrecord_sna_tires_new": {
+      "category": "body",
+      "type": "text",
+      "label": "Tires",
+      "isMandatory": false
+    },
+    "custrecord_sna_free_lift": {
+      "category": "body",
+      "type": "text",
+      "label": "Free Lift",
+      "isMandatory": false
+    },
+    "custrecord_sna_hul_asset_account": {
+      "category": "body",
+      "type": "select",
+      "label": "Asset Account",
+      "isMandatory": false
+    },
+    "custrecord_sna_tires_wheels_on_road": {
+      "category": "body",
+      "type": "text",
+      "label": "Tires/Wheels (on road)",
+      "isMandatory": false
+    },
+    "custrecord_sna_linked_to_object": {
+      "category": "body",
+      "type": "select",
+      "label": "Linked to Object",
+      "isMandatory": false
+    },
+    "custrecord_sna_deactivation_purchase": {
+      "category": "body",
+      "type": "float",
+      "label": "Deactivation Purchase",
+      "isMandatory": false
+    },
+    "cseg1": {
+      "category": "body",
+      "type": "select",
+      "label": "(DNU) Equipment Posting/Category/Group",
+      "isMandatory": false
+    },
+    "custrecord_sna_cab_options": {
+      "category": "body",
+      "type": "textarea",
+      "label": "CAB Options",
+      "isMandatory": false
+    },
+    "custrecord_sna_wheelbase_on_road": {
+      "category": "body",
+      "type": "text",
+      "label": "Wheelbase (on road)",
+      "isMandatory": false
+    },
+    "custrecord_sna_eactivation_presales_cost": {
+      "category": "body",
+      "type": "float",
+      "label": "Deactivation Presales Cost",
+      "isMandatory": false
+    },
+    "custrecord_sna_alternator": {
+      "category": "body",
+      "type": "text",
+      "label": "Alternator",
+      "isMandatory": false
+    },
+    "custrecord_sna_maintenance_claims": {
+      "category": "body",
+      "type": "select",
+      "label": "Maintenance Claims",
+      "isMandatory": false
+    },
+    "custrecord_sna_hydraulic_reservoir": {
+      "category": "body",
+      "type": "text",
+      "label": "Hydraulic Reservoir",
+      "isMandatory": false
+    },
+    "custrecord_sna_pm_action": {
+      "category": "body",
+      "type": "select",
+      "label": "Next PM Action",
+      "isMandatory": false
+    },
+    "custrecord_sna_fiscal_adjustments": {
+      "category": "body",
+      "type": "float",
+      "label": "Fiscal Adjustments",
+      "isMandatory": false
+    },
+    "custrecord_sna_customer_name": {
+      "category": "body",
+      "type": "select",
+      "label": "Customer Name",
+      "isMandatory": false
+    },
+    "nsapiFC": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_current_city": {
+      "category": "body",
+      "type": "text",
+      "label": "Current City",
+      "isMandatory": false
+    },
+    "custrecord_sna_hul_cust_eq_no": {
+      "category": "body",
+      "type": "text",
+      "label": "Customer Equipment No",
+      "isMandatory": false
+    },
+    "type": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_oa_length_less_forks": {
+      "category": "body",
+      "type": "text",
+      "label": "O/A Length - Less Forks",
+      "isMandatory": false
+    },
+    "nsapiVF": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_sales_order_no": {
+      "category": "body",
+      "type": "select",
+      "label": "Sales Order No.",
+      "isMandatory": false
+    },
+    "nsapiVD": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_book3_depreciation": {
+      "category": "body",
+      "type": "float",
+      "label": "Book3 Depreciation",
+      "isMandatory": false
+    },
+    "custrecord_sna_horizontal_reach": {
+      "category": "body",
+      "type": "text",
+      "label": "Horizontal Reach",
+      "isMandatory": false
+    },
+    "custrecord_sna_maximum_fork_height": {
+      "category": "body",
+      "type": "text",
+      "label": "Maximum Fork Height",
+      "isMandatory": false
+    },
+    "custrecord_sna_overall_lowered_height": {
+      "category": "body",
+      "type": "text",
+      "label": "Overall Lowered Height (Mast)",
+      "isMandatory": false
+    },
+    "custrecord_sna_dev": {
+      "category": "body",
+      "type": "currency",
+      "label": "Original Cost Test Dev",
+      "isMandatory": false
+    },
+    "nsbrowserenv": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_conv_hour_meter": {
+      "category": "body",
+      "type": "integer",
+      "label": "Dysel - Conv Hour Meter",
+      "isMandatory": false
+    },
+    "custrecord_sna_clearance_on_road": {
+      "category": "body",
+      "type": "text",
+      "label": "Clearance (on road)",
+      "isMandatory": false
+    },
+    "id": {
+      "category": "body",
+      "type": "text",
+      "label": "Internal ID",
+      "isMandatory": false
+    },
+    "nsapiVL": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nsapiVI": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_hul_obj_commissionable_bv": {
+      "category": "body",
+      "type": "float",
+      "label": "Commissionable Book Value",
+      "isMandatory": false
+    },
+    "custrecord_sna_current_email": {
+      "category": "body",
+      "type": "email",
+      "label": "Current E-mail",
+      "isMandatory": false
+    },
+    "custrecord_sna_capacity_new": {
+      "category": "body",
+      "type": "text",
+      "label": "Capacity",
+      "isMandatory": false
+    },
+    "wfPS": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_leased_type": {
+      "category": "body",
+      "type": "select",
+      "label": "Leased Type",
+      "isMandatory": false
+    },
+    "custrecord_sna_equipment_posting_group": {
+      "category": "body",
+      "type": "select",
+      "label": "Equipment Posting Group",
+      "isMandatory": false
+    },
+    "custrecord_sna_default_rental_return_loc": {
+      "category": "body",
+      "type": "select",
+      "label": "Default Rental Return Location",
+      "isMandatory": false
+    },
+    "custrecord_sna_power": {
+      "category": "body",
+      "type": "text",
+      "label": "Dysel - Power",
+      "isMandatory": false
+    },
+    "custrecord_sna_owning_loc_code": {
+      "category": "body",
+      "type": "select",
+      "label": "Owning Location Code",
+      "isMandatory": false
+    },
+    "custrecord_sna_vendor_order_no": {
+      "category": "body",
+      "type": "select",
+      "label": "Vendor Order No.",
+      "isMandatory": false
+    },
+    "custrecord_sna_trackmobile_titan_railcar": {
+      "category": "body",
+      "type": "text",
+      "label": "Trackmobile Titan Railcar mover",
+      "isMandatory": false
+    },
+    "custrecord_sna_current_fax_no": {
+      "category": "body",
+      "type": "phone",
+      "label": "Current Fax No.",
+      "isMandatory": false
+    },
+    "custrecord_sna_status": {
+      "category": "body",
+      "type": "select",
+      "label": "Status",
+      "isMandatory": false
+    },
+    "custrecord_sna_posted_interest": {
+      "category": "body",
+      "type": "float",
+      "label": "Posted Interest",
+      "isMandatory": false
+    },
+    "custrecord_sna_battery_type": {
+      "category": "body",
+      "type": "text",
+      "label": "Battery Type",
+      "isMandatory": false
+    },
+    "cseg_sna_hul_eq_seg": {
+      "category": "body",
+      "type": "select",
+      "label": "Equipment Posting/Category/Group",
+      "isMandatory": false
+    },
+    "custrecord_sna_eng_warranty": {
+      "category": "body",
+      "type": "text",
+      "label": "Dysel - Eng Warranty",
+      "isMandatory": false
+    },
+    "custrecord_sna_height_to_top_of_overhead": {
+      "category": "body",
+      "type": "text",
+      "label": "Height to Top of Overhead Guard",
+      "isMandatory": false
+    },
+    "custrecord_sna_batt_replaced": {
+      "category": "body",
+      "type": "select",
+      "label": "Dysel - Batt Replaced",
+      "isMandatory": false
+    },
+    "custrecord_sna_stowed_height_rails_up": {
+      "category": "body",
+      "type": "text",
+      "label": "Stowed Height (Rails Up)",
+      "isMandatory": false
+    },
+    "custrecord_sna_sales_price_adj": {
+      "category": "body",
+      "type": "float",
+      "label": "Sales Price Adjustment",
+      "isMandatory": false
+    },
+    "wfPI": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_longitude": {
+      "category": "body",
+      "type": "integer",
+      "label": "Longitude",
+      "isMandatory": false
+    },
+    "custrecord_sna_diesel_engine": {
+      "category": "body",
+      "type": "text",
+      "label": "Diesel Engine",
+      "isMandatory": false
+    },
+    "custrecord_sna_fleet_code": {
+      "category": "body",
+      "type": "text",
+      "label": "Fleet Code",
+      "isMandatory": false
+    },
+    "custrecord_sna_eng_year": {
+      "category": "body",
+      "type": "integer",
+      "label": "Dysel - Eng Year",
+      "isMandatory": false
+    },
+    "custrecord_sna_planned_service": {
+      "category": "body",
+      "type": "integer",
+      "label": "Planned Service",
+      "isMandatory": false
+    },
+    "custrecord_sna_ground_clearance_raised": {
+      "category": "body",
+      "type": "text",
+      "label": "Ground Clearance (raised)",
+      "isMandatory": false
+    },
+    "rectype": {
+      "category": "body",
+      "type": "select",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_purchase_order": {
+      "category": "body",
+      "type": "select",
+      "label": "Purchase Order",
+      "isMandatory": false
+    },
+    "custrecord_sna_digital_instrumentation": {
+      "category": "body",
+      "type": "text",
+      "label": "Digital Instrumentation",
+      "isMandatory": false
+    },
+    "custrecord_sna_power_new": {
+      "category": "body",
+      "type": "text",
+      "label": "Power",
+      "isMandatory": false
+    },
+    "custrecord_sna_part_no_attach": {
+      "category": "body",
+      "type": "text",
+      "label": "Dysel - Part No Attachments",
+      "isMandatory": false
+    },
+    "custrecord_sna_overtime_bill_main_contr": {
+      "category": "body",
+      "type": "float",
+      "label": "Overtime Billing Maint. Contr.",
+      "isMandatory": false
+    },
+    "custrecord_sna_fork_carriage_to_din_15_1": {
+      "category": "body",
+      "type": "text",
+      "label": "Fork carriage to DIN 15 173 A / B / no",
+      "isMandatory": false
+    },
+    "custrecord_sna_posted_principal": {
+      "category": "body",
+      "type": "float",
+      "label": "Posted Principal",
+      "isMandatory": false
+    },
+    "custrecord_sna_rental_contract_overtime": {
+      "category": "body",
+      "type": "float",
+      "label": "Rental Contract Overtime",
+      "isMandatory": false
+    },
+    "custrecord_sna_axle_on_rail_serial": {
+      "category": "body",
+      "type": "text",
+      "label": "Axle (on rail) Serial",
+      "isMandatory": false
+    },
+    "custrecord_sna_rental_income": {
+      "category": "body",
+      "type": "float",
+      "label": "Rental Income",
+      "isMandatory": false
+    },
+    "nluser": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord30": {
+      "category": "body",
+      "type": "currency",
+      "label": "dev test",
+      "isMandatory": false
+    },
+    "custrecord_sna_purchase": {
+      "category": "body",
+      "type": "float",
+      "label": "Purchase",
+      "isMandatory": false
+    },
+    "custrecord_sna_next_pm_date": {
+      "category": "body",
+      "type": "date",
+      "label": "Next PM Date",
+      "isMandatory": false
+    },
+    "custrecord32": {
+      "category": "body",
+      "type": "text",
+      "label": "GPS Serial",
+      "isMandatory": false
+    },
+    "custrecord31": {
+      "category": "body",
+      "type": "currency",
+      "label": "test dev 2",
+      "isMandatory": false
+    },
+    "custrecord_sna_after_sales_cost": {
+      "category": "body",
+      "type": "float",
+      "label": "After Sales Cost",
+      "isMandatory": false
+    },
+    "wfSR": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_wind_rating": {
+      "category": "body",
+      "type": "text",
+      "label": "Wind Rating",
+      "isMandatory": false
+    },
+    "custrecord_sna_axle_model": {
+      "category": "body",
+      "type": "text",
+      "label": "Axle Model",
+      "isMandatory": false
+    },
+    "custrecord_sna_on_hold_date_until": {
+      "category": "body",
+      "type": "date",
+      "label": "On Hold Date Until",
+      "isMandatory": false
+    },
+    "custrecord_sna_remaining_interest": {
+      "category": "body",
+      "type": "float",
+      "label": "Remaining Interest",
+      "isMandatory": false
+    },
+    "custrecord_sna_hul_inventory_object": {
+      "category": "body",
+      "type": "select",
+      "label": "Inventory",
+      "isMandatory": false
+    },
+    "custrecord_sna_leased_wo_cost": {
+      "category": "body",
+      "type": "float",
+      "label": "Leased WO Cost",
+      "isMandatory": false
+    },
+    "custrecord_sna_next_pm_hours": {
+      "category": "body",
+      "type": "integer",
+      "label": "Next PM Hours",
+      "isMandatory": false
+    },
+    "custrecord_sna_tires_wheels_on_rail_qty": {
+      "category": "body",
+      "type": "text",
+      "label": "Tires/Wheels (on rail) Quantity",
+      "isMandatory": false
+    },
+    "custrecord_sna_turning_radius_outside": {
+      "category": "body",
+      "type": "text",
+      "label": "Turning Radius (Outside)",
+      "isMandatory": false
+    },
+    "custrecord_sna_work_order_sales": {
+      "category": "body",
+      "type": "float",
+      "label": "Work Order Sales",
+      "isMandatory": false
+    },
+    "custrecord_sna_hul_translation_type": {
+      "category": "body",
+      "type": "select",
+      "label": "HUL Translation Type",
+      "isMandatory": false
+    },
+    "custrecord_sna_wheelbase_on_rail": {
+      "category": "body",
+      "type": "text",
+      "label": "Wheelbase (on rail)",
+      "isMandatory": false
+    },
+    "custrecord_sna_installed_options": {
+      "category": "body",
+      "type": "textarea",
+      "label": "Installed Options",
+      "isMandatory": false
+    },
+    "recordid": {
+      "category": "body",
+      "type": "integer",
+      "label": "ID",
+      "isMandatory": true
+    },
+    "custrecord_sna_tires_wheels_on_road_qty": {
+      "category": "body",
+      "type": "text",
+      "label": "Tires/Wheels (on road) Quantity",
+      "isMandatory": false
+    },
+    "custrecord_sna_comment": {
+      "category": "body",
+      "type": "select",
+      "label": "Comment",
+      "isMandatory": false
+    },
+    "custrecord_sna_total_purchase": {
+      "category": "body",
+      "type": "float",
+      "label": "Total Purchase",
+      "isMandatory": false
+    },
+    "custrecord_sna_over_allowance": {
+      "category": "body",
+      "type": "float",
+      "label": "Over Allowance",
+      "isMandatory": false
+    },
+    "custrecord_sna_height_on_road": {
+      "category": "body",
+      "type": "text",
+      "label": "Height (on road)",
+      "isMandatory": false
+    },
+    "custrecord_sna_no_fleet_code": {
+      "category": "body",
+      "type": "text",
+      "label": "No + Fleet Code (H)",
+      "isMandatory": false
+    },
+    "custrecord_sna_max_no_of_persons": {
+      "category": "body",
+      "type": "integer",
+      "label": "Maximum # of Persons",
+      "isMandatory": false
+    },
+    "custrecord_sna_bv_setting_sales_price": {
+      "category": "body",
+      "type": "float",
+      "label": "Bookvalue on Setting Sales Price",
+      "isMandatory": false
+    },
+    "autoname": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Auto",
+      "isMandatory": false
+    },
+    "custrecord_sna_description": {
+      "category": "body",
+      "type": "text",
+      "label": "Description",
+      "isMandatory": false
+    },
+    "custrecord_sna_rental_contract_no_so": {
+      "category": "body",
+      "type": "text",
+      "label": "Rental Contract No. (Sales Order)",
+      "isMandatory": false
+    },
+    "custrecord_sna_length_to_fork_face": {
+      "category": "body",
+      "type": "text",
+      "label": "Length to Fork Face (Includes Fork Thickness)",
+      "isMandatory": false
+    },
+    "custrecord_sna_vendor_position_no": {
+      "category": "body",
+      "type": "select",
+      "label": "Vendor Position No.",
+      "isMandatory": false
+    },
+    "custrecord_sna_train_air_compressors": {
+      "category": "body",
+      "type": "text",
+      "label": "Train Air Compressors",
+      "isMandatory": false
+    },
+    "custrecord_sna_engine_make": {
+      "category": "body",
+      "type": "text",
+      "label": "Engine Make",
+      "isMandatory": false
+    },
+    "custrecord_sna_installation_date": {
+      "category": "body",
+      "type": "date",
+      "label": "Installation Date",
+      "isMandatory": false
+    },
+    "custrecord_sna_jlg_e400": {
+      "category": "body",
+      "type": "text",
+      "label": "JLG E400",
+      "isMandatory": false
+    },
+    "nlsub": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_capacity": {
+      "category": "body",
+      "type": "text",
+      "label": "Dysel - Capacity",
+      "isMandatory": false
+    },
+    "custrecord_sna_max_forward_reach": {
+      "category": "body",
+      "type": "text",
+      "label": "Maximum Forward Reach",
+      "isMandatory": false
+    },
+    "custrecord_sna_current_code": {
+      "category": "body",
+      "type": "text",
+      "label": "Current Code",
+      "isMandatory": false
+    },
+    "custrecord_sna_transportation_height": {
+      "category": "body",
+      "type": "text",
+      "label": "Transportation Height",
+      "isMandatory": false
+    },
+    "custrecord_sna_forks_new": {
+      "category": "body",
+      "type": "text",
+      "label": "Forks",
+      "isMandatory": false
+    },
+    "custrecord_sna_nifty_tm42t": {
+      "category": "body",
+      "type": "text",
+      "label": "NIFTY TM42T",
+      "isMandatory": false
+    },
+    "custrecord_sna_empty_with_min_weight": {
+      "category": "body",
+      "type": "text",
+      "label": "Empty with Minimum Weight Battery",
+      "isMandatory": false
+    },
+    "custrecord_sna_warranty_period_engine": {
+      "category": "body",
+      "type": "date",
+      "label": "Warranty Period Engine",
+      "isMandatory": false
+    },
+    "wfVF": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_eng_code": {
+      "category": "body",
+      "type": "text",
+      "label": "Dysel - Eng Code",
+      "isMandatory": false
+    },
+    "custrecord_sna_nifty_sd64": {
+      "category": "body",
+      "type": "text",
+      "label": "NIFTY SD64",
+      "isMandatory": false
+    },
+    "custrecord_sna_sold_by_salesperson": {
+      "category": "body",
+      "type": "select",
+      "label": "Sold by Salesperson",
+      "isMandatory": false
+    },
+    "custrecord_sna_stowed_height": {
+      "category": "body",
+      "type": "text",
+      "label": "Stowed Height",
+      "isMandatory": false
+    },
+    "custrecord_sna_eng_make": {
+      "category": "body",
+      "type": "text",
+      "label": "Dysel - Eng Make",
+      "isMandatory": false
+    },
+    "nsapiRC": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_transportation_length": {
+      "category": "body",
+      "type": "text",
+      "label": "Transportation Length",
+      "isMandatory": false
+    },
+    "custrecord_sna_stowed_length": {
+      "category": "body",
+      "type": "text",
+      "label": "Stowed Length",
+      "isMandatory": false
+    },
+    "custrecord_sna_enhancements": {
+      "category": "body",
+      "type": "float",
+      "label": "Enhancements",
+      "isMandatory": false
+    },
+    "custrecord_sna_transmission_serial": {
+      "category": "body",
+      "type": "text",
+      "label": "Transmission Serial",
+      "isMandatory": false
+    },
+    "custrecord_sna_availability": {
+      "category": "body",
+      "type": "integer",
+      "label": "Availability",
+      "isMandatory": false
+    },
+    "custrecord_sna_on_hold_salesperson": {
+      "category": "body",
+      "type": "select",
+      "label": "On Hold Salesperson",
+      "isMandatory": false
+    },
+    "custrecord_sna_current_country_code": {
+      "category": "body",
+      "type": "select",
+      "label": "Current Country Code",
+      "isMandatory": false
+    },
+    "custrecord_sna_warranty_period_source": {
+      "category": "body",
+      "type": "select",
+      "label": "Warranty Period Source",
+      "isMandatory": false
+    },
+    "custrecord_sna_asset_type": {
+      "category": "body",
+      "type": "select",
+      "label": "Asset Type",
+      "isMandatory": false
+    },
+    "custrecord_sna_clearance_on_rail": {
+      "category": "body",
+      "type": "text",
+      "label": "Clearance (on rail)",
+      "isMandatory": false
+    },
+    "custrecord_sna_responsibility_center": {
+      "category": "body",
+      "type": "select",
+      "label": "Responsibility Center",
+      "isMandatory": false
+    },
+    "custrecord_sna_next_inspection_action": {
+      "category": "body",
+      "type": "select",
+      "label": "Next Inspection Action",
+      "isMandatory": false
+    },
+    "custrecord_sna_rental_contract_no": {
+      "category": "body",
+      "type": "select",
+      "label": "Rental Contract No.",
+      "isMandatory": false
+    },
+    "custrecord_sna_owner_status": {
+      "category": "body",
+      "type": "select",
+      "label": "Owner Status",
+      "isMandatory": false
+    },
+    "custrecord_sna_deactivation_wo_usage": {
+      "category": "body",
+      "type": "float",
+      "label": "Deactivation Work Order Usage",
+      "isMandatory": false
+    },
+    "custrecord_sna_bill_to_name": {
+      "category": "body",
+      "type": "select",
+      "label": "Bill-to Name",
+      "isMandatory": false
+    },
+    "custrecord_sna_ground_clearance": {
+      "category": "body",
+      "type": "text",
+      "label": "Ground Clearance",
+      "isMandatory": false
+    },
+    "custrecord_sna_max_lift_capacity": {
+      "category": "body",
+      "type": "text",
+      "label": "Maximum Lift Capacity",
+      "isMandatory": false
+    },
+    "custrecord_sna_last_pm_action": {
+      "category": "body",
+      "type": "select",
+      "label": "Last PM Action",
+      "isMandatory": false
+    },
+    "custrecord_sna_tire_type": {
+      "category": "body",
+      "type": "text",
+      "label": "Tire Type",
+      "isMandatory": false
+    },
+    "isinactive": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Inactive",
+      "isMandatory": false
+    },
+    "wfinstances": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_expected_rep_value": {
+      "category": "body",
+      "type": "float",
+      "label": "Expected Replacement Value",
+      "isMandatory": false
+    },
+    "custrecord_sna_alllocated_to_work_order": {
+      "category": "body",
+      "type": "select",
+      "label": "Allocated to Work Order",
+      "isMandatory": false
+    },
+    "custrecord_sna_overall_length": {
+      "category": "body",
+      "type": "text",
+      "label": "Overall Length",
+      "isMandatory": false
+    },
+    "custrecord_hul_meter_key_static": {
+      "category": "body",
+      "type": "float",
+      "label": "Meter Key On (M1)",
+      "isMandatory": false
+    },
+    "custrecord_sna_transportation_status": {
+      "category": "body",
+      "type": "select",
+      "label": "Transportation Status",
+      "isMandatory": false
+    },
+    "custrecord_sna_mast_cylinder_numbers": {
+      "category": "body",
+      "type": "text",
+      "label": "Mast Cylinder Numbers",
+      "isMandatory": false
+    },
+    "custrecord_sna_expected_receipt_date": {
+      "category": "body",
+      "type": "date",
+      "label": "Expected Receipt Date",
+      "isMandatory": false
+    },
+    "custrecord_sna_battery_comp_size_max": {
+      "category": "body",
+      "type": "text",
+      "label": "Battery Compartment Size, Maximum",
+      "isMandatory": false
+    },
+    "custrecord_hul_nxcequipasset": {
+      "category": "body",
+      "type": "select",
+      "label": "NXC Equipment Asset",
+      "isMandatory": false
+    },
+    "custrecord_sna_posting_date": {
+      "category": "body",
+      "type": "date",
+      "label": "Posting Date",
+      "isMandatory": false
+    },
+    "custrecord_hul_customerorder": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Customer Order",
+      "isMandatory": false
+    },
+    "custrecord_sna_dep_start_date": {
+      "category": "body",
+      "type": "date",
+      "label": "Depreciation Starting Date",
+      "isMandatory": false
+    },
+    "nsapiCT": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_equipment_group": {
+      "category": "body",
+      "type": "select",
+      "label": "xxx Equipment Group",
+      "isMandatory": false
+    },
+    "custrecord_sna_hul_segment_grouping": {
+      "category": "body",
+      "type": "select",
+      "label": "xxx SNA - Eq Posting : Category : Group",
+      "isMandatory": false
+    },
+    "custrecord_sna_last_pm_hours": {
+      "category": "body",
+      "type": "integer",
+      "label": "Last PM Hours",
+      "isMandatory": false
+    },
+    "custrecord_sna_next_inspection_date": {
+      "category": "body",
+      "type": "date",
+      "label": "Next Inspection Date",
+      "isMandatory": false
+    },
+    "custrecord_sna_leased_from_vendor_no": {
+      "category": "body",
+      "type": "select",
+      "label": "Leased from Vendor No.",
+      "isMandatory": false
+    },
+    "custrecord_sna_work_order_usage": {
+      "category": "body",
+      "type": "float",
+      "label": "Work Order Usage",
+      "isMandatory": false
+    },
+    "custrecord_sna_eng_serial": {
+      "category": "body",
+      "type": "text",
+      "label": "Dysel - Eng Serial",
+      "isMandatory": false
+    },
+    "custrecord_sna_expected_delivery_date": {
+      "category": "body",
+      "type": "date",
+      "label": "Expected Delivery Date",
+      "isMandatory": false
+    },
+    "custrecord_sna_engine_serial": {
+      "category": "body",
+      "type": "text",
+      "label": "Engine Serial",
+      "isMandatory": false
+    },
+    "custrecord_sna_height_on_rail": {
+      "category": "body",
+      "type": "text",
+      "label": "Height (on rail)",
+      "isMandatory": false
+    },
+    "nsapiSR": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_jib_length": {
+      "category": "body",
+      "type": "text",
+      "label": "Jib Length",
+      "isMandatory": false
+    },
+    "custrecord_sna_working_width_w_outrigger": {
+      "category": "body",
+      "type": "text",
+      "label": "Working Width (w/outriggers)",
+      "isMandatory": false
+    },
+    "templatestored": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_gradeability": {
+      "category": "body",
+      "type": "text",
+      "label": "Gradeability",
+      "isMandatory": false
+    },
+    "whence": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_axle_on_road_serial": {
+      "category": "body",
+      "type": "text",
+      "label": "Axle (on road) Serial",
+      "isMandatory": false
+    },
+    "baserecordtype": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_mitsubishi_fb16pnt_fb20pn": {
+      "category": "body",
+      "type": "text",
+      "label": "Mitsubishi FB16PNT-FB20PNT",
+      "isMandatory": false
+    },
+    "custrecord_sna_last_pm_contact_user": {
+      "category": "body",
+      "type": "select",
+      "label": "Last PM Contact User",
+      "isMandatory": false
+    },
+    "custrecord_sna_asset_value": {
+      "category": "body",
+      "type": "select",
+      "label": "Asset Value",
+      "isMandatory": false
+    },
+    "custrecord_sna_mast_mbr_style": {
+      "category": "body",
+      "type": "text",
+      "label": "Mast/LBR Style",
+      "isMandatory": false
+    },
+    "custrecord_sna_overall_chassis_width": {
+      "category": "body",
+      "type": "text",
+      "label": "Overall Chassis Width",
+      "isMandatory": false
+    },
+    "custrecord_sna_last_meter_reading_m1": {
+      "category": "body",
+      "type": "datetimetz",
+      "label": "Last Meter Reading M1",
+      "isMandatory": false
+    },
+    "custrecord_sna_last_meter_reading_m2": {
+      "category": "body",
+      "type": "datetimetz",
+      "label": "Last Meter Reading M2",
+      "isMandatory": false
+    },
+    "custrecord_sna_gps_asset_tag": {
+      "category": "body",
+      "type": "text",
+      "label": "Dysel - GPS Asset Tag",
+      "isMandatory": false
+    },
+    "custrecord_sna_tires": {
+      "category": "body",
+      "type": "text",
+      "label": "Dysel - Tires",
+      "isMandatory": false
+    },
+    "custrecord_sna_warranty_type": {
+      "category": "body",
+      "type": "text",
+      "label": "Dysel - Warranty Type",
+      "isMandatory": false
+    },
+    "custrecord_sna_mast_model_number": {
+      "category": "body",
+      "type": "text",
+      "label": "Mast Model Number",
+      "isMandatory": false
+    },
+    "wfFC": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_hul_lease_co_code": {
+      "category": "body",
+      "type": "select",
+      "label": "Lease Co Code",
+      "isMandatory": false
+    },
+    "custrecord_sna_stowed_height_rails_down": {
+      "category": "body",
+      "type": "text",
+      "label": "Stowed Height (Rails Down)",
+      "isMandatory": false
+    },
+    "custrecord_sna_mast_serial_number": {
+      "category": "body",
+      "type": "text",
+      "label": "Mast Serial Number",
+      "isMandatory": false
+    }
+  },
+  "sublists": {
+    "usernotes": {
+      "fields": [
+        "author",
+        "direction",
+        "id",
+        "note",
+        "notedate",
+        "notetype",
+        "time",
+        "title"
+      ]
+    },
+    "mediaitem": {
+      "fields": [
+        "content",
+        "description",
+        "filesize",
+        "filetype",
+        "folder",
+        "internalid",
+        "lastmodifieddate",
+        "mediaitem",
+        "name"
+      ]
+    }
+  }
+}

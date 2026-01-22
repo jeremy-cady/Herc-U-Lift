@@ -1,0 +1,370 @@
+{
+  "meta": {
+    "recordType": "customrecord_sna_salesrep_matrix_mapping",
+    "generatedAt": "2026-01-22T18:25:28.318Z",
+    "source": "netsuite",
+    "version": "1.7.4",
+    "outputFolderId": 6223347,
+    "method": "record.create + getFields/getField + getSublists/getSublistFields",
+    "recordTypeOrigin": "custom"
+  },
+  "record": {
+    "type": "customrecord_sna_salesrep_matrix_mapping"
+  },
+  "fields": {
+    "nlloc": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nlsub": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_salesrep_mapping_county": {
+      "category": "body",
+      "type": "select",
+      "label": "County",
+      "isMandatory": false
+    },
+    "nsapiFC": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "wfVF": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "externalid": {
+      "category": "body",
+      "type": "text",
+      "label": "External ID",
+      "isMandatory": false
+    },
+    "_eml_nkey_": {
+      "category": "system",
+      "metadataUnavailableReason": "system_pseudo"
+    },
+    "custrecord_salesrep_mapping_zipcode": {
+      "category": "body",
+      "type": "text",
+      "label": "Zip Code",
+      "isMandatory": false
+    },
+    "custpage_stickyheaders_script": {
+      "category": "ui",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "type": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_salesrep_mapping_state": {
+      "category": "body",
+      "type": "select",
+      "label": "State",
+      "isMandatory": false
+    },
+    "nsapiRC": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_hul_sales_rep_comm_plan_2": {
+      "category": "body",
+      "type": "select",
+      "label": "Sales Rep Commission Plan",
+      "isMandatory": false
+    },
+    "customwhence": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "scriptid": {
+      "category": "body",
+      "type": "identifier",
+      "label": "Script ID",
+      "isMandatory": false
+    },
+    "nsapiVF": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nsapiVD": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nsbrowserenv": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "id": {
+      "category": "body",
+      "type": "text",
+      "label": "Internal ID",
+      "isMandatory": false
+    },
+    "nsapiVL": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nsapiVI": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "wfPS": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "entryformquerystring": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_salesrep_mapping_rev_stream": {
+      "category": "body",
+      "type": "select",
+      "label": "Revenue Stream",
+      "isMandatory": false
+    },
+    "ownerid": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "version": {
+      "category": "body",
+      "type": "integer",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_salesrep_mapping_equipment": {
+      "category": "body",
+      "type": "select",
+      "label": "Equipment Category",
+      "isMandatory": false
+    },
+    "_multibtnstate_": {
+      "category": "system",
+      "metadataUnavailableReason": "system_pseudo"
+    },
+    "custrecord_salesrep_mapping_override": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Override Sales Rep Matrix",
+      "isMandatory": false
+    },
+    "wfPI": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "selectedtab": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "isinactive": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Inactive",
+      "isMandatory": false
+    },
+    "wfinstances": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "linenumber": {
+      "category": "body",
+      "type": "integer",
+      "label": "",
+      "isMandatory": false
+    },
+    "rectype": {
+      "category": "body",
+      "type": "select",
+      "label": "",
+      "isMandatory": false
+    },
+    "nsapiLI": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nsapiPS": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nsapiCT": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "sys_id": {
+      "category": "system",
+      "metadataUnavailableReason": "system_pseudo"
+    },
+    "custrecord_salesrep_mapping_customer": {
+      "category": "body",
+      "type": "select",
+      "label": "Customer",
+      "isMandatory": false
+    },
+    "nluser": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nldept": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nsapiPI": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "wfSR": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nsapiLC": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nsapiPD": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "owner": {
+      "category": "body",
+      "type": "select",
+      "label": "Owner",
+      "isMandatory": true
+    },
+    "nsapiSR": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "templatestored": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_hul_comm_plan_end_date_2": {
+      "category": "body",
+      "type": "text",
+      "label": "Commission Plan End Date",
+      "isMandatory": false
+    },
+    "whence": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nlrole": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_salesrep_mapping_manufacturer": {
+      "category": "body",
+      "type": "select",
+      "label": "HUL Manufacturer",
+      "isMandatory": false
+    },
+    "baserecordtype": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_salesrep_mapping_sales_matrix": {
+      "category": "body",
+      "type": "select",
+      "label": "Sales Rep Matrix",
+      "isMandatory": false
+    },
+    "customform": {
+      "category": "body",
+      "type": "select",
+      "label": "Custom Form",
+      "isMandatory": true
+    },
+    "wfFC": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_salesrep_mapping_sales_reps": {
+      "category": "body",
+      "type": "multiselect",
+      "label": "Sales Rep(s)",
+      "isMandatory": false
+    }
+  },
+  "sublists": {
+    "usernotes": {
+      "fields": [
+        "author",
+        "direction",
+        "id",
+        "note",
+        "notedate",
+        "notetype",
+        "time",
+        "title"
+      ]
+    }
+  }
+}

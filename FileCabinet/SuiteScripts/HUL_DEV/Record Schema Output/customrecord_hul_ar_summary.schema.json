@@ -1,0 +1,419 @@
+{
+  "meta": {
+    "recordType": "customrecord_hul_ar_summary",
+    "generatedAt": "2026-01-22T18:25:00.259Z",
+    "source": "netsuite",
+    "version": "1.7.4",
+    "outputFolderId": 6223347,
+    "method": "record.create + getFields/getField + getSublists/getSublistFields",
+    "recordTypeOrigin": "custom"
+  },
+  "record": {
+    "type": "customrecord_hul_ar_summary"
+  },
+  "fields": {
+    "nlloc": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nlsub": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_ars_current": {
+      "category": "body",
+      "type": "currency",
+      "label": "Current",
+      "isMandatory": false
+    },
+    "nsapiFC": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_ars_rank_dollars": {
+      "category": "body",
+      "type": "integer",
+      "label": "Rank by Dollars",
+      "isMandatory": false
+    },
+    "wfVF": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_ars_past_due_txn": {
+      "category": "body",
+      "type": "integer",
+      "label": "Past Due Txn Count",
+      "isMandatory": false
+    },
+    "externalid": {
+      "category": "body",
+      "type": "text",
+      "label": "External ID",
+      "isMandatory": false
+    },
+    "_eml_nkey_": {
+      "category": "system",
+      "metadataUnavailableReason": "system_pseudo"
+    },
+    "custpage_stickyheaders_script": {
+      "category": "ui",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "type": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nameorig": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nsapiRC": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "customwhence": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "scriptid": {
+      "category": "body",
+      "type": "identifier",
+      "label": "Script ID",
+      "isMandatory": false
+    },
+    "nsapiVF": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nsapiVD": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_ars_rank_overdue": {
+      "category": "body",
+      "type": "integer",
+      "label": "Rank by Overdue",
+      "isMandatory": false
+    },
+    "custrecord_ars_oldest_days": {
+      "category": "body",
+      "type": "integer",
+      "label": "Oldest Days Past Due",
+      "isMandatory": false
+    },
+    "nsbrowserenv": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "id": {
+      "category": "body",
+      "type": "text",
+      "label": "Internal ID",
+      "isMandatory": false
+    },
+    "custrecord_ars_priority": {
+      "category": "body",
+      "type": "float",
+      "label": "Priority Score",
+      "isMandatory": false
+    },
+    "nsapiVL": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nsapiVI": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_ars_over_90": {
+      "category": "body",
+      "type": "currency",
+      "label": "Over 90 Days",
+      "isMandatory": false
+    },
+    "wfPS": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "entryformquerystring": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_ars_past_due_amt": {
+      "category": "body",
+      "type": "currency",
+      "label": "Past Due Amount",
+      "isMandatory": false
+    },
+    "ownerid": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "version": {
+      "category": "body",
+      "type": "integer",
+      "label": "",
+      "isMandatory": false
+    },
+    "_multibtnstate_": {
+      "category": "system",
+      "metadataUnavailableReason": "system_pseudo"
+    },
+    "name": {
+      "category": "body",
+      "type": "text",
+      "label": "Name",
+      "isMandatory": true
+    },
+    "custrecord_ars_txn_count": {
+      "category": "body",
+      "type": "integer",
+      "label": "Transaction Count",
+      "isMandatory": false
+    },
+    "wfPI": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "selectedtab": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "isinactive": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Inactive",
+      "isMandatory": false
+    },
+    "wfinstances": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "linenumber": {
+      "category": "body",
+      "type": "integer",
+      "label": "",
+      "isMandatory": false
+    },
+    "rectype": {
+      "category": "body",
+      "type": "select",
+      "label": "",
+      "isMandatory": false
+    },
+    "nsapiLI": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_ars_total_ar": {
+      "category": "body",
+      "type": "currency",
+      "label": "Total AR",
+      "isMandatory": false
+    },
+    "nsapiPS": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_ars_customer": {
+      "category": "body",
+      "type": "select",
+      "label": "Customer",
+      "isMandatory": true
+    },
+    "nsapiCT": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "sys_id": {
+      "category": "system",
+      "metadataUnavailableReason": "system_pseudo"
+    },
+    "nluser": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nldept": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_ars_1_30": {
+      "category": "body",
+      "type": "currency",
+      "label": "1-30 Days",
+      "isMandatory": false
+    },
+    "nsapiPI": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "wfSR": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nsapiLC": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_ars_last_updated": {
+      "category": "body",
+      "type": "datetimetz",
+      "label": "Last Updated",
+      "isMandatory": false
+    },
+    "nsapiPD": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "owner": {
+      "category": "body",
+      "type": "select",
+      "label": "Owner",
+      "isMandatory": true
+    },
+    "nsapiSR": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "templatestored": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "whence": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_ars_31_60": {
+      "category": "body",
+      "type": "currency",
+      "label": "31-60 Days",
+      "isMandatory": false
+    },
+    "nlrole": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_ars_location": {
+      "category": "body",
+      "type": "select",
+      "label": "Location",
+      "isMandatory": false
+    },
+    "baserecordtype": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_ars_61_90": {
+      "category": "body",
+      "type": "currency",
+      "label": "61-90 Days",
+      "isMandatory": false
+    },
+    "customform": {
+      "category": "body",
+      "type": "select",
+      "label": "Custom Form",
+      "isMandatory": true
+    },
+    "wfFC": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    }
+  },
+  "sublists": {
+    "usernotes": {
+      "fields": [
+        "author",
+        "direction",
+        "id",
+        "note",
+        "notedate",
+        "notetype",
+        "time",
+        "title"
+      ]
+    },
+    "mediaitem": {
+      "fields": [
+        "content",
+        "description",
+        "filesize",
+        "filetype",
+        "folder",
+        "internalid",
+        "lastmodifieddate",
+        "mediaitem",
+        "name"
+      ]
+    }
+  }
+}

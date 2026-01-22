@@ -1,0 +1,4378 @@
+{
+  "meta": {
+    "recordType": "creditmemo",
+    "generatedAt": "2026-01-22T16:59:37.249Z",
+    "source": "netsuite",
+    "method": "record.create + getFields/getField + getSublists/getSublistFields",
+    "version": "1.6.9",
+    "availability": {
+      "status": "available"
+    },
+    "notes": {
+      "sublists": {
+        "activities": "FSM Task list; no sublist fields expected."
+      },
+      "limitations": [
+        "Select field options not extracted.",
+        "System/UI fields may lack metadata.",
+        "Sublist fields = IDs only."
+      ]
+    }
+  },
+  "record": {
+    "type": "creditmemo"
+  },
+  "fields": {
+    "autoapply": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Auto Apply",
+      "isMandatory": false
+    },
+    "custbody_sna_hul_doc_distributed": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Document Distributed",
+      "isMandatory": false
+    },
+    "custbody_sna_hul_apply_rev_all": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Apply Revenue Stream to All Lines",
+      "isMandatory": false
+    },
+    "_eml_nkey_": {
+      "category": "system",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "system_pseudo"
+    },
+    "custbody_zc_partyendpt_id": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Custom Subsidiary Endpoint ID",
+      "isMandatory": false
+    },
+    "custbody_za_nextgroupapprover": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Next Group Approver",
+      "isMandatory": false
+    },
+    "custpage_ava_defcompcode": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "customwhence": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "discountistaxable": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "overallbalance": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency",
+      "label": "",
+      "isMandatory": false
+    },
+    "custpage_ava_shiptaxcode": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custbody_ava_usebilltoaddress": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Use Bill To Address For Tax Calculation",
+      "isMandatory": false
+    },
+    "warnnexuschange": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_ffa_6_accrual_create_date": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "date",
+      "label": "Calculated Accrual Posting Create Date",
+      "isMandatory": false
+    },
+    "address_country_state_map": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_ava_purchaseorder_ref": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Avalara Purchase Order Ref",
+      "isMandatory": false
+    },
+    "custbody_sna_child_updated": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Are Child Transactions Updated?",
+      "isMandatory": false
+    },
+    "custbody_sn_asset_dup_checking": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Asset Duplication Checking",
+      "isMandatory": false
+    },
+    "custbody_sna_serial_number": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Serial Number",
+      "isMandatory": false
+    },
+    "subsidiary": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Subsidiary",
+      "isMandatory": true
+    },
+    "custbody_ffa_approve_check": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Approve Check",
+      "isMandatory": false
+    },
+    "_multibtnstate_": {
+      "category": "system",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "system_pseudo"
+    },
+    "custbody_ffa_accrual_days_setting": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "float",
+      "label": "FFA Accrual Days Before Month End",
+      "isMandatory": false
+    },
+    "custbody_ffa_2_reversal_created": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Accrual Reversed/Deleted",
+      "isMandatory": false
+    },
+    "postingperiod": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Posting Period",
+      "isMandatory": true
+    },
+    "subtotal": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency",
+      "label": "Subtotal",
+      "isMandatory": false
+    },
+    "nlapiCC": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_ava_shipto_latitude": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Ship-To Latitude",
+      "isMandatory": false
+    },
+    "shandlingcostfunction": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_versapay_do_not_sync": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Do Not Sync to Versapay",
+      "isMandatory": false
+    },
+    "custbody_ffa_createdby": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Created By (2)",
+      "isMandatory": false
+    },
+    "createddate": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "datetime",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_sna_model": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Model",
+      "isMandatory": false
+    },
+    "custbody_ava_taxoverride": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Tax Amount Override",
+      "isMandatory": false
+    },
+    "custpage_ava_postingperiod": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custbody_ffa_app_reason_on_record": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "textarea",
+      "label": "Approval Reason on Record",
+      "isMandatory": false
+    },
+    "custbody_sn_override_address": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Override Site Asset Address",
+      "isMandatory": false
+    },
+    "custbody_ffa_7_reversal_create_date": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "date",
+      "label": "Calculated Reversal Accrual Date",
+      "isMandatory": false
+    },
+    "custbody_nx_customer_signature": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "richtext",
+      "label": "NextService Customer Signature",
+      "isMandatory": false
+    },
+    "cseg_hul_mfg": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "HUL Manufacturer",
+      "isMandatory": false
+    },
+    "custbody_15699_exclude_from_ep_process": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Exclude from Electronic Bank Payments Processing",
+      "isMandatory": false
+    },
+    "custpage_ava_clientlatency": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custbody_sn_if_tran_num": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "SN Item Fulfillment Tran No",
+      "isMandatory": false
+    },
+    "custbody_ffa_mandatory_approvals": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Mandatory Approval",
+      "isMandatory": false
+    },
+    "custbody_sn_rental_delivery_date": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "date",
+      "label": "Delivery Date",
+      "isMandatory": false
+    },
+    "custbody_ava_subsidiarycountry": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Subsidiary Country",
+      "isMandatory": false
+    },
+    "custpage_ava_createdfromrecordid": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custbody_promisedate": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "date",
+      "label": "Promise Date",
+      "isMandatory": false
+    },
+    "custbody_ava_subsidiaryzip": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Subsidiary Zip",
+      "isMandatory": false
+    },
+    "custbodycustbody_solupay_cpd_results": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "EPR EMV Cloudpay Display Payment Confirmation",
+      "isMandatory": false
+    },
+    "custbody_solupay_cctoken": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "inlinehtml",
+      "label": "CC Token (2)",
+      "isMandatory": false
+    },
+    "hasfedexfreightservice": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "bmaxshipcostactive": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "canhavestackable": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Can have stackable promotions",
+      "isMandatory": false
+    },
+    "custbody_ava_entity_type": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Entity type",
+      "isMandatory": false
+    },
+    "custpage_ava_configobj": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custbody_ava_invoicemessage": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "longtext",
+      "label": "Invoice Messaging",
+      "isMandatory": false
+    },
+    "custbody_ffa_0_accrual_enabled": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Accruals Enabled",
+      "isMandatory": false
+    },
+    "custbody_zc_tax_scheme_id": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Tax scheme ID",
+      "isMandatory": false
+    },
+    "rectype_7_197_maxnkey": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_zc_3wm_translations": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "longtext",
+      "label": "3-Way Matching Modal Translations",
+      "isMandatory": false
+    },
+    "custpage_ava_createfromdate": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "shippingtax1amt": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_avashippingcodetext": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Shipping Code Text",
+      "isMandatory": false
+    },
+    "custbody_ava_shippingamount1": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency",
+      "label": "Shipping Amount1",
+      "isMandatory": false
+    },
+    "prevdate": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "date",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_sna_hul_waive_insurance": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Waive Insurance",
+      "isMandatory": false
+    },
+    "taxamount2override": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency",
+      "label": "",
+      "isMandatory": false
+    },
+    "billingaddress_key": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_sna_soline_memo": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "SO Line memo",
+      "isMandatory": false
+    },
+    "custbody_za_configapplied": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Approval Config Applied",
+      "isMandatory": false
+    },
+    "custbody_ava_subsidiaryshipaddress2": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Subsidiary Shipping Address2",
+      "isMandatory": false
+    },
+    "origtotal2": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "float",
+      "label": "",
+      "isMandatory": false
+    },
+    "bfreeifoveractive": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_ava_subsidiaryshipaddress1": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Subsidiary Shipping Address1",
+      "isMandatory": false
+    },
+    "custbody_hul_thirdpartyreviewed": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "3rd Party Reviewed?",
+      "isMandatory": false
+    },
+    "custbody_za_includeadditionaldocumens": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Include Additional Documents (2)",
+      "isMandatory": false
+    },
+    "custbody_zc_block_sending_as_einvoice": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "ZC Block Sending as E-invoice",
+      "isMandatory": false
+    },
+    "custbody_sna_pd_api_resp": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "longtext",
+      "label": "SNA PandaDoc API Response",
+      "isMandatory": false
+    },
+    "prevrep": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "integer",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_ff_sc_bank_details_sec": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Secondary Bank Details for E-invoices (2)",
+      "isMandatory": false
+    },
+    "shipaddress": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "address",
+      "label": "Ship To",
+      "isMandatory": false
+    },
+    "externalid": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "External ID",
+      "isMandatory": false
+    },
+    "custbody_ava_suspendtaxcall": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Avalara Suspend Tax Call",
+      "isMandatory": false
+    },
+    "custbody_ff_sc_endpoint_op_id": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Customer Party Endpoint Operator ID",
+      "isMandatory": false
+    },
+    "tobeprinted": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "To Be Printed",
+      "isMandatory": false
+    },
+    "custbody_sna_contact": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Contact",
+      "isMandatory": false
+    },
+    "custbody_hul_datecreatedfield": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "datetimetz",
+      "label": "Created Date",
+      "isMandatory": false
+    },
+    "custbody_sna_hul_last_invoice_seq": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "integer",
+      "label": "Last Invoice Sequence",
+      "isMandatory": false
+    },
+    "rfreeifoveramt": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "tobeemailed": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "To Be E-mailed",
+      "isMandatory": false
+    },
+    "custpage_ava_context": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custpage_ava_totaltaxable": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custpage_ava_docdate": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "item_total": {
+      "category": "body",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "calculated_total"
+    },
+    "fedexservicename": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_zc_tax_id": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Custom Subsidiary Tax ID",
+      "isMandatory": false
+    },
+    "custpage_ava_docstatus": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custbody_ff_sc_trans_ita_apy_code": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Italian Payment Term Code (2)",
+      "isMandatory": false
+    },
+    "shipping_rate": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "ppsetbyuser": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custpage_ava_clientconnector": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custbody_sna_hul_update_rev_stream": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Update Revenue Stream",
+      "isMandatory": false
+    },
+    "custbody_vpy_order_id": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Versapay Order ID",
+      "isMandatory": false
+    },
+    "custbody_ff_sc_field_block_mapping": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "longtext",
+      "label": "Field Block Mapping (2)",
+      "isMandatory": false
+    },
+    "custbody_za_applogsgenerated": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Approvals Log Generated",
+      "isMandatory": false
+    },
+    "custbody_sna_pd_doc_status": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "SNA PandaDoc Document Status",
+      "isMandatory": false
+    },
+    "applied": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency",
+      "label": "Applied",
+      "isMandatory": false
+    },
+    "exchangerate": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Exchange Rate",
+      "isMandatory": true
+    },
+    "custbody_ava_billto_longitude": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Bill-To Longitude",
+      "isMandatory": false
+    },
+    "custbody_ava_shipto_longitude": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Ship-To Longitude",
+      "isMandatory": false
+    },
+    "entitynexus": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Nexus",
+      "isMandatory": false
+    },
+    "sys_id": {
+      "category": "system",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "system_pseudo"
+    },
+    "custbody_ava_subsidiaryshipcountry": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Subsidiary Shipping Country",
+      "isMandatory": false
+    },
+    "tobefaxed": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "To Be Faxed",
+      "isMandatory": false
+    },
+    "nldept": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "class": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Class",
+      "isMandatory": false
+    },
+    "shippingaddress_text": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "address",
+      "label": "Shipping Address",
+      "isMandatory": false
+    },
+    "manualcredithold": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_ava_customertaxable": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Customer Taxable",
+      "isMandatory": false
+    },
+    "custbody_sna_hul_war_exp_date": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "date",
+      "label": "Warranty Expiration Date",
+      "isMandatory": false
+    },
+    "custbody_za_role": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Next Approver Role (2)",
+      "isMandatory": false
+    },
+    "custbody_sna_misc_fee_allowed": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Misc Fee allowed Transaction",
+      "isMandatory": false
+    },
+    "custbody_za_triggerworkflow": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "ZA Trigger Workflow Flag",
+      "isMandatory": false
+    },
+    "warningnotificationsfield": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "inlinehtml",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_za_orig_transaction_amount": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "float",
+      "label": "Original Transaction Amount",
+      "isMandatory": false
+    },
+    "message": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "textarea",
+      "label": "Customer Message",
+      "isMandatory": false
+    },
+    "shippingerrormsg": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "previous_shipaddresslist": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody14": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "email",
+      "label": "Email (2)",
+      "isMandatory": false
+    },
+    "cseg1": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "(DNU) Equipment Posting/Category/Group",
+      "isMandatory": false
+    },
+    "cseg_sna_revenue_st": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Revenue Streams",
+      "isMandatory": false
+    },
+    "custbody_ava_vatregno": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Middle Man VAT ID",
+      "isMandatory": false
+    },
+    "custbody_versapay_capture_tran_total": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Capture Transaction Total",
+      "isMandatory": false
+    },
+    "defaultaddrbook": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "paymentcustomdata": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "longtext",
+      "label": "Payment Custom Data",
+      "isMandatory": false
+    },
+    "custbody_sna_hul_update_sublist_lines": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Update Sublist Lines",
+      "isMandatory": false
+    },
+    "unapplied": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency",
+      "label": "Unapplied",
+      "isMandatory": false
+    },
+    "nsapiFC": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_ava_customerlastname": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Customer Lastname",
+      "isMandatory": false
+    },
+    "shandlingaccount": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "trandate": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "date",
+      "label": "Date",
+      "isMandatory": true
+    },
+    "memo": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Memo",
+      "isMandatory": false
+    },
+    "custbody_hul_shoprequired": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Shop Required?",
+      "isMandatory": false
+    },
+    "custpage_ava_beforesubmitconnector": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "taxperiod": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custpage_ava_createdfromscis": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custpage_ava_usecodeusuage": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "recordcreatedby": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "balance": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency",
+      "label": "Balance",
+      "isMandatory": false
+    },
+    "custbody_za_email_sent": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "ZA Approval Email Sent",
+      "isMandatory": false
+    },
+    "custbody_sna_hul_cus_pricing_grp": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Customer Pricing Group",
+      "isMandatory": false
+    },
+    "custbody_ava_custexternalid": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Customer External ID",
+      "isMandatory": false
+    },
+    "origtotal": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "float",
+      "label": "",
+      "isMandatory": false
+    },
+    "id": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Internal ID",
+      "isMandatory": false
+    },
+    "custbody_sn_rental_pickup_date": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "date",
+      "label": "Pick Up Date",
+      "isMandatory": false
+    },
+    "custbody_ava_partnermiddlename": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Partner Middlename",
+      "isMandatory": false
+    },
+    "wfPS": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_sna_hul_override_salesrep_csm": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Override Sales Rep/CSM",
+      "isMandatory": false
+    },
+    "shippingaddress2_set": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "peritemdefaultprice": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_ava_exemptcertno": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Exemption Certificate No",
+      "isMandatory": false
+    },
+    "primarycurrency": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_sna_pd_document": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "SNA PandaDoc Document",
+      "isMandatory": false
+    },
+    "custbody_sna_hul_apply_dept_all": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Apply Department to All Lines",
+      "isMandatory": false
+    },
+    "custpage_ava_totalnontaxable": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "byweightconvratetolbs": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_ava_subsidiarystate": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Subsidiary State",
+      "isMandatory": false
+    },
+    "itemshippingcostfxrate": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_eff_nsp2p_paymentref": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "E-Document Payment Reference",
+      "isMandatory": false
+    },
+    "custbody_sna_hul_exclude_te_creation": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Exclude Time Entry creation",
+      "isMandatory": false
+    },
+    "bulk": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "cseg_sna_hul_eq_seg": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Equipment Posting/Category/Group",
+      "isMandatory": false
+    },
+    "wfPI": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "handlingflatrateamt": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "doshippingrecalc": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_sna_inv_claimid": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Claim ID for Warranty",
+      "isMandatory": false
+    },
+    "estgrossprofitpercent": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "percent",
+      "label": "Est. Gross Profit Percent",
+      "isMandatory": false
+    },
+    "primarycurrencyfxrate": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency2",
+      "label": "",
+      "isMandatory": false
+    },
+    "excludecommission": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Exclude Commissions",
+      "isMandatory": false
+    },
+    "custbody_sna_hul_fmc_internal_rev_str": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "FMC Internal Revenue Stream",
+      "isMandatory": false
+    },
+    "custbody_sna_hul_next_approver": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "multiselect",
+      "label": "Next Approver Role",
+      "isMandatory": false
+    },
+    "custbody_za_exclusioncontext": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "ZA Exclusion Context",
+      "isMandatory": false
+    },
+    "custbody_ava_subsidiaryaddressee": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Subsidiary Addressee",
+      "isMandatory": false
+    },
+    "custbody_nx_idempotency_key": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "NextService Idempotency Key",
+      "isMandatory": false
+    },
+    "wfSR": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "consolidatebalance": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency",
+      "label": "Consolidated Balance",
+      "isMandatory": false
+    },
+    "custbody_sn_use_qty_for_time": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Use Quantity for Time",
+      "isMandatory": false
+    },
+    "custbody_ff_sc_tax_scheme_id": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Customer Tax Scheme ID",
+      "isMandatory": false
+    },
+    "custbody_zc_inv_contact_phone": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "ZC Customer Contact Phone Number (2)",
+      "isMandatory": false
+    },
+    "custbody_ava_partnerentityid": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Partner Entityid",
+      "isMandatory": false
+    },
+    "custbody_hul_service_internal_note": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "longtext",
+      "label": "Service Internal Note",
+      "isMandatory": false
+    },
+    "custpage_ava_handling": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custbody_za_subsforapproval": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "textarea",
+      "label": "ZA Subs for Approval",
+      "isMandatory": false
+    },
+    "custbody_ava_shiptousecode": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Ship-To Entity/Use Code",
+      "isMandatory": false
+    },
+    "discountrate": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "rate",
+      "label": "Rate",
+      "isMandatory": false
+    },
+    "custbody_erpff_p2p_document_sent": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "E-document was sent",
+      "isMandatory": false
+    },
+    "currencyprecision": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_solupay_billingschd_autopay": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Billing Schedule Auto Pay",
+      "isMandatory": false
+    },
+    "handlingbyweightinwholeincr": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_sn_related_if": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "SN Item Fulfillment",
+      "isMandatory": false
+    },
+    "custbody_sn_rental_billing_cycle": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "integer",
+      "label": "Billing Cycle",
+      "isMandatory": false
+    },
+    "overallunbilledorders": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency",
+      "label": "",
+      "isMandatory": false
+    },
+    "entity": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Customer",
+      "isMandatory": true
+    },
+    "custbody_auto_send_document_nonstore": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Basware Automatically Send E-document Non-stored from customer",
+      "isMandatory": false
+    },
+    "custbody_ava_scis_trans_flag": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Avalara SCIS Transaction Flag",
+      "isMandatory": false
+    },
+    "nlsub": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_ava_shippingamount": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency",
+      "label": "Shipping Amount",
+      "isMandatory": false
+    },
+    "shipzip": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Shipping Address Zip Code",
+      "isMandatory": false
+    },
+    "inventorydetailuitype": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_ava_customerentityid": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Customer Entityid",
+      "isMandatory": false
+    },
+    "custbody_nx_task": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "NextService Task",
+      "isMandatory": false
+    },
+    "wfVF": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "companyid": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "percentoftotalamt": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_sn_hul_rentalstart": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "date",
+      "label": "Rental Start Date (Script)",
+      "isMandatory": false
+    },
+    "custbody_solupay_cpd_ext_paymentid": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "ERP EMV Cloudpay Display External Payment ID",
+      "isMandatory": false
+    },
+    "handlingtax1amt": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "shipstate": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Shipping Address State",
+      "isMandatory": false
+    },
+    "transactionnumber": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Transaction Number",
+      "isMandatory": false
+    },
+    "handlingpercentoftotalamt": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "unbilledorders": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency",
+      "label": "Unbilled Orders",
+      "isMandatory": false
+    },
+    "custbody_sna_hul_custcredit_limit": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency",
+      "label": "Customer Credit Limit",
+      "isMandatory": false
+    },
+    "custbody_ffa_4_no_auto_reversal": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Only Create Reversal After Approval/Rejection (2)",
+      "isMandatory": false
+    },
+    "custbody_ffa_1_accrual_created": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Accrual Created",
+      "isMandatory": false
+    },
+    "billingaddress_type": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "credholdentity": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "integer",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_nx_asset": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "NextService Asset",
+      "isMandatory": false
+    },
+    "custbody_ff_sc_deliverydate": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "date",
+      "label": "E-Document - Delivery Date",
+      "isMandatory": false
+    },
+    "custbody_sna_invoice_json": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "longtext",
+      "label": "Invoice JSON",
+      "isMandatory": false
+    },
+    "haslines": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custpage_ava_lineloc": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custbody_ff_sc_trans_ita_pay_term": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Italian Payment Term (2)",
+      "isMandatory": false
+    },
+    "balreadyrefunded": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "shippingcostoverridden": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Shipping Cost Overridden",
+      "isMandatory": false
+    },
+    "custbody_ff_sc_endpoint_scheme": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Customer Party Endpoint Scheme",
+      "isMandatory": false
+    },
+    "custbody_ava_shippingtaxinclude": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Shipping Tax Included",
+      "isMandatory": false
+    },
+    "oldrevenuecommitment": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custpage_ava_createdfromrecordtype": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custpage_ava_handlingtaxcode": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "pp_s": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "date",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_ava_scisnotemsg": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "longtext",
+      "label": "Avalara SCIS Note Message",
+      "isMandatory": false
+    },
+    "wfinstances": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nexus": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Nexus",
+      "isMandatory": false
+    },
+    "noticenotificationsfield": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "inlinehtml",
+      "label": "",
+      "isMandatory": false
+    },
+    "shipaddresslist": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Ship To Select",
+      "isMandatory": false
+    },
+    "custbody_ava_subsidiarycurrencycode": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Subsidiary Currency Code",
+      "isMandatory": false
+    },
+    "custbody_za_nextapprover": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Next Approver (ZA)",
+      "isMandatory": false
+    },
+    "messagesel": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Select Message",
+      "isMandatory": false
+    },
+    "checkcreditlimit": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_sna_mfr": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Manufacturer",
+      "isMandatory": false
+    },
+    "nsapiCT": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "billingaddress_defaultvalue": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_ffa_matrix": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "multiselect",
+      "label": "Approval Matrix Applied",
+      "isMandatory": false
+    },
+    "pp_e": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "date",
+      "label": "",
+      "isMandatory": false
+    },
+    "total": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency",
+      "label": "Total",
+      "isMandatory": false
+    },
+    "custbody_ff_sc_bank_details_einvoices": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Customer Bank Details for E-invoices",
+      "isMandatory": false
+    },
+    "custbody_sna_equipment_object": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Equipment Object",
+      "isMandatory": false
+    },
+    "custpage_ava_notemsg": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custbody_ff_sc_tax_id": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Customer Tax ID",
+      "isMandatory": false
+    },
+    "nexus_country": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Country",
+      "isMandatory": false
+    },
+    "shadow_shipaddress": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_ff_sc_endpoint_id": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Customer Party Endpoint ID",
+      "isMandatory": false
+    },
+    "department": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Department",
+      "isMandatory": false
+    },
+    "billingaddress2_set": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custpage_ava_exists": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custbody_10184_customer_entity_bank": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Entity Bank (Customer)",
+      "isMandatory": false
+    },
+    "tranid": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Credit #",
+      "isMandatory": false
+    },
+    "custbody_sna_hold_invoice_sending": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Hold Invoice Sending",
+      "isMandatory": false
+    },
+    "templatestored": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_ava_discountamount": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency",
+      "label": "Discount Amount",
+      "isMandatory": false
+    },
+    "shipcountry": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Shipping Address Country",
+      "isMandatory": false
+    },
+    "whence": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "lastmodifieddate": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "datetime",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_sna_test_custom_field": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Test Custom Field",
+      "isMandatory": false
+    },
+    "handlingbyweightconvratetolbs": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "baserecordtype": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_sna_hul_hm_units": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Allowed Hour Meter Units",
+      "isMandatory": false
+    },
+    "custpage_ava_deftaxid": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custbody_ff_sc_b2pmodel": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "longtext",
+      "label": "S&C Bill To Process Model",
+      "isMandatory": false
+    },
+    "shippingtax1rate": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Shipping Tax Rate",
+      "isMandatory": false
+    },
+    "custbody_sna_taskcoderef": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Task Codes Reference",
+      "isMandatory": false
+    },
+    "custpage_ava_document": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custbody_sna_mergedequipasset": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Merged to Equipment Asset",
+      "isMandatory": false
+    },
+    "custbody_sna_misc_fee_generated": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Misc Fee Generated",
+      "isMandatory": false
+    },
+    "custbody_ava_handlingamount": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency",
+      "label": "Handling Amount",
+      "isMandatory": false
+    },
+    "custbody_ffa_remaining_logs": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Remaining Approval logs",
+      "isMandatory": false
+    },
+    "custbody_za_approvals_data": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "textarea",
+      "label": "ZA Approvals data",
+      "isMandatory": false
+    },
+    "billaddresslist": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Bill To Select",
+      "isMandatory": false
+    },
+    "apply_total": {
+      "category": "body",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "calculated_total"
+    },
+    "custbody_hul_processed_for_commission": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Processed For Commision",
+      "isMandatory": false
+    },
+    "iseitf81on": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "handlingbyweightamt": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_ava_transport": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Transport",
+      "isMandatory": false
+    },
+    "custbody_ffa_approval_log_id": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Approval Log ID number",
+      "isMandatory": false
+    },
+    "rmaxshipcost": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "entryformquerystring": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_sna_pd_doc_id": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "SNA PandaDoc Document ID",
+      "isMandatory": false
+    },
+    "handlingcost": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency",
+      "label": "Handling Cost",
+      "isMandatory": false
+    },
+    "custbody_nx_case": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "NextService Case",
+      "isMandatory": false
+    },
+    "checkcommitted": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "ppsetbyuservalue": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "period",
+      "label": "",
+      "isMandatory": false
+    },
+    "bminshipcostactive": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "totalcostestimate": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency",
+      "label": "Est. Extended Cost",
+      "isMandatory": false
+    },
+    "errornotificationsfield": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "inlinehtml",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_sna_hul_rental_temp_config": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "longtext",
+      "label": "Temp Object Configurator",
+      "isMandatory": false
+    },
+    "shippingcost": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency",
+      "label": "Shipping Cost",
+      "isMandatory": false
+    },
+    "selectedtab": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custpage_ava_docno": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "asofdate": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "date",
+      "label": "As-Of Date",
+      "isMandatory": false
+    },
+    "custbody_ava_partnerfirstname": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Partner Firstname",
+      "isMandatory": false
+    },
+    "custbody_ava_taxinclude": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Tax Included",
+      "isMandatory": false
+    },
+    "custbody_avalara_status": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Avalara Status",
+      "isMandatory": false
+    },
+    "nsapiPS": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_vp_partial_auth": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency",
+      "label": "Partial Authorization",
+      "isMandatory": false
+    },
+    "custbody_sna_hul_fm_overtime_rate": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "float",
+      "label": "Full Maintenance Overtime Rate",
+      "isMandatory": false
+    },
+    "custpage_ava_taxfieldflag": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "nsapiPI": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "currency": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Currency",
+      "isMandatory": true
+    },
+    "shippingtaxcode": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Shipping Tax Code",
+      "isMandatory": false
+    },
+    "custbody_sna_hul_address_changed": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Address Changed",
+      "isMandatory": false
+    },
+    "email": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "emails",
+      "label": "",
+      "isMandatory": false
+    },
+    "nsapiPD": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_ava_disable_tax_calculation": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Disable Avalara Tax Calculation",
+      "isMandatory": false
+    },
+    "recordcreateddate": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custpage_ava_deftax": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custbody_ava_subsidiarycity": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Subsidiary City",
+      "isMandatory": false
+    },
+    "previous_billaddresslist": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_sn_hul_billdate": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "date",
+      "label": "Bill Date (Script)",
+      "isMandatory": false
+    },
+    "saleseffectivedate": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "date",
+      "label": "Sales Effective Date",
+      "isMandatory": false
+    },
+    "custbody_ffa_reject_check": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Rejected",
+      "isMandatory": false
+    },
+    "customform": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Custom Form",
+      "isMandatory": true
+    },
+    "shipping_cost_function": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_ava_handlingamount1": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency",
+      "label": "Handling Amount1",
+      "isMandatory": false
+    },
+    "custbody_versapay_paylink_token": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "longtext",
+      "label": "Paylink Token",
+      "isMandatory": false
+    },
+    "nlloc": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_sn_hul_allow_prebilling": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Allow Pre- Billing",
+      "isMandatory": false
+    },
+    "custbody_ff_sc_endpoint_scheme_id": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Customer Party Endpoint Scheme ID",
+      "isMandatory": false
+    },
+    "shipping_btaxable": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_erpff_p2p_auto_send_document": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Automatically send e-document",
+      "isMandatory": false
+    },
+    "isonlinetransaction": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custpage_stickyheaders_script": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custbody_sna_hul_billing_status": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Billing Status",
+      "isMandatory": false
+    },
+    "custbody_zc_partyendpt_scheme_id": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Party endpoint scheme ID",
+      "isMandatory": false
+    },
+    "custbody_ava_subsidiaryobj": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "longtext",
+      "label": "Subsidiary Object",
+      "isMandatory": false
+    },
+    "custbody_ava_partnerlastname": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Partner Lastname",
+      "isMandatory": false
+    },
+    "credholdoverride": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_sna_hul_duplicate_count": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "integer",
+      "label": "Duplicate Count",
+      "isMandatory": false
+    },
+    "custbody_ffa_net_amount": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Use Net Amount",
+      "isMandatory": false
+    },
+    "custpage_ava_totalamount": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custbody_sna_hul_object_subsidiary": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Object Subsidiary",
+      "isMandatory": false
+    },
+    "shipmethod": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Shipping Method",
+      "isMandatory": false
+    },
+    "custpage_ava_totaltax": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custbody_ava_vatbusinessid": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "VAT Business ID",
+      "isMandatory": false
+    },
+    "custbody_ava_shiptousecodetext": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Ship-To Entity/Use Code Text",
+      "isMandatory": false
+    },
+    "nsapiLI": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_ava_subsidiaryshipstate": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Subsidiary Shipping State",
+      "isMandatory": false
+    },
+    "edition": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "extraurlparams": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_sna_hul_create_time_entry": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Create Time Entry",
+      "isMandatory": false
+    },
+    "defaultaddressee": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "taxtotal": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency",
+      "label": "Tax Total",
+      "isMandatory": false
+    },
+    "nsapiLC": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_sna_hul_location": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "HUL Location",
+      "isMandatory": false
+    },
+    "custbody_ff_sc_e_inv_pdf": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "E-Invoice PDF",
+      "isMandatory": false
+    },
+    "custbody_ava_customerfirstname": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Customer Firstname",
+      "isMandatory": false
+    },
+    "custbody_sna_nxc_fmc_project_type": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "NextService Full Maintenance Project Type",
+      "isMandatory": false
+    },
+    "custpage_ava_billcost": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custbody_sna_hul_hours_allowed": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "integer",
+      "label": "Hours Allowed",
+      "isMandatory": false
+    },
+    "handlingbyweightper": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custpage_ava_taxcodestatus": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "nlrole": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "hasprecalcs": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "",
+      "isMandatory": false
+    },
+    "ntype": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_ava_customermiddlename": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Customer Middlename",
+      "isMandatory": false
+    },
+    "custbody_ava_partnercompanyname": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Partner Companyname",
+      "isMandatory": false
+    },
+    "custbody_sna_hul_service_bucket_": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Service Bucket",
+      "isMandatory": false
+    },
+    "custpage_ava_totaldiscount": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "shippingaddress_type": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "rectype_1321_14352_maxnkey": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "location": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Location",
+      "isMandatory": true
+    },
+    "custbody_ffa_reversal_days_setting": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "float",
+      "label": "FFA Reversal Days After Month End",
+      "isMandatory": false
+    },
+    "custbody_sna_hul_time_entry_recon": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Time Entries for Recon",
+      "isMandatory": false
+    },
+    "custbody_ff_sc_bank_details": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Primary Bank Details for E-invoice",
+      "isMandatory": false
+    },
+    "custbody_ava_customercompanyname": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Customer Companyname",
+      "isMandatory": false
+    },
+    "custbody_erpff_p2p_basware_send_note": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "longtext",
+      "label": "Basware Send Note",
+      "isMandatory": false
+    },
+    "custpage_ava_headerid": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "handlingtax1rate": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Handling Tax Rate",
+      "isMandatory": false
+    },
+    "custbody_ava_pickup": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Pick Up",
+      "isMandatory": false
+    },
+    "custbody_sna_hul_donotenforce": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Do not Enforce Credit Limit",
+      "isMandatory": false
+    },
+    "custbody_hul_so_quicknote": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Quick Note",
+      "isMandatory": false
+    },
+    "generatetranidonsave": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Generate Document Number on Save",
+      "isMandatory": false
+    },
+    "custbody_nx_projecttask": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "NextService Project Task",
+      "isMandatory": false
+    },
+    "billisresidential": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Shipping address is residential",
+      "isMandatory": false
+    },
+    "type": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_sna_hul_conversionerror": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "inlinehtml",
+      "label": "Conversion to Sales Order Error",
+      "isMandatory": false
+    },
+    "dbstrantype": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "taxamountoverride": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_eff_nsp2p_buyerref": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "E-Document Buyer Reference",
+      "isMandatory": false
+    },
+    "currencysymbol": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Currency Symbol",
+      "isMandatory": false
+    },
+    "nsapiVF": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nsapiVD": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_ava_billtousecodetext": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Bill-To Entity/Use Code Text",
+      "isMandatory": false
+    },
+    "nsbrowserenv": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "locationusesbins": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "partnerid": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_sn_hul_rentalend": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "date",
+      "label": "Rental End Date (Script)",
+      "isMandatory": false
+    },
+    "custbody_ava_modeoftransport": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Transport Mode",
+      "isMandatory": false
+    },
+    "fax": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "phone",
+      "label": "",
+      "isMandatory": false
+    },
+    "nsapiVL": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_ffa_last_approval_log_up": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "integer",
+      "label": "FFA Last Approval Log Update",
+      "isMandatory": false
+    },
+    "nsapiVI": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "discountitem": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Discount",
+      "isMandatory": false
+    },
+    "custbody_za_approvalstatus": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Approval Status (ZA)",
+      "isMandatory": false
+    },
+    "synceventfield": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "byweightper": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_ffa_matrix_exchangerate": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "float",
+      "label": "Matrix Exchange Rate",
+      "isMandatory": false
+    },
+    "custpage_ava_recordtype": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custbody_ava_partnerisperson": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Partner Isperson",
+      "isMandatory": false
+    },
+    "billaddress": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "address",
+      "label": "Bill To",
+      "isMandatory": false
+    },
+    "estgrossprofit": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency",
+      "label": "Est. Gross Profit",
+      "isMandatory": false
+    },
+    "custbody_sna_order_taken_by": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Order Taken By",
+      "isMandatory": false
+    },
+    "custbody_ava_postingperiodname": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Posting Period Name",
+      "isMandatory": false
+    },
+    "custbody_sn_rental_return_date": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "date",
+      "label": "Return Date",
+      "isMandatory": false
+    },
+    "custbody_ava_subsidiaryaddress1": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Subsidiary Address1",
+      "isMandatory": false
+    },
+    "custbody_ava_subsidiaryaddress2": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Subsidiary Address2",
+      "isMandatory": false
+    },
+    "byweightinwholeincr": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_sn_rental_est_enddate": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "date",
+      "label": "Estimated End Date",
+      "isMandatory": false
+    },
+    "shipisresidential": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Shipping address is residential",
+      "isMandatory": false
+    },
+    "custbody_ava_taxdateoverride": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Tax Date Override",
+      "isMandatory": false
+    },
+    "custpage_ava_expensereport": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custbody_ava_customerisperson": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Customer Isperson",
+      "isMandatory": false
+    },
+    "custbody_sna_hul_rental_temp_config_id": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "longtext",
+      "label": "Temp Object Configurator IDs",
+      "isMandatory": false
+    },
+    "custbody_nx_customer": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "NextService Customer",
+      "isMandatory": false
+    },
+    "custbody_sn_rental_contract_type": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Contract Type",
+      "isMandatory": false
+    },
+    "nluser": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "shipoverride": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_sna_tax_processed": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Tax Processed",
+      "isMandatory": false
+    },
+    "custbody_ava_salesresp": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Sales Resp",
+      "isMandatory": false
+    },
+    "custbody_ava_taxoverridedate": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "date",
+      "label": "AvaTax Override Date",
+      "isMandatory": false
+    },
+    "custbody_zc_tax_scheme": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Custom Subsidiary Tax Scheme",
+      "isMandatory": false
+    },
+    "custbody_ffa_total_approval_time": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "float",
+      "label": "Total time transaction approval spent",
+      "isMandatory": false
+    },
+    "custbody_ava_billtousecode": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Bill-To Entity/Use Code",
+      "isMandatory": false
+    },
+    "whichchargestoadd": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Which Charges to Add",
+      "isMandatory": false
+    },
+    "salesrep": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Sales Rep",
+      "isMandatory": false
+    },
+    "custbody_eff_nsp2p_serialnumbers": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "longtext",
+      "label": "EFF_NSP2P - Serial Numbers",
+      "isMandatory": false
+    },
+    "custbody_ffa_3_delete_accruals": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Delete Accrual Postings Instead of Reversing Them",
+      "isMandatory": false
+    },
+    "custpage_ava_beforesubmitlatency": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "binclallitemsforfreeshipping": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custpage_ava_taxdate": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custbody_sna_wip_reversal": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "WIP Reversal - One Time",
+      "isMandatory": false
+    },
+    "althandlingcost": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency",
+      "label": "Handling Cost",
+      "isMandatory": false
+    },
+    "rectype_167_1924_maxnkey": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_ava_subsidiarycurrency": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Subsidiary Currency",
+      "isMandatory": false
+    },
+    "custbody_ava_taxcredit": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency",
+      "label": "Tax Credit",
+      "isMandatory": false
+    },
+    "bulkprocsubmission": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Submission Id",
+      "isMandatory": false
+    },
+    "custbody_ava_sez_parameter": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Special Economic Zone",
+      "isMandatory": false
+    },
+    "custbody_sna_allow_mult_rental": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Allow Multiple Rental Dates",
+      "isMandatory": false
+    },
+    "entity_nexus_country": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Country",
+      "isMandatory": false
+    },
+    "custbody_ava_discountmapping": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "integer",
+      "label": "Discount Mapping",
+      "isMandatory": false
+    },
+    "discountastotal": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_sna_jeforwarranty": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "SNA JE For Warranty",
+      "isMandatory": false
+    },
+    "handlingtaxcode": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Handling Tax Code",
+      "isMandatory": false
+    },
+    "custpage_ava_shipping": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "nsapiRC": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "shippingaddress_defaultvalue": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_erpff_p2p_customer_reference": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "E-Document Customer Reference",
+      "isMandatory": false
+    },
+    "billingaddress_text": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "address",
+      "label": "Billing Address",
+      "isMandatory": false
+    },
+    "custbody_zc_partyendpt_scheme": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Custom Subsidiary Endpoint Scheme",
+      "isMandatory": false
+    },
+    "custbody_ava_billto_latitude": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Bill-To Latitude",
+      "isMandatory": false
+    },
+    "discounttotal": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency",
+      "label": "Discount",
+      "isMandatory": false
+    },
+    "custbody_sna_hul_soownerstatus": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Owner Status (2)",
+      "isMandatory": false
+    },
+    "handling_btaxable": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "weekendpreference": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_sna_inv_create_je": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Create JE",
+      "isMandatory": false
+    },
+    "custbody_zc_contract_number": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "ZC Contract Number for E-invoices",
+      "isMandatory": false
+    },
+    "custbody_ava_partyavatidcountry": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Party A VATID Country",
+      "isMandatory": false
+    },
+    "custpage_ava_beforeloadconnector": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custbody_avashippingcode": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Shipping Code",
+      "isMandatory": false
+    },
+    "custbody_zc_inv_contact_name": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "ZC Customer Contact Name (2)",
+      "isMandatory": false
+    },
+    "rminshipamt": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "job": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Project",
+      "isMandatory": false
+    },
+    "custbody_sna_hul_orderid": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Order ID",
+      "isMandatory": false
+    },
+    "otherrefnum": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "PO #",
+      "isMandatory": false
+    },
+    "custbody_za_currentaccrualid": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "ZA Current Accrual ID",
+      "isMandatory": false
+    },
+    "custbody_ffa_8_acc_default_acc": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Default Unapproved Account",
+      "isMandatory": false
+    },
+    "isbasecurrency": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_ava_customduty": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency",
+      "label": "Custom Duty and Import Fees",
+      "isMandatory": false
+    },
+    "credlim": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency",
+      "label": "",
+      "isMandatory": false
+    },
+    "custcurrep": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "integer",
+      "label": "",
+      "isMandatory": false
+    },
+    "shipitemhasfreeshippingitems": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "shippingaddress_key": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "byweightamt": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "flatrateamt": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nsapiSR": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "handlingperitemdefaultprice": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "tax_affecting_address_fields_before_recalc": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "entityfieldname": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_ava_is_sellerimporter": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Is Seller Importer Of Record",
+      "isMandatory": false
+    },
+    "custpage_ava_details": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custbody_ffa_5_create_accrual_asap": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Create Accrual Posting Immediately",
+      "isMandatory": false
+    },
+    "carrier": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_ffa_cogs_accrual_enabled": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "FFA COGS Accruals Enabled",
+      "isMandatory": false
+    },
+    "custbody_za_approval_threshold": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Approval Threshold",
+      "isMandatory": false
+    },
+    "custbody_ava_customergstin": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Customer GSTIN",
+      "isMandatory": false
+    },
+    "custbody_sna_order_fulfillment_method": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Order Fulfillment Method",
+      "isMandatory": false
+    },
+    "custbody_ava_subsidiaryshipcity": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Subsidiary Shipping City",
+      "isMandatory": false
+    },
+    "rectype_310_3363_maxnkey": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_ava_subsidiaryshipzip": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Subsidiary Shipping Zip",
+      "isMandatory": false
+    },
+    "wfFC": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custbody_sna_hul_nxc_eq_asset": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Nextservice Equipment Asset",
+      "isMandatory": false
+    },
+    "account": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Account",
+      "isMandatory": false
+    },
+    "altshippingcost": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency",
+      "label": "Shipping Cost",
+      "isMandatory": false
+    }
+  },
+  "sublists": {
+    "item": {
+      "fields": [
+        "account",
+        "amount",
+        "amounthasbeenset",
+        "backordered",
+        "billvariancestatus",
+        "billvariancestatusallbook",
+        "binitem",
+        "charge",
+        "charges",
+        "chargetype",
+        "costestimate",
+        "costestimaterate",
+        "costestimatetype",
+        "costestimatetypelist",
+        "cseg_hul_mfg",
+        "cseg_sna_hul_eq_seg",
+        "cseg_sna_revenue_st",
+        "custcol2",
+        "custcol_2663_companyname",
+        "custcol_2663_firstname",
+        "custcol_2663_isperson",
+        "custcol_2663_lastname",
+        "custcol_9572_cr_entitybank_format",
+        "custcol_9572_cr_entitybank_sub",
+        "custcol_9572_custref_file_format",
+        "custcol_ava_bottletax",
+        "custcol_ava_bottletax_bevcontmat",
+        "custcol_ava_bottletax_netvolume",
+        "custcol_ava_bottletax_packsize",
+        "custcol_ava_bottletax_uom_netvolume",
+        "custcol_ava_bottletax_uom_packsize",
+        "custcol_ava_bottletaxrate",
+        "custcol_ava_cgstamt",
+        "custcol_ava_cgstrate",
+        "custcol_ava_compensationcessamt",
+        "custcol_ava_compensationcessrate",
+        "custcol_ava_compulsorycessamt",
+        "custcol_ava_compulsorycessrate",
+        "custcol_ava_customdutyrate",
+        "custcol_ava_customergstin",
+        "custcol_ava_ewaste_containersize",
+        "custcol_ava_ewaste_containsmercury",
+        "custcol_ava_ewaste_firstuse",
+        "custcol_ava_ewaste_netweight",
+        "custcol_ava_ewaste_packsize",
+        "custcol_ava_ewaste_rimdiameter",
+        "custcol_ava_ewaste_screensize",
+        "custcol_ava_ewaste_studded",
+        "custcol_ava_ewaste_tax",
+        "custcol_ava_ewaste_taxrate",
+        "custcol_ava_ewaste_tiretype",
+        "custcol_ava_ewaste_treadwidth",
+        "custcol_ava_ewaste_uom_containersize",
+        "custcol_ava_ewaste_uom_netweight",
+        "custcol_ava_ewaste_uom_packsize",
+        "custcol_ava_ewaste_uom_rimdiameter",
+        "custcol_ava_ewaste_uom_screensize",
+        "custcol_ava_ewaste_uom_treadwidth",
+        "custcol_ava_ewaste_uom_voltage",
+        "custcol_ava_ewaste_voltage",
+        "custcol_ava_gross_amount",
+        "custcol_ava_gross_amount1",
+        "custcol_ava_grossweight",
+        "custcol_ava_handlingamount",
+        "custcol_ava_handlingamount1",
+        "custcol_ava_hsncode",
+        "custcol_ava_igstamt",
+        "custcol_ava_igstrate",
+        "custcol_ava_incomeaccount",
+        "custcol_ava_is_taxable_service",
+        "custcol_ava_isacceleratedtaxpaid",
+        "custcol_ava_iscoloradosmmregistered",
+        "custcol_ava_iselectricvehicle",
+        "custcol_ava_isheavymachinery",
+        "custcol_ava_isindeterminatelength",
+        "custcol_ava_isintercompany",
+        "custcol_ava_isoperatorprovided",
+        "custcol_ava_issusedvehicle",
+        "custcol_ava_istexasterpeligible",
+        "custcol_ava_item",
+        "custcol_ava_multitaxtypes",
+        "custcol_ava_netweight",
+        "custcol_ava_numberofdays",
+        "custcol_ava_pickup",
+        "custcol_ava_preowned",
+        "custcol_ava_rentalleasingtax",
+        "custcol_ava_rentalleasingtaxrate",
+        "custcol_ava_sez_parameter",
+        "custcol_ava_sgstamt",
+        "custcol_ava_sgstrate",
+        "custcol_ava_shipfrom_vat_bin",
+        "custcol_ava_shippingamount",
+        "custcol_ava_shippingamount1",
+        "custcol_ava_shipto_latitude",
+        "custcol_ava_shipto_longitude",
+        "custcol_ava_shipto_vat_bin",
+        "custcol_ava_shiptousecode",
+        "custcol_ava_shiptousecodetext",
+        "custcol_ava_taxamount",
+        "custcol_ava_taxcodemapping",
+        "custcol_ava_udf1",
+        "custcol_ava_udf2",
+        "custcol_ava_unitofmeasure",
+        "custcol_ava_upccode",
+        "custcol_ava_utgstamt",
+        "custcol_ava_utgstrate",
+        "custcol_ava_vatcode",
+        "custcol_far_trn_relatedasset",
+        "custcol_hul_return_reason",
+        "custcol_item_discount_grp",
+        "custcol_nx_asset",
+        "custcol_nx_consumable",
+        "custcol_nx_projecttask",
+        "custcol_nx_task",
+        "custcol_nxc_case",
+        "custcol_nxc_equip_asset",
+        "custcol_sn_for_warranty_claim",
+        "custcol_sn_hul_billingsched",
+        "custcol_sn_hul_billingschedlink",
+        "custcol_sn_hul_mergequipassettime",
+        "custcol_sn_hul_nx_consum_src_done",
+        "custcol_sn_hul_othercharge_percent",
+        "custcol_sn_internal_billing_processed",
+        "custcol_sna_4week_rate",
+        "custcol_sna_amt_manual",
+        "custcol_sna_asset_status",
+        "custcol_sna_business_address",
+        "custcol_sna_commission_amount",
+        "custcol_sna_commission_plan",
+        "custcol_sna_company_or_individual",
+        "custcol_sna_configure_object",
+        "custcol_sna_cpg_resource",
+        "custcol_sna_csi_povendor",
+        "custcol_sna_cust_owned",
+        "custcol_sna_custrate_tempitem",
+        "custcol_sna_day_bestprice",
+        "custcol_sna_day_rate",
+        "custcol_sna_default_rev_stream",
+        "custcol_sna_do_not_print",
+        "custcol_sna_exc_notes",
+        "custcol_sna_extra_days",
+        "custcol_sna_fam_obj",
+        "custcol_sna_group_code",
+        "custcol_sna_hul_act_service_hours",
+        "custcol_sna_hul_basis",
+        "custcol_sna_hul_bill_date",
+        "custcol_sna_hul_calcrentcost",
+        "custcol_sna_hul_comm_rate",
+        "custcol_sna_hul_company_or_indv",
+        "custcol_sna_hul_createpo",
+        "custcol_sna_hul_cumulative_markup",
+        "custcol_sna_hul_cust_createpo",
+        "custcol_sna_hul_date_line_added",
+        "custcol_sna_hul_dollar_disc",
+        "custcol_sna_hul_dummy",
+        "custcol_sna_hul_eligible_for_comm",
+        "custcol_sna_hul_estimated_po_rate",
+        "custcol_sna_hul_fa_nbv",
+        "custcol_sna_hul_fa_qty",
+        "custcol_sna_hul_fleet_no",
+        "custcol_sna_hul_gen_prodpost_grp",
+        "custcol_sna_hul_initial_hourmeter",
+        "custcol_sna_hul_is_fa_form",
+        "custcol_sna_hul_item_category",
+        "custcol_sna_hul_item_pricelevel",
+        "custcol_sna_hul_item_vendor",
+        "custcol_sna_hul_itemcategory",
+        "custcol_sna_hul_last_hourmeter",
+        "custcol_sna_hul_list_price",
+        "custcol_sna_hul_list_price_init",
+        "custcol_sna_hul_list_price_prev",
+        "custcol_sna_hul_loc_markup",
+        "custcol_sna_hul_loc_markupchange",
+        "custcol_sna_hul_lock_rate",
+        "custcol_sna_hul_markup",
+        "custcol_sna_hul_markupchange",
+        "custcol_sna_hul_newunitcost",
+        "custcol_sna_hul_nxc_retain_task_codes",
+        "custcol_sna_hul_obj_model",
+        "custcol_sna_hul_object_configurator",
+        "custcol_sna_hul_object_configurator_2",
+        "custcol_sna_hul_overridebilldate",
+        "custcol_sna_hul_perc_disc",
+        "custcol_sna_hul_rent_contractidd",
+        "custcol_sna_hul_rent_end_date",
+        "custcol_sna_hul_rent_start_date",
+        "custcol_sna_hul_rental_config_comment",
+        "custcol_sna_hul_rental_hrs",
+        "custcol_sna_hul_replacementcost",
+        "custcol_sna_hul_replacementcost_init",
+        "custcol_sna_hul_replacementcost_prev",
+        "custcol_sna_hul_returns_handling",
+        "custcol_sna_hul_sales_rep_comm_type",
+        "custcol_sna_hul_sales_rep_csm",
+        "custcol_sna_hul_ship_meth_vendor",
+        "custcol_sna_hul_so_commissionable_bv",
+        "custcol_sna_hul_taskcode",
+        "custcol_sna_hul_technician",
+        "custcol_sna_hul_temp_item_code",
+        "custcol_sna_hul_temp_item_uom",
+        "custcol_sna_hul_temp_porate",
+        "custcol_sna_hul_time_unit",
+        "custcol_sna_hul_vendor_address1",
+        "custcol_sna_hul_vendor_address2",
+        "custcol_sna_hul_vendor_city",
+        "custcol_sna_hul_vendor_country",
+        "custcol_sna_hul_vendor_item_code",
+        "custcol_sna_hul_vendor_name",
+        "custcol_sna_hul_vendor_phone_no",
+        "custcol_sna_hul_vendor_state",
+        "custcol_sna_hul_vendor_sub",
+        "custcol_sna_hul_vendor_zipcode",
+        "custcol_sna_linked_po",
+        "custcol_sna_linked_time",
+        "custcol_sna_linked_transaction",
+        "custcol_sna_loc_asset",
+        "custcol_sna_obj_serialno",
+        "custcol_sna_object",
+        "custcol_sna_override_commission",
+        "custcol_sna_pricing_details",
+        "custcol_sna_qty_returned",
+        "custcol_sna_quoted_qty",
+        "custcol_sna_rental_rate_card",
+        "custcol_sna_rental_returned_date",
+        "custcol_sna_rental_returned_time",
+        "custcol_sna_repair_code",
+        "custcol_sna_resource_res_center",
+        "custcol_sna_return_item",
+        "custcol_sna_sales_description",
+        "custcol_sna_sales_rep",
+        "custcol_sna_sales_rep_matrix",
+        "custcol_sna_service_itemcode",
+        "custcol_sna_so_service_code_type",
+        "custcol_sna_source_transaction",
+        "custcol_sna_task_assigned_to",
+        "custcol_sna_task_code",
+        "custcol_sna_task_company",
+        "custcol_sna_task_description",
+        "custcol_sna_taskcase",
+        "custcol_sna_taskdate",
+        "custcol_sna_time_posted",
+        "custcol_sna_total_on_hand",
+        "custcol_sna_used_qty_exc",
+        "custcol_sna_week_bestprice",
+        "custcol_sna_weekly_rate",
+        "custcol_sna_work_code",
+        "custcolsna_hul_newunitcost_wodisc",
+        "custpage_ava_editmultitaxtype",
+        "custpage_ava_multitaxtypes",
+        "ddistrib",
+        "department",
+        "description",
+        "fulfillable",
+        "groupsetup",
+        "id",
+        "includegroupwrapper",
+        "ingroup",
+        "initoqpbucket",
+        "initquantity",
+        "inventorydetailavail",
+        "inventorydetailreq",
+        "isdropshipment",
+        "islinefulfilled",
+        "isnoninventory",
+        "isnumbered",
+        "isposting",
+        "isserial",
+        "item",
+        "itemhandlingcost",
+        "itemshippingcost",
+        "itemsubtype",
+        "itemtype",
+        "linenumber",
+        "location",
+        "locationusesbins",
+        "mandatoryitem",
+        "mandatorylocation",
+        "mandatorytaxcode",
+        "marginal",
+        "minqty",
+        "noprint",
+        "olditemid",
+        "onorder",
+        "options",
+        "oqpbucket",
+        "orderdoc",
+        "orderline",
+        "origlocation",
+        "price",
+        "pricelevels",
+        "printitems",
+        "quantity",
+        "rate",
+        "rateschedule",
+        "reorder",
+        "taxcode",
+        "taxrate1",
+        "weightinlb"
+      ]
+    },
+    "recmachcustrecord_deprhistjournal": {
+      "fields": [
+        "custrecord_deprhistaccountingbook",
+        "custrecord_deprhistamount",
+        "custrecord_deprhistassetslave",
+        "custrecord_deprhistbookvalue",
+        "custrecord_deprhistcurrentage",
+        "custrecord_deprhistdate",
+        "custrecord_deprhistjournal",
+        "custrecord_deprhistory_schedule",
+        "custrecord_deprhistory_scheduled_nbv",
+        "custrecord_deprhistperiodnum",
+        "custrecord_deprhistpriornbv",
+        "custrecord_deprhistquantity",
+        "custrecord_deprhisttype",
+        "id",
+        "name",
+        "owner",
+        "recordischanged",
+        "version"
+      ]
+    },
+    "recmachcustrecord_ffa_al_transaction": {
+      "fields": [
+        "custrecord_ffa_al_approval_by_thru",
+        "custrecord_ffa_al_approval_reason",
+        "custrecord_ffa_al_approvalmatrix",
+        "custrecord_ffa_al_approver",
+        "custrecord_ffa_al_date",
+        "custrecord_ffa_al_delegate",
+        "custrecord_ffa_al_hierarchy",
+        "custrecord_ffa_al_order",
+        "custrecord_ffa_al_rejectionreason",
+        "custrecord_ffa_al_sourcedempappr",
+        "custrecord_ffa_al_status",
+        "custrecord_ffa_overruled_by",
+        "custrecord_ffa_set_as_historical",
+        "custrecord_ffa_use_sourced_approver",
+        "custrecord_za_al_subsidiary",
+        "custrecord_za_al_usesourcedgroupapprover",
+        "custrecord_za_alapprovalgroup",
+        "custrecord_za_algroupmemberdelegates",
+        "custrecord_za_algroupmembers",
+        "custrecord_za_alrecordederror",
+        "custrecord_za_alrole",
+        "custrecord_za_app_log_redirection",
+        "custrecord_za_usesourcedpredapp",
+        "custrecord_za_vendor",
+        "id",
+        "iddisp",
+        "owner",
+        "rec1321seqnum",
+        "recordischanged",
+        "version"
+      ]
+    },
+    "recmachcustrecord_tc_quoteestimateid": {
+      "fields": [
+        "custrecord_tc_description",
+        "custrecord_tc_groupcode",
+        "custrecord_tc_quoteestimateid",
+        "custrecord_tc_repaircode",
+        "custrecord_tc_taskcode",
+        "custrecord_tc_workcode",
+        "id",
+        "iddisp",
+        "owner",
+        "recordischanged",
+        "version"
+      ]
+    },
+    "recmachcustrecord_2663_transaction": {
+      "fields": [
+        "custrecord_2663_batch",
+        "id",
+        "owner",
+        "rec167seqnum",
+        "rec167view",
+        "recordischanged"
+      ]
+    },
+    "apply": {
+      "fields": [
+        "amount",
+        "apply",
+        "applydate",
+        "applyduedate",
+        "createdfrom",
+        "doc",
+        "due",
+        "duedate",
+        "groupdate",
+        "groupedto",
+        "installmentnumber",
+        "internalid",
+        "job",
+        "jobname",
+        "line",
+        "refnum",
+        "total",
+        "trantype",
+        "type",
+        "url"
+      ]
+    },
+    "contacts": {
+      "fields": [
+        "_eml_nkey_",
+        "_multibtnstate_",
+        "altemail",
+        "assistant",
+        "assistantphone",
+        "billaddr1",
+        "billaddr2",
+        "billaddr3",
+        "billaddressee",
+        "billattention",
+        "billcity",
+        "billcountry",
+        "billstate",
+        "billzip",
+        "category",
+        "comments",
+        "company",
+        "companyid",
+        "contactrole",
+        "contactsource",
+        "custentity_date_lsa",
+        "custentity_hul_account_rating",
+        "custentity_hul_addtonutshell",
+        "custentity_hul_brands",
+        "custentity_hul_currentrental",
+        "custentity_hul_currentservice",
+        "custentity_hul_equipmentclass",
+        "custentity_hul_lastservicecall",
+        "custentity_hul_lastservicecall_date",
+        "custentity_hul_nextpurchase_quarter",
+        "custentity_hul_nextpurchase_year",
+        "custentity_hul_numberofequipment",
+        "custentity_hul_nutshellid",
+        "custentity_hul_onan",
+        "custentity_hul_onco",
+        "custentity_hul_onpm",
+        "custentity_link_lsa",
+        "custentity_link_name_lsa",
+        "custentity_sna_contact_location",
+        "custentity_versapay_arc_initialload",
+        "custentity_versapay_do_not_sync",
+        "customform",
+        "customwhence",
+        "datecreated",
+        "defaultaddrbook",
+        "defaultaddress",
+        "defaultaddressee",
+        "dmodified",
+        "edition",
+        "email",
+        "entityid",
+        "entitytitle",
+        "entryformquerystring",
+        "externalid",
+        "fax",
+        "firstname",
+        "freeformstatepref",
+        "hasbillingaddress",
+        "hasshipping",
+        "hasshippingaddress",
+        "homephone",
+        "id",
+        "image",
+        "isemployee",
+        "isinactive",
+        "isindividual",
+        "isprivate",
+        "lastmodifieddate",
+        "lastname",
+        "middlename",
+        "mobilephone",
+        "nsapiCT",
+        "nsapiFC",
+        "nsapiLC",
+        "nsapiLI",
+        "nsapiPD",
+        "nsapiPI",
+        "nsapiPS",
+        "nsapiRC",
+        "nsapiSR",
+        "nsapiVD",
+        "nsapiVF",
+        "nsapiVI",
+        "nsapiVL",
+        "nsbrowserenv",
+        "ntype",
+        "officephone",
+        "oldparent",
+        "owner",
+        "parentcompany",
+        "phone",
+        "quickadd",
+        "salutation",
+        "saved_name",
+        "selectedtab",
+        "sessioncountry",
+        "shipaddr1",
+        "shipaddr2",
+        "shipaddr3",
+        "shipaddressee",
+        "shipattention",
+        "shipcity",
+        "shipcountry",
+        "shipstate",
+        "shipzip",
+        "subsidiary",
+        "supervisor",
+        "supervisorphone",
+        "templatestored",
+        "title",
+        "type",
+        "wfFC",
+        "wfPI",
+        "wfPS",
+        "wfSR",
+        "wfVF",
+        "wfinstances",
+        "whence"
+      ]
+    },
+    "output": {
+      "fields": []
+    },
+    "events": {
+      "fields": [
+        "_eml_nkey_",
+        "_multibtnstate_",
+        "accesslevel",
+        "alldayevent",
+        "calendardate",
+        "canaccessprivate",
+        "company",
+        "conflictdata",
+        "conflictwarningdiv",
+        "contact",
+        "createddate",
+        "customform",
+        "customwhence",
+        "deletetype",
+        "enddate",
+        "endtime",
+        "entryformquerystring",
+        "exclusiondate",
+        "externalid",
+        "group",
+        "id",
+        "lastmodifieddate",
+        "location",
+        "message",
+        "nsapiCT",
+        "nsapiFC",
+        "nsapiLC",
+        "nsapiLI",
+        "nsapiPD",
+        "nsapiPI",
+        "nsapiPS",
+        "nsapiRC",
+        "nsapiSR",
+        "nsapiVD",
+        "nsapiVF",
+        "nsapiVI",
+        "nsapiVL",
+        "nsbrowserenv",
+        "organizer",
+        "organizerhasaccess",
+        "owner",
+        "ownername",
+        "permtoeventcalendar",
+        "quickadd",
+        "rawmessage",
+        "relateditem",
+        "reminderminutes",
+        "remindertype",
+        "selectedtab",
+        "sendemail",
+        "startdate",
+        "starttime",
+        "status",
+        "supportcase",
+        "templatestored",
+        "timedevent",
+        "timezone",
+        "title",
+        "transaction",
+        "type",
+        "wfFC",
+        "wfPI",
+        "wfPS",
+        "wfSR",
+        "wfVF",
+        "wfinstances",
+        "whence"
+      ]
+    },
+    "tasks": {
+      "fields": [
+        "_eml_nkey_",
+        "_multibtnstate_",
+        "accesslevel",
+        "actualtime",
+        "assigned",
+        "calendardate",
+        "company",
+        "completeddate",
+        "conflictdata",
+        "conflictwarningdiv",
+        "contact",
+        "createddate",
+        "cseg_sna_revenue_st",
+        "custevent_hul_task_data_json",
+        "custevent_nx_actions_taken",
+        "custevent_nx_address",
+        "custevent_nx_billing_type",
+        "custevent_nx_case_closed",
+        "custevent_nx_created_from",
+        "custevent_nx_customer",
+        "custevent_nx_customer_name",
+        "custevent_nx_customer_signature",
+        "custevent_nx_destroy",
+        "custevent_nx_end_date",
+        "custevent_nx_end_time",
+        "custevent_nx_geo_location",
+        "custevent_nx_geo_location_comp",
+        "custevent_nx_idempotency_key",
+        "custevent_nx_internal_note",
+        "custevent_nx_latitude",
+        "custevent_nx_longitude",
+        "custevent_nx_notification_pending",
+        "custevent_nx_recurrence",
+        "custevent_nx_recurrence_copy",
+        "custevent_nx_recurrence_data",
+        "custevent_nx_recurrence_delete",
+        "custevent_nx_recurrence_exempt",
+        "custevent_nx_recurrence_index",
+        "custevent_nx_recurrence_propagate",
+        "custevent_nx_recurrence_propcomplete",
+        "custevent_nx_recurrence_updates",
+        "custevent_nx_signoff_technician",
+        "custevent_nx_start_date",
+        "custevent_nx_start_time",
+        "custevent_nx_status_update",
+        "custevent_nx_task_asset",
+        "custevent_nx_task_booking_confirmed",
+        "custevent_nx_task_end",
+        "custevent_nx_task_number",
+        "custevent_nx_task_offsite",
+        "custevent_nx_task_onsite",
+        "custevent_nx_task_outcome",
+        "custevent_nx_task_skill",
+        "custevent_nx_task_start",
+        "custevent_nx_task_team",
+        "custevent_nx_task_type",
+        "custevent_nx_technician_signature",
+        "custevent_nx_time_log_activities",
+        "custevent_nx_time_zone",
+        "custevent_nxc_arrival_time",
+        "custevent_nxc_customer_name",
+        "custevent_nxc_customer_signature",
+        "custevent_nxc_departure_time",
+        "custevent_nxc_internal_note",
+        "custevent_nxc_preferred_resource",
+        "custevent_nxc_reason_not_resolved",
+        "custevent_nxc_task_result",
+        "custevent_nxc_technician_name",
+        "custevent_nxc_technician_signature",
+        "custevent_nxc_work_complete",
+        "custevent_sn_hul_equip_asset",
+        "custevent_sn_hul_nx_txn_task",
+        "custevent_sna_case_mergedequipment",
+        "custevent_sna_case_mergedsite",
+        "custevent_sna_hul_casedept",
+        "custevent_sna_hul_customeraddress",
+        "custevent_sna_hul_manufcode",
+        "custevent_sna_hul_nx_notif_email",
+        "custevent_sna_hul_object",
+        "custevent_sna_hul_pm_checklist_id_task",
+        "custevent_sna_hul_rental_disclaimer",
+        "custevent_sna_hul_rental_terms",
+        "custevent_sna_hul_task_route_code",
+        "custevent_sna_ot_hrs_computed",
+        "customform",
+        "customwhence",
+        "duedate",
+        "enddate",
+        "endtime",
+        "entryformquerystring",
+        "estimatedtime",
+        "estimatedtimeoverride",
+        "externalid",
+        "group",
+        "id",
+        "isrelatedcompanyajob",
+        "lastmodifieddate",
+        "message",
+        "milestone",
+        "nsapiCT",
+        "nsapiFC",
+        "nsapiLC",
+        "nsapiLI",
+        "nsapiPD",
+        "nsapiPI",
+        "nsapiPS",
+        "nsapiRC",
+        "nsapiSR",
+        "nsapiVD",
+        "nsapiVF",
+        "nsapiVI",
+        "nsapiVL",
+        "nsbrowserenv",
+        "order",
+        "owner",
+        "parent",
+        "percentcomplete",
+        "percenttimecomplete",
+        "priority",
+        "quickadd",
+        "relateditem",
+        "reminderminutes",
+        "remindertype",
+        "selectedtab",
+        "sendemail",
+        "startdate",
+        "starttime",
+        "status",
+        "supportcase",
+        "templatestored",
+        "timedevent",
+        "timeremaining",
+        "timezone",
+        "title",
+        "transaction",
+        "type",
+        "wfFC",
+        "wfPI",
+        "wfPS",
+        "wfSR",
+        "wfVF",
+        "wfinstances",
+        "whence"
+      ]
+    },
+    "calls": {
+      "fields": [
+        "_eml_nkey_",
+        "_multibtnstate_",
+        "accesslevel",
+        "assigned",
+        "calendardate",
+        "company",
+        "completeddate",
+        "conflictdata",
+        "conflictwarningdiv",
+        "contact",
+        "createddate",
+        "customform",
+        "customwhence",
+        "enddate",
+        "endtime",
+        "entryformquerystring",
+        "externalid",
+        "group",
+        "id",
+        "isrelatedcompanyajob",
+        "lastmodifieddate",
+        "message",
+        "nsapiCT",
+        "nsapiFC",
+        "nsapiLC",
+        "nsapiLI",
+        "nsapiPD",
+        "nsapiPI",
+        "nsapiPS",
+        "nsapiRC",
+        "nsapiSR",
+        "nsapiVD",
+        "nsapiVF",
+        "nsapiVI",
+        "nsapiVL",
+        "nsbrowserenv",
+        "owner",
+        "phone",
+        "priority",
+        "quickadd",
+        "relateditem",
+        "reminderminutes",
+        "remindertype",
+        "selectedtab",
+        "sendemail",
+        "startdate",
+        "starttime",
+        "status",
+        "supportcase",
+        "templatestored",
+        "timedevent",
+        "timezone",
+        "title",
+        "transaction",
+        "type",
+        "wfFC",
+        "wfPI",
+        "wfPS",
+        "wfSR",
+        "wfVF",
+        "wfinstances",
+        "whence"
+      ]
+    },
+    "usernotes": {
+      "fields": [
+        "author",
+        "direction",
+        "id",
+        "note",
+        "notedate",
+        "notetype",
+        "time",
+        "title"
+      ]
+    },
+    "mediaitem": {
+      "fields": [
+        "content",
+        "description",
+        "filesize",
+        "filetype",
+        "folder",
+        "internalid",
+        "lastmodifieddate",
+        "mediaitem",
+        "name"
+      ]
+    },
+    "custom193": {
+      "fields": []
+    },
+    "custom203": {
+      "fields": []
+    },
+    "activities": {
+      "fields": []
+    }
+  }
+}

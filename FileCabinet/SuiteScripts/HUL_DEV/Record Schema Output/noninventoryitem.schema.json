@@ -1,0 +1,2199 @@
+{
+  "meta": {
+    "recordType": "noninventoryitem",
+    "generatedAt": "2026-01-22T16:59:47.138Z",
+    "source": "netsuite",
+    "method": "record.create + getFields/getField + getSublists/getSublistFields",
+    "version": "1.6.9",
+    "availability": {
+      "status": "available"
+    },
+    "notes": {
+      "sublists": {
+        "activities": "FSM Task list; no sublist fields expected."
+      },
+      "limitations": [
+        "Select field options not extracted.",
+        "System/UI fields may lack metadata.",
+        "Sublist fields = IDs only."
+      ]
+    }
+  },
+  "record": {
+    "type": "noninventoryitem"
+  },
+  "fields": {
+    "custitem_ava_ewaste_voltage": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "float",
+      "label": "Voltage (E-Waste)",
+      "isMandatory": false
+    },
+    "parent": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Subitem of",
+      "isMandatory": false
+    },
+    "vendbillmatchkey": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "integer",
+      "label": "",
+      "isMandatory": false
+    },
+    "custitem_zc_3wm_tlrnce_type_amt": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "3-Way Matching Tolerance Type for amount",
+      "isMandatory": false
+    },
+    "dropshipexpenseaccount": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Dropship Expense Account",
+      "isMandatory": false
+    },
+    "custpage_ava_bottletax_uom_netvolume": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "generateaccruals": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Generate Accruals",
+      "isMandatory": false
+    },
+    "_eml_nkey_": {
+      "category": "system",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "system_pseudo"
+    },
+    "storedisplayname": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Web Store Display Name",
+      "isMandatory": false
+    },
+    "billingwarn": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "label",
+      "label": "Charges may apply",
+      "isMandatory": false
+    },
+    "expenseamortizationrule": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Expense Amortization Rule",
+      "isMandatory": false
+    },
+    "customwhence": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "productfeed": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "multiselect",
+      "label": "Product Feed",
+      "isMandatory": false
+    },
+    "costcategory": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Cost Category",
+      "isMandatory": true
+    },
+    "nextagcategory": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "NexTag Category",
+      "isMandatory": false
+    },
+    "custitem_ava_ewaste_tiretype": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Tire Type (E-Waste)",
+      "isMandatory": false
+    },
+    "costestimatetype": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Cost Estimate Type",
+      "isMandatory": false
+    },
+    "custitem_ava_ewaste_netweight": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "float",
+      "label": "Net Weight (E-Waste)",
+      "isMandatory": false
+    },
+    "entryformquerystring": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "handlingcost": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency",
+      "label": "Handling Cost",
+      "isMandatory": false
+    },
+    "custpage_ava_ewaste_uom_netweight": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "subsidiary": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "multiselect",
+      "label": "Subsidiary",
+      "isMandatory": false
+    },
+    "custpage_ava_ewaste_screensize": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custpage_ava_unitofmeasure": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custitem_ava_issusedvehicle": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Is Used Vehicle (RentalLeasing)",
+      "isMandatory": false
+    },
+    "_multibtnstate_": {
+      "category": "system",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "system_pseudo"
+    },
+    "receiptquantitydiff": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "posfloat",
+      "label": "Vendor Bill - Item Receipt Quantity Difference",
+      "isMandatory": false
+    },
+    "shopzillaproductfeed": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custpage_ava_ewaste_rimdiameter": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "storeitemtemplate": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Item Drilldown Template",
+      "isMandatory": false
+    },
+    "shippingcost": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency",
+      "label": "Shipping Cost",
+      "isMandatory": false
+    },
+    "shoppingdotcomcategory": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Shopping.com Category",
+      "isMandatory": false
+    },
+    "selectedtab": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "createddate": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "datetime",
+      "label": "Date Created",
+      "isMandatory": false
+    },
+    "froogleproductfeed": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nsapiPS": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "cseg_hul_mfg": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "HUL Manufacturer",
+      "isMandatory": false
+    },
+    "onlineprice": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency2",
+      "label": "",
+      "isMandatory": false
+    },
+    "itemoptions": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "multiselect",
+      "label": "Item Options",
+      "isMandatory": false
+    },
+    "custpage_ava_ewaste_treadwidth": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "nsapiPI": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custpage_ava_ewaste_uom_voltage": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "nsapiPD": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "enforceminqtyinternally": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Enforce Minimum Internally",
+      "isMandatory": false
+    },
+    "custpage_ava_isintercompany": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custitem_ava_bottletax_packsize": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "float",
+      "label": "Pack Size(Bottle Tax)",
+      "isMandatory": false
+    },
+    "custpage_ava_ewaste_uom_packsize": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "pricinggroup": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Pricing Group",
+      "isMandatory": false
+    },
+    "customform": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Custom Form",
+      "isMandatory": false
+    },
+    "pricelevel5": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency2",
+      "label": "",
+      "isMandatory": false
+    },
+    "pricelevel4": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency2",
+      "label": "",
+      "isMandatory": false
+    },
+    "displayname": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Display Name/Code",
+      "isMandatory": false
+    },
+    "pricelevel3": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency2",
+      "label": "",
+      "isMandatory": false
+    },
+    "isdropshipitem": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Drop Ship Item",
+      "isMandatory": false
+    },
+    "pricelevel2": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency2",
+      "label": "",
+      "isMandatory": false
+    },
+    "pricelevel1": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency2",
+      "label": "",
+      "isMandatory": false
+    },
+    "custpage_ava_grossweight": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custitem_zc_qty_tlrnce_amount": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "float",
+      "label": "Quantity tolerance fixed amount",
+      "isMandatory": false
+    },
+    "custitem_ava_preowned": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Pre-Owned Item",
+      "isMandatory": false
+    },
+    "countryofmanufacture": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Manufacturer Country",
+      "isMandatory": false
+    },
+    "custitem_zc_prevailing_rate": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Default Rate Settings on Vendor Bill Lines",
+      "isMandatory": false
+    },
+    "nlloc": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "binmapchange": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custitem_ava_ewaste_uom_rimdiameter": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "UOM Rim Diameter (E-Waste)",
+      "isMandatory": false
+    },
+    "shoppingproductfeed": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "externalid": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "External ID",
+      "isMandatory": false
+    },
+    "residual": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "rate",
+      "label": "Residual",
+      "isMandatory": false
+    },
+    "custpage_stickyheaders_script": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custitem_ava_bottletax_netvolume": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "float",
+      "label": "Net Volume(Bottle Tax)",
+      "isMandatory": false
+    },
+    "custpage_ava_ewaste_uom_screensize": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "searchkeywords": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "textarea",
+      "label": "Search Keywords",
+      "isMandatory": false
+    },
+    "empty": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "label",
+      "label": "",
+      "isMandatory": false
+    },
+    "pricematrixfields": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "purchaseorderamount": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "posfloat",
+      "label": "Vendor Bill - Purchase Order Amount Tolerance",
+      "isMandatory": false
+    },
+    "receiptquantity": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "posfloat",
+      "label": "Vendor Bill - Item Receipt Quantity Tolerance",
+      "isMandatory": false
+    },
+    "maximumquantity": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "posinteger",
+      "label": "Maximum Quantity",
+      "isMandatory": false
+    },
+    "accchange": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "minimumquantity": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "posinteger",
+      "label": "Minimum Quantity",
+      "isMandatory": false
+    },
+    "custitem_ava_ewaste_uom_netweight": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "UOM Net Weight (E-Waste)",
+      "isMandatory": false
+    },
+    "custitem_nx_asset": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "NextService Asset",
+      "isMandatory": false
+    },
+    "custitem_ava_iselectricvehicle": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Is Electric Vehicle (RentalLeasing)",
+      "isMandatory": false
+    },
+    "custitem_zc_rate_tlrnce_percentage": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "percent",
+      "label": "Rate tolerance percentage",
+      "isMandatory": false
+    },
+    "custpage_ava_ewaste_uom_containersize": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "salesdescription": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "textarea",
+      "label": "Sales Description",
+      "isMandatory": false
+    },
+    "storedetaileddescription": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "richtext",
+      "label": "Detailed Description",
+      "isMandatory": false
+    },
+    "custpage_ava_bottletax_bevcontmat": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custpage_ava_issusedvehicle": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custitem_ava_ewaste_uom_treadwidth": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "UOM Tread Width (E-Waste)",
+      "isMandatory": false
+    },
+    "weight": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "float",
+      "label": "Item Weight",
+      "isMandatory": false
+    },
+    "taxschedule": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Tax Schedule",
+      "isMandatory": true
+    },
+    "deferralaccount": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Deferred Expense Account",
+      "isMandatory": false
+    },
+    "custitem_zc_3wm_tlrnce_type_rate": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "3-Way Matching tolerance type for rate",
+      "isMandatory": false
+    },
+    "custitem1": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Is FA?",
+      "isMandatory": false
+    },
+    "purchaseorderquantitydiff": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "posfloat",
+      "label": "Vendor Bill - Purchase Order Quantity Difference",
+      "isMandatory": false
+    },
+    "usemarginalrates": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Use Marginal Rates",
+      "isMandatory": false
+    },
+    "vendorname": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Vendor Name/Code",
+      "isMandatory": false
+    },
+    "custpage_ava_ewaste_tiretype": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "modifiableitemid": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "[Missing Label:modifiableItemId]",
+      "isMandatory": false
+    },
+    "custitem_ava_ewaste_uom_packsize": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "UOM Pack Size (E-waste)",
+      "isMandatory": false
+    },
+    "custitem_ava_taxcode": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "AvaTax Taxcode (2)",
+      "isMandatory": false
+    },
+    "custpage_ava_iselectricvehicle": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custitem_zc_rate_tlrnce_amount": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency",
+      "label": "Rate tolerance fixed amount",
+      "isMandatory": false
+    },
+    "nsapiLI": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custitem_ava_ewaste_rimdiameter": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "float",
+      "label": "Rim Diameter (E-Waste)",
+      "isMandatory": false
+    },
+    "weightunit": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "",
+      "isMandatory": false
+    },
+    "sys_id": {
+      "category": "system",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "system_pseudo"
+    },
+    "itemid": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Item Name/Number",
+      "isMandatory": true
+    },
+    "offersupport": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Offer Support",
+      "isMandatory": false
+    },
+    "origparent": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "integer",
+      "label": "",
+      "isMandatory": false
+    },
+    "custitem_ava_udf2": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "UDF2 (2)",
+      "isMandatory": false
+    },
+    "custitem_ava_udf1": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "UDF1 (2)",
+      "isMandatory": false
+    },
+    "nldept": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "isfulfillable": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Can be Fulfilled/Received",
+      "isMandatory": false
+    },
+    "nsapiLC": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custitem_sna_hul_itemdiscountgroup": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "#SNA Item Discount Group",
+      "isMandatory": false
+    },
+    "custitem_ava_ewaste_uom_containersize": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "UOM Container Size (E-Waste)",
+      "isMandatory": false
+    },
+    "class": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Class",
+      "isMandatory": false
+    },
+    "excludefromsitemap": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Exclude From Sitemap",
+      "isMandatory": false
+    },
+    "nlrole": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "yahooproductfeed": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "amortizationperiod": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "integer",
+      "label": "Amortization Period",
+      "isMandatory": false
+    },
+    "storedisplayimage": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Item Display Image",
+      "isMandatory": false
+    },
+    "upccode": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "UPC Code",
+      "isMandatory": false
+    },
+    "keywordschange": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custpage_ava_bottletax_netvolume": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "itemtype": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "sitemappriority": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Sitemap Priority",
+      "isMandatory": false
+    },
+    "custitem_ava_unitofmeasure": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Unit of Measure (RentalLeasing)",
+      "isMandatory": false
+    },
+    "custitem_ava_ewaste_treadwidth": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "float",
+      "label": "Tread Width (E-Waste)",
+      "isMandatory": false
+    },
+    "cseg_sna_revenue_st": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Revenue Streams",
+      "isMandatory": false
+    },
+    "location": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Location",
+      "isMandatory": false
+    },
+    "haschildren": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "expenseaccount": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Expense Account",
+      "isMandatory": false
+    },
+    "amortizationtemplate": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Amortization Template",
+      "isMandatory": false
+    },
+    "custpage_ava_taxcodemapping": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custitem_sna_item_service_code_type": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Service Code Type",
+      "isMandatory": false
+    },
+    "nsapiFC": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custpage_ava_ewaste_uom_treadwidth": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "schedulebnumber": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Schedule B Number",
+      "isMandatory": false
+    },
+    "type": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custitem_sna_hul_gen_prodpost_grp": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Gen. Prod. Posting Group",
+      "isMandatory": false
+    },
+    "custpage_ava_isacceleratedtaxpaid": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "nsapiVF": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nsapiVD": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "billqtyvarianceacct": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Quantity Variance Account",
+      "isMandatory": false
+    },
+    "overallquantitypricingtype": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Calculate Quantity Discounts",
+      "isMandatory": false
+    },
+    "nsbrowserenv": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "stockdescription": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Stock Description",
+      "isMandatory": false
+    },
+    "custitem_ava_ewaste_containersize": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "float",
+      "label": "Container Size (E-Waste)",
+      "isMandatory": false
+    },
+    "id": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Internal ID",
+      "isMandatory": false
+    },
+    "custpage_ava_bottletax_uom_packsize": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custitem_zc_3wm_tlrnce_type_qty": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "3-Way Matching tolerance type for quantity",
+      "isMandatory": false
+    },
+    "nsapiVL": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nsapiVI": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custitem_ava_bottletax_bevcontmat": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Beverage Container Material(Bottle Tax)",
+      "isMandatory": false
+    },
+    "vendormapcodechange": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custpage_ava_isheavymachinery": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "wfPS": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custpage_ava_ewaste_studded": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "mpn": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "MPN",
+      "isMandatory": false
+    },
+    "custpage_ava_isindeterminatelength": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custpage_ava_istexasterpeligible": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custitem_zc_amt_tlrnce_amount": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "float",
+      "label": "Amount tolerance fixed amount",
+      "isMandatory": false
+    },
+    "alternatedemandsourceitem": {
+      "category": "body",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "feature_gated_or_unavailable"
+    },
+    "custitem_zc_3wm_rate_retain_data": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Retain captured data if difference is outside of rate threshold",
+      "isMandatory": false
+    },
+    "featureddescription": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "richtext",
+      "label": "Featured Description",
+      "isMandatory": false
+    },
+    "nextagproductfeed": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "storedisplaythumbnail": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Item Display Thumbnail",
+      "isMandatory": false
+    },
+    "relateditemsdescription": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "richtext",
+      "label": "Related Items Description",
+      "isMandatory": false
+    },
+    "cseg_sna_hul_eq_seg": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Equipment Posting/Category/Group",
+      "isMandatory": false
+    },
+    "wfPI": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "shopzillacategoryid": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "integer",
+      "label": "Shopzilla Category ID",
+      "isMandatory": false
+    },
+    "custpage_ava_ewaste_netweight": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "billexchratevarianceacct": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Exchange Rate Variance Account",
+      "isMandatory": false
+    },
+    "custitem_ava_iscoloradosmmregistered": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Is Colorado SMM Registered (RentalLeasing)",
+      "isMandatory": false
+    },
+    "incomeaccount": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Income Account",
+      "isMandatory": false
+    },
+    "manufacturer": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Manufacturer",
+      "isMandatory": false
+    },
+    "nluser": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "wfSR": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "rectype_466_5491_maxnkey": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custitem_nx_show_on_mobile": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "NextService Show On Mobile",
+      "isMandatory": false
+    },
+    "origbinactive": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custitem_ava_is_taxable_service": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Is Taxable Service (RentalLeasing)",
+      "isMandatory": false
+    },
+    "custitem_zc_amt_tlrnce_percentage": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "percent",
+      "label": "Amount tolerance percentage",
+      "isMandatory": false
+    },
+    "custitem_ava_netweight": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "float",
+      "label": "Net Weight (RentalLeasing)",
+      "isMandatory": false
+    },
+    "billingschedule": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Billing Schedule",
+      "isMandatory": false
+    },
+    "custpage_ava_ewaste_containersize": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custitem_ava_ewaste_screensize": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "float",
+      "label": "Screen Size (E-Waste)",
+      "isMandatory": false
+    },
+    "custitem_sna_hul_itemcategory": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "#SNA - Item Category",
+      "isMandatory": false
+    },
+    "shipindividually": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Ships Individually",
+      "isMandatory": false
+    },
+    "custitem_ava_ewaste_containsmercury": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Contains Mercury (E-Waste)",
+      "isMandatory": false
+    },
+    "custitem_zc_3wm_qty_retain_data": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Retain captured data if difference is outside of quantity threshold",
+      "isMandatory": false
+    },
+    "nlsub": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custitem_nx_project_type": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "NextService Project Type",
+      "isMandatory": false
+    },
+    "custitem_ava_isindeterminatelength": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Is Indeterminate Length (RentalLeasing)",
+      "isMandatory": false
+    },
+    "custitem_ava_isheavymachinery": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Is Heavy Machinery (RentalLeasing)",
+      "isMandatory": false
+    },
+    "custitem_ava_istexasterpeligible": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Is Texas TERP Eligible (RentalLeasing)",
+      "isMandatory": false
+    },
+    "custitem_ava_isacceleratedtaxpaid": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Is Accelerated Tax Paid (RentalLeasing)",
+      "isMandatory": false
+    },
+    "shippackage": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Package",
+      "isMandatory": false
+    },
+    "quantitypricingschedule": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Quantity Pricing Schedule",
+      "isMandatory": false
+    },
+    "custpage_ava_ewaste_firstuse": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "wfVF": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "relateditemscategory": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custitem_ava_grossweight": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "float",
+      "label": "Gross Weight (RentalLeasing)",
+      "isMandatory": false
+    },
+    "custitem_nx_project_duration": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "integer",
+      "label": "NextService Project Duration",
+      "isMandatory": false
+    },
+    "itemtypename": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "isonline": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Display in Web Store",
+      "isMandatory": false
+    },
+    "nsapiRC": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "pricequantity1": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "float",
+      "label": "Qty",
+      "isMandatory": false
+    },
+    "custpage_ava_ewaste_voltage": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custitem_ava_bottletax_uom_netvolume": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "UOM-Net Volume(Bottle Tax)",
+      "isMandatory": false
+    },
+    "custpage_ava_numberofdays": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custpage_ava_netweight": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custitem_ava_ewaste_firstuse": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "First Use (E-Waste)",
+      "isMandatory": false
+    },
+    "custpage_ava_itemmapid": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custitem_zc_prevailing_quantity": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Default Quantity Settings on Vendor Bill Lines",
+      "isMandatory": false
+    },
+    "custitem_ava_bottletax_uom_packsize": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "UOM-Pack Size(Bottle Tax)\t",
+      "isMandatory": false
+    },
+    "custpage_ava_isoperatorprovided": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "includechildren": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Include Children",
+      "isMandatory": false
+    },
+    "custitem_ava_numberofdays": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "float",
+      "label": "Number Of Days (RentalLeasing)",
+      "isMandatory": false
+    },
+    "custitem_sna_hul_purchased_eq": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Purchased Equipment",
+      "isMandatory": false
+    },
+    "baseprice": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency2",
+      "label": "",
+      "isMandatory": false
+    },
+    "custpage_ava_ewaste_packsize": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "priceheadercount": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custitem_ava_ewaste_studded": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Studded (E-Waste)",
+      "isMandatory": false
+    },
+    "storedescription": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "richtext",
+      "label": "Web Store Description",
+      "isMandatory": false
+    },
+    "custitem_sna_hul_eligible_for_comm": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Eligible for Commission",
+      "isMandatory": false
+    },
+    "isinactive": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Inactive",
+      "isMandatory": false
+    },
+    "wfinstances": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custitem_ava_isoperatorprovided": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Is Operator Provided (RentalLeasing)",
+      "isMandatory": false
+    },
+    "purchasedescription": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "textarea",
+      "label": "Purchase Description",
+      "isMandatory": false
+    },
+    "custitem_ava_ewaste_uom_voltage": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "UOM Voltage (E-Waste)",
+      "isMandatory": false
+    },
+    "metataghtml": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "richtext",
+      "label": "Meta Tag HTML",
+      "isMandatory": false
+    },
+    "custitem_zc_qty_tlrnce_percentage": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "percent",
+      "label": "Quantity tolerance percentage",
+      "isMandatory": false
+    },
+    "nsapiCT": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custpage_ava_iscoloradosmmregistered": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "subtype": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custpage_ava_bottletax_packsize": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "purchaseorderquantity": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "posfloat",
+      "label": "Vendor Bill - Purchase Order Quantity Tolerance",
+      "isMandatory": false
+    },
+    "custpage_ava_ewaste_uom_rimdiameter": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "department": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Department",
+      "isMandatory": true
+    },
+    "custitem_ava_ewaste_packsize": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "float",
+      "label": "Pack Size (E-Waste)",
+      "isMandatory": false
+    },
+    "custpage_ava_ewaste_containsmercury": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "nsapiSR": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "copydescription": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Copy from Sales Order",
+      "isMandatory": false
+    },
+    "templatestored": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "cost": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency2",
+      "label": "Purchase Price",
+      "isMandatory": false
+    },
+    "priceheader": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "whence": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "lastmodifieddate": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "datetime",
+      "label": "Last Modified",
+      "isMandatory": false
+    },
+    "isgcocompliant": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Allow Google Checkout Purchase",
+      "isMandatory": false
+    },
+    "baserecordtype": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custpage_ava_servicetypes": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "receiptamount": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "posfloat",
+      "label": "Vendor Bill - Item Receipt Amount Tolerance",
+      "isMandatory": false
+    },
+    "custitem_ava_ewaste_uom_screensize": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "UOM Screen Size (E-waste)",
+      "isMandatory": false
+    },
+    "custpage_ava_is_taxable_service": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "hasparent": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custpage_ava_udf2": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custitem_sna_sales_territory": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Sales Territory",
+      "isMandatory": false
+    },
+    "custpage_ava_udf1": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "billpricevarianceacct": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Price Variance Account",
+      "isMandatory": false
+    },
+    "custitem_zc_prevailing_amount": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Default amount settings on vendor bill lines",
+      "isMandatory": false
+    },
+    "createexpenseplanson": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Create Expense Plans On",
+      "isMandatory": false
+    },
+    "costestimate": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency",
+      "label": "Item Defined Cost",
+      "isMandatory": false
+    },
+    "isspecialorderitem": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Special Order Item",
+      "isMandatory": false
+    },
+    "custitem_ava_isintercompany": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Is Intercompany (RentalLeasing)",
+      "isMandatory": false
+    },
+    "wfFC": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "vendormapchange": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    }
+  },
+  "sublists": {
+    "quantitypricinglevel": {
+      "fields": [
+        "levelcount",
+        "leveldiscount"
+      ]
+    },
+    "presentationitem": {
+      "fields": [
+        "baseprice",
+        "description",
+        "item",
+        "itemtype",
+        "onlineprice",
+        "presentationitem"
+      ]
+    },
+    "vendorstab": {
+      "fields": []
+    },
+    "recmachcustrecord_sna_vba_item": {
+      "fields": [
+        "custrecord_sna_vba_bin",
+        "custrecord_sna_vba_item",
+        "custrecord_sna_vba_loc",
+        "id",
+        "owner",
+        "rec466view",
+        "recordischanged",
+        "version"
+      ]
+    },
+    "price": {
+      "fields": [
+        "currency",
+        "discount",
+        "discountdisplay",
+        "price_1_",
+        "price_2_",
+        "price_3_",
+        "price_4_",
+        "price_5_",
+        "pricelevel",
+        "pricelevelname",
+        "sys_id",
+        "sys_parentid"
+      ]
+    },
+    "relitems": {
+      "fields": []
+    },
+    "sitecategory": {
+      "fields": [
+        "category",
+        "categorydescription",
+        "isdefault",
+        "website"
+      ]
+    },
+    "projects": {
+      "fields": []
+    },
+    "events": {
+      "fields": [
+        "_eml_nkey_",
+        "_multibtnstate_",
+        "accesslevel",
+        "alldayevent",
+        "calendardate",
+        "canaccessprivate",
+        "company",
+        "conflictdata",
+        "conflictwarningdiv",
+        "contact",
+        "createddate",
+        "customform",
+        "customwhence",
+        "deletetype",
+        "enddate",
+        "endtime",
+        "entryformquerystring",
+        "exclusiondate",
+        "externalid",
+        "group",
+        "id",
+        "lastmodifieddate",
+        "location",
+        "message",
+        "nsapiCT",
+        "nsapiFC",
+        "nsapiLC",
+        "nsapiLI",
+        "nsapiPD",
+        "nsapiPI",
+        "nsapiPS",
+        "nsapiRC",
+        "nsapiSR",
+        "nsapiVD",
+        "nsapiVF",
+        "nsapiVI",
+        "nsapiVL",
+        "nsbrowserenv",
+        "organizer",
+        "organizerhasaccess",
+        "owner",
+        "ownername",
+        "permtoeventcalendar",
+        "quickadd",
+        "rawmessage",
+        "relateditem",
+        "reminderminutes",
+        "remindertype",
+        "selectedtab",
+        "sendemail",
+        "startdate",
+        "starttime",
+        "status",
+        "supportcase",
+        "templatestored",
+        "timedevent",
+        "timezone",
+        "title",
+        "transaction",
+        "type",
+        "wfFC",
+        "wfPI",
+        "wfPS",
+        "wfSR",
+        "wfVF",
+        "wfinstances",
+        "whence"
+      ]
+    },
+    "tasks": {
+      "fields": [
+        "_eml_nkey_",
+        "_multibtnstate_",
+        "accesslevel",
+        "actualtime",
+        "assigned",
+        "calendardate",
+        "company",
+        "completeddate",
+        "conflictdata",
+        "conflictwarningdiv",
+        "contact",
+        "createddate",
+        "cseg_sna_revenue_st",
+        "custevent_hul_task_data_json",
+        "custevent_nx_actions_taken",
+        "custevent_nx_address",
+        "custevent_nx_billing_type",
+        "custevent_nx_case_closed",
+        "custevent_nx_created_from",
+        "custevent_nx_customer",
+        "custevent_nx_customer_name",
+        "custevent_nx_customer_signature",
+        "custevent_nx_destroy",
+        "custevent_nx_end_date",
+        "custevent_nx_end_time",
+        "custevent_nx_geo_location",
+        "custevent_nx_geo_location_comp",
+        "custevent_nx_idempotency_key",
+        "custevent_nx_internal_note",
+        "custevent_nx_latitude",
+        "custevent_nx_longitude",
+        "custevent_nx_notification_pending",
+        "custevent_nx_recurrence",
+        "custevent_nx_recurrence_copy",
+        "custevent_nx_recurrence_data",
+        "custevent_nx_recurrence_delete",
+        "custevent_nx_recurrence_exempt",
+        "custevent_nx_recurrence_index",
+        "custevent_nx_recurrence_propagate",
+        "custevent_nx_recurrence_propcomplete",
+        "custevent_nx_recurrence_updates",
+        "custevent_nx_signoff_technician",
+        "custevent_nx_start_date",
+        "custevent_nx_start_time",
+        "custevent_nx_status_update",
+        "custevent_nx_task_asset",
+        "custevent_nx_task_booking_confirmed",
+        "custevent_nx_task_end",
+        "custevent_nx_task_number",
+        "custevent_nx_task_offsite",
+        "custevent_nx_task_onsite",
+        "custevent_nx_task_outcome",
+        "custevent_nx_task_skill",
+        "custevent_nx_task_start",
+        "custevent_nx_task_team",
+        "custevent_nx_task_type",
+        "custevent_nx_technician_signature",
+        "custevent_nx_time_log_activities",
+        "custevent_nx_time_zone",
+        "custevent_nxc_arrival_time",
+        "custevent_nxc_customer_name",
+        "custevent_nxc_customer_signature",
+        "custevent_nxc_departure_time",
+        "custevent_nxc_internal_note",
+        "custevent_nxc_preferred_resource",
+        "custevent_nxc_reason_not_resolved",
+        "custevent_nxc_task_result",
+        "custevent_nxc_technician_name",
+        "custevent_nxc_technician_signature",
+        "custevent_nxc_work_complete",
+        "custevent_sn_hul_equip_asset",
+        "custevent_sn_hul_nx_txn_task",
+        "custevent_sna_case_mergedequipment",
+        "custevent_sna_case_mergedsite",
+        "custevent_sna_hul_casedept",
+        "custevent_sna_hul_customeraddress",
+        "custevent_sna_hul_manufcode",
+        "custevent_sna_hul_nx_notif_email",
+        "custevent_sna_hul_object",
+        "custevent_sna_hul_pm_checklist_id_task",
+        "custevent_sna_hul_rental_disclaimer",
+        "custevent_sna_hul_rental_terms",
+        "custevent_sna_hul_task_route_code",
+        "custevent_sna_ot_hrs_computed",
+        "customform",
+        "customwhence",
+        "duedate",
+        "enddate",
+        "endtime",
+        "entryformquerystring",
+        "estimatedtime",
+        "estimatedtimeoverride",
+        "externalid",
+        "group",
+        "id",
+        "isrelatedcompanyajob",
+        "lastmodifieddate",
+        "message",
+        "milestone",
+        "nsapiCT",
+        "nsapiFC",
+        "nsapiLC",
+        "nsapiLI",
+        "nsapiPD",
+        "nsapiPI",
+        "nsapiPS",
+        "nsapiRC",
+        "nsapiSR",
+        "nsapiVD",
+        "nsapiVF",
+        "nsapiVI",
+        "nsapiVL",
+        "nsbrowserenv",
+        "order",
+        "owner",
+        "parent",
+        "percentcomplete",
+        "percenttimecomplete",
+        "priority",
+        "quickadd",
+        "relateditem",
+        "reminderminutes",
+        "remindertype",
+        "selectedtab",
+        "sendemail",
+        "startdate",
+        "starttime",
+        "status",
+        "supportcase",
+        "templatestored",
+        "timedevent",
+        "timeremaining",
+        "timezone",
+        "title",
+        "transaction",
+        "type",
+        "wfFC",
+        "wfPI",
+        "wfPS",
+        "wfSR",
+        "wfVF",
+        "wfinstances",
+        "whence"
+      ]
+    },
+    "calls": {
+      "fields": [
+        "_eml_nkey_",
+        "_multibtnstate_",
+        "accesslevel",
+        "assigned",
+        "calendardate",
+        "company",
+        "completeddate",
+        "conflictdata",
+        "conflictwarningdiv",
+        "contact",
+        "createddate",
+        "customform",
+        "customwhence",
+        "enddate",
+        "endtime",
+        "entryformquerystring",
+        "externalid",
+        "group",
+        "id",
+        "isrelatedcompanyajob",
+        "lastmodifieddate",
+        "message",
+        "nsapiCT",
+        "nsapiFC",
+        "nsapiLC",
+        "nsapiLI",
+        "nsapiPD",
+        "nsapiPI",
+        "nsapiPS",
+        "nsapiRC",
+        "nsapiSR",
+        "nsapiVD",
+        "nsapiVF",
+        "nsapiVI",
+        "nsapiVL",
+        "nsbrowserenv",
+        "owner",
+        "phone",
+        "priority",
+        "quickadd",
+        "relateditem",
+        "reminderminutes",
+        "remindertype",
+        "selectedtab",
+        "sendemail",
+        "startdate",
+        "starttime",
+        "status",
+        "supportcase",
+        "templatestored",
+        "timedevent",
+        "timezone",
+        "title",
+        "transaction",
+        "type",
+        "wfFC",
+        "wfPI",
+        "wfPS",
+        "wfSR",
+        "wfVF",
+        "wfinstances",
+        "whence"
+      ]
+    },
+    "usernotes": {
+      "fields": [
+        "author",
+        "direction",
+        "id",
+        "note",
+        "notedate",
+        "notetype",
+        "time",
+        "title"
+      ]
+    },
+    "translation": {
+      "fields": []
+    },
+    "custom194": {
+      "fields": []
+    },
+    "itemvendor": {
+      "fields": [
+        "preferredvendor",
+        "purchaseprice",
+        "schedule",
+        "subsidiary",
+        "vendor",
+        "vendorcode",
+        "vendorcurrencyid"
+      ]
+    },
+    "mediaitem": {
+      "fields": [
+        "content",
+        "description",
+        "filesize",
+        "filetype",
+        "filetypekey",
+        "folder",
+        "internalid",
+        "lastmodifieddate",
+        "mediaitem",
+        "name"
+      ]
+    }
+  }
+}

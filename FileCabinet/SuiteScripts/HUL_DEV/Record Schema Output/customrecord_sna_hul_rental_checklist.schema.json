@@ -1,0 +1,1551 @@
+{
+  "meta": {
+    "recordType": "customrecord_sna_hul_rental_checklist",
+    "generatedAt": "2026-01-22T18:25:20.460Z",
+    "source": "netsuite",
+    "version": "1.7.4",
+    "outputFolderId": 6223347,
+    "method": "record.create + getFields/getField + getSublists/getSublistFields",
+    "recordTypeOrigin": "custom"
+  },
+  "record": {
+    "type": "customrecord_sna_hul_rental_checklist"
+  },
+  "fields": {
+    "custrecord_sna_nxc_rc_field_2_img": {
+      "category": "body",
+      "type": "select",
+      "label": "Image - Check for Damage:Carriage Pins ",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_11_text": {
+      "category": "body",
+      "type": "text",
+      "label": "Comment - Check for Damage:Tires, Gouges, Foreign Objects",
+      "isMandatory": false
+    },
+    "_eml_nkey_": {
+      "category": "system",
+      "metadataUnavailableReason": "system_pseudo"
+    },
+    "customwhence": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_task": {
+      "category": "body",
+      "type": "select",
+      "label": "Task",
+      "isMandatory": false
+    },
+    "custrecord181": {
+      "category": "body",
+      "type": "select",
+      "label": "Fuel Level ",
+      "isMandatory": false
+    },
+    "custrecord96": {
+      "category": "body",
+      "type": "select",
+      "label": "Alarms ",
+      "isMandatory": false
+    },
+    "custrecord98": {
+      "category": "body",
+      "type": "select",
+      "label": "All Lights ",
+      "isMandatory": false
+    },
+    "custrecord189": {
+      "category": "body",
+      "type": "select",
+      "label": "High Speed Cut Out ",
+      "isMandatory": false
+    },
+    "custrecord187": {
+      "category": "body",
+      "type": "select",
+      "label": "Grease Zerks ",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_4_text": {
+      "category": "body",
+      "type": "text",
+      "label": "Comment - Check for Damage:Glass",
+      "isMandatory": false
+    },
+    "custrecord185": {
+      "category": "body",
+      "type": "select",
+      "label": "Generator Function ",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_25_text": {
+      "category": "body",
+      "type": "text",
+      "label": "Comment - Horn And Seat Belt,Back-up Alarms",
+      "isMandatory": false
+    },
+    "custrecord183": {
+      "category": "body",
+      "type": "select",
+      "label": "Fuel Level (Charge if Not Full) ",
+      "isMandatory": false
+    },
+    "entryformquerystring": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "ownerid": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "version": {
+      "category": "body",
+      "type": "integer",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_11": {
+      "category": "body",
+      "type": "select",
+      "label": "Check for Damage:Tires, Gouges, Foreign Objects",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_2_text": {
+      "category": "body",
+      "type": "text",
+      "label": "Comment - Check for Damage:Carriage Pins ",
+      "isMandatory": false
+    },
+    "custrecord193": {
+      "category": "body",
+      "type": "select",
+      "label": "Hoses ",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_10": {
+      "category": "body",
+      "type": "select",
+      "label": "Check for Damage:Sheet Metal",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_13": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check for open work orders",
+      "isMandatory": false
+    },
+    "custrecord191": {
+      "category": "body",
+      "type": "select",
+      "label": "Horn ",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_12": {
+      "category": "body",
+      "type": "select",
+      "label": "Check for Damage:Tow Hitch",
+      "isMandatory": false
+    },
+    "custrecord_sn_hul_mergequipassetchklst": {
+      "category": "body",
+      "type": "select",
+      "label": "Merged to Equipment Asset",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_15": {
+      "category": "body",
+      "type": "select",
+      "label": "Check Level:Eng Oil",
+      "isMandatory": false
+    },
+    "_multibtnstate_": {
+      "category": "system",
+      "metadataUnavailableReason": "system_pseudo"
+    },
+    "custrecord_sna_nxc_rc_field_14": {
+      "category": "body",
+      "type": "select",
+      "label": "Check Level:Differentail",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_17": {
+      "category": "body",
+      "type": "select",
+      "label": "Check Level:Hyd Oil",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_16": {
+      "category": "body",
+      "type": "select",
+      "label": "Check Level:Fuel",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_6_img": {
+      "category": "body",
+      "type": "select",
+      "label": "Image - Check for Damage:Mirrors,Lights,Alarms",
+      "isMandatory": false
+    },
+    "custrecord199": {
+      "category": "body",
+      "type": "select",
+      "label": "Labels ",
+      "isMandatory": false
+    },
+    "custrecord197": {
+      "category": "body",
+      "type": "select",
+      "label": "Hydraulic Level ",
+      "isMandatory": false
+    },
+    "custrecord195": {
+      "category": "body",
+      "type": "select",
+      "label": "Hyd Oil ",
+      "isMandatory": false
+    },
+    "selectedtab": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_19": {
+      "category": "body",
+      "type": "select",
+      "label": "Check Level:Radiator",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_18": {
+      "category": "body",
+      "type": "select",
+      "label": "Check Level:Planetarys",
+      "isMandatory": false
+    },
+    "nsapiPS": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_22": {
+      "category": "body",
+      "type": "select",
+      "label": "Check Pm 250hrs or 1 year",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_21": {
+      "category": "body",
+      "type": "select",
+      "label": "Check Mast,Chains,Hoses, Rollers",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_24": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Fleet Code matches paperwork",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_23": {
+      "category": "body",
+      "type": "longtext",
+      "label": "Comments",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_26": {
+      "category": "body",
+      "type": "text",
+      "label": "Hour Meter Reading",
+      "isMandatory": true
+    },
+    "custrecord_sna_nxc_rc_field_25": {
+      "category": "body",
+      "type": "select",
+      "label": "Horn And Seat Belt,Back-up Alarms",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_28": {
+      "category": "body",
+      "type": "select",
+      "label": "Inspect data plate, operator's manual and warning decals",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_27": {
+      "category": "body",
+      "type": "select",
+      "label": "Inspect battery, fill water levels, clean terminals and connectors",
+      "isMandatory": false
+    },
+    "nsapiPI": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_20": {
+      "category": "body",
+      "type": "select",
+      "label": "Check Level:Transmission",
+      "isMandatory": false
+    },
+    "nsapiPD": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_29": {
+      "category": "body",
+      "type": "select",
+      "label": "Inspect forks,latches,and pins for wear, Carriage Bar, fork shaft",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_33": {
+      "category": "body",
+      "type": "select",
+      "label": "Operating Controls",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_34": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Test Drive",
+      "isMandatory": false
+    },
+    "customform": {
+      "category": "body",
+      "type": "select",
+      "label": "Custom Form",
+      "isMandatory": true
+    },
+    "custrecord_sna_nxc_rc_field_12_img": {
+      "category": "body",
+      "type": "select",
+      "label": "Image - Check for Damage:Tow Hitch",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_6_text": {
+      "category": "body",
+      "type": "text",
+      "label": "Comment - Check for Damage:Mirrors,Lights,Alarms",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_31": {
+      "category": "body",
+      "type": "select",
+      "label": "Lug Nuts",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_30": {
+      "category": "body",
+      "type": "select",
+      "label": "LP Tank Present and correct to HUL",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_11_img": {
+      "category": "body",
+      "type": "select",
+      "label": "Image - Check for Damage:Tires, Gouges, Foreign Objects",
+      "isMandatory": false
+    },
+    "nlloc": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "externalid": {
+      "category": "body",
+      "type": "text",
+      "label": "External ID",
+      "isMandatory": false
+    },
+    "custpage_stickyheaders_script": {
+      "category": "ui",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custrecord60": {
+      "category": "body",
+      "type": "select",
+      "label": "Bumpers, Rollers and Stack Pins",
+      "isMandatory": false
+    },
+    "nameorig": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord56": {
+      "category": "body",
+      "type": "select",
+      "label": "Ground Inspection",
+      "isMandatory": false
+    },
+    "custrecord55": {
+      "category": "body",
+      "type": "select",
+      "label": "Decal Check",
+      "isMandatory": false
+    },
+    "scriptid": {
+      "category": "body",
+      "type": "identifier",
+      "label": "Script ID",
+      "isMandatory": false
+    },
+    "custrecord58": {
+      "category": "body",
+      "type": "select",
+      "label": "Check All Cylinders & Hoses for leaks",
+      "isMandatory": false
+    },
+    "custrecord51": {
+      "category": "body",
+      "type": "select",
+      "label": "Power To Platform",
+      "isMandatory": false
+    },
+    "custrecord53": {
+      "category": "body",
+      "type": "select",
+      "label": "Deck Extension",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_17_text": {
+      "category": "body",
+      "type": "text",
+      "label": "Comment - Check Level:Hyd Oil",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_18_text": {
+      "category": "body",
+      "type": "text",
+      "label": "Comment - Check Level:Planetarys",
+      "isMandatory": false
+    },
+    "custrecord71": {
+      "category": "body",
+      "type": "select",
+      "label": "Ground Strap",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_8_text": {
+      "category": "body",
+      "type": "text",
+      "label": "Comment - Check for Damage:Safety Railing, Straight, No Holes",
+      "isMandatory": false
+    },
+    "custrecord67": {
+      "category": "body",
+      "type": "select",
+      "label": "Lower Ground Functions",
+      "isMandatory": false
+    },
+    "custrecord69": {
+      "category": "body",
+      "type": "select",
+      "label": "Emergency Lowering",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_20_text": {
+      "category": "body",
+      "type": "text",
+      "label": "Comment - Check Level:Transmission ",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_31_text": {
+      "category": "body",
+      "type": "text",
+      "label": "Comment - Lug Nuts",
+      "isMandatory": false
+    },
+    "custrecord62": {
+      "category": "body",
+      "type": "select",
+      "label": "Hydraulic Tray for leaks and levels",
+      "isMandatory": false
+    },
+    "custrecord65": {
+      "category": "body",
+      "type": "select",
+      "label": "Check Batteries & Charger-Corrosion, water and test batteries",
+      "isMandatory": false
+    },
+    "custrecord64": {
+      "category": "body",
+      "type": "select",
+      "label": "Lower 110V Receptacle & Platform Power",
+      "isMandatory": false
+    },
+    "name": {
+      "category": "body",
+      "type": "text",
+      "label": "Name",
+      "isMandatory": true
+    },
+    "custrecord209": {
+      "category": "body",
+      "type": "select",
+      "label": "Lower 110V Recept & Generator if Equipped ",
+      "isMandatory": false
+    },
+    "linenumber": {
+      "category": "body",
+      "type": "integer",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_7_text": {
+      "category": "body",
+      "type": "text",
+      "label": "Comment - Check for Damage:Overhead Guard",
+      "isMandatory": false
+    },
+    "nsapiLI": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_7_img": {
+      "category": "body",
+      "type": "select",
+      "label": "Image - Check for Damage:Overhead Guard",
+      "isMandatory": false
+    },
+    "custrecord205": {
+      "category": "body",
+      "type": "select",
+      "label": "Lights & Strobe if equipped ",
+      "isMandatory": false
+    },
+    "custrecord203": {
+      "category": "body",
+      "type": "select",
+      "label": "Lights ",
+      "isMandatory": false
+    },
+    "custrecord81": {
+      "category": "body",
+      "type": "select",
+      "label": "Wash if needed",
+      "isMandatory": false
+    },
+    "custrecord83": {
+      "category": "body",
+      "type": "select",
+      "label": "Grease Zerks and Pothole Protect Rod",
+      "isMandatory": false
+    },
+    "sys_id": {
+      "category": "system",
+      "metadataUnavailableReason": "system_pseudo"
+    },
+    "custrecord77": {
+      "category": "body",
+      "type": "select",
+      "label": "Wheels",
+      "isMandatory": false
+    },
+    "custrecord79": {
+      "category": "body",
+      "type": "select",
+      "label": "Charger Cords",
+      "isMandatory": false
+    },
+    "custrecord73": {
+      "category": "body",
+      "type": "select",
+      "label": "Codes",
+      "isMandatory": false
+    },
+    "nldept": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord75": {
+      "category": "body",
+      "type": "select",
+      "label": "Check AN",
+      "isMandatory": false
+    },
+    "custrecord201": {
+      "category": "body",
+      "type": "select",
+      "label": "Leaks ",
+      "isMandatory": false
+    },
+    "nsapiLC": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_30_text": {
+      "category": "body",
+      "type": "text",
+      "label": "Comment - LP Tank Present and correct to HUL",
+      "isMandatory": false
+    },
+    "custpage_nx_state": {
+      "category": "ui",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "owner": {
+      "category": "body",
+      "type": "select",
+      "label": "Owner",
+      "isMandatory": true
+    },
+    "custrecord219": {
+      "category": "body",
+      "type": "select",
+      "label": "Operator Basket ",
+      "isMandatory": false
+    },
+    "custrecord217": {
+      "category": "body",
+      "type": "select",
+      "label": "Operation of all Functions ",
+      "isMandatory": false
+    },
+    "custrecord215": {
+      "category": "body",
+      "type": "select",
+      "label": "Manuals ",
+      "isMandatory": false
+    },
+    "custrecord213": {
+      "category": "body",
+      "type": "select",
+      "label": "Main Disconnect ",
+      "isMandatory": false
+    },
+    "nlrole": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_1": {
+      "category": "body",
+      "type": "select",
+      "label": "Boom: Pads,Chains,Hoses,Sheaves,Pull Rods",
+      "isMandatory": false
+    },
+    "custrecord92": {
+      "category": "body",
+      "type": "select",
+      "label": "Air Comp Oil",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_2": {
+      "category": "body",
+      "type": "select",
+      "label": "Check for Damage:Carriage Pins",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_3": {
+      "category": "body",
+      "type": "select",
+      "label": "Check for Damage:Cat Track",
+      "isMandatory": false
+    },
+    "custrecord94": {
+      "category": "body",
+      "type": "select",
+      "label": "Air Filter ",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_4": {
+      "category": "body",
+      "type": "select",
+      "label": "Check for Damage:Glass",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_5": {
+      "category": "body",
+      "type": "select",
+      "label": "Check for Damage:Joystick, Function, Physical Damage",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_6": {
+      "category": "body",
+      "type": "select",
+      "label": "Check for Damage:Mirrors,Lights,Alarms",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_7": {
+      "category": "body",
+      "type": "select",
+      "label": "Check for Damage:Overhead Guard",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_8": {
+      "category": "body",
+      "type": "select",
+      "label": "Check for Damage:Safety Railing, Straight, No Holes",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_21_text": {
+      "category": "body",
+      "type": "text",
+      "label": "Comment - Check Mast,Chains,Hoses, Rollers",
+      "isMandatory": false
+    },
+    "custrecord88": {
+      "category": "body",
+      "type": "text",
+      "label": "Walk Around Insp",
+      "isMandatory": false
+    },
+    "custrecord85": {
+      "category": "body",
+      "type": "select",
+      "label": "Customer Damage - Breakfix Open if needed",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_27_text": {
+      "category": "body",
+      "type": "text",
+      "label": "Comment - Inspect battery, fill water levels, clean terminals and connectors",
+      "isMandatory": false
+    },
+    "custrecord87": {
+      "category": "body",
+      "type": "text",
+      "label": "Under Hood Inspection",
+      "isMandatory": false
+    },
+    "custrecord211": {
+      "category": "body",
+      "type": "select",
+      "label": "LP Hose and Connector ",
+      "isMandatory": false
+    },
+    "custrecord108": {
+      "category": "body",
+      "type": "select",
+      "label": "B/U Alarm ",
+      "isMandatory": false
+    },
+    "custrecord229": {
+      "category": "body",
+      "type": "select",
+      "label": "Outriggers (if equipped) ",
+      "isMandatory": false
+    },
+    "nsapiFC": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord106": {
+      "category": "body",
+      "type": "select",
+      "label": "Axle Oil ",
+      "isMandatory": false
+    },
+    "custrecord227": {
+      "category": "body",
+      "type": "select",
+      "label": "Outriggers ",
+      "isMandatory": false
+    },
+    "custrecord104": {
+      "category": "body",
+      "type": "select",
+      "label": "Axle Mounting ",
+      "isMandatory": false
+    },
+    "custrecord225": {
+      "category": "body",
+      "type": "select",
+      "label": "Out Rigger Lift / Drive Cut Out ",
+      "isMandatory": false
+    },
+    "type": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_9": {
+      "category": "body",
+      "type": "select",
+      "label": "Check for Damage:Seat",
+      "isMandatory": false
+    },
+    "nsapiVF": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_project": {
+      "category": "body",
+      "type": "select",
+      "label": "Project",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_10_img": {
+      "category": "body",
+      "type": "select",
+      "label": "Image - Check for Damage:Sheet Metal",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_10_text": {
+      "category": "body",
+      "type": "text",
+      "label": "Comment - Check for Damage:Sheet Metal",
+      "isMandatory": false
+    },
+    "nsapiVD": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nsbrowserenv": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord102": {
+      "category": "body",
+      "type": "select",
+      "label": "Axle Extension Interlock ",
+      "isMandatory": false
+    },
+    "custrecord223": {
+      "category": "body",
+      "type": "select",
+      "label": "Out Rigger Function ",
+      "isMandatory": false
+    },
+    "custrecord100": {
+      "category": "body",
+      "type": "select",
+      "label": "Anti-freeze ",
+      "isMandatory": false
+    },
+    "custrecord221": {
+      "category": "body",
+      "type": "select",
+      "label": "Operator Manual ",
+      "isMandatory": false
+    },
+    "id": {
+      "category": "body",
+      "type": "text",
+      "label": "Internal ID",
+      "isMandatory": false
+    },
+    "nsapiVL": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nsapiVI": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord118": {
+      "category": "body",
+      "type": "select",
+      "label": "Boom Latches ",
+      "isMandatory": false
+    },
+    "custrecord239": {
+      "category": "body",
+      "type": "select",
+      "label": "PM",
+      "isMandatory": false
+    },
+    "wfPS": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord116": {
+      "category": "body",
+      "type": "select",
+      "label": "Battery Weight ",
+      "isMandatory": false
+    },
+    "custrecord237": {
+      "category": "body",
+      "type": "select",
+      "label": "Platform Welds ",
+      "isMandatory": false
+    },
+    "custrecord114": {
+      "category": "body",
+      "type": "select",
+      "label": "Battery Water after 8 hr cool down ",
+      "isMandatory": false
+    },
+    "custrecord235": {
+      "category": "body",
+      "type": "select",
+      "label": "Planetary Oil ",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_5_text": {
+      "category": "body",
+      "type": "text",
+      "label": "Comment - Check for Damage:Joystick, Function, Physical Damage",
+      "isMandatory": false
+    },
+    "custrecord112": {
+      "category": "body",
+      "type": "select",
+      "label": "Battery Condition ",
+      "isMandatory": false
+    },
+    "custrecord233": {
+      "category": "body",
+      "type": "select",
+      "label": "Park Brake ",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_12_text": {
+      "category": "body",
+      "type": "text",
+      "label": "Comment - Check for Damage:Tow Hitch",
+      "isMandatory": false
+    },
+    "custrecord110": {
+      "category": "body",
+      "type": "select",
+      "label": "Battery Cables ",
+      "isMandatory": false
+    },
+    "custrecord231": {
+      "category": "body",
+      "type": "select",
+      "label": "Overhead Guard (1/4\" deflection = OSHA fail) ",
+      "isMandatory": false
+    },
+    "wfPI": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_28_text": {
+      "category": "body",
+      "type": "text",
+      "label": "Comment - Inspect data plate, operator's manual and warning decals",
+      "isMandatory": false
+    },
+    "rectype": {
+      "category": "body",
+      "type": "select",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_22_text": {
+      "category": "body",
+      "type": "text",
+      "label": "Comment - Check Pm 250hrs or 1 year",
+      "isMandatory": false
+    },
+    "custrecord128": {
+      "category": "body",
+      "type": "select",
+      "label": "Brake Pads ",
+      "isMandatory": false
+    },
+    "custrecord249": {
+      "category": "body",
+      "type": "select",
+      "label": "Sand Boxes ",
+      "isMandatory": false
+    },
+    "custrecord126": {
+      "category": "body",
+      "type": "select",
+      "label": "Boom, Wear Pads, Hardware & Check for Debris",
+      "isMandatory": false
+    },
+    "custrecord247": {
+      "category": "body",
+      "type": "select",
+      "label": "Remove Boom Cover & Check Boom Pads &Hoses",
+      "isMandatory": false
+    },
+    "custrecord34": {
+      "category": "body",
+      "type": "text",
+      "label": "Walk Up Inspection",
+      "isMandatory": false
+    },
+    "nluser": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_asset": {
+      "category": "body",
+      "type": "select",
+      "label": "Asset",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_8_img": {
+      "category": "body",
+      "type": "select",
+      "label": "Image - Check for Damage:Safety Railing, Straight, No Holes",
+      "isMandatory": false
+    },
+    "custrecord124": {
+      "category": "body",
+      "type": "select",
+      "label": "Boom, Forks & Bar Condition ",
+      "isMandatory": false
+    },
+    "custrecord245": {
+      "category": "body",
+      "type": "select",
+      "label": "Radiator ",
+      "isMandatory": false
+    },
+    "wfSR": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord243": {
+      "category": "body",
+      "type": "select",
+      "label": "PM Due ",
+      "isMandatory": false
+    },
+    "custrecord_sna_test_note_1": {
+      "category": "body",
+      "type": "text",
+      "label": "Test Note 1",
+      "isMandatory": false
+    },
+    "custrecord38": {
+      "category": "body",
+      "type": "select",
+      "label": "Platform Safety Chain /Gate",
+      "isMandatory": false
+    },
+    "custrecord120": {
+      "category": "body",
+      "type": "select",
+      "label": "Boom Level Indicator ",
+      "isMandatory": false
+    },
+    "custrecord241": {
+      "category": "body",
+      "type": "select",
+      "label": "PM & Annual Due ",
+      "isMandatory": false
+    },
+    "custrecord_sna_test_note_2": {
+      "category": "body",
+      "type": "text",
+      "label": "Test Note 2",
+      "isMandatory": false
+    },
+    "custrecord138": {
+      "category": "body",
+      "type": "select",
+      "label": "Cat Track ",
+      "isMandatory": false
+    },
+    "custrecord259": {
+      "category": "body",
+      "type": "select",
+      "label": "Tire Iron ",
+      "isMandatory": false
+    },
+    "custrecord136": {
+      "category": "body",
+      "type": "select",
+      "label": "Capacity Chart ",
+      "isMandatory": false
+    },
+    "custrecord257": {
+      "category": "body",
+      "type": "select",
+      "label": "Tire Condition ",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_3_text": {
+      "category": "body",
+      "type": "text",
+      "label": "Comment - Check for Damage:Cat Track ",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field1_img": {
+      "category": "body",
+      "type": "select",
+      "label": "Image 1",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_parent_asset": {
+      "category": "body",
+      "type": "select",
+      "label": "Parent Asset",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_19_text": {
+      "category": "body",
+      "type": "text",
+      "label": "Comment - Check Level:Radiator",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_3_img": {
+      "category": "body",
+      "type": "select",
+      "label": "Image - Check for Damage:Cat Track ",
+      "isMandatory": false
+    },
+    "custrecord45": {
+      "category": "body",
+      "type": "text",
+      "label": "Op Check",
+      "isMandatory": false
+    },
+    "custrecord44": {
+      "category": "body",
+      "type": "select",
+      "label": "Manuals There",
+      "isMandatory": false
+    },
+    "custrecord47": {
+      "category": "body",
+      "type": "select",
+      "label": "Control Box Operations & Functions (Including Safety)",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_16_text": {
+      "category": "body",
+      "type": "text",
+      "label": "Comment - Check Level:Fuel",
+      "isMandatory": false
+    },
+    "custrecord40": {
+      "category": "body",
+      "type": "select",
+      "label": "Anchor Points",
+      "isMandatory": false
+    },
+    "custrecord42": {
+      "category": "body",
+      "type": "select",
+      "label": "GFI Covers",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_9_text": {
+      "category": "body",
+      "type": "text",
+      "label": "Comment - Check for Damage:Seat ",
+      "isMandatory": false
+    },
+    "custrecord134": {
+      "category": "body",
+      "type": "select",
+      "label": "Cab",
+      "isMandatory": false
+    },
+    "custrecord255": {
+      "category": "body",
+      "type": "select",
+      "label": "Tilt Sensor ",
+      "isMandatory": false
+    },
+    "custrecord132": {
+      "category": "body",
+      "type": "select",
+      "label": "Bumpers, Rollers & Stack Pins ",
+      "isMandatory": false
+    },
+    "custrecord253": {
+      "category": "body",
+      "type": "select",
+      "label": "Standard Wash ",
+      "isMandatory": false
+    },
+    "custrecord49": {
+      "category": "body",
+      "type": "select",
+      "label": "High Speed Cut Out  - 7ft = turtle mode",
+      "isMandatory": false
+    },
+    "custrecord130": {
+      "category": "body",
+      "type": "select",
+      "label": "Break Away Cable ",
+      "isMandatory": false
+    },
+    "custrecord251": {
+      "category": "body",
+      "type": "select",
+      "label": "Seat and Seatbelt ",
+      "isMandatory": false
+    },
+    "nlsub": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord148": {
+      "category": "body",
+      "type": "select",
+      "label": "Coolant ",
+      "isMandatory": false
+    },
+    "custrecord269": {
+      "category": "body",
+      "type": "select",
+      "label": "Visual Leak Inspection ",
+      "isMandatory": false
+    },
+    "wfVF": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_test_image_1": {
+      "category": "body",
+      "type": "select",
+      "label": "Test Image 1",
+      "isMandatory": false
+    },
+    "nsapiRC": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_33_text": {
+      "category": "body",
+      "type": "text",
+      "label": "Comment - Operating Controls",
+      "isMandatory": false
+    },
+    "custrecord267": {
+      "category": "body",
+      "type": "select",
+      "label": "Trans Oil",
+      "isMandatory": false
+    },
+    "custrecord144": {
+      "category": "body",
+      "type": "select",
+      "label": "Check Park Brake Functions ",
+      "isMandatory": false
+    },
+    "custrecord265": {
+      "category": "body",
+      "type": "select",
+      "label": "Trailer Lights",
+      "isMandatory": false
+    },
+    "custrecord142": {
+      "category": "body",
+      "type": "select",
+      "label": "Check Battery Corrosion, water and test batteries ",
+      "isMandatory": false
+    },
+    "custrecord263": {
+      "category": "body",
+      "type": "select",
+      "label": "Tow Chains & Clasps if equipped ",
+      "isMandatory": false
+    },
+    "custrecord140": {
+      "category": "body",
+      "type": "select",
+      "label": "Chains ",
+      "isMandatory": false
+    },
+    "custrecord261": {
+      "category": "body",
+      "type": "select",
+      "label": "Tires/Wheels Condition ",
+      "isMandatory": false
+    },
+    "custrecord_sn_hul_fuelrent": {
+      "category": "body",
+      "type": "text",
+      "label": "Fuel/Battery Level",
+      "isMandatory": false
+    },
+    "custrecord159": {
+      "category": "body",
+      "type": "select",
+      "label": "Engine Oil ",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_15_text": {
+      "category": "body",
+      "type": "text",
+      "label": "Comment - Check Level:Eng Oil",
+      "isMandatory": false
+    },
+    "custrecord158": {
+      "category": "body",
+      "type": "select",
+      "label": "Drive Cut Out ( Rotate) ",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_5_img": {
+      "category": "body",
+      "type": "select",
+      "label": "Image - Check for Damage:Joystick, Function, Physical Damage",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_29_text": {
+      "category": "body",
+      "type": "text",
+      "label": "Comment - Inspect forks,latches,and pins for wear, Carriage Bar, fork shaft",
+      "isMandatory": false
+    },
+    "custrecord278": {
+      "category": "body",
+      "type": "select",
+      "label": "Railings and Pins",
+      "isMandatory": false
+    },
+    "custrecord156": {
+      "category": "body",
+      "type": "select",
+      "label": "Def (Charge if Not Full) ",
+      "isMandatory": false
+    },
+    "custrecord154": {
+      "category": "body",
+      "type": "select",
+      "label": "Data Tag Condition and Spec's ",
+      "isMandatory": false
+    },
+    "custrecord275": {
+      "category": "body",
+      "type": "select",
+      "label": "Wheel Seals",
+      "isMandatory": false
+    },
+    "custrecord152": {
+      "category": "body",
+      "type": "select",
+      "label": "Cylinders ",
+      "isMandatory": false
+    },
+    "custrecord273": {
+      "category": "body",
+      "type": "select",
+      "label": "Weight Capacity Light",
+      "isMandatory": false
+    },
+    "custrecord150": {
+      "category": "body",
+      "type": "select",
+      "label": "Coolant (if Equipped) ",
+      "isMandatory": false
+    },
+    "custrecord271": {
+      "category": "body",
+      "type": "select",
+      "label": "Wash Unit if Needed",
+      "isMandatory": false
+    },
+    "isinactive": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Inactive",
+      "isMandatory": false
+    },
+    "wfinstances": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_14_text": {
+      "category": "body",
+      "type": "text",
+      "label": "Comment - Check Level:Differentail",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_case": {
+      "category": "body",
+      "type": "select",
+      "label": "Case",
+      "isMandatory": false
+    },
+    "custrecord169": {
+      "category": "body",
+      "type": "select",
+      "label": "Fire Extinguisher (if equipped) ",
+      "isMandatory": false
+    },
+    "nsapiCT": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord280": {
+      "category": "body",
+      "type": "select",
+      "label": "Ladder",
+      "isMandatory": false
+    },
+    "custrecord167": {
+      "category": "body",
+      "type": "select",
+      "label": "Extension Letters ",
+      "isMandatory": false
+    },
+    "custrecord165": {
+      "category": "body",
+      "type": "select",
+      "label": "Equalize Charge ",
+      "isMandatory": false
+    },
+    "custrecord163": {
+      "category": "body",
+      "type": "select",
+      "label": "Entire Machine ",
+      "isMandatory": false
+    },
+    "custrecord161": {
+      "category": "body",
+      "type": "select",
+      "label": "Engine Oil (if Equipped) ",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field2_img": {
+      "category": "body",
+      "type": "select",
+      "label": "Image 2",
+      "isMandatory": false
+    },
+    "nsapiSR": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "templatestored": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_4_img": {
+      "category": "body",
+      "type": "select",
+      "label": "Image - Check for Damage:Glass",
+      "isMandatory": false
+    },
+    "whence": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_rc_field_9_img": {
+      "category": "body",
+      "type": "select",
+      "label": "Image - Check for Damage:Seat ",
+      "isMandatory": false
+    },
+    "baserecordtype": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord171": {
+      "category": "body",
+      "type": "select",
+      "label": "Fluid Levels ",
+      "isMandatory": false
+    },
+    "custrecord179": {
+      "category": "body",
+      "type": "select",
+      "label": "Frame Level Indicator ",
+      "isMandatory": false
+    },
+    "custrecord177": {
+      "category": "body",
+      "type": "select",
+      "label": "Frame Damage ",
+      "isMandatory": false
+    },
+    "wfFC": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord175": {
+      "category": "body",
+      "type": "select",
+      "label": "Forks/Pins/LBR ",
+      "isMandatory": false
+    },
+    "custrecord173": {
+      "category": "body",
+      "type": "select",
+      "label": "Foot Switch Start Cut Out ",
+      "isMandatory": false
+    }
+  },
+  "sublists": {
+    "usernotes": {
+      "fields": [
+        "author",
+        "direction",
+        "id",
+        "note",
+        "notedate",
+        "notetype",
+        "time",
+        "title"
+      ]
+    },
+    "mediaitem": {
+      "fields": [
+        "content",
+        "description",
+        "filesize",
+        "filetype",
+        "folder",
+        "internalid",
+        "lastmodifieddate",
+        "mediaitem",
+        "name"
+      ]
+    }
+  }
+}

@@ -1,0 +1,2598 @@
+{
+  "meta": {
+    "recordType": "customer",
+    "generatedAt": "2026-01-22T16:59:38.955Z",
+    "source": "netsuite",
+    "method": "record.create + getFields/getField + getSublists/getSublistFields",
+    "version": "1.6.9",
+    "availability": {
+      "status": "available"
+    },
+    "notes": {
+      "sublists": {
+        "activities": "FSM Task list; no sublist fields expected."
+      },
+      "limitations": [
+        "Select field options not extracted.",
+        "System/UI fields may lack metadata.",
+        "Sublist fields = IDs only."
+      ]
+    }
+  },
+  "record": {
+    "type": "customer"
+  },
+  "fields": {
+    "parent": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Parent Company",
+      "isMandatory": false
+    },
+    "custentity_hul_nextpurchase_quarter": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Next Purchase Window Quarter",
+      "isMandatory": false
+    },
+    "custentity_solupay_customer_softdescript": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Custom Soft Descriptor",
+      "isMandatory": false
+    },
+    "_eml_nkey_": {
+      "category": "system",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "system_pseudo"
+    },
+    "dateclosed": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "startdate": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "date",
+      "label": "Start Date",
+      "isMandatory": false
+    },
+    "lastsaledate": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "customwhence": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "password": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "password",
+      "label": "Password",
+      "isMandatory": false
+    },
+    "groupinvoices": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Group Invoices",
+      "isMandatory": false
+    },
+    "buyingreason": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Buying Reason",
+      "isMandatory": false
+    },
+    "custentity_hul_nutshellid": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Nutshell ID",
+      "isMandatory": false
+    },
+    "custentity_erpff_p2p_party_endp_sch_id": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Party endpoint scheme ID",
+      "isMandatory": false
+    },
+    "accessrole": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Role",
+      "isMandatory": false
+    },
+    "custentity_ff_sc_entity_ita_pay_term": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Italian Payment Term",
+      "isMandatory": false
+    },
+    "entryformquerystring": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "datecreated": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "datetime",
+      "label": "Date Created",
+      "isMandatory": false
+    },
+    "receivablesacctpref": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "buyingtimeframe": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Buying Time Frame",
+      "isMandatory": false
+    },
+    "subsidiary": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Primary Subsidiary",
+      "isMandatory": true
+    },
+    "custentity_9572_ddcust_entitybank_sub": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Customer DD Entity Bank Subsidiary",
+      "isMandatory": false
+    },
+    "parentsubsidiary": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "_multibtnstate_": {
+      "category": "system",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "system_pseudo"
+    },
+    "custentity_sna_hul_date_of_exp_coi": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "date",
+      "label": "Date of Expiry : Certificate of Insurance",
+      "isMandatory": false
+    },
+    "billaddr1": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "billaddr2": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "billaddr3": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "selectedtab": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custentity_ff_sc_entity_ita_apy_code": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Italian Payment Term Code",
+      "isMandatory": false
+    },
+    "custentity_2663_direct_debit": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Direct Debit",
+      "isMandatory": false
+    },
+    "custentity_ava_exemptcertno": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Exemption Certificate No",
+      "isMandatory": false
+    },
+    "salesreadiness": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Sales Readiness",
+      "isMandatory": false
+    },
+    "openingbalance": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency",
+      "label": "Opening Balance",
+      "isMandatory": false
+    },
+    "custentity_sna_dun_escalcontacts": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "multiselect",
+      "label": "Dunning escalation contacts",
+      "isMandatory": false
+    },
+    "custentity_hul_3rdpartybilling": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "3rd Party Billing Req",
+      "isMandatory": false
+    },
+    "nsapiPS": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custentity_9572_custref_file_format": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Cust Ref File Format",
+      "isMandatory": false
+    },
+    "formatsample": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Format Sample",
+      "isMandatory": false
+    },
+    "openingbalanceaccount": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Opening Balance Account",
+      "isMandatory": false
+    },
+    "isinstallment": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nsapiPI": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "password2": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "password",
+      "label": "Confirm Password",
+      "isMandatory": false
+    },
+    "email": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "email",
+      "label": "Email",
+      "isMandatory": false
+    },
+    "custentity_sna_hul_customerpricinggroup": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "#SNA Customer Pricing Group",
+      "isMandatory": false
+    },
+    "nsapiPD": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custentity_ff_sc_bank_details_sec": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Secondary Bank Details for E-invoices",
+      "isMandatory": false
+    },
+    "custentity_versapay_migrate_status": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Versapay Migration Processed",
+      "isMandatory": false
+    },
+    "accesstabchanged": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "customform": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Custom Form",
+      "isMandatory": true
+    },
+    "stage": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custentity14": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Keyword Search",
+      "isMandatory": false
+    },
+    "custentity13": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Medium",
+      "isMandatory": false
+    },
+    "custentity_sna_dept": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Department",
+      "isMandatory": false
+    },
+    "sendtransactionsvia": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "label",
+      "label": "Send Transactions Via",
+      "isMandatory": false
+    },
+    "custentity15": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Search Engine",
+      "isMandatory": false
+    },
+    "custentity_9572_ddcust_entitybnkformat": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Customer DD Entity Bank Format",
+      "isMandatory": false
+    },
+    "symbolplacement": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Symbol Placement",
+      "isMandatory": false
+    },
+    "origgiveaccess": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "endbeforestart": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nlloc": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "externalid": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "External ID",
+      "isMandatory": false
+    },
+    "custentity_erpff_p2p_basw_tax_id": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Tax ID",
+      "isMandatory": false
+    },
+    "entityid": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Customer ID",
+      "isMandatory": true
+    },
+    "language": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Language",
+      "isMandatory": false
+    },
+    "custpage_stickyheaders_script": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "emailpreference": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Email Preference",
+      "isMandatory": false
+    },
+    "shipcity": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "billattention": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "isindividual": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "label",
+      "label": "Type",
+      "isMandatory": false
+    },
+    "custentity_hul_nextpurchase_year": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Next Purchase Window Year",
+      "isMandatory": false
+    },
+    "contact": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Primary Contact",
+      "isMandatory": false
+    },
+    "mobilephone": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "phone",
+      "label": "Mobile Phone",
+      "isMandatory": false
+    },
+    "image": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Image",
+      "isMandatory": false
+    },
+    "pricelevel": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Price Level",
+      "isMandatory": false
+    },
+    "hasshippingaddress": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "",
+      "isMandatory": false
+    },
+    "altphone": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "phone",
+      "label": "Alt. Phone",
+      "isMandatory": false
+    },
+    "faxtransactions": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Fax",
+      "isMandatory": false
+    },
+    "resalenumber": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Resale Number",
+      "isMandatory": false
+    },
+    "altemail": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "email",
+      "label": "Alt. Email",
+      "isMandatory": false
+    },
+    "custentity_sna_dun_includechildcuinvs": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Dunning Include Child Customer Invoices",
+      "isMandatory": false
+    },
+    "custentity_erpff_p2p_basw_tax_scheme": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Tax Scheme",
+      "isMandatory": false
+    },
+    "leadsource": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Lead Source",
+      "isMandatory": false
+    },
+    "salutation": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Mr./Ms...",
+      "isMandatory": false
+    },
+    "freeformstatepref": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "firstname": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Name",
+      "isMandatory": false
+    },
+    "nsapiLI": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "homephone": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "phone",
+      "label": "Home Phone",
+      "isMandatory": false
+    },
+    "custentity_versapay_migrate_id_mapping": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Versapay Migrate C-AR Identifier Mapping",
+      "isMandatory": false
+    },
+    "vatregnumber": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Tax Reg. Number",
+      "isMandatory": false
+    },
+    "edition": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "",
+      "isMandatory": false
+    },
+    "title": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Job Title",
+      "isMandatory": false
+    },
+    "billzip": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "giveaccess": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Give Access",
+      "isMandatory": false
+    },
+    "defaultaddressee": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "sys_id": {
+      "category": "system",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "system_pseudo"
+    },
+    "billingtransactiontype": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Billing Transaction Type",
+      "isMandatory": false
+    },
+    "shippingcarrier": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Shipping Carrier",
+      "isMandatory": false
+    },
+    "nldept": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custentity_versapay_cc_fee_exemptions": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Credit Card Fee Exemptions",
+      "isMandatory": false
+    },
+    "nsapiLC": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custpage_nx_state": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custentity_9572_refcust_entitybnkformat": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Customer Refund Entity Bank Format",
+      "isMandatory": false
+    },
+    "custentity_9997_dd_file_format": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "DD File Format",
+      "isMandatory": false
+    },
+    "custentity_versapay_arc_initialload": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "ARC Initial Load",
+      "isMandatory": false
+    },
+    "custentity_hul_equipmentclass": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Equipment Class",
+      "isMandatory": false
+    },
+    "custentity9": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Internal ID",
+      "isMandatory": false
+    },
+    "nlrole": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "middlename": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custentity_solupay_payment_logo_url": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "longtext",
+      "label": "Versapay Classic Payment Logo URL",
+      "isMandatory": false
+    },
+    "ntype": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "",
+      "isMandatory": false
+    },
+    "shipaddr3": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custentity_versapay_suppressnotification": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Suppress Versapay Emails to Customer",
+      "isMandatory": false
+    },
+    "shipaddr2": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custentity_sna_dun_recipient": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Dunning contact",
+      "isMandatory": false
+    },
+    "shipaddr1": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "billaddressee": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custentity_versapay_migrate_cc": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Versapay Migrate Credit Card To CDS",
+      "isMandatory": false
+    },
+    "custentity_zc_cust_contact_name": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "ZC Customer Contact Name",
+      "isMandatory": false
+    },
+    "sendemail": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Send New Access Notification Email",
+      "isMandatory": false
+    },
+    "creditlimit": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "poscurrency",
+      "label": "Credit Limit",
+      "isMandatory": false
+    },
+    "hasshipping": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "haschildren": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "prefccprocessor": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Pref. CC Processor",
+      "isMandatory": false
+    },
+    "billcity": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "stagename": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "defaultaddrbook": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custentity_erpff_p2p_party_endpoint_id": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Party endpoint ID",
+      "isMandatory": false
+    },
+    "nsapiFC": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "emailtransactions": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Email",
+      "isMandatory": false
+    },
+    "type": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "billcountry": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custentity_hul_lastservicecall": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Last Service Call (breakfix)",
+      "isMandatory": false
+    },
+    "nsapiVF": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custentity_sna_dun_cccompany": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Dunning copy company email",
+      "isMandatory": false
+    },
+    "nsapiVD": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "terms": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Terms",
+      "isMandatory": false
+    },
+    "nsbrowserenv": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "printoncheckas": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Print on Check As",
+      "isMandatory": false
+    },
+    "id": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Internal ID",
+      "isMandatory": false
+    },
+    "fax": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "phone",
+      "label": "Fax",
+      "isMandatory": false
+    },
+    "nsapiVL": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nsapiVI": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custentity_link_lsa": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "url",
+      "label": "LSA Link",
+      "isMandatory": false
+    },
+    "custentity_9572_dd_file_format": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Direct Debit File Format",
+      "isMandatory": false
+    },
+    "custentity_sna_customerform": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Custom Form (wf)",
+      "isMandatory": false
+    },
+    "custentity_erpff_p2p_party_endp_scheme": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Party endpoint scheme",
+      "isMandatory": false
+    },
+    "custpage_2663_translate_msgs": {
+      "category": "ui",
+      "metadataStatus": "unavailable",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "taxable": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Taxable",
+      "isMandatory": false
+    },
+    "wfPS": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "taxexempt": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "PST Exempt",
+      "isMandatory": false
+    },
+    "billingtransactionform": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Billing Transaction Form",
+      "isMandatory": false
+    },
+    "billingratecard": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Billing Rate Card",
+      "isMandatory": false
+    },
+    "alcoholrecipienttype": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Alcohol Recipient Type",
+      "isMandatory": false
+    },
+    "lastname": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "enddate": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "date",
+      "label": "End Date",
+      "isMandatory": false
+    },
+    "phone": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "phone",
+      "label": "Phone",
+      "isMandatory": false
+    },
+    "companyname": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Company Name",
+      "isMandatory": true
+    },
+    "custentity_erpff_p2p_party_endp_op_id": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Party endpoint operator ID",
+      "isMandatory": false
+    },
+    "shipping_country": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Country",
+      "isMandatory": false
+    },
+    "wfPI": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "defaultaddress": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "address",
+      "label": "Address",
+      "isMandatory": false
+    },
+    "custentity_zc_cust_apply_pos_on_edoc_cm": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Apply Positive Values on E-Document Credit Memo",
+      "isMandatory": false
+    },
+    "taxfractionunit": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Tax Rounding Precision",
+      "isMandatory": false
+    },
+    "custentity_hul_account_rating": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Account Rating",
+      "isMandatory": false
+    },
+    "custentity_sna_misc_allowed_entity": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Misc Fee Allowed ",
+      "isMandatory": false
+    },
+    "custentity_9572_refundcust_entitybnk_sub": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Customer Refund Entity Bank Subsidiary",
+      "isMandatory": false
+    },
+    "sourcewebsite": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Source Web Site",
+      "isMandatory": false
+    },
+    "initiallyOverrideAllowed": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "",
+      "isMandatory": false
+    },
+    "custentity_sna_hul_po_required": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "PO Required",
+      "isMandatory": false
+    },
+    "custentity_hul_numberofequipment": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Number of Equipment",
+      "isMandatory": false
+    },
+    "custentity_2663_customer_refund": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "EFT Customer Refund Payment",
+      "isMandatory": false
+    },
+    "creditholdoverride": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Hold",
+      "isMandatory": false
+    },
+    "receivablesaccount": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Default Receivables Account",
+      "isMandatory": false
+    },
+    "isperson": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "radio",
+      "label": "Individual",
+      "isMandatory": false
+    },
+    "nluser": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custentity_versapay_do_not_sync": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Do Not Sync to Versapay",
+      "isMandatory": false
+    },
+    "custentity_erpff_p2p_auto_send_document": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Automatically send e-documents",
+      "isMandatory": false
+    },
+    "wfSR": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custentity_sna_county": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "County",
+      "isMandatory": false
+    },
+    "origbinactive": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "openingbalancedate": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "date",
+      "label": "Opening Balance Date",
+      "isMandatory": false
+    },
+    "salesrep": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Sales Rep",
+      "isMandatory": false
+    },
+    "billingschedule": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Billing Schedule",
+      "isMandatory": false
+    },
+    "url": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "url",
+      "label": "Web Address",
+      "isMandatory": false
+    },
+    "billstate": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custentity_hul_currentrental": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Current Rental Provider",
+      "isMandatory": false
+    },
+    "custentity_solupay_cust_bypass_surcharge": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Versapay Bypass Classic E-Features Surcharge ",
+      "isMandatory": false
+    },
+    "custentity_sna_eqpt_cat": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Equipment Category",
+      "isMandatory": false
+    },
+    "autoname": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Auto",
+      "isMandatory": false
+    },
+    "currencyprecision": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custentity_sna_cert_of_insurance": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Certificate of Insurance",
+      "isMandatory": false
+    },
+    "emailloginkey": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custentity_sna_customerformcheck": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Custom Form (checkbox)",
+      "isMandatory": false
+    },
+    "shipcomplete": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Ship Complete",
+      "isMandatory": false
+    },
+    "custentity_date_lsa": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "date",
+      "label": "Last Sales Activity",
+      "isMandatory": false
+    },
+    "nlsub": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custentity_sna_hul_csm": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Customer Success Manager",
+      "isMandatory": false
+    },
+    "shipzip": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "origaccessrole": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custentity_sna_dun_ccrecipients": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "multiselect",
+      "label": "Dunning additional contacts",
+      "isMandatory": false
+    },
+    "custentity_sna_dun_optin": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Dunning enabled",
+      "isMandatory": false
+    },
+    "wfVF": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "shippingitem": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Shipping Method",
+      "isMandatory": false
+    },
+    "custentity_hul_onan": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "On AN?",
+      "isMandatory": false
+    },
+    "numberformat": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Number Format",
+      "isMandatory": false
+    },
+    "nsapiRC": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "isbudgetapproved": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Budget Approved",
+      "isMandatory": false
+    },
+    "hasbillingaddress": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "",
+      "isMandatory": false
+    },
+    "custentity_sn_hul_no_servicereport": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Do Not Send Case/Task Service Report",
+      "isMandatory": false
+    },
+    "shipstate": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "taxitem": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Tax Item",
+      "isMandatory": false
+    },
+    "custentity_sna_hul_show_servce_labor_pdf": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Show Service Labor QTY on PDF",
+      "isMandatory": false
+    },
+    "custentity_sna_blanket_po": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Blanket PO",
+      "isMandatory": false
+    },
+    "custentity_sna_dun_config": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Dunning configuration",
+      "isMandatory": false
+    },
+    "custentity_hul_addtonutshell": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Add to Nutshell",
+      "isMandatory": false
+    },
+    "isjob": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "overridecurrencyformat": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Override Currency Format",
+      "isMandatory": false
+    },
+    "custentity_hul_brands": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Competitive Brands",
+      "isMandatory": false
+    },
+    "defaultorderpriority": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "float",
+      "label": "Default Order Priority",
+      "isMandatory": false
+    },
+    "custentity_hul_lastservicecall_date": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "date",
+      "label": "Last Service Call (breakfix) Date",
+      "isMandatory": false
+    },
+    "taxrounding": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Tax Rounding Method",
+      "isMandatory": false
+    },
+    "custentity_sna_mfr": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Manufacturer",
+      "isMandatory": false
+    },
+    "custentity_ff_sc_bank_details": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Primary Bank Details for E-invoices",
+      "isMandatory": false
+    },
+    "custentity_hul_onpm": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "On PM?",
+      "isMandatory": false
+    },
+    "shipattention": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "isinactive": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Inactive",
+      "isMandatory": false
+    },
+    "sessioncountry": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "wfinstances": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custentity_sna_sr_code_cust": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Sales Rep Code (c)",
+      "isMandatory": false
+    },
+    "estimatedbudget": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "currency",
+      "label": "Estimated Budget",
+      "isMandatory": false
+    },
+    "custentitysna_cas_field": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Customer Approval Status",
+      "isMandatory": false
+    },
+    "custentity_hul_ponotes": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "longtext",
+      "label": "PO Notes",
+      "isMandatory": false
+    },
+    "custentity_zc_cust_contact_phone": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "ZC Customer Contact Phone Number",
+      "isMandatory": false
+    },
+    "custentity_hul_onco": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "On CO?",
+      "isMandatory": false
+    },
+    "entitystatus": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Status",
+      "isMandatory": true
+    },
+    "shipaddressee": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custentity_sna_hul_case_email_notif": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "email",
+      "label": "Case Email Notification",
+      "isMandatory": false
+    },
+    "custentity_2663_email_address_notif": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Email Address for Payment Notification",
+      "isMandatory": false
+    },
+    "custentity_hul_currentservice": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Current Service Provider",
+      "isMandatory": false
+    },
+    "nsapiCT": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "negativenumberformat": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Negative Number Format",
+      "isMandatory": false
+    },
+    "custentity_hul_credit_manager": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Credit Manager",
+      "isMandatory": false
+    },
+    "giveaccesschanged": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "entitytitle": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custentity_hul_receivestatements": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Receive Statements",
+      "isMandatory": false
+    },
+    "displaysymbol": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Currency Symbol",
+      "isMandatory": false
+    },
+    "nsapiSR": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "templatestored": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "accountnumber": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Account",
+      "isMandatory": false
+    },
+    "comments": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "textarea",
+      "label": "Comments",
+      "isMandatory": false
+    },
+    "shipcountry": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "whence": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "reminderdays": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "posinteger",
+      "label": "Reminder Days",
+      "isMandatory": false
+    },
+    "lastmodifieddate": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "datetime",
+      "label": "Last Modified Date",
+      "isMandatory": false
+    },
+    "fillpassword": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Manually assign or change password",
+      "isMandatory": false
+    },
+    "printtransactions": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "checkbox",
+      "label": "Print",
+      "isMandatory": false
+    },
+    "baserecordtype": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "newaccesshelp": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "help",
+      "label": "For new access provisioning consider sending a New Access Notification Email with a password setup URL instead of manually assigning a user password.",
+      "isMandatory": false
+    },
+    "custentity_link_name_lsa": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "LSA Link Name",
+      "isMandatory": false
+    },
+    "hasparent": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "propagateactivity": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "assignedwebsite": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Assigned Web Site",
+      "isMandatory": false
+    },
+    "monthlyclosing": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Monthly Closing Date",
+      "isMandatory": true
+    },
+    "custentity_erpff_p2p_basw_tax_scheme_id": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "Tax Scheme ID",
+      "isMandatory": false
+    },
+    "wfFC": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "category": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Category",
+      "isMandatory": false
+    },
+    "territory": {
+      "category": "body",
+      "metadataStatus": "available",
+      "type": "select",
+      "label": "Territory",
+      "isMandatory": false
+    }
+  },
+  "sublists": {
+    "submachine": {
+      "fields": [
+        "balance",
+        "balancecurrency",
+        "depositbalance",
+        "depositbalancecurrency",
+        "entity",
+        "hasproject",
+        "hastransaction",
+        "isprimesub",
+        "issubinactive",
+        "subsidiary",
+        "unbilledcurrency",
+        "unbilledorders"
+      ]
+    },
+    "contact": {
+      "fields": [
+        "_eml_nkey_",
+        "_multibtnstate_",
+        "altemail",
+        "assistant",
+        "assistantphone",
+        "billaddr1",
+        "billaddr2",
+        "billaddr3",
+        "billaddressee",
+        "billattention",
+        "billcity",
+        "billcountry",
+        "billstate",
+        "billzip",
+        "category",
+        "comments",
+        "company",
+        "companyid",
+        "contactrole",
+        "contactsource",
+        "custentity_date_lsa",
+        "custentity_hul_account_rating",
+        "custentity_hul_addtonutshell",
+        "custentity_hul_brands",
+        "custentity_hul_currentrental",
+        "custentity_hul_currentservice",
+        "custentity_hul_equipmentclass",
+        "custentity_hul_lastservicecall",
+        "custentity_hul_lastservicecall_date",
+        "custentity_hul_nextpurchase_quarter",
+        "custentity_hul_nextpurchase_year",
+        "custentity_hul_numberofequipment",
+        "custentity_hul_nutshellid",
+        "custentity_hul_onan",
+        "custentity_hul_onco",
+        "custentity_hul_onpm",
+        "custentity_link_lsa",
+        "custentity_link_name_lsa",
+        "custentity_sna_contact_location",
+        "custentity_versapay_arc_initialload",
+        "custentity_versapay_do_not_sync",
+        "customform",
+        "customwhence",
+        "datecreated",
+        "defaultaddrbook",
+        "defaultaddress",
+        "defaultaddressee",
+        "dmodified",
+        "edition",
+        "email",
+        "entityid",
+        "entitytitle",
+        "entryformquerystring",
+        "externalid",
+        "fax",
+        "firstname",
+        "freeformstatepref",
+        "hasbillingaddress",
+        "hasshipping",
+        "hasshippingaddress",
+        "homephone",
+        "id",
+        "image",
+        "isemployee",
+        "isinactive",
+        "isindividual",
+        "isprivate",
+        "lastmodifieddate",
+        "lastname",
+        "middlename",
+        "mobilephone",
+        "nsapiCT",
+        "nsapiFC",
+        "nsapiLC",
+        "nsapiLI",
+        "nsapiPD",
+        "nsapiPI",
+        "nsapiPS",
+        "nsapiRC",
+        "nsapiSR",
+        "nsapiVD",
+        "nsapiVF",
+        "nsapiVI",
+        "nsapiVL",
+        "nsbrowserenv",
+        "ntype",
+        "officephone",
+        "oldparent",
+        "owner",
+        "parentcompany",
+        "phone",
+        "quickadd",
+        "salutation",
+        "saved_name",
+        "selectedtab",
+        "sessioncountry",
+        "shipaddr1",
+        "shipaddr2",
+        "shipaddr3",
+        "shipaddressee",
+        "shipattention",
+        "shipcity",
+        "shipcountry",
+        "shipstate",
+        "shipzip",
+        "subsidiary",
+        "supervisor",
+        "supervisorphone",
+        "templatestored",
+        "title",
+        "type",
+        "wfFC",
+        "wfPI",
+        "wfPS",
+        "wfSR",
+        "wfVF",
+        "wfinstances",
+        "whence"
+      ]
+    },
+    "activities": {
+      "fields": []
+    },
+    "mediaitem": {
+      "fields": [
+        "content",
+        "description",
+        "filesize",
+        "filetype",
+        "folder",
+        "internalid",
+        "lastmodifieddate",
+        "mediaitem",
+        "name"
+      ]
+    },
+    "usernotes": {
+      "fields": [
+        "author",
+        "direction",
+        "id",
+        "note",
+        "notedate",
+        "notetype",
+        "time",
+        "title"
+      ]
+    },
+    "addressbook": {
+      "fields": [
+        "addr1_initialvalue",
+        "addr2_initialvalue",
+        "addr3_initialvalue",
+        "addressbookaddress_key",
+        "addressbookaddress_set",
+        "addressbookaddress_text",
+        "addressbookaddress_type",
+        "addressee_initialvalue",
+        "addressid",
+        "addrlanguage_initialvalue",
+        "addrtext_initialvalue",
+        "attention_initialvalue",
+        "city_initialvalue",
+        "country_initialvalue",
+        "defaultbilling",
+        "defaultshipping",
+        "displaystate_initialvalue",
+        "dropdownstate_initialvalue",
+        "id",
+        "internalid",
+        "isnewline",
+        "isresidential",
+        "issyncedfromsubsidiary",
+        "label",
+        "override_initialvalue",
+        "phone_initialvalue",
+        "state_initialvalue",
+        "zip_initialvalue"
+      ]
+    },
+    "opportunities": {
+      "fields": [
+        "_eml_nkey_",
+        "_multibtnstate_",
+        "actionitem",
+        "address_country_state_map",
+        "altsalesrangehigh",
+        "altsalesrangelow",
+        "altsalestotal",
+        "balance",
+        "balreadyrefunded",
+        "billaddress",
+        "billaddresslist",
+        "billingaddress2_set",
+        "billingaddress_defaultvalue",
+        "billingaddress_key",
+        "billingaddress_text",
+        "billingaddress_type",
+        "billingschedule",
+        "billisresidential",
+        "bulk",
+        "buyingreason",
+        "buyingtimeframe",
+        "canhavestackable",
+        "checkcommitted",
+        "checkcreditlimit",
+        "class",
+        "companyid",
+        "consolidatebalance",
+        "createddate",
+        "credholdentity",
+        "credholdoverride",
+        "credlim",
+        "currency",
+        "currencyprecision",
+        "currencysymbol",
+        "custbody_ava_billto_latitude",
+        "custbody_ava_billto_longitude",
+        "custbody_ava_billtousecode",
+        "custbody_ava_shipto_latitude",
+        "custbody_ava_shipto_longitude",
+        "custbody_ava_shiptousecode",
+        "custbody_date_lsa",
+        "custbody_ffa_net_amount",
+        "custbody_link_lsa",
+        "custbody_link_name_lsa",
+        "custbody_nx_asset",
+        "custbody_nx_case",
+        "custbody_nx_customer",
+        "custbody_nx_idempotency_key",
+        "custbody_nx_projecttask",
+        "custbody_nx_task",
+        "custbody_sna_hul_object_subsidiary",
+        "custbody_sna_hul_override_salesrep_csm",
+        "custbody_sna_last_contacted_date",
+        "custbody_sna_last_modified_date",
+        "custbody_sna_mfr",
+        "custbody_sna_milestone",
+        "custbody_sna_opp_creator",
+        "custbody_sna_opp_date_created",
+        "custbody_sna_tags",
+        "custbody_sna_truck",
+        "custbody_za_role",
+        "custcurrep",
+        "customform",
+        "customwhence",
+        "dbstrantype",
+        "defaultaddrbook",
+        "defaultaddressee",
+        "department",
+        "edition",
+        "entity",
+        "entity_nexus_country",
+        "entityfieldname",
+        "entitynexus",
+        "entitystatus",
+        "entryformquerystring",
+        "errornotificationsfield",
+        "estgrossprofit",
+        "estgrossprofitpercent",
+        "estimatedbudget",
+        "exchangerate",
+        "expectedclosedate",
+        "externalid",
+        "extraurlparams",
+        "forecasttype",
+        "generatetranidonsave",
+        "haslines",
+        "hasprecalcs",
+        "id",
+        "isbasecurrency",
+        "isbudgetapproved",
+        "isonlinetransaction",
+        "job",
+        "lastmodifieddate",
+        "location",
+        "manualcredithold",
+        "memo",
+        "nexus",
+        "nexus_country",
+        "nlapiCC",
+        "noticenotificationsfield",
+        "nsapiCT",
+        "nsapiFC",
+        "nsapiLC",
+        "nsapiLI",
+        "nsapiPD",
+        "nsapiPI",
+        "nsapiPS",
+        "nsapiRC",
+        "nsapiSR",
+        "nsapiVD",
+        "nsapiVF",
+        "nsapiVI",
+        "nsapiVL",
+        "nsbrowserenv",
+        "ntype",
+        "oldrevenuecommitment",
+        "origtotal",
+        "overallbalance",
+        "overallunbilledorders",
+        "partnerid",
+        "prevdate",
+        "previous_billaddresslist",
+        "previous_shipaddresslist",
+        "prevrep",
+        "primarycurrency",
+        "primarycurrencyfxrate",
+        "probability",
+        "projaltsalesamt",
+        "projectedtotal",
+        "quickadd",
+        "rangehigh",
+        "rangelow",
+        "recordcreatedby",
+        "recordcreateddate",
+        "salesreadiness",
+        "salesrep",
+        "selectedtab",
+        "shadow_shipaddress",
+        "shipaddress",
+        "shipaddresslist",
+        "shipcountry",
+        "shipisresidential",
+        "shipoverride",
+        "shippingaddress2_set",
+        "shippingaddress_defaultvalue",
+        "shippingaddress_key",
+        "shippingaddress_text",
+        "shippingaddress_type",
+        "shipstate",
+        "shipzip",
+        "subsidiary",
+        "synceventfield",
+        "tax_affecting_address_fields_before_recalc",
+        "taxamount2override",
+        "taxamountoverride",
+        "templatestored",
+        "title",
+        "total",
+        "totalcostestimate",
+        "trandate",
+        "tranid",
+        "transactionnumber",
+        "type",
+        "unbilledorders",
+        "warningnotificationsfield",
+        "warnnexuschange",
+        "weekendpreference",
+        "weightedtotal",
+        "wfFC",
+        "wfPI",
+        "wfPS",
+        "wfSR",
+        "wfVF",
+        "wfinstances",
+        "whence",
+        "winlossreason"
+      ]
+    },
+    "s_subscript": {
+      "fields": []
+    },
+    "grouppricing": {
+      "fields": [
+        "group",
+        "level"
+      ]
+    },
+    "paymentinstruments": {
+      "fields": [
+        "externalid",
+        "id",
+        "instrumenttype",
+        "isdefault",
+        "isinactive",
+        "lastmodifieddate",
+        "mask",
+        "memo",
+        "origbinactive",
+        "paymentmethod",
+        "state",
+        "supportedoperations"
+      ]
+    },
+    "itempricing": {
+      "fields": [
+        "item",
+        "level",
+        "price"
+      ]
+    },
+    "custom192": {
+      "fields": []
+    },
+    "custom191": {
+      "fields": []
+    },
+    "custom196": {
+      "fields": []
+    },
+    "custom197": {
+      "fields": []
+    },
+    "custom190": {
+      "fields": []
+    },
+    "custom195": {
+      "fields": []
+    },
+    "events": {
+      "fields": [
+        "_eml_nkey_",
+        "_multibtnstate_",
+        "accesslevel",
+        "alldayevent",
+        "calendardate",
+        "canaccessprivate",
+        "company",
+        "conflictdata",
+        "conflictwarningdiv",
+        "contact",
+        "createddate",
+        "customform",
+        "customwhence",
+        "deletetype",
+        "enddate",
+        "endtime",
+        "entryformquerystring",
+        "exclusiondate",
+        "externalid",
+        "group",
+        "id",
+        "lastmodifieddate",
+        "location",
+        "message",
+        "nsapiCT",
+        "nsapiFC",
+        "nsapiLC",
+        "nsapiLI",
+        "nsapiPD",
+        "nsapiPI",
+        "nsapiPS",
+        "nsapiRC",
+        "nsapiSR",
+        "nsapiVD",
+        "nsapiVF",
+        "nsapiVI",
+        "nsapiVL",
+        "nsbrowserenv",
+        "organizer",
+        "organizerhasaccess",
+        "owner",
+        "ownername",
+        "permtoeventcalendar",
+        "quickadd",
+        "rawmessage",
+        "relateditem",
+        "reminderminutes",
+        "remindertype",
+        "selectedtab",
+        "sendemail",
+        "startdate",
+        "starttime",
+        "status",
+        "supportcase",
+        "templatestored",
+        "timedevent",
+        "timezone",
+        "title",
+        "transaction",
+        "type",
+        "wfFC",
+        "wfPI",
+        "wfPS",
+        "wfSR",
+        "wfVF",
+        "wfinstances",
+        "whence"
+      ]
+    },
+    "tasks": {
+      "fields": [
+        "_eml_nkey_",
+        "_multibtnstate_",
+        "accesslevel",
+        "actualtime",
+        "assigned",
+        "calendardate",
+        "company",
+        "completeddate",
+        "conflictdata",
+        "conflictwarningdiv",
+        "contact",
+        "createddate",
+        "cseg_sna_revenue_st",
+        "custevent_hul_task_data_json",
+        "custevent_nx_actions_taken",
+        "custevent_nx_address",
+        "custevent_nx_billing_type",
+        "custevent_nx_case_closed",
+        "custevent_nx_created_from",
+        "custevent_nx_customer",
+        "custevent_nx_customer_name",
+        "custevent_nx_customer_signature",
+        "custevent_nx_destroy",
+        "custevent_nx_end_date",
+        "custevent_nx_end_time",
+        "custevent_nx_geo_location",
+        "custevent_nx_geo_location_comp",
+        "custevent_nx_idempotency_key",
+        "custevent_nx_internal_note",
+        "custevent_nx_latitude",
+        "custevent_nx_longitude",
+        "custevent_nx_notification_pending",
+        "custevent_nx_recurrence",
+        "custevent_nx_recurrence_copy",
+        "custevent_nx_recurrence_data",
+        "custevent_nx_recurrence_delete",
+        "custevent_nx_recurrence_exempt",
+        "custevent_nx_recurrence_index",
+        "custevent_nx_recurrence_propagate",
+        "custevent_nx_recurrence_propcomplete",
+        "custevent_nx_recurrence_updates",
+        "custevent_nx_signoff_technician",
+        "custevent_nx_start_date",
+        "custevent_nx_start_time",
+        "custevent_nx_status_update",
+        "custevent_nx_task_asset",
+        "custevent_nx_task_booking_confirmed",
+        "custevent_nx_task_end",
+        "custevent_nx_task_number",
+        "custevent_nx_task_offsite",
+        "custevent_nx_task_onsite",
+        "custevent_nx_task_outcome",
+        "custevent_nx_task_skill",
+        "custevent_nx_task_start",
+        "custevent_nx_task_team",
+        "custevent_nx_task_type",
+        "custevent_nx_technician_signature",
+        "custevent_nx_time_log_activities",
+        "custevent_nx_time_zone",
+        "custevent_nxc_arrival_time",
+        "custevent_nxc_customer_name",
+        "custevent_nxc_customer_signature",
+        "custevent_nxc_departure_time",
+        "custevent_nxc_internal_note",
+        "custevent_nxc_preferred_resource",
+        "custevent_nxc_reason_not_resolved",
+        "custevent_nxc_task_result",
+        "custevent_nxc_technician_name",
+        "custevent_nxc_technician_signature",
+        "custevent_nxc_work_complete",
+        "custevent_sn_hul_equip_asset",
+        "custevent_sn_hul_nx_txn_task",
+        "custevent_sna_case_mergedequipment",
+        "custevent_sna_case_mergedsite",
+        "custevent_sna_hul_casedept",
+        "custevent_sna_hul_customeraddress",
+        "custevent_sna_hul_manufcode",
+        "custevent_sna_hul_nx_notif_email",
+        "custevent_sna_hul_object",
+        "custevent_sna_hul_pm_checklist_id_task",
+        "custevent_sna_hul_rental_disclaimer",
+        "custevent_sna_hul_rental_terms",
+        "custevent_sna_hul_task_route_code",
+        "custevent_sna_ot_hrs_computed",
+        "customform",
+        "customwhence",
+        "duedate",
+        "enddate",
+        "endtime",
+        "entryformquerystring",
+        "estimatedtime",
+        "estimatedtimeoverride",
+        "externalid",
+        "group",
+        "id",
+        "isrelatedcompanyajob",
+        "lastmodifieddate",
+        "message",
+        "milestone",
+        "nsapiCT",
+        "nsapiFC",
+        "nsapiLC",
+        "nsapiLI",
+        "nsapiPD",
+        "nsapiPI",
+        "nsapiPS",
+        "nsapiRC",
+        "nsapiSR",
+        "nsapiVD",
+        "nsapiVF",
+        "nsapiVI",
+        "nsapiVL",
+        "nsbrowserenv",
+        "order",
+        "owner",
+        "parent",
+        "percentcomplete",
+        "percenttimecomplete",
+        "priority",
+        "quickadd",
+        "relateditem",
+        "reminderminutes",
+        "remindertype",
+        "selectedtab",
+        "sendemail",
+        "startdate",
+        "starttime",
+        "status",
+        "supportcase",
+        "templatestored",
+        "timedevent",
+        "timeremaining",
+        "timezone",
+        "title",
+        "transaction",
+        "type",
+        "wfFC",
+        "wfPI",
+        "wfPS",
+        "wfSR",
+        "wfVF",
+        "wfinstances",
+        "whence"
+      ]
+    },
+    "calls": {
+      "fields": [
+        "_eml_nkey_",
+        "_multibtnstate_",
+        "accesslevel",
+        "assigned",
+        "calendardate",
+        "company",
+        "completeddate",
+        "conflictdata",
+        "conflictwarningdiv",
+        "contact",
+        "createddate",
+        "customform",
+        "customwhence",
+        "enddate",
+        "endtime",
+        "entryformquerystring",
+        "externalid",
+        "group",
+        "id",
+        "isrelatedcompanyajob",
+        "lastmodifieddate",
+        "message",
+        "nsapiCT",
+        "nsapiFC",
+        "nsapiLC",
+        "nsapiLI",
+        "nsapiPD",
+        "nsapiPI",
+        "nsapiPS",
+        "nsapiRC",
+        "nsapiSR",
+        "nsapiVD",
+        "nsapiVF",
+        "nsapiVI",
+        "nsapiVL",
+        "nsbrowserenv",
+        "owner",
+        "phone",
+        "priority",
+        "quickadd",
+        "relateditem",
+        "reminderminutes",
+        "remindertype",
+        "selectedtab",
+        "sendemail",
+        "startdate",
+        "starttime",
+        "status",
+        "supportcase",
+        "templatestored",
+        "timedevent",
+        "timezone",
+        "title",
+        "transaction",
+        "type",
+        "wfFC",
+        "wfPI",
+        "wfPS",
+        "wfSR",
+        "wfVF",
+        "wfinstances",
+        "whence"
+      ]
+    }
+  }
+}

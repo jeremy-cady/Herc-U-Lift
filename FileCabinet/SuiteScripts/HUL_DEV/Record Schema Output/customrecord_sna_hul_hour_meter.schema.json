@@ -1,0 +1,371 @@
+{
+  "meta": {
+    "recordType": "customrecord_sna_hul_hour_meter",
+    "generatedAt": "2026-01-22T18:25:13.372Z",
+    "source": "netsuite",
+    "version": "1.7.4",
+    "outputFolderId": 6223347,
+    "method": "record.create + getFields/getField + getSublists/getSublistFields",
+    "recordTypeOrigin": "custom"
+  },
+  "record": {
+    "type": "customrecord_sna_hul_hour_meter"
+  },
+  "fields": {
+    "nlloc": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nlsub": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nsapiFC": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "wfVF": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "externalid": {
+      "category": "body",
+      "type": "text",
+      "label": "External ID",
+      "isMandatory": false
+    },
+    "_eml_nkey_": {
+      "category": "system",
+      "metadataUnavailableReason": "system_pseudo"
+    },
+    "custpage_stickyheaders_script": {
+      "category": "ui",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "type": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nsapiRC": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "customwhence": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "scriptid": {
+      "category": "body",
+      "type": "identifier",
+      "label": "Script ID",
+      "isMandatory": false
+    },
+    "nsapiVF": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nsapiVD": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nsbrowserenv": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "id": {
+      "category": "body",
+      "type": "text",
+      "label": "Internal ID",
+      "isMandatory": false
+    },
+    "nsapiVL": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nsapiVI": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "wfPS": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "entryformquerystring": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_hul_time": {
+      "category": "body",
+      "type": "timeofday",
+      "label": "Time",
+      "isMandatory": false
+    },
+    "ownerid": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "version": {
+      "category": "body",
+      "type": "integer",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_hul_source_record": {
+      "category": "body",
+      "type": "text",
+      "label": "Source No.",
+      "isMandatory": false
+    },
+    "_multibtnstate_": {
+      "category": "system",
+      "metadataUnavailableReason": "system_pseudo"
+    },
+    "custrecord_sna_hul_hr_meter_source": {
+      "category": "body",
+      "type": "select",
+      "label": "Source",
+      "isMandatory": false
+    },
+    "wfPI": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "selectedtab": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "isinactive": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Inactive",
+      "isMandatory": false
+    },
+    "wfinstances": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "linenumber": {
+      "category": "body",
+      "type": "integer",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_hul_date": {
+      "category": "body",
+      "type": "date",
+      "label": "Date",
+      "isMandatory": false
+    },
+    "rectype": {
+      "category": "body",
+      "type": "select",
+      "label": "",
+      "isMandatory": false
+    },
+    "nsapiLI": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_hul_actual_reading": {
+      "category": "body",
+      "type": "float",
+      "label": "Actual Reading",
+      "isMandatory": false
+    },
+    "custrecord_sna_hul_object_ref": {
+      "category": "body",
+      "type": "select",
+      "label": "Object",
+      "isMandatory": false
+    },
+    "nsapiPS": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_hul_ignore_in_calculation": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Ignore in Calculation",
+      "isMandatory": false
+    },
+    "nsapiCT": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "sys_id": {
+      "category": "system",
+      "metadataUnavailableReason": "system_pseudo"
+    },
+    "custrecord_sna_hul_hour_meter_reading": {
+      "category": "body",
+      "type": "integer",
+      "label": "Reading",
+      "isMandatory": false
+    },
+    "nluser": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nldept": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nsapiPI": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "wfSR": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nsapiLC": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nsapiPD": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "owner": {
+      "category": "body",
+      "type": "select",
+      "label": "Owner",
+      "isMandatory": true
+    },
+    "nsapiSR": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "templatestored": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "whence": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nlrole": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "baserecordtype": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_hul_meter_used": {
+      "category": "body",
+      "type": "select",
+      "label": "Meter",
+      "isMandatory": false
+    },
+    "custrecord_sna_hul_external_id": {
+      "category": "body",
+      "type": "text",
+      "label": "External ID",
+      "isMandatory": false
+    },
+    "customform": {
+      "category": "body",
+      "type": "select",
+      "label": "Custom Form",
+      "isMandatory": true
+    },
+    "wfFC": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    }
+  },
+  "sublists": {
+    "usernotes": {
+      "fields": [
+        "author",
+        "direction",
+        "id",
+        "note",
+        "notedate",
+        "notetype",
+        "time",
+        "title"
+      ]
+    },
+    "mediaitem": {
+      "fields": [
+        "content",
+        "description",
+        "filesize",
+        "filetype",
+        "folder",
+        "internalid",
+        "lastmodifieddate",
+        "mediaitem",
+        "name"
+      ]
+    }
+  }
+}

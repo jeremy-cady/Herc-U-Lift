@@ -1,0 +1,1707 @@
+{
+  "meta": {
+    "recordType": "customrecord_nxc_mr",
+    "generatedAt": "2026-01-22T18:25:05.276Z",
+    "source": "netsuite",
+    "version": "1.7.4",
+    "outputFolderId": 6223347,
+    "method": "record.create + getFields/getField + getSublists/getSublistFields",
+    "recordTypeOrigin": "custom"
+  },
+  "record": {
+    "type": "customrecord_nxc_mr"
+  },
+  "fields": {
+    "custrecord_nxc_mr_field_106": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check hydraulic tank, oil level, condition of oil",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_105": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check wiring, gauges, meters",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_108": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check Operation of MEWP / Visual Inspect",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_107": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check cylinders, valves, hoses/tubes",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_109": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check rotator bearing,bolts, free play, oil in gear box, grease",
+      "isMandatory": false
+    },
+    "_eml_nkey_": {
+      "category": "system",
+      "metadataUnavailableReason": "system_pseudo"
+    },
+    "custrecord_nxc_mr_field_100": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check Lights, Strobe, Horn",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_220": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Fold Down Rails, Pins",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_102": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check Full Operational Check to Maximum Height",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_101": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check power Washer, Air Hoses",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_222": {
+      "category": "body",
+      "type": "text",
+      "label": "Hour Meter Reading",
+      "isMandatory": true
+    },
+    "custrecord_nxc_mr_field_104": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check for leaks",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_103": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check No Unauthorized Modifications",
+      "isMandatory": false
+    },
+    "customwhence": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_216": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Drive Shafts, U-Joints",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_215": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Steering, King Pin Bushings",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_218": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Ladder, Steps, Anti-Skid",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_217": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Hub, Differential, Drop Box Oil Levels",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_219": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Deck Extension, Latch",
+      "isMandatory": false
+    },
+    "entryformquerystring": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_210": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Pothole Protectors, Alarm, Cut Out",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_212": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Leveling, Outrigger System",
+      "isMandatory": false
+    },
+    "ownerid": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_211": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Articulating Axle Float, Cut Out",
+      "isMandatory": false
+    },
+    "version": {
+      "category": "body",
+      "type": "integer",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_214": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Wheel Brakes, Release, Free Wheeling",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_213": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Control, Brake Reactions",
+      "isMandatory": false
+    },
+    "_multibtnstate_": {
+      "category": "system",
+      "metadataUnavailableReason": "system_pseudo"
+    },
+    "selectedtab": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_128": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Engine Oil Level, Condition",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_127": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Current PM",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_129": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Coolant Level, Protection to -34*F",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_120": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check Articulating Axle Float, Lock, Cut Out",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_122": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check operation of mewp's",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_121": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check Axle extend/retract/lock pins/interlock",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_124": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check operation of charger, fuses, breakers",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_123": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check Battery's for proper weight, terminals/cables, water level, hold down",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_126": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check contactors, relays, disconnects ",
+      "isMandatory": false
+    },
+    "nsapiPS": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_125": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check electric/hydraulic,  motors, pumps",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_7": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Inspect seat belt and hood latch",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_6": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Inspect drivers overhead guard",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_9": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Inspect LPG tank,bracket and position pin",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_8": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Inspect tires and mounting bolts",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_3": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check for open work orders",
+      "isMandatory": false
+    },
+    "nsapiPI": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_2_label": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_2": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Inspect data plate, operator's manual and warning decals",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_5": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check operation and physical inspection of machine",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_4": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Clean machine with compressed air",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_1": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Operator Input,Concerns",
+      "isMandatory": false
+    },
+    "nsapiPD": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_117": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check Boom Sections, Wear Pads, Lube",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_116": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check Power, Hose Track",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_119": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check Torque Hub Oil Levels",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_118": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check Wheel Brakes",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_inspection": {
+      "category": "body",
+      "type": "select",
+      "label": "Inspection Result",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_asset": {
+      "category": "body",
+      "type": "select",
+      "label": "Asset",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_111": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check swing brake,  drive cut out, directional switch, override switch",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_110": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check Hydraulic Center Post Swivel",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_113": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check Tilt Sensor, Alarm, Light",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_112": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check Drive Speeds, Hi Speed Cut Out",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_115": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check Starter Cut Out With Foot Switch Depressed",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_114": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check Function Speeds, Smoothness",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_project": {
+      "category": "body",
+      "type": "select",
+      "label": "Project",
+      "isMandatory": false
+    },
+    "customform": {
+      "category": "body",
+      "type": "select",
+      "label": "Custom Form",
+      "isMandatory": true
+    },
+    "custrecord_nxc_mr_1_label": {
+      "category": "body",
+      "type": "text",
+      "label": "General Inspection",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_149": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Straddle Kit, Winches, Cables, Pins, Cord Reels",
+      "isMandatory": false
+    },
+    "nlloc": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_142": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Debris, Pinch Guards",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_141": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Down Operation Without Outriggers",
+      "isMandatory": false
+    },
+    "externalid": {
+      "category": "body",
+      "type": "text",
+      "label": "External ID",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_144": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Mast Free Play, Wear Pads, Rollers",
+      "isMandatory": false
+    },
+    "custpage_stickyheaders_script": {
+      "category": "ui",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custrecord_nxc_mr_field_143": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Sequencing Cables Straps",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_146": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Bubble Level, Sensor, Cut Out, Alarm",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_145": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Platform, Extension, Latch",
+      "isMandatory": false
+    },
+    "nameorig": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_148": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Tilt Back Assembly, Struts, Pins, T-Bar",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_147": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Foot Pads, Brakes, Locks",
+      "isMandatory": false
+    },
+    "scriptid": {
+      "category": "body",
+      "type": "identifier",
+      "label": "Script ID",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_11": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Inspect hydraulic system and all cylinders for leaks",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_12": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Inspect battery, fill water levels, clean terminals and connectors",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_140": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Outriggers, Interlock, Lights",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_10": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check hydraulic oil level and breather, fill if necessary",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_139": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Engine Code,Light",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_138": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Fuel Tank, Cap , Gauge , Labeled",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_131": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Belt, Pulleys, Fan",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_15": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check steering gear box fill if necessary",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_130": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Air, Fuel Filters",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_16": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check power steering for proper adjustment and oil level",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_13": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Clean and grease all zerks",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_133": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Knock, Pings, Noise",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_132": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Idle,High RPMs",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_14": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check and lubricate all connecting shafts and levers",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_135": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Actuators,Linkage",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_19": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check mast assembly and chains for proper adjustment and wear (lubricate as needed)",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_134": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Choke,Glow Plugs",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_137": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Dual Fuel System, LP Pin",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_17": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Inspect brake system for proper operation and fluid level",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_136": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Start, Anti-Restart",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_18": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check tilt cylinder rod ends and anchors adjust and tighten if necessary",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_22": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Change engine oil and filter element",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_23": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check air cleaner and inspect hoses/connections",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_20": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Inspect forks,latches,and pins for wear, Carriage Bar, fork shaft",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_21": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check differential oil levels fill If necessary",
+      "isMandatory": false
+    },
+    "name": {
+      "category": "body",
+      "type": "text",
+      "label": "Name",
+      "isMandatory": true
+    },
+    "custrecord_nxc_mr_task": {
+      "category": "body",
+      "type": "select",
+      "label": "Task",
+      "isMandatory": false
+    },
+    "linenumber": {
+      "category": "body",
+      "type": "integer",
+      "label": "",
+      "isMandatory": false
+    },
+    "nsapiLI": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_164": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Tilt Sensor, Alarm, Light",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_26": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Inspect clutch/incher pedal linkage for proper operation and adjust",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_163": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Boom Hold Down Latches",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_27": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check PVC system",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_166": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "At idle after adjustment",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_24": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check fuel, oil, coolant system for leaks",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_165": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "At idle prior to adjustment",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_25": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check Coolant system, level and strength",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_168": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "at 3/4 throttle after adjustment",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_167": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "At 3/4 throttle prior to adjustment",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_28": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check all accessory drive belts for wear and proper adjustment",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_169": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Test drive",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_29": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check carburetor and accelerator linkage, including choke control",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_30": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check distributor, points for adjustment and condition",
+      "isMandatory": false
+    },
+    "sys_id": {
+      "category": "system",
+      "metadataUnavailableReason": "system_pseudo"
+    },
+    "custrecord_nxc_mr_field_160": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Hitch Coupler,Tongue Jack",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_33": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check all switches for proper operation and adjustment",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_34": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check contactors and contact tips for wear and operation",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_162": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Outriggers, Interlock",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_31": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Inspect spark plugs and ignition wiring",
+      "isMandatory": false
+    },
+    "nldept": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_161": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Trailer Lights",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_32": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check fuel filter and lines",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_5_label": {
+      "category": "body",
+      "type": "text",
+      "label": "Inspection Result Label",
+      "isMandatory": false
+    },
+    "nsapiLC": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custpage_nx_state": {
+      "category": "ui",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "owner": {
+      "category": "body",
+      "type": "select",
+      "label": "Owner",
+      "isMandatory": true
+    },
+    "custrecord_nxc_mr_field_153": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Brakes, Release",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_37": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check comp cylinders bearing, mounts",
+      "isMandatory": false
+    },
+    "nlrole": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_152": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Tilt Sensor Alarm, Light, Cut Out",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_38": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check crowd cylinder anchors, keepers, rollers, anchor rod",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_155": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Sequencing Cables, Straps",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_35": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Jack up rear of truck and grease steer axle",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_154": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Hose, Cable Track",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_36": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check inside boom, Chains, Pads Hoses/Sheaves",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_157": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Park,Surge Brake",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_156": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Platform Extension, Latch, Ladder",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_159": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Runaway Brake ,Cable",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_39": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check Angle Indicator",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_158": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Safety Chains, Cables",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_40": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check Capacity Chart",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_41": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check Planetary Fluid Levels, Axle Seals",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_44": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check the fork shaft, sideshift shaft and bushings",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_45": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check Planetary Fluid Level",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_151": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Pothole Protectors, Cut Out, Light, Alarm",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_42": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check Tie Rod Ends",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_150": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "High Speed Cut Out",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_43": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check Differential Pivots",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_parent_asset": {
+      "category": "body",
+      "type": "select",
+      "label": "Parent Asset",
+      "isMandatory": false
+    },
+    "nsapiFC": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_186": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Horn",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_48": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Torque Roadwheel Nuts (450-500 ft,lbs)",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_185": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Tires",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_49": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Change Differential Oil & Check Breathers( Petro)",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_188": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "LPG tank, brackets, position pin",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_46": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check Drag Link",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_187": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Lights, alarms, switches",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_47": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Torque Railwheel Nuts (375 ft,lbs)",
+      "isMandatory": false
+    },
+    "type": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_189": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Date",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_51": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Change Planetary Wheel End Oil (Synthetic)",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_52": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Change Transfer Case Oil, Check Breather",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_180": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Steering",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_50": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Change Planetary Wheel End Oil (Petro)",
+      "isMandatory": false
+    },
+    "nsapiVF": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_182": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Inching pedal ",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_55": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check Engine Oil Level",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_181": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Brakes,park brake",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_56": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Change Screw Compressor Spin on Filter",
+      "isMandatory": false
+    },
+    "nsapiVD": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_184": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Leaks",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_53": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Change Transmission Oil",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_183": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Mast, carriage, chains",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_54": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check Engine Coolant Level",
+      "isMandatory": false
+    },
+    "nsbrowserenv": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "id": {
+      "category": "body",
+      "type": "text",
+      "label": "Internal ID",
+      "isMandatory": false
+    },
+    "nsapiVL": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nsapiVI": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "wfPS": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_175": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Battery",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_59": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Inspect Air Tank Reserviors (Condensation Drain)",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_174": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Air cleaner system",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_177": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Driver overhead guard",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_57": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Change Transmission Filter",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_176": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Seat belt, hood latch",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_58": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Operator Input, Concerns",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_179": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Forks, latches, pins",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_178": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "LBR, forkstops",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_62": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "cInspect  Railwheel Nuts (Visual Check)",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_63": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Inspect & Fill Planetary Wheel End Oil",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_60": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Inspect Differential Oil Level & Breathers",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_61": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Inspect Engine Coolant Level",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_171": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Operator's manual",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_66": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Replace Engine Oil & Filter",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_170": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Data plate",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_67": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Replace Fuel Filter",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_173": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Engine oil",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_64": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Replace Air Filters Primary & Secondary",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_172": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Warning decals",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_65": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Replace Screw Compressor Spin-on Filter",
+      "isMandatory": false
+    },
+    "wfPI": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "rectype": {
+      "category": "body",
+      "type": "select",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_68": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Replace Fuel & Water Separator",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_69": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Replace Hydraulic High & Low Filters",
+      "isMandatory": false
+    },
+    "custrecord_sn_hul_mergequipassetmaint": {
+      "category": "body",
+      "type": "select",
+      "label": "Merged to Equipment Asset",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_73": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Replace Screw Compressor Separator Element & Oil",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_74": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Change Hydraulic Oil (if needed based on analysis of oil sample)",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_71": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Collect Oil Samples",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_72": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Replace Air Dryer Desiccant Cartridge",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_77": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Change Transmission Oil/Filter",
+      "isMandatory": false
+    },
+    "nluser": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_78": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Change Engine Coolant/Flush",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_76": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Change Screw Compressor Separator Element Kit & Oil",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_case": {
+      "category": "body",
+      "type": "select",
+      "label": "Case",
+      "isMandatory": false
+    },
+    "wfSR": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_70": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Replace Transmission Filter",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_197": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Operator Manual",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_196": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Glass",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_199": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Guardrail System",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_79": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Change Hydraulic Oil (Based on Oil Sample)",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_198": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Decals Legible",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_84": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check Welds, Frames, Sheet Metal",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_85": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check Cables, Chains, Sheaves, Pulleys, Bushings, Bearings",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_191": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Fuel",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_82": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check Operator Input, Concerns",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_190": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Hours",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_83": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check Appearance, Hoods, Covers, Enclosures",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_193": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Hyd Oil",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_88": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check Lanyard Attachment Points",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_192": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Batteries",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_89": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check Lower Controls, Upper Controls",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_195": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Radiator",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_86": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check Pins, Bolts, Keepers, Retainers, Latches",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_194": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Eng Oil",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_87": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check Wheels, Tires, Rim, Casters",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_80": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Change Differential & Planetary Oil",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_81": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Change Crank Case/ DEF Filter (If Accplicable)",
+      "isMandatory": false
+    },
+    "nlsub": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "wfVF": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_95": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check Operator's Manual, ANSI Manual, Manual Storage",
+      "isMandatory": false
+    },
+    "nsapiRC": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_96": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check Warning, Danger, Capacity, Indicator Decals",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_93": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check Alarms",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_94": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check Data Plate",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_99": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check AC Cords, Plugs, GFI, Covers, Generator",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_97": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check Platform, Floor, Railings",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_98": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check Entry Chain, Gate",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_91": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check Joysticks, Center Locks, Enable Switches, Boots",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_92": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check Emergency Auxiliary, Lowering,(All Sections) and Stops",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_90": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Check Switches, Foot Switch",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_205": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Lug Nuts",
+      "isMandatory": false
+    },
+    "isinactive": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Inactive",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_204": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Safety Devices",
+      "isMandatory": false
+    },
+    "wfinstances": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_206": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Notes",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_209": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Tilt Cut Out, Alarm, Light",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_208": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "High Speed, Drive Height Cut Outs",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_201": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Propane Tanks",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_200": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Sheet Metal",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_203": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Operating Controls",
+      "isMandatory": false
+    },
+    "custrecord_nxc_mr_field_202": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Overhead Guard",
+      "isMandatory": false
+    },
+    "nsapiCT": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nsapiSR": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "templatestored": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "whence": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "baserecordtype": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custrecord_sna_nxc_mr_ref_1_img": {
+      "category": "body",
+      "type": "select",
+      "label": "Picture of Completed Correction",
+      "isMandatory": false
+    },
+    "wfFC": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    }
+  },
+  "sublists": {
+    "usernotes": {
+      "fields": [
+        "author",
+        "direction",
+        "id",
+        "note",
+        "notedate",
+        "notetype",
+        "time",
+        "title"
+      ]
+    },
+    "mediaitem": {
+      "fields": [
+        "content",
+        "description",
+        "filesize",
+        "filetype",
+        "folder",
+        "internalid",
+        "lastmodifieddate",
+        "mediaitem",
+        "name"
+      ]
+    }
+  }
+}
