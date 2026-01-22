@@ -4,8 +4,8 @@
  * @NModuleScope SameAccount
  *
  * author: Jeremy Cady
- * Date: 01/21/2026
- * Version: 1.6.3
+ * Date: 01/22/2026
+ * Version: 1.6.7
  */
 define(["require", "exports", "N/log", "N/record", "N/email", "N/file"], function (require, exports, log, record, email, file) {
     "use strict";
@@ -27,6 +27,68 @@ define(["require", "exports", "N/log", "N/record", "N/email", "N/file"], functio
         'descriptionitem'
     ];
     var EMAIL_RECIPIENT = 'jcady@herculift.com';
+    var KNOWN_SUBLIST_NOTES = {
+        activities: 'FSM Task list; no sublist fields expected.'
+    };
+    /**
+     * SuiteScript 2.x runtime does not support ES6 Set/Map.
+     * Use plain object membership tables instead.
+     */
+    var KNOWN_CALCULATED_TOTAL_FIELDS = {
+        item_total: true,
+        time_total: true,
+        expense_total: true,
+        apply_total: true
+    };
+    var KNOWN_SYSTEM_PSEUDO_FIELDS = {
+        sys_id: true
+    };
+    function isMember(table, key) {
+        return Boolean(table[key]);
+    }
+    function endsWithTotal(fieldId) {
+        if (fieldId.length < 6)
+            return false;
+        return fieldId.substr(fieldId.length - 6) === '_total';
+    }
+    function isFeatureDisabledError(e) {
+        var msg = String(e);
+        return (msg.indexOf('FEATURE_DISABLED') !== -1 ||
+            (msg.indexOf('feature') !== -1 && msg.indexOf('not enabled') !== -1));
+    }
+    function getFeatureDisabledDetails(e) {
+        return {
+            code: 'FEATURE_DISABLED',
+            message: String(e)
+        };
+    }
+    function classifyFieldCategory(fieldId) {
+        if (fieldId.indexOf('custpage_') === 0)
+            return 'ui';
+        if (fieldId.indexOf('_') === 0)
+            return 'system';
+        if (isMember(KNOWN_SYSTEM_PSEUDO_FIELDS, fieldId))
+            return 'system';
+        if (fieldId.indexOf('sys_') === 0)
+            return 'system';
+        return 'body';
+    }
+    function classifyNullMetadataReason(fieldId) {
+        if (fieldId.indexOf('custpage_') === 0)
+            return 'ui_only';
+        if (isMember(KNOWN_SYSTEM_PSEUDO_FIELDS, fieldId) ||
+            fieldId.indexOf('sys_') === 0 ||
+            fieldId.indexOf('_') === 0) {
+            return 'system_pseudo';
+        }
+        if (isMember(KNOWN_CALCULATED_TOTAL_FIELDS, fieldId) || endsWithTotal(fieldId)) {
+            return 'calculated_total';
+        }
+        if (fieldId.indexOf('alternate') !== -1 || fieldId.indexOf('source') !== -1) {
+            return 'feature_gated_or_unavailable';
+        }
+        return 'unknown';
+    }
     var getInputData = function () {
         log.audit('Schema Registry', 'Starting schema extraction run');
         return SUPPORTED_RECORD_TYPES.map(function (recordType) { return ({
@@ -53,9 +115,25 @@ define(["require", "exports", "N/log", "N/record", "N/email", "N/file"], functio
             });
         }
         catch (e) {
+            if (isFeatureDisabledError(e)) {
+                var featureDetails = getFeatureDisabledDetails(e);
+                log.audit('Record Type Unavailable (Feature Disabled)', {
+                    recordType: recordType,
+                    code: featureDetails.code
+                });
+                context.write({
+                    key: recordType,
+                    value: "SKIP:".concat(featureDetails.code)
+                });
+                return;
+            }
             log.error({
                 title: 'Record Creation Failed',
                 details: { recordType: recordType, error: String(e) }
+            });
+            context.write({
+                key: recordType,
+                value: 'ERROR:Record creation failed'
             });
             return;
         }
@@ -64,23 +142,28 @@ define(["require", "exports", "N/log", "N/record", "N/email", "N/file"], functio
         for (var i = 0; i < rawFields.length; i++) {
             var rawFieldId = rawFields[i];
             var fieldIdStr = String(rawFieldId);
-            var category = 'body';
-            if (typeof rawFieldId === 'string') {
-                if (rawFieldId.indexOf('custpage_') === 0)
-                    category = 'ui';
-                else if (rawFieldId.indexOf('_') === 0)
-                    category = 'system';
-            }
-            classifiedFields[fieldIdStr] = { category: category };
-            if (category !== 'body')
+            var category = classifyFieldCategory(fieldIdStr);
+            classifiedFields[fieldIdStr] = {
+                category: category,
+                metadataStatus: category === 'body' ? 'available' : 'unavailable'
+            };
+            if (category !== 'body') {
+                classifiedFields[fieldIdStr].metadataUnavailableReason =
+                    category === 'ui' ? 'ui_only' : 'system_pseudo';
                 continue;
+            }
             try {
                 var f = rec.getField({ fieldId: rawFieldId });
                 if (!f) {
-                    log.debug({
-                        title: 'Field Metadata Unavailable',
-                        details: { recordType: recordType, fieldId: fieldIdStr, error: 'getField() returned null' }
-                    });
+                    var reason = classifyNullMetadataReason(fieldIdStr);
+                    classifiedFields[fieldIdStr].metadataStatus = 'unavailable';
+                    classifiedFields[fieldIdStr].metadataUnavailableReason = reason;
+                    if (reason === 'unknown') {
+                        log.debug({
+                            title: 'Field Metadata Unavailable (Unknown Reason)',
+                            details: { recordType: recordType, fieldId: fieldIdStr, error: 'getField() returned null' }
+                        });
+                    }
                     continue;
                 }
                 classifiedFields[fieldIdStr].type = String((_a = f.type) !== null && _a !== void 0 ? _a : 'unknown');
@@ -98,6 +181,8 @@ define(["require", "exports", "N/log", "N/record", "N/email", "N/file"], functio
                 }
             }
             catch (e) {
+                classifiedFields[fieldIdStr].metadataStatus = 'unavailable';
+                classifiedFields[fieldIdStr].metadataUnavailableReason = 'unknown';
                 log.debug({
                     title: 'Field Metadata Error',
                     details: { recordType: recordType, fieldId: fieldIdStr, error: String(e) }
@@ -106,9 +191,6 @@ define(["require", "exports", "N/log", "N/record", "N/email", "N/file"], functio
         }
         var sublists = rec.getSublists();
         var sublistSchemas = {};
-        var KNOWN_SUBLIST_NOTES = {
-            activities: 'FSM Task list; no sublist fields expected.'
-        };
         for (var i = 0; i < sublists.length; i++) {
             var sid = String(sublists[i]);
             try {
@@ -132,7 +214,10 @@ define(["require", "exports", "N/log", "N/record", "N/email", "N/file"], functio
                 generatedAt: new Date().toISOString(),
                 source: 'netsuite',
                 method: 'record.create + getFields/getField + getSublists/getSublistFields',
-                version: '1.6.3',
+                version: '1.6.7',
+                availability: {
+                    status: 'available'
+                },
                 notes: {
                     sublists: KNOWN_SUBLIST_NOTES,
                     limitations: [
@@ -154,43 +239,75 @@ define(["require", "exports", "N/log", "N/record", "N/email", "N/file"], functio
         var saved = schemaFile.save();
         context.write({
             key: recordType,
-            value: String(saved)
+            value: "FILE:".concat(String(saved))
         });
         log.audit('Schema File Saved', { recordType: recordType, fileId: saved });
     };
     exports.reduce = reduce;
     var summarize = function (summary) {
-        var schemaFileIds = [];
+        var attachmentFileIds = [];
+        var skippedRecordTypes = [];
+        var errorRecordTypes = [];
         summary.output.iterator().each(function (key, value) {
-            schemaFileIds.push(String(value));
+            var recordType = String(key);
+            var outcome = String(value);
+            if (outcome.indexOf('FILE:') === 0) {
+                attachmentFileIds.push(outcome.replace('FILE:', ''));
+                return true;
+            }
+            if (outcome.indexOf('SKIP:') === 0) {
+                skippedRecordTypes.push({
+                    recordType: recordType,
+                    reason: outcome.replace('SKIP:', '')
+                });
+                return true;
+            }
+            if (outcome.indexOf('ERROR:') === 0) {
+                errorRecordTypes.push({
+                    recordType: recordType,
+                    reason: outcome.replace('ERROR:', '')
+                });
+                return true;
+            }
+            errorRecordTypes.push({
+                recordType: recordType,
+                reason: 'Unknown reduce outcome'
+            });
             return true;
         });
         var attachments = [];
-        for (var i = 0; i < schemaFileIds.length; i++) {
+        for (var i = 0; i < attachmentFileIds.length; i++) {
             try {
-                var f = file.load({ id: schemaFileIds[i] });
+                var f = file.load({ id: attachmentFileIds[i] });
                 attachments.push(f);
             }
             catch (e) {
                 log.error({
                     title: 'Attachment Load Failed',
-                    details: { fileId: schemaFileIds[i], error: String(e) }
+                    details: { fileId: attachmentFileIds[i], error: String(e) }
                 });
             }
         }
+        var body = [
+            'Schema export run completed.',
+            '',
+            'Each attached file includes field metadata, semantic classification, and sublists.',
+            'These are intended for use in VS Code and Git.'
+        ].join('\n');
         email.send({
             author: -5,
             recipients: EMAIL_RECIPIENT,
             replyTo: EMAIL_RECIPIENT,
-            subject: 'NetSuite Schema Export — JSON Attachments (v1.6.3)',
-            body: "Attached are the schema exports for the following record types:\n".concat(SUPPORTED_RECORD_TYPES.map(function (r) { return "\u2022 ".concat(r); }).join('\n')
-            // eslint-disable-next-line max-len
-            , "\n\nEach file includes field metadata, classification, and sublists.\n\nThese are intended for use in VS Code and Git."),
+            subject: 'NetSuite Schema Export — JSON Attachments (v1.6.7)',
+            body: body,
             attachments: attachments
         });
         log.audit('Schema Email Sent', {
-            schemaCount: schemaFileIds.length,
-            filesAttached: attachments.length
+            requestedCount: SUPPORTED_RECORD_TYPES.length,
+            schemaFilesCreated: attachmentFileIds.length,
+            filesAttached: attachments.length,
+            skippedCount: skippedRecordTypes.length,
+            errorCount: errorRecordTypes.length
         });
     };
     exports.summarize = summarize;

@@ -1,45 +1,110 @@
-# hul_swal
+# NetSuite Customization Product Requirement Document
 
+---
+## Metadata
+prd_id: TBD
+title: hul_swal
+status: TBD
+owner: TBD
+created: TBD
+last_updated: TBD
+
+script:
+  type: TBD
+  file: TypeScript/HUL_DEV/Global/hul_swal.ts
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - TBD
+
+---
+
+## 1. Overview
 Public SweetAlert2 helper library for NetSuite Client Scripts, with lazy loading, generic alert/confirm/toast APIs, and common business-specific message wrappers.
 
-## Script Info
-- Type: Library module
-- API: NApiVersion 2.x
-- Module scope: Public
-- Source: `TypeScript/HUL_DEV/Global/hul_swal.ts`
+---
 
-## Purpose
-- Load SweetAlert2 from the NetSuite File Cabinet only once.
-- Provide a consistent, reusable API for modal dialogs and toasts.
-- Expose business-specific alert wrappers used across scripts.
+## 2. Business Goal
+Provide a reusable SweetAlert2 helper for consistent dialogs and toasts across scripts.
 
-## Loading Strategy
-- Primary source: hardcoded media URL (`SWAL_MEDIA_URL`).
-- Fallbacks:
-  - Cache-busted media URL.
-  - File Cabinet path `/SuiteScripts/HUL_DEV/Third_Party_Applications/sweetalert2.all.js`.
-  - Same path prefixed with `window.location.origin`.
-- Ensures a single `<script>` tag (`hul-swal2-js`) and marks it loaded via `data-hul-loaded`.
+---
 
-## Core API
-- `setSrc(url)`: Override the SweetAlert2 source URL at runtime.
-- `ready()` / `ensureSwal()`: Load SweetAlert2 if needed.
-- `preload()`: Fire-and-forget loader for `pageInit`.
-- `isReady()`: Boolean readiness check.
-- `show(options)`: Main modal API with sensible defaults.
-- `alert(input)`: Simple alert convenience wrapper.
-- `confirm(options)`: Yes/No modal returning a boolean.
-- `toast(message, opts)`: Lightweight toast notification.
+## 3. User Story
+As a developer, when I need to show alerts or confirmations, I want a shared SweetAlert2 helper, so that dialogs are consistent and easy to use.
 
-## Z-Index Handling
-- SweetAlert2 v11 does not support `zIndex` directly.
-- The module injects a CSS rule to force `.swal2-container` z-index when `zIndex` is provided.
+---
 
-## Business Wrappers
-- `doNotInvoiceDummyItemSwalMessage()`
-- `partsIsEligibleSwalMessage(altPartName?)`
-- `customerCreditCardRequiredMessage()`
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| TBD | TBD | TBD | TBD |
 
-## Notes
-- `show()` falls back to native `alert()` if SweetAlert2 fails to load.
-- Designed for NetSuite pages (defaults: `heightAuto: false`, `allowOutsideClick: false`).
+---
+
+## 5. Functional Requirements
+- Load SweetAlert2 from the NetSuite File Cabinet only once using a single script tag (hul-swal2-js) and data-hul-loaded marker.
+- Support source URL override via setSrc(url).
+- Provide loading helpers: ready()/ensureSwal(), preload(), and isReady().
+- Provide dialog APIs: show(options), alert(input), confirm(options), toast(message, opts).
+- Use SWAL_MEDIA_URL with fallback URLs including cache-busted and File Cabinet paths.
+- If zIndex is provided, inject a CSS rule to set .swal2-container z-index.
+- show() falls back to native alert() if SweetAlert2 fails to load.
+- Provide business-specific wrappers:
+  - doNotInvoiceDummyItemSwalMessage()
+  - partsIsEligibleSwalMessage(altPartName?)
+  - customerCreditCardRequiredMessage()
+
+---
+
+## 6. Data Contract
+### Record Types Involved
+- TBD
+
+### Fields Referenced
+- TBD
+
+Schemas (if known):
+- TBD
+
+---
+
+## 7. Validation & Edge Cases
+- SweetAlert2 v11 does not support zIndex directly; CSS injection is used.
+
+---
+
+## 8. Implementation Notes (Optional)
+Only include constraints if applicable.
+- Script must reuse existing deployment: TBD
+- Dispatcher required: TBD
+- Performance/governance considerations: TBD
+
+---
+
+## 9. Acceptance Criteria
+- Given TBD, when TBD, then TBD.
+
+---
+
+## 10. Testing Notes
+TBD
+
+---
+
+## 11. Deployment Notes
+TBD
+
+---
+
+## 12. Open Questions / TBDs
+- prd_id, status, owner, created, last_updated
+- script_id, deployment_id
+- Script type
+- Record types involved
+- Schema references
+- Acceptance criteria details
+- Testing notes
+- Deployment notes
+
+---

@@ -1,41 +1,109 @@
-# hul_sync_invoices_daily_ss
+# NetSuite Customization Product Requirement Document
 
+---
+## Metadata
+prd_id: TBD
+title: hul_sync_invoices_daily_ss
+status: TBD
+owner: TBD
+created: TBD
+last_updated: TBD
+
+script:
+  type: scheduled
+  file: TypeScript/HUL_DEV/Finance/hul_sync_invoices_daily_ss.ts
+  script_id: TBD
+  deployment_id: TBD
+
+record_types:
+  - Invoice
+
+---
+
+## 1. Overview
 Scheduled script that unchecks "Do Not Sync to Versapay" on invoices created today when the Revenue Stream is in an external allowlist, then emails a summary.
 
-## Script Info
-- Type: Scheduled Script
-- API: NApiVersion 2.1
-- Module scope: SameAccount
-- Source: `TypeScript/HUL_DEV/Finance/hul_sync_invoices_daily_ss.ts`
+---
 
-## Trigger
-- Scheduled execution (daily).
+## 2. Business Goal
+Automatically enable syncing for today’s invoices with approved Revenue Streams and report the results.
 
-## Behavior
-- Runs a SuiteQL query for invoices created today (UTC day window).
+---
+
+## 3. User Story
+As a user, when the daily job runs, I want qualifying invoices to have "Do Not Sync to Versapay" unchecked and receive a summary, so that approved invoices can sync.
+
+---
+
+## 4. Trigger Matrix
+| Event | Field(s) | Condition | Action |
+|------|----------|-----------|--------|
+| Scheduled (daily) | cseg_sna_revenue_st | Invoice created today and Revenue Stream in revStreamExternalValues | Set custbody_versapay_do_not_sync = false |
+
+---
+
+## 5. Functional Requirements
+- Run a SuiteQL query for invoices created today using a UTC day window (TRUNC(CURRENT_DATE) to TRUNC(CURRENT_DATE)+1).
 - For each invoice:
-  - If Revenue Stream is blank/invalid, tracks as `noRevStream`.
-  - If Revenue Stream is in `revStreamExternalValues`, sets `custbody_versapay_do_not_sync` to `false`.
-  - Otherwise, tracks as `skipped`.
-- Emails the executing user a summary of updates, skips, missing rev streams, and errors.
+  - If Revenue Stream is blank/invalid, track as noRevStream.
+  - If Revenue Stream is in revStreamExternalValues, set custbody_versapay_do_not_sync to false.
+  - Otherwise, track as skipped.
+- Send a summary email to the current user including updates, skips, missing Revenue Streams, and errors.
+- Log audit details and errors.
+- Collect per-record submit errors; log and continue.
+- Log fatal errors and rethrow.
 
-## Data Source
-- `transaction` table (CustInvc)
-- Filters: `createddate` within `TRUNC(CURRENT_DATE)` to `TRUNC(CURRENT_DATE)+1`
+---
 
-## Key Fields
-- `custbody_versapay_do_not_sync` (updated)
-- `cseg_sna_revenue_st` (Revenue Stream)
+## 6. Data Contract
+### Record Types Involved
+- Invoice (transaction CustInvc)
 
-## Outputs
-- Updates invoice body field `custbody_versapay_do_not_sync` (false).
-- Sends a summary email to the current user.
-- Logs audit details and errors.
+### Fields Referenced
+- custbody_versapay_do_not_sync
+- cseg_sna_revenue_st
+- createddate
 
-## Error Handling
-- Per-record submit errors are collected and logged.
-- Fatal errors are logged and rethrown.
+Schemas (if known):
+- TBD
 
-## Notes
-- Date window is based on `createddate` in UTC; confirm this matches the desired business day.
-- Revenue Stream allowlist is hardcoded in `revStreamExternalValues`.
+---
+
+## 7. Validation & Edge Cases
+- Date window is based on createddate in UTC.
+- Revenue Stream blank or invalid is tracked as noRevStream.
+
+---
+
+## 8. Implementation Notes (Optional)
+Only include constraints if applicable.
+- Script must reuse existing deployment: TBD
+- Dispatcher required: TBD
+- Performance/governance considerations: TBD
+
+---
+
+## 9. Acceptance Criteria
+- Given TBD, when TBD, then TBD.
+
+---
+
+## 10. Testing Notes
+TBD
+
+---
+
+## 11. Deployment Notes
+TBD
+
+---
+
+## 12. Open Questions / TBDs
+- prd_id, status, owner, created, last_updated
+- script_id, deployment_id
+- Schema references
+- Acceptance criteria details
+- Testing notes
+- Deployment notes
+
+---
