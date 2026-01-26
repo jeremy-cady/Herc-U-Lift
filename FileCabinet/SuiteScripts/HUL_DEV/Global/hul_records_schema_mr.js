@@ -38,7 +38,9 @@ define(["require", "exports", "N/log", "N/record", "N/email", "N/file", "N/searc
         'otherchargeitem',
         'paymentitem',
         'markupitem',
-        'descriptionitem'
+        'descriptionitem',
+        'task',
+        'supportcase'
     ];
     /**
      * Custom record types (account-specific)

@@ -1,0 +1,978 @@
+{
+  "meta": {
+    "recordType": "task",
+    "generatedAt": "2026-01-26T17:54:39.585Z",
+    "source": "netsuite",
+    "version": "1.7.4",
+    "outputFolderId": 6223347,
+    "method": "record.create + getFields/getField + getSublists/getSublistFields",
+    "recordTypeOrigin": "standard"
+  },
+  "record": {
+    "type": "task"
+  },
+  "fields": {
+    "parent": {
+      "category": "body",
+      "type": "select",
+      "label": "Parent Task",
+      "isMandatory": false
+    },
+    "nsapiFC": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custevent_nx_recurrence": {
+      "category": "body",
+      "type": "select",
+      "label": "NextService Recurrence",
+      "isMandatory": false
+    },
+    "_eml_nkey_": {
+      "category": "system",
+      "metadataUnavailableReason": "system_pseudo"
+    },
+    "starttime": {
+      "category": "body",
+      "type": "timeofday",
+      "label": "Start Time",
+      "isMandatory": false
+    },
+    "custevent_nx_task_end": {
+      "category": "body",
+      "type": "datetimetz",
+      "label": "NextService End",
+      "isMandatory": false
+    },
+    "startdate": {
+      "category": "body",
+      "type": "date",
+      "label": "Start Date",
+      "isMandatory": true
+    },
+    "type": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custevent_nx_address": {
+      "category": "body",
+      "type": "textarea",
+      "label": "NextService Address",
+      "isMandatory": false
+    },
+    "custevent_nxc_customer_name": {
+      "category": "body",
+      "type": "text",
+      "label": "Customer Name",
+      "isMandatory": false
+    },
+    "customwhence": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "estimatedtime": {
+      "category": "body",
+      "type": "time",
+      "label": "Initial Time Budget",
+      "isMandatory": false
+    },
+    "nsapiVF": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nsapiVD": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nsbrowserenv": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "id": {
+      "category": "body",
+      "type": "text",
+      "label": "Internal ID",
+      "isMandatory": false
+    },
+    "nsapiVL": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nsapiVI": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "order": {
+      "category": "body",
+      "type": "select",
+      "label": "Insert Before",
+      "isMandatory": false
+    },
+    "custevent_nx_recurrence_propcomplete": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "NextService Propagate Complete",
+      "isMandatory": false
+    },
+    "wfPS": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "entryformquerystring": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "estimatedtimeoverride": {
+      "category": "body",
+      "type": "time",
+      "label": "Current Time Budget",
+      "isMandatory": false
+    },
+    "custevent_sna_ot_hrs_computed": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "SNA | OT Hours Computed",
+      "isMandatory": false
+    },
+    "priority": {
+      "category": "body",
+      "type": "select",
+      "label": "Priority",
+      "isMandatory": true
+    },
+    "enddate": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "_multibtnstate_": {
+      "category": "system",
+      "metadataUnavailableReason": "system_pseudo"
+    },
+    "custevent_nx_geo_location_comp": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "NextService Geolocation Compliant",
+      "isMandatory": false
+    },
+    "custevent_nx_start_date": {
+      "category": "body",
+      "type": "date",
+      "label": "NextService Start Date",
+      "isMandatory": false
+    },
+    "custevent_nx_time_log_activities": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "NextService Log Activity Time",
+      "isMandatory": false
+    },
+    "assigned": {
+      "category": "body",
+      "type": "select",
+      "label": "Assigned",
+      "isMandatory": true
+    },
+    "completeddate": {
+      "category": "body",
+      "type": "date",
+      "label": "Date Completed",
+      "isMandatory": false
+    },
+    "status": {
+      "category": "body",
+      "type": "select",
+      "label": "Status",
+      "isMandatory": true
+    },
+    "wfPI": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "selectedtab": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custevent_nx_recurrence_copy": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "NextService Copy with Parent",
+      "isMandatory": false
+    },
+    "createddate": {
+      "category": "body",
+      "type": "datetime",
+      "label": "",
+      "isMandatory": false
+    },
+    "custevent_nx_latitude": {
+      "category": "body",
+      "type": "float",
+      "label": "NextService Latitude",
+      "isMandatory": false
+    },
+    "custevent_nx_destroy": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Field Service Destroy",
+      "isMandatory": false
+    },
+    "custevent_nxc_technician_name": {
+      "category": "body",
+      "type": "text",
+      "label": "Technician Name",
+      "isMandatory": false
+    },
+    "custevent_nxc_technician_signature": {
+      "category": "body",
+      "type": "richtext",
+      "label": "Technician Signature",
+      "isMandatory": false
+    },
+    "custevent_nx_task_start": {
+      "category": "body",
+      "type": "datetimetz",
+      "label": "NextService Start",
+      "isMandatory": false
+    },
+    "nsapiPS": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custevent_nx_recurrence_updates": {
+      "category": "body",
+      "type": "textarea",
+      "label": "NextService Recurrence Updates",
+      "isMandatory": false
+    },
+    "custevent_nxc_arrival_time": {
+      "category": "body",
+      "type": "timeofday",
+      "label": "Arrival Time",
+      "isMandatory": false
+    },
+    "custevent_sna_hul_task_route_code": {
+      "category": "body",
+      "type": "select",
+      "label": "Route Code",
+      "isMandatory": false
+    },
+    "nluser": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nsapiPI": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "wfSR": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custevent_nx_end_date": {
+      "category": "body",
+      "type": "date",
+      "label": "NextService End Date",
+      "isMandatory": false
+    },
+    "custevent_nx_task_team": {
+      "category": "body",
+      "type": "multiselect",
+      "label": "NextService Team",
+      "isMandatory": false
+    },
+    "custevent_nx_actions_taken": {
+      "category": "body",
+      "type": "longtext",
+      "label": "NextService Actions Taken",
+      "isMandatory": false
+    },
+    "nsapiPD": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custevent_nx_case_closed": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "NextService Close Case",
+      "isMandatory": false
+    },
+    "custevent_nx_customer_name": {
+      "category": "body",
+      "type": "text",
+      "label": "Field Service Customer Name",
+      "isMandatory": false
+    },
+    "custevent_nx_recurrence_index": {
+      "category": "body",
+      "type": "integer",
+      "label": "NextService Instance Index",
+      "isMandatory": false
+    },
+    "custevent_nx_technician_signature": {
+      "category": "body",
+      "type": "richtext",
+      "label": "Field Service Technician Signature",
+      "isMandatory": false
+    },
+    "actualtime": {
+      "category": "body",
+      "type": "time",
+      "label": "Actual Time",
+      "isMandatory": false
+    },
+    "custevent_nx_customer_signature": {
+      "category": "body",
+      "type": "richtext",
+      "label": "Field Service Customer Signature",
+      "isMandatory": false
+    },
+    "custevent_nx_notification_pending": {
+      "category": "body",
+      "type": "longtext",
+      "label": "NextService Pending Notifications",
+      "isMandatory": false
+    },
+    "endtime": {
+      "category": "body",
+      "type": "timeofday",
+      "label": "End Time",
+      "isMandatory": false
+    },
+    "custevent_nx_task_type": {
+      "category": "body",
+      "type": "select",
+      "label": "NextService Task Type",
+      "isMandatory": false
+    },
+    "custevent_nx_task_skill": {
+      "category": "body",
+      "type": "multiselect",
+      "label": "NextService Skill",
+      "isMandatory": false
+    },
+    "custevent_nx_end_time": {
+      "category": "body",
+      "type": "timeofday",
+      "label": "NextService End Time",
+      "isMandatory": false
+    },
+    "customform": {
+      "category": "body",
+      "type": "select",
+      "label": "Custom Form",
+      "isMandatory": true
+    },
+    "custevent_sn_hul_nx_txn_task": {
+      "category": "body",
+      "type": "select",
+      "label": "NextService Transaction (Task)",
+      "isMandatory": false
+    },
+    "custevent_nx_geo_location": {
+      "category": "body",
+      "type": "text",
+      "label": "NextService Geolocation",
+      "isMandatory": false
+    },
+    "custevent_nx_recurrence_data": {
+      "category": "body",
+      "type": "longtext",
+      "label": "NextService Recurrence Data",
+      "isMandatory": false
+    },
+    "custevent_nx_recurrence_propagate": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "NextService Propagate Changes",
+      "isMandatory": false
+    },
+    "custevent_sna_hul_rental_disclaimer": {
+      "category": "body",
+      "type": "longtext",
+      "label": "Disclaimer",
+      "isMandatory": false
+    },
+    "transaction": {
+      "category": "body",
+      "type": "select",
+      "label": "Transaction",
+      "isMandatory": false
+    },
+    "workflowsavefirstbutton": {
+      "category": "body",
+      "type": "integer",
+      "label": "",
+      "isMandatory": false
+    },
+    "custevent_nx_billing_type": {
+      "category": "body",
+      "type": "select",
+      "label": "NextService Billing Type",
+      "isMandatory": false
+    },
+    "custevent_nxc_work_complete": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Work Already Complete",
+      "isMandatory": false
+    },
+    "nlloc": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "nlsub": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custevent_nxc_task_result": {
+      "category": "body",
+      "type": "select",
+      "label": "Task Result",
+      "isMandatory": false
+    },
+    "accesslevel": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Private Task",
+      "isMandatory": false
+    },
+    "wfVF": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "externalid": {
+      "category": "body",
+      "type": "text",
+      "label": "External ID",
+      "isMandatory": false
+    },
+    "custevent_sna_hul_manufcode": {
+      "category": "body",
+      "type": "select",
+      "label": "Manufacturer Code",
+      "isMandatory": false
+    },
+    "custpage_stickyheaders_script": {
+      "category": "ui",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "custevent_nxc_customer_signature": {
+      "category": "body",
+      "type": "richtext",
+      "label": "Customer Signature",
+      "isMandatory": false
+    },
+    "custevent_sna_hul_rental_terms": {
+      "category": "body",
+      "type": "url",
+      "label": "Terms and Agreement",
+      "isMandatory": false
+    },
+    "nsapiRC": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custevent_nx_time_zone": {
+      "category": "body",
+      "type": "select",
+      "label": "NextService Time Zone",
+      "isMandatory": false
+    },
+    "custevent_sna_hul_casedept": {
+      "category": "body",
+      "type": "select",
+      "label": "Department",
+      "isMandatory": false
+    },
+    "contact": {
+      "category": "body",
+      "type": "select",
+      "label": "Contact",
+      "isMandatory": false
+    },
+    "custevent_sna_hul_nx_notif_email": {
+      "category": "body",
+      "type": "email",
+      "label": "Notification Email",
+      "isMandatory": false
+    },
+    "group": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custevent_hul_task_data_json": {
+      "category": "body",
+      "type": "textarea",
+      "label": "Task Data JSON",
+      "isMandatory": false
+    },
+    "remindertype": {
+      "category": "body",
+      "type": "select",
+      "label": "Reminder Type",
+      "isMandatory": false
+    },
+    "custevent_nx_task_offsite": {
+      "category": "body",
+      "type": "datetimetz",
+      "label": "NextService Off Site",
+      "isMandatory": false
+    },
+    "custevent_nx_status_update": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Field Service Update Status",
+      "isMandatory": false
+    },
+    "timeremaining": {
+      "category": "body",
+      "type": "time",
+      "label": "Time Remaining",
+      "isMandatory": false
+    },
+    "custevent_nx_created_from": {
+      "category": "body",
+      "type": "select",
+      "label": "NextService Created From",
+      "isMandatory": false
+    },
+    "custevent_nx_task_number": {
+      "category": "body",
+      "type": "text",
+      "label": "NextService Task Number",
+      "isMandatory": false
+    },
+    "workflowbuttoninstanceid": {
+      "category": "body",
+      "type": "integer",
+      "label": "",
+      "isMandatory": false
+    },
+    "isrelatedcompanyajob": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "conflictwarningdiv": {
+      "category": "body",
+      "type": "inlinehtml",
+      "label": "",
+      "isMandatory": false
+    },
+    "custevent_nx_signoff_technician": {
+      "category": "body",
+      "type": "select",
+      "label": "Field Service Sign Off Technician",
+      "isMandatory": false
+    },
+    "timedevent": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Reserve Time",
+      "isMandatory": false
+    },
+    "custevent_nx_task_outcome": {
+      "category": "body",
+      "type": "select",
+      "label": "Field Service Task Outcome",
+      "isMandatory": false
+    },
+    "reminderminutes": {
+      "category": "body",
+      "type": "select",
+      "label": "Reminder",
+      "isMandatory": false
+    },
+    "wfinstances": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custevent_nxc_departure_time": {
+      "category": "body",
+      "type": "timeofday",
+      "label": "Departure Time",
+      "isMandatory": false
+    },
+    "nsapiLI": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "timezone": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "endtimepicker": {
+      "category": "body",
+      "type": "select",
+      "label": "",
+      "isMandatory": false
+    },
+    "title": {
+      "category": "body",
+      "type": "text",
+      "label": "Name",
+      "isMandatory": true
+    },
+    "nsapiCT": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custevent_nx_idempotency_key": {
+      "category": "body",
+      "type": "text",
+      "label": "NextService Idempotency Key",
+      "isMandatory": false
+    },
+    "sys_id": {
+      "category": "system",
+      "metadataUnavailableReason": "system_pseudo"
+    },
+    "supportcase": {
+      "category": "body",
+      "type": "select",
+      "label": "Case",
+      "isMandatory": false
+    },
+    "custevent_nxc_internal_note": {
+      "category": "body",
+      "type": "textarea",
+      "label": "Internal Note",
+      "isMandatory": false
+    },
+    "custevent_sna_hul_object": {
+      "category": "body",
+      "type": "select",
+      "label": "Object",
+      "isMandatory": false
+    },
+    "nldept": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custevent_nxc_preferred_resource": {
+      "category": "body",
+      "type": "select",
+      "label": "Preferred Resource",
+      "isMandatory": false
+    },
+    "custevent_sna_case_mergedsite": {
+      "category": "body",
+      "type": "select",
+      "label": "Merged to Site Asset",
+      "isMandatory": false
+    },
+    "custevent_nx_task_asset": {
+      "category": "body",
+      "type": "select",
+      "label": "NextService Task Asset",
+      "isMandatory": false
+    },
+    "custevent_sna_hul_pm_checklist_id_task": {
+      "category": "body",
+      "type": "text",
+      "label": "PM Checklist ID (Task)",
+      "isMandatory": false
+    },
+    "nsapiLC": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "company": {
+      "category": "body",
+      "type": "select",
+      "label": "Project",
+      "isMandatory": false
+    },
+    "custevent_nx_longitude": {
+      "category": "body",
+      "type": "float",
+      "label": "NextService Longitude",
+      "isMandatory": false
+    },
+    "custpage_nx_state": {
+      "category": "ui",
+      "metadataUnavailableReason": "ui_only"
+    },
+    "relateditem": {
+      "category": "body",
+      "type": "select",
+      "label": "Item",
+      "isMandatory": false
+    },
+    "owner": {
+      "category": "body",
+      "type": "text",
+      "label": "Created By",
+      "isMandatory": true
+    },
+    "custevent_nx_start_time": {
+      "category": "body",
+      "type": "timeofday",
+      "label": "NextService Start Time",
+      "isMandatory": false
+    },
+    "conflictdata": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custevent_sna_case_mergedequipment": {
+      "category": "body",
+      "type": "multiselect",
+      "label": "Merged to Equipment Asset",
+      "isMandatory": false
+    },
+    "nsapiSR": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custevent_nx_internal_note": {
+      "category": "body",
+      "type": "textarea",
+      "label": "Field Service Internal Note",
+      "isMandatory": false
+    },
+    "templatestored": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custevent_nxc_reason_not_resolved": {
+      "category": "body",
+      "type": "select",
+      "label": "Reason Job Not Resolved",
+      "isMandatory": false
+    },
+    "whence": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "custevent_sn_hul_equip_asset": {
+      "category": "body",
+      "type": "select",
+      "label": "Equipment Asset",
+      "isMandatory": false
+    },
+    "percentcomplete": {
+      "category": "body",
+      "type": "percent",
+      "label": "Percent Complete",
+      "isMandatory": false
+    },
+    "lastmodifieddate": {
+      "category": "body",
+      "type": "datetime",
+      "label": "",
+      "isMandatory": false
+    },
+    "nlrole": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "starttimepicker": {
+      "category": "body",
+      "type": "select",
+      "label": "",
+      "isMandatory": false
+    },
+    "custevent_sna_hul_customeraddress": {
+      "category": "body",
+      "type": "textarea",
+      "label": "Customer Address",
+      "isMandatory": false
+    },
+    "baserecordtype": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "message": {
+      "category": "body",
+      "type": "textarea",
+      "label": "Details",
+      "isMandatory": false
+    },
+    "calendardate": {
+      "category": "body",
+      "type": "date",
+      "label": "",
+      "isMandatory": false
+    },
+    "custevent_nx_task_onsite": {
+      "category": "body",
+      "type": "datetimetz",
+      "label": "NextService On Site",
+      "isMandatory": false
+    },
+    "percenttimecomplete": {
+      "category": "body",
+      "type": "percent",
+      "label": "Percent Time Complete",
+      "isMandatory": false
+    },
+    "custevent_nx_task_booking_confirmed": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "NextService Task Confirmed Booking",
+      "isMandatory": false
+    },
+    "milestone": {
+      "category": "body",
+      "type": "select",
+      "label": "Milestone",
+      "isMandatory": false
+    },
+    "custevent_nx_recurrence_delete": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "NextService Delete Future Instances",
+      "isMandatory": false
+    },
+    "duedate": {
+      "category": "body",
+      "type": "date",
+      "label": "Due Date",
+      "isMandatory": true
+    },
+    "custevent_nx_recurrence_exempt": {
+      "category": "body",
+      "type": "textarea",
+      "label": "NextService Exempt Sync",
+      "isMandatory": false
+    },
+    "cseg_sna_revenue_st": {
+      "category": "body",
+      "type": "select",
+      "label": "Revenue Streams",
+      "isMandatory": false
+    },
+    "wfFC": {
+      "category": "body",
+      "type": "text",
+      "label": "",
+      "isMandatory": false
+    },
+    "sendemail": {
+      "category": "body",
+      "type": "checkbox",
+      "label": "Notify Assignee by Email",
+      "isMandatory": false
+    },
+    "custevent_nx_customer": {
+      "category": "body",
+      "type": "select",
+      "label": "NextService Customer",
+      "isMandatory": false
+    }
+  },
+  "sublists": {
+    "contact": {
+      "fields": [
+        "company",
+        "contact",
+        "email",
+        "id",
+        "phone"
+      ]
+    },
+    "contacts": {
+      "fields": []
+    },
+    "invitecalendar": {
+      "fields": []
+    },
+    "mediaitem": {
+      "fields": [
+        "content",
+        "description",
+        "filesize",
+        "filetype",
+        "folder",
+        "internalid",
+        "lastmodifieddate",
+        "mediaitem",
+        "name"
+      ]
+    },
+    "usernotes": {
+      "fields": [
+        "author",
+        "direction",
+        "id",
+        "note",
+        "notedate",
+        "notetype",
+        "time",
+        "title"
+      ]
+    }
+  }
+}

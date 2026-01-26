@@ -57,7 +57,9 @@ const STANDARD_RECORD_TYPES: string[] = [
     'otherchargeitem',
     'paymentitem',
     'markupitem',
-    'descriptionitem'
+    'descriptionitem',
+    'task',
+    'supportcase'
 ];
 
 /**
