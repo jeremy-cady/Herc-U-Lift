@@ -14,6 +14,7 @@
  *      - doNotInvoiceDummyItemSwalMessage()
  *      - partsIsEligibleSwalMessage(altPartName?)
  *      - customerCreditCardRequiredMessage()
+ *      - rollupRevenueStreamSelectedMessage()
  *
  * Notes:
  *  - Keep this SuiteScript JSDoc header at the very top (no BOM/whitespace).
@@ -89,12 +90,10 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 define(["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.customerCreditCardRequiredMessage = exports.partsIsEligibleSwalMessage = exports.doNotInvoiceDummyItemSwalMessage = exports.toast = exports.confirm = exports.alert = exports.show = exports.isReady = exports.preload = exports.ensureSwal = exports.ready = exports.setSrc = void 0;
+    exports.rollupRevenueStreamSelectedMessage = exports.customerCreditCardRequiredMessage = exports.partsIsEligibleSwalMessage = exports.doNotInvoiceDummyItemSwalMessage = exports.toast = exports.confirm = exports.alert = exports.show = exports.isReady = exports.preload = exports.ensureSwal = exports.ready = exports.setSrc = void 0;
     /* ===== Loader configuration ===== */
-    // CHANGE ONLY IF YOUR MEDIA URL CHANGES
-    var SWAL_MEDIA_URL = 'https://6952227.app.netsuite.com/core/media/media.nl?id=7717996&c=6952227&h=c9TCa3iCK--JqE6VSKvsZxYdE5tYTk-nLcIKYxn2-61HWDRj&_xt=.js';
-    // Optional local fallback path inside File Cabinet (served statically)
-    var PATH_FALLBACK = '/SuiteScripts/HUL_DEV/Third_Party_Applications/sweetalert2.all.js';
+    var SWAL_MEDIA_URL = 'https://6952227-sb1.app.netsuite.com/core/media/media.nl?id=7919729&c=6952227_SB1&h=8nOt774yeFRJO4DUBrE2qo3LNJym_dEj8hOvZf0654AK1vg_&_xt=.js';
+    var PATH_FALLBACK = '/SuiteScripts/HUL_DEV/Third_Party_Applications/sweetalert2.all.min.js';
     var TAG_ID = 'hul-swal2-js';
     var LOADED_ATTR = 'data-hul-loaded';
     /** Optional: switch the SweetAlert2 source at runtime (e.g., SB vs PROD). */
@@ -136,6 +135,34 @@ define(["require", "exports"], function (require, exports) {
             /* no-op */
         }
     }
+    /**
+     * Load Roboto font and apply it to SweetAlert
+     */
+    function ensureCustomFonts() {
+        try {
+            var id = 'hul-swal2-custom-fonts';
+            var linkEl = document.getElementById(id);
+            if (!linkEl) {
+                linkEl = document.createElement('link');
+                linkEl.id = id;
+                linkEl.rel = 'stylesheet';
+                linkEl.href = 'https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap';
+                (document.head || document.documentElement).appendChild(linkEl);
+            }
+            var styleId = 'hul-swal2-font-styles';
+            var styleEl = document.getElementById(styleId);
+            if (!styleEl) {
+                styleEl = document.createElement('style');
+                styleEl.id = styleId;
+                (document.head || document.documentElement).appendChild(styleEl);
+            }
+            // Aggressive CSS with higher specificity to override defaults
+            styleEl.textContent = "\n            .swal2-popup,\n            .swal2-popup * {\n                font-family: 'Roboto', Arial, sans-serif !important;\n            }\n            .swal2-title,\n            .swal2-title * {\n                font-family: 'Roboto', Arial, sans-serif !important;\n                font-weight: 500 !important;\n            }\n            .swal2-html-container,\n            .swal2-html-container * {\n                font-family: 'Roboto', Arial, sans-serif !important;\n            }\n            .swal2-confirm,\n            .swal2-cancel,\n            button.swal2-confirm,\n            button.swal2-cancel {\n                font-family: 'Roboto', Arial, sans-serif !important;\n                font-weight: 500 !important;\n            }\n            div.swal2-popup {\n                font-family: 'Roboto', Arial, sans-serif !important;\n            }\n        ";
+        }
+        catch (e) {
+            log('ensureCustomFonts failed:', String((e === null || e === void 0 ? void 0 : e.message) || e));
+        }
+    }
     function addScriptOnce(url) {
         return new Promise(function (resolve, reject) {
             try {
@@ -152,7 +179,9 @@ define(["require", "exports"], function (require, exports) {
                         return;
                     }
                     existing.addEventListener('load', function () { return resolve(); });
-                    existing.addEventListener('error', function () { return reject(new Error('SweetAlert2 load error (existing)')); });
+                    existing.addEventListener('error', function () {
+                        return reject(new Error('SweetAlert2 load error (existing)'));
+                    });
                     return;
                 }
                 var s_1 = document.createElement('script');
@@ -164,7 +193,9 @@ define(["require", "exports"], function (require, exports) {
                     s_1.setAttribute(LOADED_ATTR, '1');
                     resolve();
                 });
-                s_1.addEventListener('error', function () { return reject(new Error('SweetAlert2 load error')); });
+                s_1.addEventListener('error', function () {
+                    return reject(new Error('SweetAlert2 load error'));
+                });
                 (document.head || document.documentElement).appendChild(s_1);
             }
             catch (e) {
@@ -180,7 +211,8 @@ define(["require", "exports"], function (require, exports) {
                 switch (_b.label) {
                     case 0:
                         if (window.Swal) {
-                            ensureTopmostStyle(); // make sure our z-index rule exists
+                            ensureTopmostStyle();
+                            ensureCustomFonts();
                             return [2 /*return*/];
                         }
                         origin = window.location.origin;
@@ -204,6 +236,7 @@ define(["require", "exports"], function (require, exports) {
                         _b.sent();
                         if (window.Swal) {
                             ensureTopmostStyle();
+                            ensureCustomFonts();
                             return [2 /*return*/];
                         }
                         return [3 /*break*/, 5];
@@ -223,7 +256,9 @@ define(["require", "exports"], function (require, exports) {
     exports.ensureSwal = ready;
     /** Fire-and-forget preload (call in pageInit). */
     function preload() {
-        void ready().catch(function (e) { return log('preload failed:', String((e === null || e === void 0 ? void 0 : e.message) || e)); });
+        void ready().catch(function (e) {
+            return log('preload failed:', String((e === null || e === void 0 ? void 0 : e.message) || e));
+        });
     }
     exports.preload = preload;
     function isReady() {
@@ -255,7 +290,6 @@ define(["require", "exports"], function (require, exports) {
                         log('show() failed:', String((e_1 === null || e_1 === void 0 ? void 0 : e_1.message) || e_1));
                         return [3 /*break*/, 5];
                     case 5:
-                        // Last-resort fallback: native alert if we at least have text/title
                         if ((options === null || options === void 0 ? void 0 : options.title) || (options === null || options === void 0 ? void 0 : options.text)) {
                             alert(String((_a = options.title) !== null && _a !== void 0 ? _a : options.text));
                         }
@@ -348,4 +382,15 @@ define(["require", "exports"], function (require, exports) {
         });
     }
     exports.customerCreditCardRequiredMessage = customerCreditCardRequiredMessage;
+    /** NEW: Revenue Stream rollup warning (warning-only, stateless) */
+    function rollupRevenueStreamSelectedMessage() {
+        void show({
+            icon: 'warning',
+            title: 'Rollup Revenue Stream Selected',
+            html: 'A rollup Revenue Stream was selected.<br>' +
+                'Please select a child Revenue Stream to continue.',
+            confirmButtonText: 'OK'
+        });
+    }
+    exports.rollupRevenueStreamSelectedMessage = rollupRevenueStreamSelectedMessage;
 });

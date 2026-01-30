@@ -1,78 +1,71 @@
 /**
- * hul_hide_line_item_cols_on_create_cs.js
+ * hul_hide_line_item_cols_on_create_cs.ts
 * @NApiVersion 2.x
 * @NScriptType ClientScript
 * @NModuleScope SameAccount
 * author: Jeremy Cady
 * Initial Date: 08/23/2024
-* Revision Date: 08/23/2024
-* Version: 1.0
+* Revision Date: 01/29/2026
+* Version: 1.2 - Support multiple columns
 */
 define(["require", "exports", "N/runtime"], function (require, exports, runtime) {
     "use strict";
+    // Roles that should have columns hidden
+    var RESTRICTED_ROLES = [3, 1175, 1174, 1185, 1163, 1168, 1152];
+    // Columns to hide for restricted roles
+    var COLUMNS_TO_HIDE = [
+        'custcol_sna_hul_act_service_hours',
+        // Add more column IDs here as needed
+        // 'custcol_another_column',
+        // 'custcol_yet_another_column',
+    ];
     /**
      * Function to be executed after page is initialized.
-     *
-     * @param {Object} ctx
-     * @param {Record} ctx.currentRecord - Current form record
-     * @param {string} ctx.mode - The mode in which the record is being accessed (create, copy, or edit)
-     *
-     * @since 2015.2
      */
     var pageInit = function (ctx) {
         try {
-            var mode = ctx.mode;
-            console.log('hide columns CS script fired', mode);
-            // if mode === 'create' then we execute the code
-            if (mode === 'create') {
-                // array of roles for which to hide sublist fields
-                var roleIDArray = [3, 1175, 1174, 1185, 1163, 1168, 1152];
-                // find the current user's role
-                var currentUser = runtime.getCurrentUser();
-                var userRole_1 = currentUser.role;
-                console.log('userRole', userRole_1);
-                // for each role in the array, if current user's role matches then execute code to hide columns
-                roleIDArray.forEach(function (role) {
-                    if (role === userRole_1) {
-                        hideColumn(ctx);
-                    }
-                });
+            // Only run on create mode
+            if (ctx.mode !== 'create') {
+                return;
             }
+            var currentUser = runtime.getCurrentUser();
+            var userRole = currentUser.role;
+            // Check if user's role is in the restricted list
+            if (!RESTRICTED_ROLES.includes(userRole)) {
+                return;
+            }
+            // Hide all configured columns
+            hideColumns(ctx.currentRecord);
         }
         catch (error) {
-            console.log('ERROR in pageInit', error);
+            console.error('[HIDE-COLUMNS] ERROR in pageInit', error);
         }
     };
-    var hideColumn = function (ctx) {
+    var hideColumns = function (currentRecord) {
         try {
-            var thisRecord = ctx.currentRecord;
-            var sublist = thisRecord.getSublist({
-                sublistId: 'item'
+            var hiddenCount_1 = 0;
+            COLUMNS_TO_HIDE.forEach(function (fieldId) {
+                try {
+                    var thisField = currentRecord.getSublistField({
+                        sublistId: 'item',
+                        fieldId: fieldId,
+                    });
+                    if (thisField) {
+                        thisField.isDisplay = false;
+                        hiddenCount_1++;
+                    }
+                    else {
+                        console.warn("[HIDE-COLUMNS] Field not found: ".concat(fieldId));
+                    }
+                }
+                catch (fieldError) {
+                    console.error("[HIDE-COLUMNS] Error hiding field ".concat(fieldId, ":"), fieldError);
+                }
             });
-            console.log('sublist', sublist);
-            var thisField = thisRecord.getSublistField({
-                sublistId: 'item',
-                fieldId: 'custcol_sna_hul_act_service_hours',
-                line: 0
-            });
-            console.log('thisField', thisField);
-            thisField.isVisible = false;
-            // const lineCount = thisRecord.getLineCount({
-            //     sublistId: 'item'
-            // });
-            // console.log('lineCount', lineCount);
-            // for (let i = 0; i < lineCount; i++) {
-            //     const thisField = thisRecord.getSublistField({
-            //         sublistId: 'item',
-            //         fieldId: 'custcol_sna_hul_act_service_hours',
-            //         line: i
-            //     });
-            //     console.log('thisField', thisField);
-            //     thisField.isDisplay = false;
-            // };
+            console.log("[HIDE-COLUMNS] Successfully hidden ".concat(hiddenCount_1, " columns"));
         }
         catch (error) {
-            console.log('ERROR in hideColumn CS', error);
+            console.error('[HIDE-COLUMNS] ERROR in hideColumns', error);
         }
     };
     return {

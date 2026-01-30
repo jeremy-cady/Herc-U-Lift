@@ -4,78 +4,44 @@
  * @NModuleScope SameAccount
  */
 define([
-  // ⚠️ Removed hul_swal.js to avoid AMD timeout
+  'SuiteScripts/HUL_DEV/Global/hul_swal',
+
   'SuiteScripts/HUL_DEV/Parts/hul_is_item_eligible_for sale_cs.js',
   'SuiteScripts/HUL_DEV/Parts/hul_hide_line_item_cols_on_create_cs.js',
   'SuiteScripts/sna_hul_cs_negative_disc.js',
-  // 'SuiteScripts/HUL_DEV/Rental/hul_customer_credit_card_check_cs.js',
   'SuiteScripts/HUL_DEV/Parts/CS_HandleClick.js',
 
-  // ✅ NEW feature module
-  'SuiteScripts/HUL_DEV/Service/hul_salesorder_object_line_mapping_client.feature.js'
+  'SuiteScripts/HUL_DEV/Service/hul_salesorder_object_line_mapping_client.feature.js',
+  'SuiteScripts/HUL_DEV/Global/hul_salesorder_revenue_stream_rollup_guard_client.feature.js'
 ], function (
+  sweetAlert,
   isItemEligible,
   hideLineColumns,
   snaNegativeDiscount,
-  /* customerCreditCardCheck, */
   sendToWebhook,
-  objectLineMapper
+  objectLineMapper,
+  revenueStreamRollupGuard
 ) {
-
-  /*** CONFIG ***/
-  var FORM_ID = '121';
-  var TERMS_REQUIRE_CC = { '8': true };
-
-  /*** LOGGING ***/
-  var LOG = [];
-  function log() {
-    try {
-      var msg = Array.prototype.slice.call(arguments).map(function (x) {
-        try {
-          return (typeof x === 'object') ? JSON.stringify(x) : String(x);
-        } catch (_e) {
-          return String(x);
-        }
-      }).join(' ');
-      LOG.push(msg);
-      console.log('[CC-GATE]', msg); // eslint-disable-line no-console
-      window.HUL_CC_LOGS = LOG;
-    } catch (_e) {}
-  }
-
-  function g(rec, sublistId, fieldId, line) {
-    try {
-      return rec.getSublistValue({
-        sublistId: sublistId,
-        fieldId: fieldId,
-        line: line
-      });
-    } catch (e) {
-      log('getSublistValue error', JSON.stringify({
-        sublistId: sublistId,
-        fieldId: fieldId,
-        line: line,
-        err: String(e && e.message || e)
-      }));
-      return undefined;
-    }
-  }
 
   /*** ENTRY POINTS ***/
   function pageInit(ctx) {
     try {
+      sweetAlert.preload();
+
       if (hideLineColumns && typeof hideLineColumns.pageInit === 'function') {
         hideLineColumns.pageInit(ctx);
       }
 
-      try {
-        var formId = String(ctx.currentRecord.getValue({ fieldId: 'customform' }) || '');
-        var entityId = String(ctx.currentRecord.getValue({ fieldId: 'entity' }) || '');
-        var soTerms  = String(ctx.currentRecord.getValue({ fieldId: 'terms' }) || '');
-        log('Init snapshot:', { formId: formId, entityId: entityId, soTerms: soTerms });
-      } catch (_eSnap) {}
+      if (isItemEligible && typeof isItemEligible.pageInit === 'function') {
+        isItemEligible.pageInit(ctx);
+      }
 
-    } catch (_e) {}
+      if (revenueStreamRollupGuard && typeof revenueStreamRollupGuard.pageInit === 'function') {
+        revenueStreamRollupGuard.pageInit(ctx);
+      }
+    } catch (e) {
+      console.error('[DISPATCHER] pageInit error:', e);
+    }
   }
 
   function validateLine(ctx) {
@@ -89,46 +55,37 @@ define([
         ok = isItemEligible.validateLine(ctx);
       }
       return !!ok;
-    } catch (_e) {
+    } catch (e) {
+      console.error('[DISPATCHER] validateLine error:', e);
       return true;
     }
   }
 
   function fieldChanged(ctx) {
     try {
+      // Only call feature scripts for fields they actually care about
+      // This reduces unnecessary function calls
+
+      // objectLineMapper - only call for specific fields if needed
       if (objectLineMapper && typeof objectLineMapper.fieldChanged === 'function') {
         objectLineMapper.fieldChanged(ctx);
       }
-    } catch (_e) {}
-    return true;
-  }
 
-  function postSourcing(ctx) {
-    try {
-      var isBody = !ctx.sublistId;
-      if (isBody && (ctx.fieldId === 'entity' || ctx.fieldId === 'terms')) {
-        var formId = String(ctx.currentRecord.getValue({ fieldId: 'customform' }) || '');
-        var entityId = String(ctx.currentRecord.getValue({ fieldId: 'entity' }) || '');
-        var soTerms  = String(ctx.currentRecord.getValue({ fieldId: 'terms' }) || '');
-        log('postSourcing snapshot:', {
-          changed: ctx.fieldId,
-          formId: formId,
-          entityId: entityId,
-          soTerms: soTerms
-        });
-
-        // if (customerCreditCardCheck && typeof customerCreditCardCheck.postSourcing === 'function') {
-        //   customerCreditCardCheck.postSourcing(ctx);
-        // }
+      // revenueStreamRollupGuard - only for revenue stream field
+      if (ctx.fieldId === 'cseg_sna_revenue_st' &&
+          revenueStreamRollupGuard &&
+          typeof revenueStreamRollupGuard.fieldChanged === 'function') {
+        revenueStreamRollupGuard.fieldChanged(ctx);
       }
-    } catch (_e) {}
+    } catch (e) {
+      console.error('[DISPATCHER] fieldChanged error:', e);
+    }
+    return true;
   }
 
   return {
     pageInit: pageInit,
     validateLine: validateLine,
-    fieldChanged: fieldChanged,
-    postSourcing: postSourcing
-    // saveRecord intentionally omitted
+    fieldChanged: fieldChanged
   };
 });

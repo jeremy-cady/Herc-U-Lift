@@ -14,6 +14,7 @@
  *      - doNotInvoiceDummyItemSwalMessage()
  *      - partsIsEligibleSwalMessage(altPartName?)
  *      - customerCreditCardRequiredMessage()
+ *      - rollupRevenueStreamSelectedMessage()
  *
  * Notes:
  *  - Keep this SuiteScript JSDoc header at the very top (no BOM/whitespace).
@@ -21,55 +22,49 @@
  */
 
 type SwalLike = {
-  fire: (options: Record<string, any>) => Promise<any>;
-  [key: string]: any;
+    fire: (options: Record<string, any>) => Promise<any>;
+    [key: string]: any;
 };
 
 declare global {
-  interface Window {
-    Swal?: SwalLike;
-  }
+    interface Window {
+        Swal?: SwalLike;
+    }
 }
 
 export interface SwalOptions {
-  icon?: 'warning' | 'error' | 'success' | 'info' | 'question';
-  title?: string;
-  html?: string;
-  text?: string;
-  confirmButtonText?: string;
-  cancelButtonText?: string;
-  showCancelButton?: boolean;
-  allowOutsideClick?: boolean | (() => boolean);
-  allowEscapeKey?: boolean | (() => boolean);
-  heightAuto?: boolean;
-  toast?: boolean;
-  position?:
-    | 'top'
-    | 'top-start'
-    | 'top-end'
-    | 'center'
-    | 'center-start'
-    | 'center-end'
-    | 'bottom'
-    | 'bottom-start'
-    | 'bottom-end';
-  timer?: number;
-  timerProgressBar?: boolean;
-  // Wrapper-only (NOT passed to SweetAlert2): we apply via CSS.
-  zIndex?: number;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [key: string]: any;
+    icon?: 'warning' | 'error' | 'success' | 'info' | 'question';
+    title?: string;
+    html?: string;
+    text?: string;
+    confirmButtonText?: string;
+    cancelButtonText?: string;
+    showCancelButton?: boolean;
+    allowOutsideClick?: boolean | (() => boolean);
+    allowEscapeKey?: boolean | (() => boolean);
+    heightAuto?: boolean;
+    toast?: boolean;
+    position?:
+        | 'top'
+        | 'top-start'
+        | 'top-end'
+        | 'center'
+        | 'center-start'
+        | 'center-end'
+        | 'bottom'
+        | 'bottom-start'
+        | 'bottom-end';
+    timer?: number;
+    timerProgressBar?: boolean;
+    zIndex?: number;
+    [key: string]: any;
 }
 
 /* ===== Loader configuration ===== */
 
-// CHANGE ONLY IF YOUR MEDIA URL CHANGES
-let SWAL_MEDIA_URL =
-  'https://6952227.app.netsuite.com/core/media/media.nl?id=7717996&c=6952227&h=c9TCa3iCK--JqE6VSKvsZxYdE5tYTk-nLcIKYxn2-61HWDRj&_xt=.js';
+let SWAL_MEDIA_URL = 'https://6952227-sb1.app.netsuite.com/core/media/media.nl?id=7919729&c=6952227_SB1&h=8nOt774yeFRJO4DUBrE2qo3LNJym_dEj8hOvZf0654AK1vg_&_xt=.js';
 
-// Optional local fallback path inside File Cabinet (served statically)
-const PATH_FALLBACK = '/SuiteScripts/HUL_DEV/Third_Party_Applications/sweetalert2.all.js';
-
+const PATH_FALLBACK = '/SuiteScripts/HUL_DEV/Third_Party_Applications/sweetalert2.all.min.js';
 const TAG_ID = 'hul-swal2-js';
 const LOADED_ATTR = 'data-hul-loaded';
 
@@ -82,10 +77,10 @@ export function setSrc(url: string): void {
 
 function log(...a: unknown[]): void {
     try {
-    // eslint-disable-next-line no-console
+        // eslint-disable-next-line no-console
         console.log('[HUL Swal]', ...a);
     } catch {
-    /* no-op */
+        /* no-op */
     }
 }
 
@@ -109,10 +104,66 @@ function ensureTopmostStyle(z?: number): void {
     }
 }
 
+/**
+ * Load Roboto font and apply it to SweetAlert
+ */
+function ensureCustomFonts(): void {
+    try {
+        const id = 'hul-swal2-custom-fonts';
+        let linkEl = document.getElementById(id) as HTMLLinkElement | null;
+
+        if (!linkEl) {
+            linkEl = document.createElement('link');
+            linkEl.id = id;
+            linkEl.rel = 'stylesheet';
+            linkEl.href = 'https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap';
+            (document.head || document.documentElement).appendChild(linkEl);
+        }
+
+        const styleId = 'hul-swal2-font-styles';
+        let styleEl = document.getElementById(styleId) as HTMLStyleElement | null;
+
+        if (!styleEl) {
+            styleEl = document.createElement('style');
+            styleEl.id = styleId;
+            (document.head || document.documentElement).appendChild(styleEl);
+        }
+
+        // Aggressive CSS with higher specificity to override defaults
+        styleEl.textContent = `
+            .swal2-popup,
+            .swal2-popup * {
+                font-family: 'Roboto', Arial, sans-serif !important;
+            }
+            .swal2-title,
+            .swal2-title * {
+                font-family: 'Roboto', Arial, sans-serif !important;
+                font-weight: 500 !important;
+            }
+            .swal2-html-container,
+            .swal2-html-container * {
+                font-family: 'Roboto', Arial, sans-serif !important;
+            }
+            .swal2-confirm,
+            .swal2-cancel,
+            button.swal2-confirm,
+            button.swal2-cancel {
+                font-family: 'Roboto', Arial, sans-serif !important;
+                font-weight: 500 !important;
+            }
+            div.swal2-popup {
+                font-family: 'Roboto', Arial, sans-serif !important;
+            }
+        `;
+    } catch (e) {
+        log('ensureCustomFonts failed:', String((e as Error)?.message || e));
+    }
+}
+
 function addScriptOnce(url: string): Promise<void> {
     return new Promise((resolve, reject) => {
         try {
-        // If already present via global, we're done.
+            // If already present via global, we're done.
             if (window.Swal) {
                 resolve();
                 return;
@@ -120,13 +171,15 @@ function addScriptOnce(url: string): Promise<void> {
 
             const existing = document.getElementById(TAG_ID) as HTMLScriptElement | null;
             if (existing) {
-            // If it already finished loading, resolve; otherwise hook events.
+                // If it already finished loading, resolve; otherwise hook events.
                 if (existing.getAttribute(LOADED_ATTR) === '1') {
                     resolve();
                     return;
                 }
                 existing.addEventListener('load', () => resolve());
-                existing.addEventListener('error', () => reject(new Error('SweetAlert2 load error (existing)')));
+                existing.addEventListener('error', () =>
+                    reject(new Error('SweetAlert2 load error (existing)'))
+                );
                 return;
             }
 
@@ -139,7 +192,9 @@ function addScriptOnce(url: string): Promise<void> {
                 s.setAttribute(LOADED_ATTR, '1');
                 resolve();
             });
-            s.addEventListener('error', () => reject(new Error('SweetAlert2 load error')));
+            s.addEventListener('error', () =>
+                reject(new Error('SweetAlert2 load error'))
+            );
             (document.head || document.documentElement).appendChild(s);
         } catch (e) {
             reject(e as Error);
@@ -150,14 +205,15 @@ function addScriptOnce(url: string): Promise<void> {
 /** Ensure SweetAlert2 is available (idempotent). */
 export async function ready(): Promise<void> {
     if (window.Swal) {
-        ensureTopmostStyle(); // make sure our z-index rule exists
+        ensureTopmostStyle();
+        ensureCustomFonts();
         return;
     }
 
     const origin = window.location.origin;
     const candidates = [
         SWAL_MEDIA_URL,
-        `${SWAL_MEDIA_URL}&_=${Date.now()}`, // cache-bust
+        `${SWAL_MEDIA_URL}&_=${Date.now()}`,
         PATH_FALLBACK,
         `${origin}${PATH_FALLBACK}`,
         `${PATH_FALLBACK}?_=${Date.now()}`,
@@ -169,10 +225,11 @@ export async function ready(): Promise<void> {
             await addScriptOnce(candidates[i]);
             if (window.Swal) {
                 ensureTopmostStyle();
+                ensureCustomFonts();
                 return;
             }
         } catch {
-        // try the next candidate
+            // try the next candidate
         }
     }
 
@@ -184,7 +241,9 @@ export const ensureSwal = ready;
 
 /** Fire-and-forget preload (call in pageInit). */
 export function preload(): void {
-    void ready().catch((e) => log('preload failed:', String((e as Error)?.message || e)));
+    void ready().catch((e) =>
+        log('preload failed:', String((e as Error)?.message || e))
+    );
 }
 
 export function isReady(): boolean {
@@ -197,14 +256,12 @@ export async function show(options: SwalOptions): Promise<any | null> {
     try {
         await ready();
         if (window.Swal && typeof window.Swal.fire === 'function') {
-            // Keep BC: if callers pass zIndex, honor it via CSS but do NOT pass to SA2 (avoids "Unknown parameter" warning)
             const { zIndex, ...rest } = options || {};
             if (typeof zIndex === 'number') ensureTopmostStyle(zIndex);
 
-            // Sensible defaults for NetSuite pages
             const merged = {
-                heightAuto: false, // avoid NS page jump
-                allowOutsideClick: false, // prevent accidental dismiss while editing forms
+                heightAuto: false,
+                allowOutsideClick: false,
                 allowEscapeKey: true,
                 ...rest
             };
@@ -215,7 +272,6 @@ export async function show(options: SwalOptions): Promise<any | null> {
         log('show() failed:', String((e as Error)?.message || e));
     }
 
-    // Last-resort fallback: native alert if we at least have text/title
     if (options?.title || options?.text) {
         alert(String(options.title ?? options.text));
     }
@@ -232,9 +288,9 @@ export async function alert(input: string | SwalOptions): Promise<void> {
 
 export async function confirm(
     options: SwalOptions & {
-    confirmButtonText?: string;
-    cancelButtonText?: string;
-  } = {}
+        confirmButtonText?: string;
+        cancelButtonText?: string;
+    } = {}
 ): Promise<boolean> {
     const res = await show({
         icon: options.icon ?? 'question',
@@ -249,7 +305,10 @@ export async function confirm(
 }
 
 /** Lightweight toast-style notification. */
-export async function toast(message: string, opts: Partial<SwalOptions> = {}): Promise<void> {
+export async function toast(
+    message: string,
+    opts: Partial<SwalOptions> = {}
+): Promise<void> {
     await show({
         toast: true,
         position: opts.position ?? 'top-end',
@@ -269,8 +328,8 @@ export function doNotInvoiceDummyItemSwalMessage(): void {
         icon: 'warning',
         title: 'BOGUS Item Cannot Be Invoiced',
         html:
-        'Bogus Item is an invalid item and must be removed before invoicing. ' +
-        'Please see Parts to have removed.',
+            'Bogus Item is an invalid item and must be removed before invoicing. ' +
+            'Please see Parts to have removed.',
         confirmButtonText: 'OK'
     });
 }
@@ -295,6 +354,18 @@ export function customerCreditCardRequiredMessage(): void {
         html:
             'This Customer does not have a Credit Card on file. Their purchasing terms require that a ' +
             'Credit Card be on file. Please add a Payment Card before continuing.',
+        confirmButtonText: 'OK'
+    });
+}
+
+/** NEW: Revenue Stream rollup warning (warning-only, stateless) */
+export function rollupRevenueStreamSelectedMessage(): void {
+    void show({
+        icon: 'warning',
+        title: 'Rollup Revenue Stream Selected',
+        html:
+            'A rollup Revenue Stream was selected.<br>' +
+            'Please select a child Revenue Stream to continue.',
         confirmButtonText: 'OK'
     });
 }
