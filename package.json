@@ -142,7 +142,6 @@
     "fork-stream": "^0.0.4",
     "fs-mkdirp-stream": "^2.0.1",
     "fs.realpath": "^1.0.0",
-    "fsevents": "^2.3.3",
     "function-bind": "^1.1.2",
     "gensync": "^1.0.0-beta.2",
     "get-caller-file": "^2.0.5",
@@ -442,6 +441,7 @@
   "devDependencies": {
     "@hitc/netsuite-types": "latest",
     "@oracle/suitecloud-unit-testing": "^1.1.0",
+    "@types/node": "^20.19.33",
     "@typescript-eslint/eslint-plugin": "^5.30.7",
     "@typescript-eslint/parser": "^5.30.7",
     "eslint": "^8.20.0",

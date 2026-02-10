@@ -1,7 +1,4 @@
 <deploy>
   <files>
-    <path>~/FileCabinet/SuiteScripts/HUL_DEV/Global/hul_swal.js</path>
-    <path>~/FileCabinet/SuiteScripts/HUL_DEV/Global/hul_dispatcher_cs.js</path>
-    <path>~/FileCabinet/SuiteScripts/HUL_DEV/Parts/hul_hide_line_item_cols_on_create_cs.js</path>
   </files>
 </deploy>
